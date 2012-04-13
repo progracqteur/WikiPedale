@@ -1,0 +1,5 @@
+- la structure de la db se trouve dans structure_db.sql
+- open layer est normalement déja inclus (amélioration par rapport à la fois passée)
+- list.php permet d'afficher une liste de tous les points noirs afin de les mettre dans un fichier word/open office.
+
+et normalement tout marche! dsl pour le manque de documentation.

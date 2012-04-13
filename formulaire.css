@@ -1,0 +1,11 @@
+.label_aligne{
+        display: block;
+		width: 100px;
+		float: left;
+}
+
+.p_form{
+	margin:0px;
+	padding:0px;
+	clear:both;
+}
