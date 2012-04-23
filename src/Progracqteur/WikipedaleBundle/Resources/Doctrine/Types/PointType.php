@@ -1,8 +1,8 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Resources\Doctrine\Typew;
+namespace Progracqteur\WikipedaleBundle\Resources\Doctrine\Types;
 
-use Progracqteur\WikipedaleBundle\Resources\Doctrine\Typew\PointType;
+use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Doctrine\DBAL\Types\Type; 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Progracqteur\WikipedaleBundle\Resources\Geo\PointException;
