@@ -11,7 +11,8 @@ use Progracqteur\WikipedaleBundle\Resources\Geo\PointException;
 
 
 /**
- * Description of PointType
+ * A Type for Doctrine to implement the Geography Point type
+ * implemented by Postgis on postgis+postgresql databases
  *
  * @author user
  */
