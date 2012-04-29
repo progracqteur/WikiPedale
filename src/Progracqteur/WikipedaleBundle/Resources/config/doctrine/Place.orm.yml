@@ -1,0 +1,28 @@
+## YAML Template.
+---
+Progracqteur\WikipedaleBundle\Entity\Place:
+  type: entity
+  table: place
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    adress:
+      type: hash
+    geom:
+      type: point
+    desc:
+      type: text
+    dateIn:
+      type: datetime
+    nbVote:
+      type: int
+    nbComm:
+      type: int
+    infos:
+      type: hash
+      
+
+      
+    
