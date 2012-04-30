@@ -13,7 +13,7 @@ Progracqteur\WikipedaleBundle\Entity\Place:
     geom:
       type: point
     desc:
-      type: text
+      type: string
     dateIn:
       type: datetime
     nbVote:
