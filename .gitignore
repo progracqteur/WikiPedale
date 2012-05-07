@@ -3,4 +3,5 @@
 /app/logs/*
 /vendor/
 /app/config/parameters.ini
+/app/bootstrap*
 /src/Acme/
