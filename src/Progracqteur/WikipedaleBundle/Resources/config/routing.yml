@@ -1,3 +1,7 @@
 ProgracqteurWikipedaleBundle_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: ProgracqteurWikipedaleBundle:Default:index }
+    
+wikipedale_homepage:
+  pattern: /
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }

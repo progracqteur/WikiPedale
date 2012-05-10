@@ -12,4 +12,9 @@ class DefaultController extends Controller
     {
         return $this->render('ProgracqteurWikipedaleBundle:Default:index.html.twig', array('name' => $name));
     }
+    
+    public function homepageAction()
+    {
+        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig');
+    }
 }
