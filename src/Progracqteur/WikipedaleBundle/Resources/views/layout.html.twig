@@ -1,0 +1,57 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>Wikipedale | {% block title %}Titre par défaut{% endblock %}</title>
+        
+        <script src="{{ asset('js/jquery-1.7.2.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('js/main.js') }}" type="text/javascript"></script>
+        
+        {% block javascript %}
+        
+            <!-- Aucun fichier javascript ajouté par le template -->
+        {% endblock %}
+            
+        
+
+
+        <style type="text/css">
+           
+
+           
+           div.flash-notice {
+               background-color: rgba(68,68,221,0.65);
+               color: white;
+               font-weight: bold;
+               box-shadow: 2px 2px 3px rgba(68,68,221,0.45), -2px -2px 3px rgba(68,68,221,0.45);
+               text-align: center;
+               paddding: 15px;
+               margin-left: 50px;
+               margin-right: 50px;
+               }
+        </style>
+
+        {% block css %}
+            <!-- Aucune instruction css ajouté par le template -->
+        {% endblock %}
+        
+    </head>
+    <body>
+        <div id="menu">
+            <ul>
+                <li><a href="{{path('wikpedale_homepage')}}">Accueil</a></li>
+            </ul>
+        </div>
+        <div id="body">
+
+            {% if app.session.hasFlash('notice') %}
+                <div class="flash-notice">
+                    {{ app.session.flash('notice') }}
+                </div>
+            {% endif %}
+            
+            
+
+            {% block body %}Rien dans le body...{% endblock %}
+        </div>
+    </body>
+</html>
