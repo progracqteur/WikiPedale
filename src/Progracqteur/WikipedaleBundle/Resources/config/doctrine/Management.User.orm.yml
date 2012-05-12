@@ -1,6 +1,6 @@
 Progracqteur\WikipedaleBundle\Entity\Management\User:
   type: entity
-  table: user
+  table: users
   id:
     id:
       type: integer
