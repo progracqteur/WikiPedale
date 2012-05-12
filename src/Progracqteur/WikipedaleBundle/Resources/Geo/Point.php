@@ -64,6 +64,16 @@ class Point {
             throw PointException::badCoordinates($lon, $lat);
         }
     }
+    
+    public function getLat()
+    {
+        return $this->lat;
+    }
+    
+    public function getLon()
+    {
+        return $this->lon;
+    }
 }
 
 
