@@ -52,6 +52,7 @@ class Comment
         $this->setCreator($user);
         $this->setPlace($place);
         $this->hash = new Hash();
+        $this->setCreationDate(new \DateTime());
     }
 
 
