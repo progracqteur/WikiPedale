@@ -6,11 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
  */
-class Place
+class Place implements NormalizableInterface
 {
     /**
      * @var integer $id
@@ -271,5 +273,21 @@ class Place
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function denormalize(SerializerInterface $serializer, $data, $format = null) {
+        
+    }
+
+    public function normalize(SerializerInterface $serializer, $format = null) {
+        return array(
+            'description' => $this->getDescription(),
+            'geom' => $this->getGeom()->toGeoJson(),
+            'id' => $this->getId(),
+            'nbComm' => $this->getNbComm(),
+            'nbVote' => $this->getNbVote(),
+            //TODO: ajouter les autres paramètres
+        );
+        
     }
 }
