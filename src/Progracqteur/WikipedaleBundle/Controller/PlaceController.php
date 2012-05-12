@@ -5,6 +5,9 @@ namespace Progracqteur\WikipedaleBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 
 /**
  * Description of PlaceController
@@ -27,8 +30,12 @@ class PlaceController extends Controller {
         
         switch ($_format){
             case 'json':
-                return new Response('ok');
+                $jsonencoder = new JsonEncoder();
+                $serializer = new Serializer(array(new CustomNormalizer()) , array('json' => $jsonencoder));
+                $ret = $serializer->serialize($place, $_format);
+                return new Response($ret);
                 break;
+            
             case 'html' :
                 return $this->render('ProgracqteurWikipedaleBundle:Place:view.html.twig', 
                         array(
