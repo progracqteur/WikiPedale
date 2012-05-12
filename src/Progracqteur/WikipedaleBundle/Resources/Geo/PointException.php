@@ -14,9 +14,9 @@ class PointException extends Exception {
         return new self("les coordonnées fournies sont invalides dans le système de projection utilisé (longitude = $lon , latitude = $lat)");
     }
 
-    public static function badJsonString() 
+    public static function badJsonString($str) 
     {
-        return new self("la chaine JSON n'est pas valide");
+        return new self("la chaine JSON n'est pas valide : $str");
         
     }
     
