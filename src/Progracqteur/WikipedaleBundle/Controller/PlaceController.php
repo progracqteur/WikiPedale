@@ -30,7 +30,10 @@ class PlaceController extends Controller {
                 return new Response('ok');
                 break;
             case 'html' :
-                return new Response('ok');
+                return $this->render('ProgracqteurWikipedaleBundle:Place:view.html.twig', 
+                        array(
+                            'place' => $place
+                        ));
                 break;
         }
     }

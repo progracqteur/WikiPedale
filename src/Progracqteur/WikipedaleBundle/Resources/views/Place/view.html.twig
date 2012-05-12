@@ -1,0 +1,14 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{# 
+Les valeurs qui sont passées à cette vue sont les suivantes : 
+* place : la place recherchée, instance de Entity\Model\Place
+
+#}
+
+{% block body %}
+
+<p>Description de la place {{place.id}} : {{ place.description }}</p>
+<p>Endroit : Latitude : {{place.geom.lat}} Longitude : {{place.geom.lon}}</p>
+
+{% endblock %}
