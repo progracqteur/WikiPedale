@@ -65,7 +65,8 @@ class User
     {
         $this->setCreationDate(new \DateTime());
         $this->infos = new Hash();
-        $this->setSalt(md5(rand(true)));
+        $salt = md5( uniqid(rand(0,1000), true) );
+        $this->setSalt($salt);
     }
 
 
