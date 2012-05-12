@@ -5,3 +5,11 @@ ProgracqteurWikipedaleBundle_homepage:
 wikipedale_homepage:
   pattern: /
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
+  
+wikipedale_place_view:
+  pattern: /place/view/{id}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:view }
+  requirements:
+    _format: html|json
+    
+
