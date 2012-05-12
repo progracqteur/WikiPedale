@@ -106,7 +106,7 @@ class Place
      *
      * @param Progracqteur\WikipedaleBundle\Resources\Geo\Point $geom
      */
-    public function setGeom($geom)
+    public function setGeom(Point $geom)
     {
         $this->geom = $geom;
     }
