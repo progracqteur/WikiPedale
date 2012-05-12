@@ -17,9 +17,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     createDate:
       type: datetime
     nbVote:
-      type: int
+      type: integer
     nbComm:
-      type: int
+      type: integer
     infos:
       type: hash
   manyToOne:
@@ -32,5 +32,5 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       mappedBy: places
   oneToMany:
     photos:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Photos
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Photo
       mappedBy: place
