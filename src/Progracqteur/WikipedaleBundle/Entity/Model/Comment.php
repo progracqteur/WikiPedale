@@ -3,6 +3,9 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Comment
@@ -38,6 +41,39 @@ class Comment
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Place
      */
     private $place;
+    
+        /**
+     * @var hash $hash
+     */
+    private $hash;
+    
+    public function __construct(User $user, Place $place)
+    {
+        $this->setCreator($user);
+        $this->setPlace($place);
+        $this->hash = new Hash();
+    }
+
+
+    /**
+     * Set hash
+     *
+     * @param Progracqteur\WikipedaleBundle\Resources\Container\Hash $hash
+     */
+    public function setHash(Hash $hash)
+    {
+        $this->hash = $hash;
+    }
+
+    /**
+     * Get hash
+     *
+     * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
 
 
     /**
@@ -85,7 +121,7 @@ class Comment
      *
      * @return boolean 
      */
-    public function getPublished()
+    public function isPublished()
     {
         return $this->published;
     }
@@ -95,7 +131,7 @@ class Comment
      *
      * @param datetime $creationDate
      */
-    public function setCreationDate($creationDate)
+    private function setCreationDate($creationDate)
     {
         $this->creationDate = $creationDate;
     }
@@ -149,4 +185,5 @@ class Comment
     {
         return $this->place;
     }
+
 }

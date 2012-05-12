@@ -12,6 +12,8 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
       type: boolean
     creationDate:
       type: datetime
+    hash:
+      type: hash
   manyToOne:
     creator:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User

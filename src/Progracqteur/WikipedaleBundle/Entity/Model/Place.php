@@ -254,4 +254,34 @@ class Place
     {
         $this->nbVote++;
     }
+
+    /**
+     * Set nbVote
+     *
+     * @param int $nbVote
+     */
+    public function setNbVote(\int $nbVote)
+    {
+        $this->nbVote = $nbVote;
+    }
+
+    /**
+     * Set nbComm
+     *
+     * @param int $nbComm
+     */
+    public function setNbComm(\int $nbComm)
+    {
+        $this->nbComm = $nbComm;
+    }
+
+    /**
+     * Add photos
+     *
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos
+     */
+    public function addPhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos)
+    {
+        $this->photos[] = $photos;
+    }
 }
