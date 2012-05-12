@@ -4,11 +4,13 @@ namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
+use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\User
  */
-class User
+class User implements NormalizableInterface
 {
     /**
      * @var integer $id
@@ -258,5 +260,19 @@ class User
     public function getNbVote()
     {
         return $this->nbVote;
+    }
+
+    public function denormalize(SerializerInterface $serializer, $data, $format = null) {
+        
+    }
+
+    public function normalize(SerializerInterface $serializer, $format = null) {
+        return array(
+            'id' => $this->getId(),
+            'label' => $this->getLabel(),
+            'nbComment' => $this->getNbComment(),
+            'nbVote' => $this->getNbVote()
+        );
+        
     }
 }

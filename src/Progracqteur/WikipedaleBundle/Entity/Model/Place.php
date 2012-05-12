@@ -280,12 +280,14 @@ class Place implements NormalizableInterface
     }
 
     public function normalize(SerializerInterface $serializer, $format = null) {
+        $creator = $this->getCreator();
         return array(
             'description' => $this->getDescription(),
             'geom' => $this->getGeom()->toArrayGeoJson(),
             'id' => $this->getId(),
             'nbComm' => $this->getNbComm(),
             'nbVote' => $this->getNbVote(),
+            'creator' => $creator->normalize($serializer, $format)
             //TODO: ajouter les autres paramètres
         );
         
