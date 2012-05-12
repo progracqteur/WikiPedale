@@ -48,7 +48,7 @@ doctrine:
           charset:  UTF8
       types:
         point: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PointType
-        blob: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\BlobType
+        file: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\FileType
         hash: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\HashType
       
 

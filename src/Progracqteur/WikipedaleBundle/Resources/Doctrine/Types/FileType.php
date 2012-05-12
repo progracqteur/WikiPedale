@@ -5,13 +5,14 @@ namespace Progracqteur\WikipedaleBundle\Resources\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
  
-class BlobType extends Type
+class FileType extends Type
 {
-    const BLOB = 'blob';
+    const FILE = 'file';
  
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return $platform->getDoctrineTypeMapping('BLOB');
+        //return $platform->getDoctrineTypeMapping('BLOB');
+        return 'text';
     }
  
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -26,6 +27,6 @@ class BlobType extends Type
  
     public function getName()
     {
-        return self::BLOB;
+        return self::FILE;
     }
 }

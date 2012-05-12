@@ -7,7 +7,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
       generator: {strategy: AUTO}
   fields:
     file:
-      type: blob
+      type: file
     createDate:
       type: datetime
   manyToOne:
