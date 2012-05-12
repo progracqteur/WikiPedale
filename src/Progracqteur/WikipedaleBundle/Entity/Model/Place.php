@@ -3,6 +3,9 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
+use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
+use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
@@ -15,19 +18,19 @@ class Place
     private $id;
 
     /**
-     * @var hash $adress
+     * @var Progracqteur\WikipedaleBundle\Resources\Container\Hash $adress
      */
     private $adress;
 
     /**
-     * @var point $geom
+     * @var Progracqteur\WikipedaleBundle\Resources\Geo\Point $geom
      */
     private $geom;
 
     /**
      * @var string $desc
      */
-    private $desc;
+    private $desc = '';
 
     /**
      * @var datetime $createDate
@@ -37,15 +40,15 @@ class Place
     /**
      * @var int $nbVote
      */
-    private $nbVote;
+    private $nbVote = 0;
 
     /**
      * @var int $nbComm
      */
-    private $nbComm;
+    private $nbComm = 0;
 
     /**
-     * @var hash $infos
+     * @var Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
      */
     private $infos;
 
@@ -62,6 +65,9 @@ class Place
     public function __construct()
     {
         $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setCreateDate(new \DateTime());
+        $this->infos = new Hash();
+        $this->adress = new Hash();
     }
 
 
@@ -78,9 +84,9 @@ class Place
     /**
      * Set adress
      *
-     * @param hash $adress
+     * @param Progracqteur\WikipedaleBundle\Resources\Container\Hash $adress
      */
-    public function setAdress(\hash $adress)
+    public function setAdress(Hash $adress)
     {
         $this->adress = $adress;
     }
@@ -88,7 +94,7 @@ class Place
     /**
      * Get adress
      *
-     * @return hash 
+     * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
      */
     public function getAdress()
     {
@@ -98,7 +104,7 @@ class Place
     /**
      * Set geom
      *
-     * @param point $geom
+     * @param Progracqteur\WikipedaleBundle\Resources\Geo\Point $geom
      */
     public function setGeom($geom)
     {
@@ -108,7 +114,7 @@ class Place
     /**
      * Get geom
      *
-     * @return point 
+     * @return Progracqteur\WikipedaleBundle\Resources\Geo\Point 
      */
     public function getGeom()
     {
@@ -140,7 +146,7 @@ class Place
      *
      * @param datetime $createDate
      */
-    public function setCreateDate($createDate)
+    private function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
     }
@@ -155,15 +161,6 @@ class Place
         return $this->createDate;
     }
 
-    /**
-     * Set nbVote
-     *
-     * @param int $nbVote
-     */
-    public function setNbVote(\int $nbVote)
-    {
-        $this->nbVote = $nbVote;
-    }
 
     /**
      * Get nbVote
@@ -175,15 +172,7 @@ class Place
         return $this->nbVote;
     }
 
-    /**
-     * Set nbComm
-     *
-     * @param int $nbComm
-     */
-    public function setNbComm(\int $nbComm)
-    {
-        $this->nbComm = $nbComm;
-    }
+
 
     /**
      * Get nbComm
@@ -198,9 +187,9 @@ class Place
     /**
      * Set infos
      *
-     * @param hash $infos
+     * @param Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
      */
-    public function setInfos(\hash $infos)
+    public function setInfos(Hash $infos)
     {
         $this->infos = $infos;
     }
@@ -208,7 +197,7 @@ class Place
     /**
      * Get infos
      *
-     * @return hash 
+     * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
      */
     public function getInfos()
     {
@@ -254,5 +243,15 @@ class Place
     public function getPhotos()
     {
         return $this->photos;
+    }
+    
+    public function increaseComment()
+    {
+        $this->nbComm++;
+    }
+    
+    public function increaseVote()
+    {
+        $this->nbVote++;
     }
 }
