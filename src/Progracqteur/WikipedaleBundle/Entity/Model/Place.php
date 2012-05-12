@@ -27,10 +27,7 @@ class Place
      */
     private $geom;
 
-    /**
-     * @var string $desc
-     */
-    private $desc = '';
+
 
     /**
      * @var datetime $createDate
@@ -61,6 +58,10 @@ class Place
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Photos
      */
     private $photos;
+    /**
+     * @var string $description
+     */
+    private $description;
 
     public function __construct()
     {
@@ -121,25 +122,8 @@ class Place
         return $this->geom;
     }
 
-    /**
-     * Set desc
-     *
-     * @param string $desc
-     */
-    public function setDesc($desc)
-    {
-        $this->desc = $desc;
-    }
 
-    /**
-     * Get desc
-     *
-     * @return string 
-     */
-    public function getDesc()
-    {
-        return $this->desc;
-    }
+
 
     /**
      * Set createDate
@@ -255,25 +239,7 @@ class Place
         $this->nbVote++;
     }
 
-    /**
-     * Set nbVote
-     *
-     * @param int $nbVote
-     */
-    public function setNbVote(\int $nbVote)
-    {
-        $this->nbVote = $nbVote;
-    }
-
-    /**
-     * Set nbComm
-     *
-     * @param int $nbComm
-     */
-    public function setNbComm(\int $nbComm)
-    {
-        $this->nbComm = $nbComm;
-    }
+ 
 
     /**
      * Add photos
@@ -283,5 +249,27 @@ class Place
     public function addPhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos)
     {
         $this->photos[] = $photos;
+    }
+    
+
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

@@ -15,7 +15,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       type: hash
     geom:
       type: point
-    desc:
+    description:
       type: string
     createDate:
       type: datetime
