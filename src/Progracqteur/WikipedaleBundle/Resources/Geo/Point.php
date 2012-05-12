@@ -20,8 +20,13 @@ class Point {
     }
     
     public function toGeoJson(){
-        $array = array("type" => "Point", "coordinates" => array ($this->lon, $this->lat));
+        $array = $this->toArrayGeoJson();
         return \json_encode($array);
+    }
+    
+    public function toArrayGeoJson()
+    {
+        return array("type" => "Point", "coordinates" => array ($this->lon, $this->lat));
     }
     
     /**
