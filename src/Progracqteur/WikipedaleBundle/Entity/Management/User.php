@@ -18,22 +18,22 @@ class User
     /**
      * @var string $password
      */
-    private $password;
+    private $password = '';
 
     /**
      * @var string $email
      */
-    private $email;
+    private $email = '';
 
     /**
      * @var string $label
      */
-    private $label;
+    private $label = '';
 
     /**
      * @var string $salt
      */
-    private $salt;
+    private $salt = '';
 
     /**
      * @var datetime $creationDate
@@ -43,7 +43,8 @@ class User
     /**
      * @var boolean $confirmed
      */
-    private $confirmed;
+    private $confirmed = true;
+    //TODO: supprimer la confirmation par défaut
 
     /**
      * @var Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
@@ -64,6 +65,7 @@ class User
     {
         $this->setCreationDate(new \DateTime());
         $this->infos = new Hash();
+        $this->setSalt(md5(rand(true)));
     }
 
 
@@ -142,7 +144,7 @@ class User
      *
      * @param string $salt
      */
-    public function setSalt($salt)
+    private function setSalt($salt)
     {
         $this->salt = $salt;
     }
