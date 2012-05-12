@@ -3,6 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
+use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\User
@@ -45,19 +46,25 @@ class User
     private $confirmed;
 
     /**
-     * @var hash $infos
+     * @var Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
      */
     private $infos;
 
     /**
      * @var integer $nbComment
      */
-    private $nbComment;
+    private $nbComment = 0;
 
     /**
      * @var integer $nbVote
      */
-    private $nbVote;
+    private $nbVote = 0;
+    
+    public function __construct()
+    {
+        $this->setCreationDate(new \DateTime());
+        $this->infos = new Hash();
+    }
 
 
     /**
@@ -155,7 +162,7 @@ class User
      *
      * @param datetime $creationDate
      */
-    public function setCreationDate($creationDate)
+    private function setCreationDate($creationDate)
     {
         $this->creationDate = $creationDate;
     }
@@ -193,9 +200,9 @@ class User
     /**
      * Set infos
      *
-     * @param hash $infos
+     * @param Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
      */
-    public function setInfos(\hash $infos)
+    public function setInfos(Hash $infos)
     {
         $this->infos = $infos;
     }
@@ -203,7 +210,7 @@ class User
     /**
      * Get infos
      *
-     * @return hash 
+     * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
      */
     public function getInfos()
     {
@@ -213,11 +220,11 @@ class User
     /**
      * Set nbComment
      *
-     * @param integer $nbComment
+     * 
      */
-    public function setNbComment($nbComment)
+    public function increaseNbComment()
     {
-        $this->nbComment = $nbComment;
+        $this->nbComment++;
     }
 
     /**
@@ -233,11 +240,11 @@ class User
     /**
      * Set nbVote
      *
-     * @param integer $nbVote
+     * 
      */
-    public function setNbVote($nbVote)
+    public function increaseNbVote($nbVote)
     {
-        $this->nbVote = $nbVote;
+        $this->nbVote++;
     }
 
     /**
