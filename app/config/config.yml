@@ -49,6 +49,7 @@ doctrine:
       types:
         point: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PointType
         blob: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\BlobType
+        hash: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\HashType
       
 
     orm:
