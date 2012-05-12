@@ -40,10 +40,18 @@ class HashType extends Type {
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $dom = new \DOMDocument();
-        $dom->loadXML($value);
         
         $h = new Hash();
+
+        //si la chaine est vide, retourne le hash
+        if (empty($value))
+            return $h;
+        
+        $dom = new \DOMDocument();
+         
+        $dom->loadXML($value);
+        
+        
         
         if ($dom->hasChildNodes())
         {
