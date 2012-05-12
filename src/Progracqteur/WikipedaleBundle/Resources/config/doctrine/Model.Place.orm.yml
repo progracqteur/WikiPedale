@@ -1,0 +1,36 @@
+## YAML Template.
+---
+Progracqteur\WikipedaleBundle\Entity\Model\Place:
+  type: entity
+  table: place
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    adress:
+      type: hash
+    geom:
+      type: point
+    desc:
+      type: string
+    createDate:
+      type: datetime
+    nbVote:
+      type: int
+    nbComm:
+      type: int
+    infos:
+      type: hash
+  manyToOne:
+#    category:
+#      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
+#      nullable: true
+    creator:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
+      nullable: true
+      mappedBy: places
+  oneToMany:
+    photos:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Photos
+      mappedBy: place

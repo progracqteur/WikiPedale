@@ -1,11 +1,11 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Entity;
+namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Progracqteur\WikipedaleBundle\Entity\Place
+ * Progracqteur\WikipedaleBundle\Entity\Model\Place
  */
 class Place
 {
@@ -25,14 +25,14 @@ class Place
     private $geom;
 
     /**
-     * @var text $desc
+     * @var string $desc
      */
     private $desc;
 
     /**
-     * @var datetime $dateIn
+     * @var datetime $createDate
      */
-    private $dateIn;
+    private $createDate;
 
     /**
      * @var int $nbVote
@@ -48,6 +48,21 @@ class Place
      * @var hash $infos
      */
     private $infos;
+
+    /**
+     * @var Progracqteur\WikipedaleBundle\Entity\Management\User
+     */
+    private $creator;
+    
+    /**
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Photos
+     */
+    private $photos;
+
+    public function __construct()
+    {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -103,7 +118,7 @@ class Place
     /**
      * Set desc
      *
-     * @param text $desc
+     * @param string $desc
      */
     public function setDesc($desc)
     {
@@ -113,7 +128,7 @@ class Place
     /**
      * Get desc
      *
-     * @return text 
+     * @return string 
      */
     public function getDesc()
     {
@@ -121,23 +136,23 @@ class Place
     }
 
     /**
-     * Set dateIn
+     * Set createDate
      *
-     * @param datetime $dateIn
+     * @param datetime $createDate
      */
-    public function setDateIn($dateIn)
+    public function setCreateDate($createDate)
     {
-        $this->dateIn = $dateIn;
+        $this->createDate = $createDate;
     }
 
     /**
-     * Get dateIn
+     * Get createDate
      *
      * @return datetime 
      */
-    public function getDateIn()
+    public function getCreateDate()
     {
-        return $this->dateIn;
+        return $this->createDate;
     }
 
     /**
@@ -198,5 +213,46 @@ class Place
     public function getInfos()
     {
         return $this->infos;
+    }
+
+    /**
+     * Set creator
+     *
+     * @param Progracqteur\WikipedaleBundle\Entity\Management\User $creator
+     */
+    public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator)
+    {
+        $this->creator = $creator;
+    }
+
+    /**
+     * Get creator
+     *
+     * @return Progracqteur\WikipedaleBundle\Entity\Management\User 
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+    
+    /**
+     * Add photos
+     *
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos
+     */
+    public function addPhoto(\Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos)
+    {
+        $this->photos[] = $photos;
+    }
+
+    /**
+     * Get photos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
     }
 }

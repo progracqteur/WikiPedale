@@ -1,0 +1,21 @@
+Progracqteur\WikipedaleBundle\Entity\Model\Comment:
+  type: entity
+  table: comment
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    text:
+      type: string
+    published:
+      type: boolean
+    creationDate:
+      type: datetime
+  manyToOne:
+    creator:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
+      mappedBy: comments
+    place:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+      mappedBy: comments

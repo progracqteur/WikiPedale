@@ -1,0 +1,18 @@
+Progracqteur\WikipedaleBundle\Entity\Model\Photo:
+  type: entity
+  table: photos
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    file:
+      type: blob
+    createDate:
+      type: datetime
+  manyToOne:
+    creator:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
+    place:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+      inversedBy: photos

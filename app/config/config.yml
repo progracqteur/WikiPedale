@@ -48,6 +48,7 @@ doctrine:
           charset:  UTF8
       types:
         point: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PointType
+        blob: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\BlobType
       
 
     orm:
