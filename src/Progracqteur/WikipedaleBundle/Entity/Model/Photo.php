@@ -3,6 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Photo
@@ -33,6 +34,11 @@ class Photo
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Place
      */
     private $place;
+    
+    public function __construct(User $user)
+    {
+        $this->setCreateDate(new \DateTime());
+    }
 
 
     /**
@@ -70,7 +76,7 @@ class Photo
      *
      * @param datetime $createDate
      */
-    public function setCreateDate($createDate)
+    private function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
     }
