@@ -49,7 +49,7 @@ class HashType extends Type {
         {
             foreach ($dom->childNodes as $node)
             {
-                $h->__set($node->nodeName, $node->nodeValue);
+                $h->__set($node->getAttribute('key'), $node->nodeValue);
             }
         }
         
@@ -63,7 +63,8 @@ class HashType extends Type {
         $dom = new \DOMDocument();
         
         foreach ($hash as $key => $value) {
-            $node = $dom->createElement($key, $value);
+            $node = $dom->createElement('node', $value);
+            $node->setAttribute('key', $value);
             $dom->appendChild($node);
         }
         return $dom->saveXML();
