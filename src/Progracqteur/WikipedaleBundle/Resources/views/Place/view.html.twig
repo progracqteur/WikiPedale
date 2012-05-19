@@ -8,7 +8,19 @@ Les valeurs qui sont passées à cette vue sont les suivantes :
 
 {% block body %}
 
-<p>Description de la place {{place.id}} : {{ place.description }}</p>
-<p>Endroit : Latitude : {{place.geom.lat}} Longitude : {{place.geom.lon}}</p>
+<script language="javascript"> 
+  <!--
+      $(document).ready(function(){
+          view_place({{place.geom.lon}}, {{place.geom.lat}});
+	  });
+  // -->
+</script>
+
+<div id="map" style="width:400px; height:400px; float:left;"  class="smallmap"></div>
+
+<div style="float:left;">
+   <p>Description de la place {{place.id}} : {{ place.description }}</p>
+   <p>Endroit : Latitude : {{place.geom.lat}} Longitude : {{place.geom.lon}}</p>
+</div>
 
 {% endblock %}
