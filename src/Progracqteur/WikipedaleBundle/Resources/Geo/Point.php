@@ -53,8 +53,8 @@ class Point {
         if ($a->type != "Point"){
             throw PointException::badGeoType();
         } else {
-            $lat = $a->coordinates[0];
-            $lon = $a->coordinates[1];
+            $lat = $a->coordinates[1];
+            $lon = $a->coordinates[0];
             return Point::fromLonLat($lon, $lat);
         }
                 

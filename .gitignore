@@ -5,3 +5,4 @@
 /app/config/parameters.ini
 /app/bootstrap*
 /src/Acme/
+/output/
