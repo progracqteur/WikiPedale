@@ -12,4 +12,10 @@ wikipedale_place_view:
   requirements:
     _format: html|json
     
+wikipedale_place_list_by_bbox:
+  pattern: /place/list/bybbox.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:listByBBox }
+  requirements:
+    _format: json
+    
 

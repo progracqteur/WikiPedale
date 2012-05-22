@@ -45,16 +45,18 @@ doctrine:
           dbname:   %database_name%
           user:     %database_user%
           password: %database_password%
-          charset:  UTF8
+          charset:  UTF8  
+        
       types:
         point: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PointType
         file: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\FileType
         hash: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\HashType
-      
-
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+        dql:
+          string_functions:
+            covers: Progracqteur\WikipedaleBundle\Resources\Doctrine\Functions\Covers
 
 # Swiftmailer Configuration
 swiftmailer:

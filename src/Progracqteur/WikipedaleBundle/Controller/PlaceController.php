@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Geo\BBox;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Description of PlaceController
@@ -43,6 +45,48 @@ class PlaceController extends Controller {
                         ));
                 break;
         }
+    }
+    
+    public function listByBBoxAction($_format, Request $request){
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $BboxStr = $request->get('bbox', null);
+        if ($BboxStr === null) {
+            throw new \Exception('Fournissez un bbox');
+        }
+        
+        $BboxArr = explode(',', $BboxStr, 4);
+        
+        foreach($BboxArr as $value){
+            if (!is_numeric($value))
+            {
+                throw new \Exception("Le Bbox n'est pas valide : $BboxStr");
+            }
+        }
+        
+        
+        
+        
+        $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
+        
+        $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p where covers(:bbox, p.geom) = true')
+                ->setParameter('bbox', $bbox->toWKT());
+        
+        $r = $p->getResult();
+        
+        switch($_format) {
+            case 'json':
+                $jsonencoder = new JsonEncoder();
+                $serializer = new Serializer(array(new CustomNormalizer()) , array('json' => $jsonencoder));
+                $ret = $serializer->serialize($r, $_format);
+                return new Response($ret);
+                break;
+            case 'html':
+                return new Response('Pas encore implémenté');
+                
+        }
+        
+        
     }
 }
 
