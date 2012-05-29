@@ -34,7 +34,7 @@ class PlaceController extends Controller {
             case 'json':
                 $jsonencoder = new JsonEncoder();
                 $serializer = new Serializer(array(new CustomNormalizer()) , array('json' => $jsonencoder));
-		$rep = array('results' => $place);
+		$rep = array('results' => array($place));
                 $ret = $serializer->serialize($rep, $_format);
                 return new Response($ret);
                 break;
