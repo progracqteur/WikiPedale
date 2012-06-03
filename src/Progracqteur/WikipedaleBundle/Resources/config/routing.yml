@@ -18,4 +18,8 @@ wikipedale_place_list_by_bbox:
   requirements:
     _format: json
     
-
+wikipedale_place_list_by_city:
+  pattern: /place/list/bycity.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:listByCity }
+  requirements:
+    _format: json
