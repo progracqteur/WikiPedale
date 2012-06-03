@@ -6,6 +6,12 @@ wikipedale_homepage:
   pattern: /
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
   
+wikipedale_to_city:
+  pattern: /{city}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:toCity }
+  requirements:
+    city: mons|liege
+  
 wikipedale_place_view:
   pattern: /place/view/{id}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:view }
