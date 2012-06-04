@@ -11,6 +11,10 @@ wikipedale_to_city:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:toCity }
   requirements:
     city: mons|liege
+    
+wikipedale_reset_city:
+  pattern: /reset_city
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:resetCity }
   
 wikipedale_place_view:
   pattern: /place/view/{id}.{_format}

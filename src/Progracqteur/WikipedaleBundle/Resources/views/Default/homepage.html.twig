@@ -4,4 +4,12 @@
 
 <p> Bonjour ! </p>
 
+{% if app.session.get('city') %}
+<p>Ma ville est {{app.session.get('city')}}</p>
+{% endif %}
+
+{% if app.session.get('city_center') %}
+<p>Le centre ville est latitude {{app.session.get('city_center').lat}} et longitude {{app.session.get('city_center').lon}}</p>
+{% endif %}
+
 {% endblock %}
