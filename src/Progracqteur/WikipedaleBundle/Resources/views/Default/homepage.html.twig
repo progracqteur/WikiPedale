@@ -4,12 +4,23 @@
 
 <p> Bonjour ! </p>
 
-{% if app.session.get('city') %}
-<p>Ma ville est {{app.session.get('city')}}</p>
-{% endif %}
+{% if (app.session.get('city')) and (app.session.get('city_center')) %}
+<script language="javascript"> 
+  <!--
+      $(document).ready(function(){
+          map_with_action('{{ app.session.get('city') }}',{{app.session.get('city_center').lon}},{{app.session.get('city_center').lat}},0);
+	  });
+  // -->
+</script>
 
-{% if app.session.get('city_center') %}
-<p>Le centre ville est latitude {{app.session.get('city_center').lat}} et longitude {{app.session.get('city_center').lon}}</p>
+<div id="map" style="width:400px; height:400px; float:left;"  class="smallmap"></div>
+
+<div style="float:left;">
+   <p>Ville : {{app.session.get('city')}}</p>
+   <p>Le centre ville est latitude {{app.session.get('city_center').lat}} et longitude {{app.session.get('city_center').lon}}</p>
+</div>
+{% else %}
+<p>Veuillez choisir une ville. Merci.</p>
 {% endif %}
 
 {% endblock %}
