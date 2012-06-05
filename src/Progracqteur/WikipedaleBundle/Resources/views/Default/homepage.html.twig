@@ -8,17 +8,31 @@
 <script language="javascript"> 
   <!--
       $(document).ready(function(){
-          map_with_action('{{ app.session.get('city') }}',{{app.session.get('city_center').lon}},{{app.session.get('city_center').lat}},0);
+          mapWithClickActionMarkers('{{ app.session.get('city') }}',
+	                             {{app.session.get('city_center').lon}},
+				     {{app.session.get('city_center').lat}},
+				     displayPlaceDataFunction);
 	  });
   // -->
 </script>
 
-<div id="map" style="width:400px; height:400px; float:left;"  class="smallmap"></div>
+<div id="map" style="width:400px; height:550px; float:left;"  class="smallmap"></div>
 
-<div style="float:left;">
-   <p>Ville : {{app.session.get('city')}}</p>
-   <p>Le centre ville est latitude {{app.session.get('city_center').lat}} et longitude {{app.session.get('city_center').lon}}</p>
-</div>
+<div style="width:50%; height:100%; float:left; overflow:auto;">
+  <div id="div_placeDetails" style="margin-left:15px;display:none;"> 
+    <h1>D&eacute;tails du point noir <span id="span_id"></span></h1>	
+    <strong>Lieu</strong> : <strong>TODO</strong><br />
+    <strong>Description</strong> : <span id="span_description"></span><br />
+    <strong>Nbr. de commentaires</strong> : <span id="span_nbComm"></span><br />
+    <strong>Nbr. de votes</strong> : <span id="span_nbVote"></span><br />
+    <strong>Cr&eacute;ateur</strong> : <span id="span_creator"></span><br />
+  </div>
+
+  <div>
+    <p><strong>ici : description de l'outil</strong></p>
+    <p>Ville : {{app.session.get('city')}}</p>
+    <p>Le centre ville est latitude {{app.session.get('city_center').lat}} et longitude {{app.session.get('city_center').lon}}</p>
+  </div>
 {% else %}
 <p>Veuillez choisir une ville. Merci.</p>
 {% endif %}
