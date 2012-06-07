@@ -70,7 +70,9 @@ class HashType extends Type {
     {
         $dom = new \DOMDocument();
         
-        foreach ($hash as $key => $value) {
+        $ar = $hash->toArray();
+        
+        foreach ($ar as $key => $value) {
             $node = $dom->createElement('node', $value);
             $node->setAttribute('key', $value);
             $dom->appendChild($node);

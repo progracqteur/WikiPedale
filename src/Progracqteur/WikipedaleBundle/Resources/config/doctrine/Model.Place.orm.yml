@@ -11,8 +11,6 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     geom:
       columns: [geom]
   fields:
-    adress:
-      type: hash
     geom:
       type: point
     description:
@@ -25,6 +23,10 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       type: integer
     infos:
       type: hash
+    nbPhoto:
+      type: integer
+    address:
+      type: address
   manyToOne:
 #    category:
 #      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

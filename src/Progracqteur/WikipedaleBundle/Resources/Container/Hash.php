@@ -30,5 +30,9 @@ class Hash {
         return json_encode($this->container);
     }
     
+    public function toArray(){
+        return $this->container;
+    }
+    
 }
 

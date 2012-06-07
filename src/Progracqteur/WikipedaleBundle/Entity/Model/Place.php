@@ -8,6 +8,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
@@ -20,9 +21,9 @@ class Place implements NormalizableInterface
     private $id;
 
     /**
-     * @var Progracqteur\WikipedaleBundle\Resources\Container\Hash $adress
+     * @var Progracqteur\WikipedaleBundle\Resources\Container\Address $address
      */
-    private $adress;
+    private $address;
 
     /**
      * @var Progracqteur\WikipedaleBundle\Resources\Geo\Point $geom
@@ -64,13 +65,15 @@ class Place implements NormalizableInterface
      * @var string $description
      */
     private $description;
+    
+    private $nbPhoto = 0;
 
     public function __construct()
     {
         $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setCreateDate(new \DateTime());
         $this->infos = new Hash();
-        $this->adress = new Hash();
+        $this->address = new Address();
     }
 
 
@@ -87,9 +90,9 @@ class Place implements NormalizableInterface
     /**
      * Set adress
      *
-     * @param Progracqteur\WikipedaleBundle\Resources\Container\Hash $adress
+     * @param Progracqteur\WikipedaleBundle\Resources\Container\Address $adress
      */
-    public function setAdress(Hash $adress)
+    public function setAddress(Address $adress)
     {
         $this->adress = $adress;
     }
@@ -99,7 +102,7 @@ class Place implements NormalizableInterface
      *
      * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
      */
-    public function getAdress()
+    public function getAddress()
     {
         return $this->adress;
     }
@@ -292,4 +295,6 @@ class Place implements NormalizableInterface
         );
         
     }
+    
+    
 }
