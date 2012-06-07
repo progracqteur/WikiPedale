@@ -9,6 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
+use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
 class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -25,38 +26,32 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
      * @param ObjectManager $manager 
      */
     public function load(ObjectManager $manager) {
+        
+        for ($i=0; $i < 50; $i++)
+        {
+            $point = $this->getRandomPoint();
+        
+            $str = $this->createId();
+
+            $place = new Place();
+            $place->setCreator($this->getReference('user'));
+            $place->setDescription('Description '.$str);
+            $place->setGeom($point);
+            
+            $add = new Address();
+            $add->setCity('mons');
+            $add->setCountry('Belgium');
+            $add->setCountryCode('BE');
+            
+            $place->setAddress($add);
+
+
+            $manager->persist($place);
+        }
     
-        $point = $this->getRandomPoint();
-        
-        $str = $this->createId();
-        
-        $place = new Place();
-        $place->setCreator($this->getReference('user'));
-        $place->setDescription('Description '.$str);
-        $place->setGeom($point);
         
         
-        $manager->persist($place);
         
-        $point = $this->getRandomPoint();
-        
-        $str = $this->createId();
-        
-        $place = new Place();
-        $place->setCreator($this->getReference('user'));
-        $place->setDescription('Description '.$str);
-        $place->setGeom($point);
-        
-        $manager->persist($place);
-        
-        $point = $this->getRandomPoint();
-        
-        $str = $this->createId();
-        
-        $place = new Place();
-        $place->setCreator($this->getReference('user'));
-        $place->setDescription('Description '.$str);
-        $place->setGeom($point);
         
         //test l'ajout d'un hash pour les infos
         $h = new Hash;

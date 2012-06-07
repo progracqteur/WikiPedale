@@ -37,7 +37,8 @@ class AddressType extends Type {
         }
         $s = $dom->saveXML();
         
-        return 'XMLPARSE (DOCUMENT \''.$s."'))";
+        //return 'XMLPARSE (DOCUMENT \''.$s."'))";
+        return $s;
     }
     
     private function parseString($string){
@@ -102,7 +103,8 @@ class AddressType extends Type {
 
     public function convertToPHPValueSQL($sqlExpr, $platform)
     {
-        return 'XMLSERIALIZE ( DOCUMENT '.$sqlExpr.' AS text )';
+       // return 'XMLSERIALIZE ( DOCUMENT '.$sqlExpr.' AS text )';
+        return $sqlExpr;
     }
 
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)

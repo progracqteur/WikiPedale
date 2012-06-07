@@ -50,7 +50,7 @@ doctrine:
       types:
         point: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PointType
         file: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\FileType
-        #hash: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\HashType
+        hash: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\HashType
         address: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\AddressType
     orm:
         auto_generate_proxy_classes: %kernel.debug%
