@@ -65,5 +65,10 @@ class Address {
           self::STATE_DISTRICT_DECLARATION => $this->state_district
         );
     }
+    
+    public function getCity()
+    {
+        return $this->city;
+    }
 }
 

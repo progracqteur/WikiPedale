@@ -104,7 +104,7 @@ class Place implements NormalizableInterface
      */
     public function getAddress()
     {
-        return $this->adress;
+        return $this->address;
     }
 
     /**

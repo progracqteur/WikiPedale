@@ -27,17 +27,20 @@ class AddressType extends Type {
     {
         
         
-         $dom = new \DOMDocument();
+         $dom = new \DOMDocument('1.0', 'utf-8');
+         $parent = $dom->createElement('addressparts');
+         $dom->appendChild($parent);
         
         $ar = $address->toArray();
         
         foreach ($ar as $key => $value) {
             $node = $dom->createElement($key, $this->parseString($value));
-            $dom->appendChild($node);
+            
+            $parent->appendChild($node);
         }
         $s = $dom->saveXML();
         
-        //return 'XMLPARSE (DOCUMENT \''.$s."'))";
+        
         return $s;
     }
     
@@ -57,13 +60,16 @@ class AddressType extends Type {
         if (empty($value))
             return $a;
         
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument('1.0', 'utf-8');
          
         $dom->loadXML($value);
+        $docs = $dom->getElementsByTagName('addressparts');
+        
+        $doc = $docs->item(0);
 
         if ($dom->hasChildNodes())
         {
-            foreach ($dom->childNodes as $node)
+            foreach ($doc->childNodes as $node)
             {
                 $v = $node->nodeValue;
                 
@@ -103,13 +109,12 @@ class AddressType extends Type {
 
     public function convertToPHPValueSQL($sqlExpr, $platform)
     {
-       // return 'XMLSERIALIZE ( DOCUMENT '.$sqlExpr.' AS text )';
-        return $sqlExpr;
+       return 'XMLSERIALIZE(DOCUMENT '.$sqlExpr.' AS text )';
     }
 
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
-        return $sqlExpr;
+        return 'XMLPARSE (DOCUMENT '.$sqlExpr.")";
     }
     
     
