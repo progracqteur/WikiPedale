@@ -27,6 +27,10 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       type: integer
     address:
       type: address
+    statusCity:
+      type: integer
+    statusBicycle:
+      type: integer
   manyToOne:
 #    category:
 #      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

@@ -67,6 +67,10 @@ class Place implements NormalizableInterface
     private $description;
     
     private $nbPhoto = 0;
+    
+    private $statusCity = 0;
+    
+    private $statusBicycle = 0;
 
     public function __construct()
     {
@@ -234,6 +238,11 @@ class Place implements NormalizableInterface
         return $this->photos;
     }
     
+    public function getNbPhoto()
+    {
+        return $this->nbPhoto;
+    }
+    
     public function increaseComment()
     {
         $this->nbComm++;
@@ -276,6 +285,16 @@ class Place implements NormalizableInterface
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    public function getStatusCity() 
+    {
+        return $this->statusCity;
+    }
+    
+    public function getStatusBicycle()
+    {
+        return $this->statusBicycle;
     }
 
     public function denormalize(SerializerInterface $serializer, $data, $format = null) {
