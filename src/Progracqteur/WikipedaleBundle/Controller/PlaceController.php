@@ -10,6 +10,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Geo\BBox;
 use Symfony\Component\HttpFoundation\Request;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 
 /**
  * Description of PlaceController
@@ -92,7 +94,9 @@ class PlaceController extends Controller {
         switch($_format) {
             case 'json':
                 $jsonencoder = new JsonEncoder();
-                $serializer = new Serializer(array(new CustomNormalizer()) , array('json' => $jsonencoder));
+                $serializer = new Serializer(array(
+                    new CustomNormalizer()
+                    ) , array('json' => $jsonencoder));
 		$rep = array('results' => $r);
                 $ret = $serializer->serialize($rep, $_format);
                 return new Response($ret);
@@ -135,7 +139,10 @@ class PlaceController extends Controller {
         switch($_format) {
             case 'json':
                 $jsonencoder = new JsonEncoder();
-                $serializer = new Serializer(array(new CustomNormalizer()) , array('json' => $jsonencoder));
+                $serializer = new Serializer(array(
+                    new PlaceNormalizer(),
+                    new AddressNormalizer
+                    ) , array('json' => $jsonencoder));
 		$rep = array('results' => $r);
                 $ret = $serializer->serialize($rep, $_format);
                 return new Response($ret);
