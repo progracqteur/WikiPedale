@@ -27,7 +27,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager) {
         
-        for ($i=0; $i < 50; $i++)
+        for ($i=0; $i < 20; $i++)
         {
             $point = $this->getRandomPoint();
         
@@ -38,10 +38,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $place->setDescription('Description '.$str);
             $place->setGeom($point);
             
-            $add = new Address();
-            $add->setCity('mons');
-            $add->setCountry('Belgium');
-            $add->setCountryCode('BE');
+            $add = $this->geolocate($point);
             
             $place->setAddress($add);
 
@@ -101,6 +98,75 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         }
 
         return $s;
+  }
+  
+  
+  private function geolocate(Point $point)
+  {
+      $a = new Address();
+
+        //si la chaine est vide, retourne le hash
+        
+        $dom = new \DOMDocument();
+        
+        $lat = $point->getLat();
+        $lon = $point->getLon();
+        
+        $ch = curl_init();
+        
+         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
+        
+        echo $url;
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+        
+        $d = curl_exec($ch);
+        
+         
+        $dom->loadXML($d);
+        $docs = $dom->getElementsByTagName('addressparts');
+        
+        $doc = $docs->item(0);
+
+        if ($dom->hasChildNodes())
+        {
+            foreach ($doc->childNodes as $node)
+            {
+                $v = $node->nodeValue;
+                
+                switch ($node->nodeName) {
+                    case Address::CITY_DECLARATION :
+                        $a->setCity($v);
+                        break;
+                    case Address::ADMINISTRATIVE_DECLARATION :
+                        $a->setAdministrative($v);
+                        break;
+                    case Address::COUNTY_DECLARATION :
+                        $a->setCounty($v);
+                        break;
+                    case Address::STATE_DISTRICT_DECLARATION :
+                        $a->setStateDistrict($v);
+                        break;
+                    case Address::STATE_DECLARATION :
+                        $a->setState($v);
+                        break;
+                    case Address::COUNTRY_DECLARATION :
+                        $a->setCountry($v);
+                        break;
+                    case Address::COUNTRY_CODE_DECLARATION :
+                        $a->setCountryCode($v);
+                        break;
+                    case Address::ROAD_DECLARATION : 
+                        $a->setRoad($v);
+                            break;
+                    case Address::PUBLIC_BUILDING_DECLARATION :
+                        $a->setPublicBuilding($v);
+                        break;
+                }
+            }
+        }
+        
+        return $a;
   }
 }
 

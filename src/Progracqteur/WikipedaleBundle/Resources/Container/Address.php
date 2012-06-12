@@ -8,14 +8,18 @@ namespace Progracqteur\WikipedaleBundle\Resources\Container;
  * @author Julien Fastré <julien arobase fastre point info>
  */
 class Address {
-    private $city = null;
-    private $administrative = null;
-    private $county = null;
-    private $state_district = null; 
-    private $state = null;
-    private $country = null;
-    private $country_code = null;
+    private $city = '';
+    private $administrative = '';
+    private $county = '';
+    private $state_district = ''; 
+    private $state = '';
+    private $country = '';
+    private $country_code = '';
+    private $road = '';
+    private $public_building = '';
     
+    const ROAD_DECLARATION = 'road';
+    const PUBLIC_BUILDING_DECLARATION = 'public_building';
     const CITY_DECLARATION = 'city';
     const ADMINISTRATIVE_DECLARATION = 'administrative';
     const COUNTY_DECLARATION = 'county';
@@ -55,6 +59,16 @@ class Address {
         $this->country_code = $country_code;
     }
     
+    public function setRoad($road)
+    {
+        $this->road = $road;
+    }
+    
+    public function setPublicBuilding($public_building)
+    {
+        $this->public_building = $public_building;
+    }
+    
     public function toArray(){
         return array(
           self::CITY_DECLARATION => $this->city,
@@ -62,7 +76,9 @@ class Address {
           self::COUNTRY_CODE_DECLARATION => $this->country,
           self::COUNTY_DECLARATION => $this->county,
           self::STATE_DECLARATION => $this->state,
-          self::STATE_DISTRICT_DECLARATION => $this->state_district
+          self::STATE_DISTRICT_DECLARATION => $this->state_district,
+          self::ROAD_DECLARATION => $this->road,
+          self::PUBLIC_BUILDING_DECLARATION => $this->public_building  
         );
     }
     

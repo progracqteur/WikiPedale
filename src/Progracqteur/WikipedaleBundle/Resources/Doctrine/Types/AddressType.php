@@ -34,9 +34,14 @@ class AddressType extends Type {
         $ar = $address->toArray();
         
         foreach ($ar as $key => $value) {
-            $node = $dom->createElement($key, $this->parseString($value));
             
-            $parent->appendChild($node);
+            if ($value != '')
+            {
+                $node = $dom->createElement($key, $value);
+            
+                $parent->appendChild($node);
+            }
+            
         }
         $s = $dom->saveXML();
         
@@ -94,6 +99,12 @@ class AddressType extends Type {
                         break;
                     case Address::COUNTRY_CODE_DECLARATION :
                         $a->setCountryCode($v);
+                        break;
+                    case Address::ROAD_DECLARATION : 
+                        $a->setRoad($v);
+                            break;
+                    case Address::PUBLIC_BUILDING_DECLARATION :
+                        $a->setPublicBuilding($v);
                         break;
                 }
             }
