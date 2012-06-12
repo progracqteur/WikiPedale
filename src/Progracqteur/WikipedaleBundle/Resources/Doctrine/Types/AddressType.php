@@ -33,6 +33,8 @@ class AddressType extends Type {
         
         $ar = $address->toArray();
         
+        //echo $ar;
+        
         foreach ($ar as $key => $value) {
             
             if ($value != '')

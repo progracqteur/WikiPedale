@@ -122,8 +122,12 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         
         $d = curl_exec($ch);
         
-         
-        $dom->loadXML($d);
+        curl_close($ch);
+        
+        echo "\n";
+        echo $d;
+        
+        $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
         
         $doc = $docs->item(0);
