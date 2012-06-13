@@ -98,7 +98,7 @@ class Place implements NormalizableInterface
      */
     public function setAddress(Address $adress)
     {
-        $this->adress = $adress;
+        $this->address = $adress;
     }
 
     /**

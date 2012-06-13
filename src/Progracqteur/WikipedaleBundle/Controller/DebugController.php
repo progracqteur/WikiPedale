@@ -76,26 +76,52 @@ class DebugController extends Controller {
     
     public function debugTwoAction()
     {
-        /*$manager = $this->getDoctrine()->getEntityManager();
+        $manager = $this->getDoctrine()->getEntityManager();
         
+        $u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(14);
+        /*
         $p = $manager->getRepository('ProgracqteurWikipedaleBundle:Model\Place')->find(114);
         
         $a = $p->getAddress();
         
         return new Response($a->getCity());*/
         
-        $add = $this->geolocate($this->getRandomPoint());
+         $point = $this->getRandomPoint();
+        
+            $str = $this->createId();
+
+            $place = new Place();
+            $place->setCreator($u);
+            $place->setDescription('Description '.$str);
+            $place->setGeom($point);
+        
+        $add = $this->geolocate($point);
+        
+        $place->setAddress($add);
         
         //$r = serialize($add->toArray());
         
-        Type::addType('address', '\Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\AddressType' );
+        //Type::addType('address', '\Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\AddressType' );
         
             $addrType = Type::getType('address');
             
             $platform = new PostgreSqlPlatform();
         
+        $a = $add->toArray();
         
-        $r = $addrType->convertToDatabaseValue($add, $platform);
+        $r = '';
+        
+        /*foreach ($a as $key => $value)
+        {
+            $r .= "$key => $value \n";
+        }*/
+        
+        //$r .= $addrType->convertToDatabaseValue($add, $platform);
+        
+        $manager->persist($place);
+        $manager->flush();
+        
+        
         
         return new Response($r);
             

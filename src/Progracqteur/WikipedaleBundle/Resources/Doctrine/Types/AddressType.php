@@ -33,14 +33,15 @@ class AddressType extends Type {
         
         $ar = $address->toArray();
         
-        //echo $ar;
+        
         
         foreach ($ar as $key => $value) {
             
             if ($value != '')
             {
-                $node = $dom->createElement($key, $value);
-            
+                $node = $dom->createElement($key);
+                $text = $dom->createTextNode($value);
+                $node->appendChild($text);
                 $parent->appendChild($node);
             }
             
@@ -51,6 +52,11 @@ class AddressType extends Type {
         return $s;
     }
     
+    /**
+     * @deprecated
+     * @param type $string
+     * @return type 
+     */
     private function parseString($string){
         
         $pattern = "/'/i";
