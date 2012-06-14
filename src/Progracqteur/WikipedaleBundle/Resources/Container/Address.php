@@ -71,14 +71,14 @@ class Address {
     
     public function toArray(){
         return array(
-          self::CITY_DECLARATION => $this->city,
-          self::ADMINISTRATIVE_DECLARATION => $this->administrative,
-          self::COUNTRY_CODE_DECLARATION => $this->country,
-          self::COUNTY_DECLARATION => $this->county,
-          self::STATE_DECLARATION => $this->state,
-          self::STATE_DISTRICT_DECLARATION => $this->state_district,
+          //self::CITY_DECLARATION => $this->city,
+          //self::ADMINISTRATIVE_DECLARATION => $this->administrative,
+          //self::COUNTRY_CODE_DECLARATION => $this->country,
+          //self::COUNTY_DECLARATION => $this->county,
+          //self::STATE_DECLARATION => $this->state,
+          //self::STATE_DISTRICT_DECLARATION => $this->state_district,
           self::ROAD_DECLARATION => $this->road,
-          self::PUBLIC_BUILDING_DECLARATION => $this->public_building  
+          //self::PUBLIC_BUILDING_DECLARATION => $this->public_building  
         );
     }
     
