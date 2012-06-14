@@ -25,12 +25,12 @@ class User implements NormalizableInterface
     /**
      * @var string $email
      */
-    private $email = '';
+    protected $email = '';
 
     /**
      * @var string $label
      */
-    private $label = '';
+    protected $label = '';
 
     /**
      * @var string $salt
@@ -40,12 +40,12 @@ class User implements NormalizableInterface
     /**
      * @var datetime $creationDate
      */
-    private $creationDate;
+    protected $creationDate;
 
     /**
      * @var boolean $confirmed
      */
-    private $confirmed = true;
+    protected $confirmed = true;
     //TODO: supprimer la confirmation par défaut
 
     /**
@@ -167,7 +167,7 @@ class User implements NormalizableInterface
      *
      * @param datetime $creationDate
      */
-    private function setCreationDate($creationDate)
+    protected function setCreationDate($creationDate)
     {
         $this->creationDate = $creationDate;
     }

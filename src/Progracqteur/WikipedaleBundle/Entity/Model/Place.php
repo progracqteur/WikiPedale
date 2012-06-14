@@ -9,6 +9,7 @@ use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
+use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
@@ -71,11 +72,15 @@ class Place implements NormalizableInterface
     private $statusCity = 0;
     
     private $statusBicycle = 0;
+    
+    private $lastUpdate;
 
     public function __construct()
     {
         $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setCreateDate(new \DateTime());
+        $d = new \DateTime();
+        $this->setLastUpdate($d);
+        $this->setCreateDate($d);
         $this->infos = new Hash();
         $this->address = new Address();
     }
@@ -99,6 +104,7 @@ class Place implements NormalizableInterface
     public function setAddress(Address $adress)
     {
         $this->address = $adress;
+        $this->setLastUpdateNow();
     }
 
     /**
@@ -119,6 +125,7 @@ class Place implements NormalizableInterface
     public function setGeom(Point $geom)
     {
         $this->geom = $geom;
+        $this->setLastUpdateNow();
     }
 
     /**
@@ -142,6 +149,7 @@ class Place implements NormalizableInterface
     private function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
+        
     }
 
     /**
@@ -185,6 +193,7 @@ class Place implements NormalizableInterface
     public function setInfos(Hash $infos)
     {
         $this->infos = $infos;
+        $this->setLastUpdateNow();
     }
 
     /**
@@ -204,7 +213,15 @@ class Place implements NormalizableInterface
      */
     public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator)
     {
-        $this->creator = $creator;
+        if ($creator instanceof UnregisteredUser)
+        {
+            $this->infos->user = $creator->toHash();
+        } else {
+            $this->creator = $creator;
+        }
+        
+        
+        $this->setLastUpdateNow();
     }
 
     /**
@@ -246,11 +263,13 @@ class Place implements NormalizableInterface
     public function increaseComment()
     {
         $this->nbComm++;
+        $this->setLastUpdateNow();
     }
     
     public function increaseVote()
     {
         $this->nbVote++;
+        $this->setLastUpdateNow();
     }
 
  
@@ -275,6 +294,7 @@ class Place implements NormalizableInterface
     public function setDescription($description)
     {
         $this->description = $description;
+        $this->setLastUpdateNow();
     }
 
     /**
@@ -295,6 +315,21 @@ class Place implements NormalizableInterface
     public function getStatusBicycle()
     {
         return $this->statusBicycle;
+    }
+    
+    private function setLastUpdate(\DateTime $d)
+    {
+        $this->lastUpdate = $d;
+    }
+    
+    private function setLastUpdateNow()
+    {
+        $this->lastUpdate = new \DateTime();
+    }
+    
+    public function getLastUpdate()
+    {
+        return $this->lastUpdate;
     }
 
     public function denormalize(SerializerInterface $serializer, $data, $format = null) {

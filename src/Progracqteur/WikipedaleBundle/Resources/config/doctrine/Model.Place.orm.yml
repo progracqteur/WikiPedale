@@ -31,6 +31,8 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       type: integer
     statusBicycle:
       type: integer
+    lastUpdate:
+      type: datetime
   manyToOne:
 #    category:
 #      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

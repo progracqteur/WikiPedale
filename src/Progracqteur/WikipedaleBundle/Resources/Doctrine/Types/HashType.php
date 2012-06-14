@@ -69,13 +69,14 @@ class HashType extends Type {
     public function convertToDatabaseValue($hash, AbstractPlatform $platform)
     {
         $dom = new \DOMDocument();
+        $parent = $dom->createElement('parent');
+        $dom->appendChild($parent);
         
-        $ar = $hash->toArray();
+        $ar = $this->parseToArray($hash);
         
         foreach ($ar as $key => $value) {
-            $node = $dom->createElement('node', $value);
-            $node->setAttribute('key', $value);
-            $dom->appendChild($node);
+            $e = $this->transformRecursiveToDom($dom, $key, $value);
+            $dom->appendChild($e);
         }
         return $dom->saveXML();
         
@@ -92,6 +93,44 @@ class HashType extends Type {
         $str.='])';
         return $str;*/
         
+    }
+    
+    private function parseToArray(Hash $hash)
+    {
+        $ar = $hash->toArray();
+        foreach ($ar as $key => $value)
+        {
+            if ($value instanceof Hash) 
+            {
+                $ar[$key] = $this->parseToArray($value);
+            }
+        }
+        
+        return $ar;
+    }
+    
+    private function transformRecursiveToDom(\DOMDocument $dom, $key, $data)
+    {
+        if (is_array($data))
+        {
+            $tree = $dom->createElement('tree');
+            foreach ($data as $key => $value) 
+            {
+                $a = $this->transformRecursiveToDom($dom, $value);
+                $tree->appendChild($a);
+            }
+            return $tree;
+        } else {
+            
+            if ($data instanceof \DateTime)
+            {
+                $data = $data->format('u');
+            }
+            
+            $node = $dom->createElement('node', $data);
+            $node->setAttribute('key', $key);
+            return $node;
+        }
     }
     
     
