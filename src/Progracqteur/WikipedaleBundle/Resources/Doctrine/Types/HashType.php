@@ -53,11 +53,11 @@ class HashType extends Type {
         
         $parent = $dom->getElementsByTagName('parent');
         
-        
+        $parent = $parent->item(0);
         
         if ($parent->hasChildNodes())
         {
-            foreach ($dom->childNodes as $node)
+            foreach ($parent->childNodes as $node)
             {
                 $h->__set($node->getAttribute('key'), $this->transformXMLtoHash($dom, $node));
             }
@@ -70,14 +70,15 @@ class HashType extends Type {
     
     private function transformXMLtoHash(\DOMDocument $dom, \DOMNode $node)
     {
-        if ($node->nodeName === 'tree')
+        if ($node->tagName == 'tree')
         {
+            
             $h = new Hash();
-            if ($node->hashChildNodes())
+            
             {
                 foreach ($node->childNodes as $n)
                 {
-                    $h->__set($n->getAttribute('key'), $this->transformXMLtoHash($dom, $node));
+                    $h->__set($n->getAttribute('key'), $this->transformXMLtoHash($dom, $n));
                 }
             }
             return $h;
@@ -96,7 +97,7 @@ class HashType extends Type {
         
         foreach ($ar as $key => $value) {
             $e = $this->transformRecursiveToDom($dom, $key, $value);
-            $dom->appendChild($e);
+            $parent->appendChild($e);
         }
         return $dom->saveXML();
         
@@ -144,15 +145,34 @@ class HashType extends Type {
             return $tree;
         } else {
             
+            $node = $dom->createElement('node');
+            
             if ($data instanceof \DateTime)
             {
-                $data = $data->format('u');
+                $data = '@'.$data->format('U');
             }
             
-            $node = $dom->createElement('node', $data);
+            
+            $text = $dom->createTextNode($data);
+            $node->appendChild($text);
             $node->setAttribute('key', $key);
             return $node;
         }
+    }
+    
+        public function canRequireSQLConversion()
+    {
+        return true;
+    }
+
+    public function convertToPHPValueSQL($sqlExpr, $platform)
+    {
+       return 'XMLSERIALIZE(DOCUMENT '.$sqlExpr.' AS text )';
+    }
+
+    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
+    {
+        return 'XMLPARSE (DOCUMENT '.$sqlExpr.")";
     }
     
     
