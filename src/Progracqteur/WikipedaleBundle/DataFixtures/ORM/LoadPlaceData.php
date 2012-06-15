@@ -10,6 +10,7 @@ use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
+use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
 class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -126,7 +127,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         
          $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
         
-        echo $url;
+        echo $url." \n";
         
         curl_setopt($ch, CURLOPT_URL, $url);
         
@@ -134,8 +135,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         
         curl_close($ch);
         
-        echo "\n";
-        echo $d;
+        echo $d."\n";
         
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
