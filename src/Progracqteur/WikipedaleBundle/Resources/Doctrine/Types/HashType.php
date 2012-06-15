@@ -51,19 +51,39 @@ class HashType extends Type {
          
         $dom->loadXML($value);
         
+        $parent = $dom->getElementsByTagName('parent');
         
         
-        if ($dom->hasChildNodes())
+        
+        if ($parent->hasChildNodes())
         {
             foreach ($dom->childNodes as $node)
             {
-                $h->__set($node->getAttribute('key'), $node->nodeValue);
+                $h->__set($node->getAttribute('key'), $this->transformXMLtoHash($dom, $node));
             }
         }
         
         return $h;
         
         
+    }
+    
+    private function transformXMLtoHash(\DOMDocument $dom, \DOMNode $node)
+    {
+        if ($node->nodeName === 'tree')
+        {
+            $h = new Hash();
+            if ($node->hashChildNodes())
+            {
+                foreach ($node->childNodes as $n)
+                {
+                    $h->__set($n->getAttribute('key'), $this->transformXMLtoHash($dom, $node));
+                }
+            }
+            return $h;
+        } else {
+            return $node->nodeValue;
+        }
     }
     
     public function convertToDatabaseValue($hash, AbstractPlatform $platform)
@@ -114,9 +134,11 @@ class HashType extends Type {
         if (is_array($data))
         {
             $tree = $dom->createElement('tree');
+            $tree->setAttribute('key', $key);
+            
             foreach ($data as $key => $value) 
             {
-                $a = $this->transformRecursiveToDom($dom, $value);
+                $a = $this->transformRecursiveToDom($dom, $key, $value);
                 $tree->appendChild($a);
             }
             return $tree;
