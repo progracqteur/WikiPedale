@@ -10,6 +10,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
 /**
  * Ce controller est uniquement prévu pour le débogage de l'application
@@ -22,9 +23,45 @@ class DebugController extends Controller {
     {
         $manager = $this->getDoctrine()->getEntityManager();
         
-        $u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(17);
+        $p = $manager->getRepository('ProgracqteurWikipedaleBundle:Model\Place')->find(52);
         
+        $u = $p->getCreator();
+        
+        if (is_null($u))
+        {
+            return new Response('u est null');
+        }
+        
+        return new Response($u->getLabel().' '.$u->getIp().$u->getCreationDate()->format('d-m-Y'));
+        
+        /*$u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(17);
+        */
+        
+        
+        $place = new Place();
         $point = $this->getRandomPoint();
+        $place->setGeom($point);
+        
+        $u = new UnregisteredUser();
+        $u->setLabel('non enregistré ');
+        $u->setEmail('test@email');
+        $u->setIp('192.168.1.89');
+        
+        $place->setCreator($u);
+        
+        $place->setAddress($this->geolocate($point));
+        
+        $manager->persist($place);
+        $manager->flush();
+        
+        
+        
+        
+       
+        
+        
+        
+        /*$point = $this->getRandomPoint();
         
             $str = $this->createId();
 
