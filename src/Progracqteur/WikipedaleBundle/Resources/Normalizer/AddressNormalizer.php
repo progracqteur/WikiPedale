@@ -19,6 +19,7 @@ class AddressNormalizer implements NormalizerInterface {
     
     public function normalize($object, $format = null) {
         $array = $object->toArray();
+        $array['entity'] = 'address';
         return $array;
     }
     

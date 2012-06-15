@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
 
 
@@ -22,12 +23,17 @@ class UserNormalizer implements NormalizerInterface
     }
     public function normalize($object, $format = null) {
         
-        return array(
+        $a =  array(
             'id' => $object->getId(),
             'label' => $object->getLabel(),
             'nbComment' => $object->getNbComment(),
-            'nbVote' => $object->getNbVote()
+            'nbVote' => $object->getNbVote(),
+            'entity' => 'user',
+            'registered' => $object->isRegistered()
         );
+        
+
+        return $a;
         
     }
     public function supportsDenormalization($data, $type, $format = null) {

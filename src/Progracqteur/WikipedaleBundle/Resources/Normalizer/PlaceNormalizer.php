@@ -24,6 +24,7 @@ class PlaceNormalizer implements NormalizerInterface {
         $addrNormalizer = new AddressNormalizer();
         $userNormalizer = new UserNormalizer();
         return array(
+            'entity' => 'place',
             'description' => $object->getDescription(),
             'geom' => $object->getGeom()->toArrayGeoJson(),
             'id' => $object->getId(),
