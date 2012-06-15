@@ -67,7 +67,7 @@ class Place implements NormalizableInterface
     /**
      * @var string $description
      */
-    private $description;
+    private $description = '';
     
     private $nbPhoto = 0;
     
@@ -237,15 +237,19 @@ class Place implements NormalizableInterface
         if (!is_null($this->creator))
         {
             return $this->creator;
-        } elseif (!is_null($this->creatorUnregisteredProxy))
+        } 
+        elseif (!is_null($this->creatorUnregisteredProxy))
         {
             return $this->creatorUnregisteredProxy;
-        } elseif (!is_null($this->infos->creator))
+        } 
+        elseif (!is_null($this->infos->creator))
         {
             $u = UnregisteredUser::fromHash($this->infos->creator);
             $this->creatorUnregisteredProxy = $u;
             return $u;
-        } else {
+        } 
+        else 
+        {
             throw new Exception('Aucun créateur enregistré');
         }
         
