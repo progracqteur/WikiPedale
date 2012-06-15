@@ -35,7 +35,7 @@ class UnregisteredUser extends User{
     
     public function setIp($ip)
     {
-        $this->ip = ip;
+        $this->ip = $ip;
     }
     
     public static function fromHash(Hash $hash)
@@ -47,6 +47,8 @@ class UnregisteredUser extends User{
         
         $d = new \DateTime($hash->createdate);
         $u->setCreationDate($d);
+        
+        return $u;
     }
     
     public function toHash()
@@ -56,6 +58,8 @@ class UnregisteredUser extends User{
         $h->label = $this->getLabel();
         $h->email = $this->getEmail();
         $h->createdate = $this->getCreationDate();
+        
+        return $h;
     }
     
 }
