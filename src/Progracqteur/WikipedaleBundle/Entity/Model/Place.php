@@ -58,6 +58,8 @@ class Place implements NormalizableInterface
      */
     private $creator;
     
+    private $creatorUnregisteredProxy;
+    
     /**
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Photos
      */
@@ -215,7 +217,8 @@ class Place implements NormalizableInterface
     {
         if ($creator instanceof UnregisteredUser)
         {
-            $this->infos->user = $creator->toHash();
+            $this->infos->creator = $creator->toHash();
+            $this->creatorUnregisteredProxy = $creator;
         } else {
             $this->creator = $creator;
         }
@@ -231,7 +234,22 @@ class Place implements NormalizableInterface
      */
     public function getCreator()
     {
-        return $this->creator;
+        if (!is_null($this->creator))
+        {
+            return $this->creator;
+        } elseif (!is_null($this->creatorUnregisteredProxy))
+        {
+            return $this->creatorUnregisteredProxy;
+        } elseif (!is_null($this->infos->creator))
+        {
+            $u = UnregisteredUser::fromHash($this->infos->creator);
+            $this->creatorUnregisteredProxy = $u;
+            return $u;
+        } else {
+            throw new Exception('Aucun créateur enregistré');
+        }
+        
+        
     }
 
     
