@@ -46,14 +46,24 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $manager->persist($place);
         }
     
-        
-        
-        
-        
-        //test l'ajout d'un hash pour les infos
-        $h = new Hash;
-        $h->test = 'test';
-        $place->setInfos($h);
+        //ajout de places avec utilisateurs non enregistré
+        for ($i=0; $i<20; $i++)
+        {
+            $place = new Place();
+            $point = $this->getRandomPoint();
+            $place->setGeom($point);
+
+            $u = new UnregisteredUser();
+            $u->setLabel('non enregistré '.$this->createId());
+            $u->setEmail('test@email');
+            $u->setIp('192.168.1.89');
+
+            $place->setCreator($u);
+
+            $place->setAddress($this->geolocate($point));
+
+            $manager->persist($place);
+        }
         
         
         $manager->persist($place);
