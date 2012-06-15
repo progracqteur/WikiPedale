@@ -38,6 +38,17 @@ class UnregisteredUser extends User{
         $this->ip = $ip;
     }
     
+
+    /**
+     * Get confirmed
+     *
+     * @return boolean 
+     */
+    public function getConfirmed()
+    {
+        return false;
+    }
+    
     public static function fromHash(Hash $hash)
     {
         $u = new self();

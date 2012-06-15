@@ -261,6 +261,11 @@ class User implements NormalizableInterface
     {
         return $this->nbVote;
     }
+    
+        public function isRegistered()
+    {
+        return true;
+    }
 
     public function denormalize(SerializerInterface $serializer, $data, $format = null) {
         
