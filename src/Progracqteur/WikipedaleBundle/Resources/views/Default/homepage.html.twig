@@ -2,6 +2,32 @@
 
 {% block body %}
 
+<style type='text/css'>
+/* Custom Button */
+.olControlButtonAddPlaceItemActive {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 20px;
+    text-align:center;
+}
+
+.olControlButtonAddPlaceItemActive:hover {
+    background: blue;
+}
+
+.olControlPanel {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 150px;
+    height: 20px;
+    border: 1px solid black;
+    background: red;
+}
+</style>
+
 <p> Bonjour ! </p>
 
 {% if (app.session.get('city')) and (app.session.get('city_center')) %}

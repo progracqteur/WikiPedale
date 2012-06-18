@@ -7,6 +7,9 @@ var osm; // will contain the OpenStreetMap layer
 var zoom_map = 13; // zoom level of the map
 var img_url =  '../OpenLayers/img/'  // where is the dir containing the OpenLayers images
 
+var input_marker = null;
+var new_place_layer;
+
 $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
 
@@ -25,6 +28,47 @@ function mapWithClickActionMarkers(townId, townLon, townLat, clickAction) {
      marker
      */
     jsonUrlData  = '../app_dev.php/place/list/bycity.json?city=' + townId;
+
+    //map = new OpenLayers.Map('map');
+
+    /*
+    var zoom_panel = new OpenLayers.Control.Panel();
+    zoom_panel.addControls([
+        new OpenLayers.Control.ZoomIn(),
+        new OpenLayers.Control.ZoomOut()
+        //new OpenLayers.Control.Button({ displayClass: "MyButton", trigger: alert('blop') })
+    ]);
+    */
+
+    //map.addControl(zoom_panel);
+
+    // new OpenLayers.Control.ScaleLine() échelle en bas de la carte
+    // new OpenLayers.Control.Navigation() sert pour double clic zoom scroll in -> zoom in
+
+    var blop_func = function() {
+        window.alert('blip blip blip');
+        map.events.register("click", map, function(e) {
+        var position = map.getLonLatFromPixel(e.xy);
+
+        if(input_marker == null) 
+        {
+            new_place_layer = new OpenLayers.Layer.Markers("NewPlace");
+            map.addLayer(new_place_layer);
+            var size = new OpenLayers.Size(21,25);
+            var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+            var icon = new OpenLayers.Icon(img_url  +'marker_white.png', size, offset);
+            input_marker = new OpenLayers.Marker(position,icon);
+            new_place_layer.addMarker(input_marker);
+        }
+        else 
+        {
+            var position = map.getLonLatFromPixel(e.xy);
+            input_marker.lonlat = position;
+            new_place_layer.redraw();
+        }
+        });
+    };
+
     map = new OpenLayers.Map('map');
     osm = new OpenLayers.Layer.OSM("OSM MAP");
     map.addLayer(osm);
@@ -33,9 +77,37 @@ function mapWithClickActionMarkers(townId, townLon, townLat, clickAction) {
             new OpenLayers.Projection("EPSG:4326"),
             map.getProjectionObject()
         ), zoom_map );
-      
+    
     var markersLayer = new OpenLayers.Layer.Markers( "Markers" );
     map.addLayer(markersLayer);
+
+    /*
+    button = new OpenLayers.Control.Button ({displayClass: 'olControlButtonAddPlace', trigger: blop_func, title: 'Button is to be clicked'});
+    panel = new OpenLayers.Control.Panel({defaultControl: button});
+    panel.addControls([button]);
+    map.addControl (panel);
+    */
+
+
+
+    
+    var button_add_place = new OpenLayers.Control.Button({ 
+        id : 'buttonAddPlace',
+        displayClass: 'olControlButtonAddPlace',
+        trigger: blop_func,
+        title: 'Button is to be clicked'});
+    var control_panel = new OpenLayers.Control.Panel({defaultControl: button_add_place});
+    control_panel.addControls([
+        button_add_place  ]);
+    map.addControl(control_panel);
+
+    //document.getElementByClass('buttonAddPlace').innerHTML = 'Ajouter un point';
+
+    $(document).ready(function(){
+        $('.olControlButtonAddPlaceItemActive').each(function(index, value){
+            value.innerHTML = 'Ajouter un point noir';
+        });
+    });
 
     $.getJSON(jsonUrlData, function(data) {
 	$.each(data.results, function(index, aPlaceData) {
