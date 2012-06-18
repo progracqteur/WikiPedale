@@ -1,12 +1,12 @@
 parameters:
 #    progracqteur_wikipedale.example.class: Progracqteur\WikipedaleBundle\Example
-  progracqteur_wikipedale.normalizer.class = Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService
+  progracqteur_wikipedale.normalizer.class : Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService
 
 services:
   progracqteurWikipedaleSerializer:
     class: %progracqteur_wikipedale.normalizer.class%
-    arguments:
-      em: "@doctrine.orm.entity_manager"
+    arguments: 
+      em: '@doctrine.orm.entity_manager'
 
 #    progracqteur_wikipedale.example:
 #        class: %progracqteur_wikipedale.example.class%

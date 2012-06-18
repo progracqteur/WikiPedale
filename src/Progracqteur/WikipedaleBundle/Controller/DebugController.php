@@ -11,6 +11,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 
 /**
  * Ce controller est uniquement prévu pour le débogage de l'application
@@ -21,7 +22,32 @@ class DebugController extends Controller {
     
     public function debugOneAction()
     {
-        $manager = $this->getDoctrine()->getEntityManager();
+        
+        $place = new Place();
+        $point = $this->getRandomPoint();
+        $place->setGeom($point);
+        
+        $u = new UnregisteredUser();
+        $u->setLabel('non enregistré ');
+        $u->setEmail('test@email');
+        $u->setIp('192.168.1.89');
+        
+        $place->setCreator($u);
+        
+        $place->setAddress($this->geolocate($point));
+        
+        $a[] = $place;
+        
+        $response = new \Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse($a);
+        
+        $normalizer = $this->get('progracqteurWikipedaleSerializer');
+        
+        $r = $normalizer->serialize($response, NormalizerSerializerService::JSON_FORMAT);
+        
+        return new Response($r);
+        
+        
+        /*$manager = $this->getDoctrine()->getEntityManager();
         
         $p = $manager->getRepository('ProgracqteurWikipedaleBundle:Model\Place')->find(52);
         
@@ -36,7 +62,7 @@ class DebugController extends Controller {
         
         /*$u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(17);
         */
-        
+        /*
         
         $place = new Place();
         $point = $this->getRandomPoint();

@@ -56,11 +56,15 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         
         //traitement des résultats
         $result = $object->getResults();
-       
+        
+        if (is_array($result)) {
             foreach ($result as $key => $object)
             {
                 $b[] = $this->getNormalizedForm($object);
             }
+        } else {
+            $b[] = $this->getNormalizedForm($result);
+        }
          
         $r['results'] = $b;
         

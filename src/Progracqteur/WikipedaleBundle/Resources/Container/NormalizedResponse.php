@@ -24,9 +24,14 @@ class NormalizedResponse {
     public function setResults($results)
     {
         $this->results = $results;
-        foreach ($results as $object)
+        if (is_array($results)) 
         {
-            $this->count++;
+            foreach ($results as $object)
+            {
+                $this->count++;
+            }
+        } else {
+            $this->count = 1;
         }
     }
     
