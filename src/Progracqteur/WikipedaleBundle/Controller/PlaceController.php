@@ -10,8 +10,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Geo\BBox;
 use Symfony\Component\HttpFoundation\Request;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 
 /**
  * Description of PlaceController
@@ -34,6 +33,12 @@ class PlaceController extends Controller {
         
         switch ($_format){
             case 'json':
+                $normalizer = $this->get('progracqteurWikipedaleSerializer');
+                $rep = new NormalizedResponse($place);
+                $ret = $normalizer->serialize($rep, $_format);
+                return new Response($ret);
+                
+                
                 $jsonencoder = new JsonEncoder();
                 $serializer = new Serializer(array(new CustomNormalizer()) , array('json' => $jsonencoder));
 		$rep = array('results' => array($place));
@@ -93,12 +98,9 @@ class PlaceController extends Controller {
         
         switch($_format) {
             case 'json':
-                $jsonencoder = new JsonEncoder();
-                $serializer = new Serializer(array(
-                    new CustomNormalizer()
-                    ) , array('json' => $jsonencoder));
-		$rep = array('results' => $r);
-                $ret = $serializer->serialize($rep, $_format);
+                $normalizer = $this->get('progracqteurWikipedaleSerializer');
+                $rep = new NormalizedResponse($r);
+                $ret = $normalizer->serialize($rep, $_format);
                 return new Response($ret);
                 break;
             case 'html':
@@ -138,13 +140,10 @@ class PlaceController extends Controller {
         
         switch($_format) {
             case 'json':
-                $jsonencoder = new JsonEncoder();
-                $serializer = new Serializer(array(
-                    new PlaceNormalizer(),
-                    new AddressNormalizer
-                    ) , array('json' => $jsonencoder));
-		$rep = array('results' => $r);
-                $ret = $serializer->serialize($rep, $_format);
+                $normalizer = $this->get('progracqteurWikipedaleSerializer');
+                $rep = new NormalizedResponse($r);
+                $ret = $normalizer->serialize($rep, $_format);
+                
                 return new Response($ret);
                 break;
             case 'html':
