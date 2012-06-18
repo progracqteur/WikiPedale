@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 
 
 /**
@@ -12,6 +13,13 @@ use Progracqteur\WikipedaleBundle\Resources\Container\Address;
  * @author julien [at] fastre [point] info
  */
 class AddressNormalizer implements NormalizerInterface {
+    
+    private $service;
+    
+    public function __construct(NormalizerSerializerService $service)
+    {
+        $this->service = $service;
+    }
     
     public function denormalize($data, $class, $format = null) {
         return null;

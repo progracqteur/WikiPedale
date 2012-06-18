@@ -6,6 +6,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 
 
 
@@ -17,7 +18,15 @@ use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
  */
 class UserNormalizer implements NormalizerInterface
 {
-    //put your code here
+    
+    private $service;
+    
+    public function __construct(NormalizerSerializerService $service)
+    {
+        $this->service = $service;
+    }
+    
+    
     public function denormalize($data, $class, $format = null) {
         
     }
