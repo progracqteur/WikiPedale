@@ -45,6 +45,36 @@
 <div id="map" style="width:400px; height:550px; float:left;"  class="smallmap"></div>
 
 <div style="width:50%; height:100%; float:left; overflow:auto;">
+   <div id="div_signaler" style="margin-left:15px;display:none;">
+      <h1>Signaler un point noir.</h1>
+      <strong>Pour des petits travaux et des travaux d'entretien, vous pouvez contacter directement la ville via 
+          le num&eacute;ro gratuit 0800 92 329 ou via <a href="mailto:travaux.vert@ville.mons.be">travaux.vert@ville.mons.be</a>
+          (<a href="http://www.mons.be/default.aspx?GUID={BF4FA10D-9842-11DA-9742-0002A58CB319}&LNG=FRA" target="_blank">
+          mons.be</a>)</strong>.
+      <br />
+      <br />
+      Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.<br /><br />
+      <form method="post" action="saving_report.php" name="form_signaler">
+        <input  type="hidden" name="lon" readonly="true" />
+        <input  type="hidden" name="lat" readonly="true" />
+        <label for="l">Lieu : </label> <input name="lieu" id="l" size=42 /><br />
+        <label for="d">Description:</label> <textarea name="description" id="d" cols=35 rows=5></textarea><br />
+        <br />
+        <label for="n">Nom, prénom: </label> <input name="nomprenom" id="n" size=42 /><br />
+        <br />
+        <label for="e">Email:</label> <input name="email" id="e"  size=42 /><br />
+        <br />
+        <div style="padding-left:100px"><input type="submit" value="soumettre"></div>
+      </form>
+      <br />
+      <b>Aide :</b>
+      <ul>
+        <li>Un point noir est quelque chose qui pose probl&egrave;me &agrave; la pratique id&eacute;ale du v&eacute;lo ;  
+            ça peut &ecirc;tre une bordure non abaiss&eacute;e, une piste cyclable mal entretenue, un feu mal synchronis&eacute;, 
+            ...
+        <li>Pour nous signaler un point noir, indiquez sur la carte o&ugrave; se trouve ce point noir, remplissez le formulaire et cliquez sur "soumettre". Merci.
+      </ul>                   
+  </div>
   <div id="div_placeDetails" style="margin-left:15px;display:none;"> 
     <h1>D&eacute;tails du point noir <span id="span_id"></span></h1>	
     <strong>Lieu</strong> : <strong>TODO</strong><br />
