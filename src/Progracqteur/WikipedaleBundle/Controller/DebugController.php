@@ -12,6 +12,7 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
+use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 
 /**
  * Ce controller est uniquement prévu pour le débogage de l'application
@@ -297,6 +298,38 @@ class DebugController extends Controller {
         }
         
         return $a;
+  }
+  
+  public function devSendPlaceAction()
+  {
+      $point = $this->getRandomPoint();
+        
+        $str = $this->createId();
+        
+        $u = new UnregisteredUser();
+        $u->setLabel('non enregistré ');
+        $u->setEmail('test@email');
+        $u->setIp('192.168.1.89');
+
+        $place = new Place();
+        $place->setCreator($u);
+        $place->setDescription('Description '.$str);
+        $place->setGeom($point);
+
+        $add = $this->geolocate($point);
+
+        $place->setAddress($add);
+        
+        $normalizer = $this->get('progracqteurWikipedaleSerializer');
+        $rep = new NormalizedResponse(array($place));
+        $ret = $normalizer->serialize($rep, 'json');
+        
+        
+        return $this->render("ProgracqteurWikipedaleBundle:Dev:send_request.html.twig", array(
+            'action' => $this->generateUrl('wikipedale_place_change', array('_format' => 'json')),
+            'json' => $ret
+        ));
+        
   }
     
     
