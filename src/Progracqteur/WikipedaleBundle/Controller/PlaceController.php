@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Geo\BBox;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 
 /**
  * Description of PlaceController
@@ -152,6 +153,36 @@ class PlaceController extends Controller {
         }
         
         
+    }
+    
+    public function changeAction($_format, Request $request)
+    {
+        
+        if ($request->getMethod() != 'POST')
+        {
+            throw new \Exception("Only post method accepted");
+        }
+        
+        $serializedJson = $request->get('entity', null);
+        
+        if ($serializedJson === null)
+        {
+            throw new \Exception("Aucune entitée envoyée");
+        }
+        
+        $serializer = $this->get('progracqteurWikipedaleSerializer');
+        
+        $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($place);
+        $em->flush();
+               
+        return $this->redirect(
+                $this->generateUrl('wikipedale_place_view', 
+                        array('id' => $place->getId(), '_format' => 'json')
+                        )
+                );
     }
 }
 
