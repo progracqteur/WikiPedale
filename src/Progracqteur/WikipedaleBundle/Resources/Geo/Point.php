@@ -62,6 +62,7 @@ class Point {
     
     public static function fromLonLat($lon, $lat)
     {
+        //TODO : les tests devraient être réalisés dans le constructeur
         if (($lon > -180 && $lon < 180) && ($lat > -90 && $lat < 90))
         {
             return new Point($lon, $lat);
