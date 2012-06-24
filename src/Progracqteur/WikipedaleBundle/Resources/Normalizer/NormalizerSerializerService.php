@@ -5,10 +5,13 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
+
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * Description of NormalizerSerializerService
@@ -19,6 +22,10 @@ class NormalizerSerializerService {
     
     const JSON_FORMAT = 'json';
     
+    const PLACE_TYPE = 'place';
+    const ADDRESS_TYPE = 'address';
+    const USER_TYPE = 'user';
+    
     private $em;
     
     //Normalizers
@@ -27,6 +34,8 @@ class NormalizerSerializerService {
     private $userNormalizer = null;
     private $normalizedResponseNormalizer = null;
     
+    //Encoders
+    private $jsonEncoder = null;
     
     
     public function __construct(EntityManager $em)
@@ -34,6 +43,10 @@ class NormalizerSerializerService {
         $this->em = $em;
     }
     
+    /**
+     *
+     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer 
+     */
     public function getAddressNormalizer()
     {
         if ($this->addressNormalizer === null)
@@ -58,6 +71,10 @@ class NormalizerSerializerService {
         return $this->placeNormalizer;
     }
     
+    /**
+     *
+     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer 
+     */
     public function getUserNormalizer()
     {
         if ($this->userNormalizer === null)
@@ -68,6 +85,10 @@ class NormalizerSerializerService {
         return $this->userNormalizer;
     }
     
+    /**
+     *
+     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer 
+     */
     public function getNormalizedResponseNormalizer()
     {
         if ($this->normalizedResponseNormalizer === null)
@@ -88,12 +109,40 @@ class NormalizerSerializerService {
         return $this->session;
     }
     
+    /**
+     *
+     * @return Symfony\Component\Serializer\Encoder\JsonEncoder 
+     */
+    public function getEncoderJson()
+    {
+        if ($this->jsonEncoder === null)
+        {
+            $this->jsonEncoder = new JsonEncoder();
+        }
+        
+        return $this->jsonEncoder;
+    }
+    
+    public function returnFullClassName($short_class)
+    {
+        switch($short_class)
+        {
+            case self::PLACE_TYPE :
+                return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Place';
+            case self::ADDRESS_TYPE : 
+                return 'Progracqteur\\WikipedaleBundle\\Resources\\Container\\Address';
+            case self::USER_TYPE : 
+                return 'Progracqteur\\WikipedaleBundle\\Entity\\Management\\User';
+        }
+    }
+
+    
     public function serialize($response, $format)
     {
         switch($format)
         {
             case self::JSON_FORMAT :
-                $encoder = new JsonEncoder();
+                $encoder = $this->getEncoderJson();
                 break;
             default :
                 throw new \Exception("Le format $format n'est pas connu par le service NormalizerSerializerService");
@@ -103,6 +152,31 @@ class NormalizerSerializerService {
         return $serializer->serialize($response, $format);
         
         
+    }
+    
+    public function deserialize($string, $type, $format)
+    {
+        switch($format)
+        {
+            case self::JSON_FORMAT :
+                $encoder = $this->getEncoderJson();
+                break;
+            default :
+                throw new \Exception("Le format $format n'est pas connu par le service NormalizerSerializerService");
+        }
+        
+        switch($type)
+        {
+            case self::PLACE_TYPE :
+                $array = array($this->getPlaceNormalizer());
+                $type_long = $this->returnFullClassName($type);
+                break;
+            default: 
+                throw new \Exception("Le type demandé ($type) est inconnu");
+        }
+        
+        $serializer = new Serializer($array, array($format => $encoder));
+        return $serializer->deserialize($string, $type_long, $format);
     }
     
 }

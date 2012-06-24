@@ -28,8 +28,31 @@ class UserNormalizer implements NormalizerInterface
     
     
     public function denormalize($data, $class, $format = null) {
+        if ($data['id'] === null)
+        {
+            $u = new UnregisteredUser();
+            
+            if (isset($data['label']))
+                $u->setLabel($data['label']);
+            
+            if (isset($data['email']))
+                $u->setEmail($data['email']);
+            
+        } else {
+            
+            $u = $this->service->getManager()
+                    ->getRepository('ProgracqteurWikipedaleBundle:Management\\User')
+                    ->find($data['id']);
+            
+            if ($u === null)
+            {
+                throw new \Exception("L'utilisateur n'a pas été trouvé dans la base de donnée");
+            }
+        }
         
+        return $u;
     }
+    
     public function normalize($object, $format = null) {
         
         $a =  array(

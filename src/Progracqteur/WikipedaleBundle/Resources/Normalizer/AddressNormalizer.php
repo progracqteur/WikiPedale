@@ -22,7 +22,12 @@ class AddressNormalizer implements NormalizerInterface {
     }
     
     public function denormalize($data, $class, $format = null) {
-        return null;
+        $a = new Address();
+        
+        if (isset($data['road']))
+            $a->setRoad($data['road']);
+        
+        return $a;
     }
     
     public function normalize($object, $format = null) {
