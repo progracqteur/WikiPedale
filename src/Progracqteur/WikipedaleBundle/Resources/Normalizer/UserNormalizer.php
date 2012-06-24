@@ -46,16 +46,16 @@ class UserNormalizer implements NormalizerInterface
         
     }
     public function supportsDenormalization($data, $type, $format = null) {
+        
+        
+    }
+    public function supportsNormalization($data, $format = null) {
         if ($data instanceof User)
         {
             return true;
         } else {
             return false;
         }
-        
-    }
-    public function supportsNormalization($data, $format = null) {
-        
     }
 }
 
