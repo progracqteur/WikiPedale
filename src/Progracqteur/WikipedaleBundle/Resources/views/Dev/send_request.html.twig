@@ -1,0 +1,16 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block body %}
+
+<form method="post" action="{{action}}">
+
+    <textarea name="entity" >{{json}}</textarea>
+
+    <br/><br/>
+    
+    <input type="submit" value="Envoi">
+</form>
+
+
+
+{% endblock %}
