@@ -70,6 +70,15 @@ class Point {
         }
     }
     
+    public static function fromArrayGeoJson($array)
+    {
+        if ($array['type'] == 'Point' &&
+                isset($array['coordinates']))
+        {
+            return self::fromLonLat($array['coordinates'][0], $array['coordinates'][1]);
+        }
+    }
+    
     public function getLat()
     {
         return $this->lat;
