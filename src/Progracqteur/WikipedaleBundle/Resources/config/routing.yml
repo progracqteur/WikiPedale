@@ -34,6 +34,12 @@ wikipedale_place_list_by_city:
   requirements:
     _format: json
 
+wikipedale_place_change:
+  pattern: /place/change.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:change }
+  requirements:
+    _format: json
+
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production
 
@@ -44,3 +50,7 @@ debug_one:
 debug_two:
   pattern: /debug/two
   defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:debugTwo }
+  
+dev_send_request:
+  pattern: /dev/send_place
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:devSendPlace }
