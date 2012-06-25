@@ -339,6 +339,16 @@ class Place implements NormalizableInterface
         return $this->statusBicycle;
     }
     
+    public function setStatusBicycle($status)
+    {
+        $this->statusBicycle = $status;
+    }
+    
+    public function setStatusCity($status)
+    {
+        $this->statusCity = $status;
+    }
+    
     private function setLastUpdate(\DateTime $d)
     {
         $this->lastUpdate = $d;
