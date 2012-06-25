@@ -69,6 +69,13 @@ class UserNormalizer implements NormalizerInterface
         
     }
     public function supportsDenormalization($data, $type, $format = null) {
+        if ($data['entity'] == 'user' && isset($data['id']))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
         
         
     }

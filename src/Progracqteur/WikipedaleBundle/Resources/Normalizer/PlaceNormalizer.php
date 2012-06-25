@@ -46,21 +46,52 @@ class PlaceNormalizer implements NormalizerInterface {
             }
         }
         
-        $p->setDescription($data['description']);
-        $point = Point::fromArrayGeoJson($data['geom']);
-        $p->setGeom($point);
+        if (isset($data['description']))
+            $p->setDescription($data['description']);
         
-        $addrNormalizer = $this->service->getAddressNormalizer();
-        $addr = $addrNormalizer->denormalize($data['addressparts'], 
-                $this->service->returnFullClassName(NormalizerSerializerService::ADDRESS_TYPE), 
-                $format);
-        $p->setAddress($addr);
+        if (isset($data['geom'])) 
+        {
+            $point = Point::fromArrayGeoJson($data['geom']);
+            $p->setGeom($point);
+        }
         
-        $userNormalizer = $this->service->getUserNormalizer();
-        $u = $userNormalizer->denormalize($data['creator'], 
-                $this->service->returnFullClassName(NormalizerSerializerService::USER_TYPE), 
-                $format);
-        $p->setCreator($u);
+        if (isset($data['addressparts']))
+        {
+            $addrNormalizer = $this->service->getAddressNormalizer();
+            if ($addrNormalizer->supportsDenormalization($data['addressparts'], 
+                    $this->service->returnFullClassName(NormalizerSerializerService::ADDRESS_TYPE), 
+                    $format));
+            {
+                $addr = $addrNormalizer->denormalize($data['addressparts'], 
+                        $this->service->returnFullClassName(NormalizerSerializerService::ADDRESS_TYPE), 
+                        $format);
+                $p->setAddress($addr);
+            }
+        }
+        
+        if (isset($data['creator']))
+        {
+            $userNormalizer = $this->service->getUserNormalizer();
+            if ($userNormalizer->supportsDenormalization($data['creator'], 
+                    $this->service->returnFullClassName(NormalizerSerializerService::USER_TYPE), 
+                    $format))
+            {
+                $u = $userNormalizer->denormalize($data['creator'], 
+                        $this->service->returnFullClassName(NormalizerSerializerService::USER_TYPE), 
+                        $format);
+                $p->setCreator($u);
+            }
+        }
+        
+        if (isset($data['statusBicycle']))
+        {
+            $p->setStatusBicycle($data['statusBicycle']);
+        }
+        
+        if (isset($data['statusCity']))
+        {
+            $p->setStatusCity($data['statusCity']);
+        }
         
         return $p;
     }
@@ -89,7 +120,7 @@ class PlaceNormalizer implements NormalizerInterface {
     
     public function supportsDenormalization($data, $type, $format = null) 
     {
-        if ($data['entity'] == 'place')
+        if ($data['entity'] == 'place' && isset($data["id"]))
         {
             return true;
         } else 

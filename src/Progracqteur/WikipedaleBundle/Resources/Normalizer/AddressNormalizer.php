@@ -37,7 +37,13 @@ class AddressNormalizer implements NormalizerInterface {
     }
     
     public function supportsDenormalization($data, $type, $format = null) {
-        return false;
+        if ($data['entity'] == 'address')
+        {
+            return true;
+        } else 
+        {
+            return false;
+        }
         
     }
     
