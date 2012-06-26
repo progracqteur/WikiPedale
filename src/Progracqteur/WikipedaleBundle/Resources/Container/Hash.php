@@ -34,5 +34,13 @@ class Hash {
         return $this->container;
     }
     
+    public function has($name)
+    {
+        if (isset($this->container[$name]))
+            return true;
+        else
+            return false;
+    }
+    
 }
 
