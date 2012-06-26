@@ -320,9 +320,14 @@ class DebugController extends Controller {
 
         $place->setAddress($add);
         
+        /**
+         * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
+         */
         $normalizer = $this->get('progracqteurWikipedaleSerializer');
-        $rep = new NormalizedResponse(array($place));
-        $ret = $normalizer->serialize($rep, 'json');
+        
+        $placeNormalizer = $normalizer->getPlaceNormalizer();
+        $a = $placeNormalizer->normalize($place);
+        $ret = json_encode($a);
         
         
         return $this->render("ProgracqteurWikipedaleBundle:Dev:send_request.html.twig", array(
