@@ -217,10 +217,13 @@ class Place implements NormalizableInterface
     {
         if ($creator instanceof UnregisteredUser)
         {
+            $this->creator = null;
             $this->infos->creator = $creator->toHash();
             $this->creatorUnregisteredProxy = $creator;
         } else {
             $this->creator = $creator;
+            
+            //TODO : si un unregistreredCreator existe, il faut l'enlever
         }
         
         
@@ -242,7 +245,7 @@ class Place implements NormalizableInterface
         {
             return $this->creatorUnregisteredProxy;
         } 
-        elseif (!is_null($this->infos->creator))
+        elseif ($this->infos->has('creator'))
         {
             $u = UnregisteredUser::fromHash($this->infos->creator);
             $this->creatorUnregisteredProxy = $u;
@@ -250,7 +253,7 @@ class Place implements NormalizableInterface
         } 
         else 
         {
-            throw new Exception('Aucun créateur enregistré');
+            throw new \Exception('Aucun créateur enregistré');
         }
         
         
