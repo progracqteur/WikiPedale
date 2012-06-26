@@ -28,11 +28,17 @@ class UserNormalizer implements NormalizerInterface
     
     
     public function denormalize($data, $class, $format = null) {
+        //si la classe demandée n'est pas USER, il faut uniquement renvoyer un objet User existant,
+        // ou un objet Unregistereduser
         if ($class === $this->service->returnFullClassName(NormalizerSerializerService::PLACE_TYPE))
         {
             if ($data['id'] === null)
             {
-                $u = new UnregisteredUser();
+                try {
+                    $u = $this->service->getPlaceNormalizer()->getCurrentPlace()->getCreator();
+                } catch (\Exception $exc) {
+                    $u = new UnregisteredUser();
+                }
 
                 if (isset($data['label']))
                     $u->setLabel($data['label']);
