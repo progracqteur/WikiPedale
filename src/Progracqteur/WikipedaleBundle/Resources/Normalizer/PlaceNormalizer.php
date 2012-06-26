@@ -24,6 +24,13 @@ class PlaceNormalizer implements NormalizerInterface {
      */
     private $service;
     
+    /**
+     * Place being denormalized
+     * (useful for recursive denormalization)
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     */
+    private $currentPlace;
+    
     public function __construct(NormalizerSerializerService $service)
     {
         $this->service = $service;
@@ -38,13 +45,15 @@ class PlaceNormalizer implements NormalizerInterface {
         else {
             $p = $this->service->getManager()
                     ->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')
-                    ->find($p['id']);
+                    ->find($data['id']);
             
             if ($p === null)
             {
                 throw new \Exception("La place recherchée n'existe pas");
             }
         }
+        
+        $this->setCurrentPlace($p);
         
         if (isset($data['description']))
             $p->setDescription($data['description']);
@@ -59,11 +68,11 @@ class PlaceNormalizer implements NormalizerInterface {
         {
             $addrNormalizer = $this->service->getAddressNormalizer();
             if ($addrNormalizer->supportsDenormalization($data['addressparts'], 
-                    $this->service->returnFullClassName(NormalizerSerializerService::ADDRESS_TYPE), 
+                    $class, 
                     $format));
             {
                 $addr = $addrNormalizer->denormalize($data['addressparts'], 
-                        $this->service->returnFullClassName(NormalizerSerializerService::ADDRESS_TYPE), 
+                        $class, 
                         $format);
                 $p->setAddress($addr);
             }
@@ -137,6 +146,20 @@ class PlaceNormalizer implements NormalizerInterface {
         {
             return false;
         }
+    }
+    
+    private function setCurrentPlace(Place $place)
+    {
+        $this->currentPlace = $place;
+    }
+    
+    /*
+     * 
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place
+     */
+    public function getCurrentPlace()
+    {
+        return $this->currentPlace;
     }
 }
 
