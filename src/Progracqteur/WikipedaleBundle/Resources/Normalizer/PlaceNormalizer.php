@@ -73,11 +73,11 @@ class PlaceNormalizer implements NormalizerInterface {
         {
             $userNormalizer = $this->service->getUserNormalizer();
             if ($userNormalizer->supportsDenormalization($data['creator'], 
-                    $this->service->returnFullClassName(NormalizerSerializerService::USER_TYPE), 
+                    $class, 
                     $format))
             {
                 $u = $userNormalizer->denormalize($data['creator'], 
-                        $this->service->returnFullClassName(NormalizerSerializerService::USER_TYPE), 
+                        $class, 
                         $format);
                 $p->setCreator($u);
             }
@@ -120,7 +120,7 @@ class PlaceNormalizer implements NormalizerInterface {
     
     public function supportsDenormalization($data, $type, $format = null) 
     {
-        if ($data['entity'] == 'place' && isset($data["id"]))
+        if ($data['entity'] == 'place')
         {
             return true;
         } else 

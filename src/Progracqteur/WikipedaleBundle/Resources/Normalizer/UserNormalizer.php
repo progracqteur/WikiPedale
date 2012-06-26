@@ -28,29 +28,32 @@ class UserNormalizer implements NormalizerInterface
     
     
     public function denormalize($data, $class, $format = null) {
-        if ($data['id'] === null)
+        if ($class === $this->service->returnFullClassName(NormalizerSerializerService::PLACE_TYPE))
         {
-            $u = new UnregisteredUser();
-            
-            if (isset($data['label']))
-                $u->setLabel($data['label']);
-            
-            if (isset($data['email']))
-                $u->setEmail($data['email']);
-            
-        } else {
-            
-            $u = $this->service->getManager()
-                    ->getRepository('ProgracqteurWikipedaleBundle:Management\\User')
-                    ->find($data['id']);
-            
-            if ($u === null)
+            if ($data['id'] === null)
             {
-                throw new \Exception("L'utilisateur n'a pas été trouvé dans la base de donnée");
+                $u = new UnregisteredUser();
+
+                if (isset($data['label']))
+                    $u->setLabel($data['label']);
+
+                if (isset($data['email']))
+                    $u->setEmail($data['email']);
+
+            } else {
+
+                $u = $this->service->getManager()
+                        ->getRepository('ProgracqteurWikipedaleBundle:Management\\User')
+                        ->find($data['id']);
+
+                if ($u === null)
+                {
+                    throw new \Exception("L'utilisateur n'a pas été trouvé dans la base de donnée");
+                }
             }
+
+            return $u;
         }
-        
-        return $u;
     }
     
     public function normalize($object, $format = null) {
@@ -69,7 +72,7 @@ class UserNormalizer implements NormalizerInterface
         
     }
     public function supportsDenormalization($data, $type, $format = null) {
-        if ($data['entity'] == 'user' && isset($data['id']))
+        if ($data['entity'] == 'user')
         {
             return true;
         } else
