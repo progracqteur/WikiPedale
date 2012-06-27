@@ -10,11 +10,14 @@ use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
+use Progracqteur\WikipedaleBundle\Resources\Security\ChangeableInterface;
+use Doctrine\Common\NotifyPropertyChanged,
+    Doctrine\Common\PropertyChangedListener;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
  */
-class Place implements NormalizableInterface
+class Place implements NormalizableInterface, ChangeableInterface, NotifyPropertyChanged
 {
     /**
      * @var integer $id
@@ -76,6 +79,14 @@ class Place implements NormalizableInterface
     private $statusBicycle = 0;
     
     private $lastUpdate;
+    
+    /**
+     *
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking 
+     */
+    private $changeset;
+    
+    private $_listeners = array();
 
     public function __construct()
     {
@@ -97,16 +108,31 @@ class Place implements NormalizableInterface
     {
         return $this->id;
     }
+    
+    private function change($propName, $oldValue, $newValue) {
+
+        if ($this->_listeners) {
+            foreach ($this->_listeners as $listener) {
+                $listener->propertyChanged($this, $propName, $oldValue, $newValue);
+            }
+            $this->setLastUpdateNow();
+        }
+      
+        $this->getChangeset()->addChange($propName, $oldValue);  
+        $this->setLastUpdateNow();
+        
+    }
 
     /**
-     * Set adress
+     * Set address
      *
      * @param Progracqteur\WikipedaleBundle\Resources\Container\Address $adress
      */
-    public function setAddress(Address $adress)
+    public function setAddress(Address $address)
     {
-        $this->address = $adress;
-        $this->setLastUpdateNow();
+        $this->change('address', $this->address, $address);
+        $this->address = $address;
+        
     }
 
     /**
@@ -126,8 +152,8 @@ class Place implements NormalizableInterface
      */
     public function setGeom(Point $geom)
     {
+        $this->change('geom', $this->geom, $geom);
         $this->geom = $geom;
-        $this->setLastUpdateNow();
     }
 
     /**
@@ -151,7 +177,6 @@ class Place implements NormalizableInterface
     private function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
-        
     }
 
     /**
@@ -191,8 +216,9 @@ class Place implements NormalizableInterface
      * Set infos
      *
      * @param Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
+     * @deprecated
      */
-    public function setInfos(Hash $infos)
+    private function setInfos(Hash $infos)
     {
         $this->infos = $infos;
         $this->setLastUpdateNow();
@@ -217,7 +243,10 @@ class Place implements NormalizableInterface
     {
         if ($creator instanceof UnregisteredUser)
         {
+            $this->change('creator', $this->creator, null);
             $this->creator = null;
+            
+            
             $this->infos->creator = $creator->toHash();
             $this->creatorUnregisteredProxy = $creator;
         } else {
@@ -384,6 +413,22 @@ class Place implements NormalizableInterface
         );
         
     }
+
+    public function getChangeset() {
+        
+        if ($this->changeset === null)
+        {
+            $this->changeset == new Place\PlaceTracking();
+        }
+        
+        return $this->changeset;
+    }
+
+    public function addPropertyChangedListener(PropertyChangedListener $listener) {
+        $this->_listeners = $listener;
+    }
+    
+
     
     
 }
