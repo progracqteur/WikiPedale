@@ -6,11 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\User
  */
-class User implements NormalizableInterface
+class User implements UserInterface
 {
     /**
      * @var integer $id
@@ -62,6 +63,16 @@ class User implements NormalizableInterface
      * @var integer $nbVote
      */
     private $nbVote = 0;
+    
+    
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_STATUS_BICYCLE = 'BICYCLE';
+    const ROLE_STATUS_CITY = 'CITY';
+    const ROLE_REGISTERED = 'REGISTERED';
+    
+    
+    
+    
     
     public function __construct()
     {
@@ -279,5 +290,41 @@ class User implements NormalizableInterface
             'nbVote' => $this->getNbVote()
         );
         
+    }
+
+    public function equals(UserInterface $user) {
+        if ($this->getUsername() == $user->getUsername())
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public function eraseCredentials() {
+        
+    }
+
+    public function getRoles() {
+        return array('ROLE_USER');
+    }
+    
+    public function hasRole($role)
+    {
+        $a = $this->getRoles();
+        foreach ($a as $r)
+        {
+            if ($role == $r)
+            {
+                return true;
+            } 
+        }
+        
+        return false;
+    }
+
+    public function getUsername() {
+        return $this->getUsername();
     }
 }
