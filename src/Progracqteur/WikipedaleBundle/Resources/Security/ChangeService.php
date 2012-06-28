@@ -7,6 +7,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
 /**
  * Description of ChangeService
@@ -24,11 +25,6 @@ class ChangeService {
     const PLACE_STATUS_CITY = 150;
     const PLACE_CREATOR = 160;
     
-    /**
-     * @deprecated
-     * @var Progracqteur\WikipedaleBundle\Entity\Management\User 
-     */
-    private $user;
     
     /**
      *
@@ -38,7 +34,6 @@ class ChangeService {
     
     public function __construct($securityContext)
     {
-        $this->user = $securityContext->getToken()->getUser();
         $this->securityContext = $securityContext;
     }
     
@@ -58,17 +53,22 @@ class ChangeService {
         {
             if ($object instanceof Place) {
                 // si l'utilisateur est authentifié, il en peut créer un objet pour un autre
-                if ( $this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
+                if ( $this->securityContext->isGranted('IS_FULLY_AUTHENTICATED'))
                 {
                     if ( $object->getCreator()->equals($this->securityContext->getToken()->getUser()))
+                    {
+                        return true;
+                    } else 
                     {
                         throw ChangeException::mayNotCreateEntityForAnotherUser();
                     }
                 } else { //si l'utilisateur n'est pas enregistré, alors il ne peut 
                     //pas créer d'objet pour un utilisateur enregistré
-                    if ( $object->getCreator()->isRegistered() )
+                    if ( $object->getCreator()->isRegistered() === true )
                     {
                         throw ChangeException::mayNotCreateEntityForAnotherUser();
+                    } else {
+                        return true;
                     }
                 }
             } 
@@ -87,7 +87,8 @@ class ChangeService {
                     throw ChangeException::param('creator');
                     break;
                 case self::PLACE_STATUS_BICYCLE :
-                    if ($author->hasRole(User::ROLE_STATUS_BICYCLE))
+                    if ( $this->securityContext->isGranted('IS_FULLY_AUTHENTICATED')
+                            && $author->hasRole(User::ROLE_STATUS_BICYCLE))
                     {
                         continue;
                     } else {
@@ -95,7 +96,8 @@ class ChangeService {
                     }
                     break;
                 case self::PLACE_STATUS_CITY :
-                    if ($author->hasRole(User::ROLE_STATUS_CITY))
+                    if ( $this->securityContext->isGranted('IS_FULLY_AUTHENTICATED')
+                            && $author->hasRole(User::ROLE_STATUS_CITY))
                     {
                         continue;
                     } else {
