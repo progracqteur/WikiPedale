@@ -11,8 +11,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeableInterface;
-use Doctrine\Common\NotifyPropertyChanged,
-    Doctrine\Common\PropertyChangedListener;
+use Doctrine\Common\NotifyPropertyChanged;
+use Doctrine\Common\PropertyChangedListener;
+use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
@@ -84,7 +85,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      *
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking 
      */
-    private $changeset;
+    private $changeset = null;
     
     private $_listeners = array();
 
@@ -96,6 +97,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         $this->setCreateDate($d);
         $this->infos = new Hash();
         $this->address = new Address();
+        $this->getChangeset()->addChange(ChangeService::PLACE_CREATION, null);
     }
 
 
@@ -116,11 +118,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
                 $listener->propertyChanged($this, $propName, $oldValue, $newValue);
             }
             $this->setLastUpdateNow();
-        }
-      
-        $this->getChangeset()->addChange($propName, $oldValue);  
-        $this->setLastUpdateNow();
-        
+        }  
     }
 
     /**
@@ -130,9 +128,10 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setAddress(Address $address)
     {
+        //TODO implémenter vérification du changement de l'adresse
         $this->change('address', $this->address, $address);
         $this->address = $address;
-        
+        $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
     }
 
     /**
@@ -152,8 +151,20 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setGeom(Point $geom)
     {
-        $this->change('geom', $this->geom, $geom);
-        $this->geom = $geom;
+        if ($this->getGeom() === null)
+        {
+            $this->geom = $geom;
+            return;
+        }
+        
+        if (
+                $this->getGeom()->getLat() != $geom->getLat()
+                && $this->getGeom()->getLon() != $geom->getLon()) 
+        {
+            $this->change('geom', $this->geom, $geom);
+            $this->geom = $geom;
+            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
+        }
     }
 
     /**
@@ -176,6 +187,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     private function setCreateDate($createDate)
     {
+        $this->change('createDate', $this->createDate, $createDate);
         $this->createDate = $createDate;
     }
 
@@ -229,7 +241,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      *
      * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
      */
-    public function getInfos()
+    private function getInfos()
     {
         return $this->infos;
     }
@@ -246,17 +258,19 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
             $this->change('creator', $this->creator, null);
             $this->creator = null;
             
-            
+            $old = clone($this->getInfos());
             $this->infos->creator = $creator->toHash();
             $this->creatorUnregisteredProxy = $creator;
-        } else {
-            $this->creator = $creator;
             
+            $this->change('infos', $old, $this->getInfos());
+            $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
+            
+        } else {
+            $this->change('creator', $this->creator, $creator);
+            $this->creator = $creator;
+            $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
             //TODO : si un unregistreredCreator existe, il faut l'enlever
         }
-        
-        
-        $this->setLastUpdateNow();
     }
 
     /**
@@ -288,17 +302,6 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         
     }
 
-    
-    /**
-     * Add photos
-     *
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos
-     */
-    public function addPhoto(\Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos)
-    {
-        $this->photos[] = $photos;
-    }
-
     /**
      * Get photos
      *
@@ -317,13 +320,15 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     public function increaseComment()
     {
         $this->nbComm++;
-        $this->setLastUpdateNow();
+        $this->change('nbComm', ($this->nbComm -1 ), $this->nbComm);
+        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_COMMENT, null);
     }
     
     public function increaseVote()
     {
         $this->nbVote++;
-        $this->setLastUpdateNow();
+        $this->change('nbVote', ($this->nbVote - 1), $this->nbVote);
+        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_VOTE, null);
     }
 
  
@@ -335,6 +340,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function addPhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos)
     {
+        //TODO: implémenter le tracking policy pour les photos
         $this->photos[] = $photos;
     }
     
@@ -347,8 +353,13 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setDescription($description)
     {
-        $this->description = $description;
-        $this->setLastUpdateNow();
+        if ($this->description != $description )
+        {
+            $this->change('description', $this->description, $description);
+            $this->description = $description;
+            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
+        }
+        
     }
 
     /**
@@ -373,12 +384,22 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     
     public function setStatusBicycle($status)
     {
-        $this->statusBicycle = $status;
+        if ($this->statusBicycle != $status)
+        {
+            $this->change('statusBicycle', $this->statusBicycle, $status);
+            $this->statusBicycle = $status;
+            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_BICYCLE, null);
+        }
     }
     
     public function setStatusCity($status)
     {
-        $this->statusCity = $status;
+        if ($this->statusCity != $status)
+        {
+            $this->change('statusCity', $this->statusCity, $status);
+            $this->statusCity = $status;
+            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_CITY, null);
+        }
     }
     
     private function setLastUpdate(\DateTime $d)
@@ -386,9 +407,16 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         $this->lastUpdate = $d;
     }
     
+    private $proxyLastUpdate = false;
+    
     private function setLastUpdateNow()
     {
-        $this->lastUpdate = new \DateTime();
+        if ($this->proxyLastUpdate === false)
+        {
+            $this->lastUpdate = new \DateTime();
+            $this->proxyLastUpdate = true;
+        }
+                
     }
     
     public function getLastUpdate()
@@ -396,10 +424,19 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         return $this->lastUpdate;
     }
 
+    /**
+     * @deprecated
+     * @param SerializerInterface $serializer
+     * @param type $data
+     * @param type $format 
+     */
     public function denormalize(SerializerInterface $serializer, $data, $format = null) {
         
     }
-
+    
+    /**
+     * @deprecated
+     */
     public function normalize(SerializerInterface $serializer, $format = null) {
         $creator = $this->getCreator();
         return array(
@@ -418,7 +455,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         
         if ($this->changeset === null)
         {
-            $this->changeset == new Place\PlaceTracking();
+            $this->changeset = new Place\PlaceTracking();
         }
         
         return $this->changeset;

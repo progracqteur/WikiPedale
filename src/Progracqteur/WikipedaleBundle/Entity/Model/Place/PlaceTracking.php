@@ -4,6 +4,8 @@ namespace Progracqteur\WikipedaleBundle\Entity\Model\Place;
 
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
+use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * Description of PlaceTracking
@@ -16,27 +18,31 @@ class PlaceTracking implements ChangesetInterface {
     
     private $changes;
     
-    private $position = array();
-    private $intPosition = 0;
+    private $types = array();
+    private $intTypes = 0;
+    
+    private $isCreation = false;
     
     public function __construct()
     {
         $this->changes = new Hash;
     }
     
-    public function addChange($propName, $oldValue)
+    public function addChange($type, $params)
     {
-        $h = new Hash();
-        $h->oldValue = $oldValue;
-        $this->changes->__set($propName, $h);
-        if (!in_array($propName, $this->position))
+        if (!in_array($type, $this->types))
         {
-            $this->position[] = $propName;
+            $this->types[] = $type;
+        }
+        
+        if ($type === ChangeService::PLACE_CREATION)
+        {
+            $this->isCreation = true;
         }
     }
     
     public function current() {
-        $prop = $this->position[$this->intPosition];
+        $prop = $this->types[$this->intTypes];
         return new PlaceChange($prop);
     }
     
@@ -45,15 +51,15 @@ class PlaceTracking implements ChangesetInterface {
     }
     
     public function key() {
-        return $this->intPosition;
+        return $this->intTypes;
     }
     
     public function next() {
-        $this->intPosition++;
+        $this->intTypes++;
     }
     
     public function rewind() {
-        $this->intPosition = 0;
+        $this->intTypes = 0;
     }
     
     public function setAuthor(User $user) {
@@ -61,7 +67,11 @@ class PlaceTracking implements ChangesetInterface {
     }
     
     public function valid() {
-        return isset($this->position[$this->intPosition]);
+        return isset($this->types[$this->intTypes]);
+    }
+
+    public function isCreation() {
+        return $this->isCreation;
     }
 }
 

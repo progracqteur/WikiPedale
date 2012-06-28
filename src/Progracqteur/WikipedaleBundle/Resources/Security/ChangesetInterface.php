@@ -15,6 +15,8 @@ interface ChangesetInterface extends Iterator {
     public function getAuthor();
     
     public function setAuthor(User $user);
+    
+    public function isCreation();
 }
 
 

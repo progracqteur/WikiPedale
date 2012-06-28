@@ -8,7 +8,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Security;
  */
 interface ChangeableInterface {
     
-    /*
+    /**
      * @return Progracqteur\WikipedaleBundle\Resources\Security\ChangesetsInterface
      */
     public function getChangeset();
