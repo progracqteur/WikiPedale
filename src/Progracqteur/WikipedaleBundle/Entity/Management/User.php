@@ -293,6 +293,8 @@ class User implements UserInterface
     }
 
     public function equals(UserInterface $user) {
+        if (!($user instanceof User))
+            return false;
         if ($this->getUsername() == $user->getUsername())
         {
             return true;

@@ -253,23 +253,30 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator)
     {
-        if ($creator instanceof UnregisteredUser)
+        if ($creator->equals($this->getCreator()))
         {
-            $this->change('creator', $this->creator, null);
-            $this->creator = null;
-            
-            $old = clone($this->getInfos());
-            $this->infos->creator = $creator->toHash();
-            $this->creatorUnregisteredProxy = $creator;
-            
-            $this->change('infos', $old, $this->getInfos());
-            $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
-            
-        } else {
-            $this->change('creator', $this->creator, $creator);
-            $this->creator = $creator;
-            $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
-            //TODO : si un unregistreredCreator existe, il faut l'enlever
+            if ($creator instanceof UnregisteredUser)
+            {
+                if ($this->creator !== null)
+                {
+                    $this->change('creator', $this->creator, null);
+                    $this->creator = null;
+                }
+
+
+                $old = clone($this->getInfos());
+                $this->infos->creator = $creator->toHash();
+                $this->creatorUnregisteredProxy = $creator;
+
+                $this->change('infos', $old, $this->getInfos());
+                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
+
+            } else {
+                $this->change('creator', $this->creator, $creator);
+                $this->creator = $creator;
+                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
+                //TODO : si un unregistreredCreator existe, il faut l'enlever
+            }
         }
     }
 

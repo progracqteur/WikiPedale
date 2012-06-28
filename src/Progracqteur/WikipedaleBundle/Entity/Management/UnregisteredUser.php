@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Description of UnregisteredUser
@@ -71,6 +72,20 @@ class UnregisteredUser extends User{
         $h->createdate = $this->getCreationDate();
         
         return $h;
+    }
+    
+    public function equals(UserInterface $user)
+    {
+        if ($user->isRegistered()) {
+            return false;
+        }
+        
+        if ($user instanceof UnregisteredUser)
+        {
+            return $user->toHash()->equals($this->toHash());
+        } else {
+            return false;
+        }
     }
     
 }
