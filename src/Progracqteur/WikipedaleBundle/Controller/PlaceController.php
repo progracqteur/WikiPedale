@@ -174,13 +174,23 @@ class PlaceController extends Controller {
         
         $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
         
+        /**
+         * @var Progracqteur\WikipedaleBundle\Resources\Security\ChangeService 
+         */
+        $securityController = $this->get('progracqteurWikipedaleSecurityControl');
+        
+        $return = $securityController->checkChangesAreAllowed($place);
+        
+        
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($place);
         $em->flush();
                
         return $this->redirect(
                 $this->generateUrl('wikipedale_place_view', 
-                        array('id' => $place->getId(), '_format' => 'json')
+                        array('id' => $place->getId(), 
+                            '_format' => 'json',
+                            'return' => $return)
                         )
                 );
     }
