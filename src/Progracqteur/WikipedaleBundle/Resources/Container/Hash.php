@@ -42,5 +42,11 @@ class Hash {
             return false;
     }
     
+    public function equals(Hash $hash)
+    {
+        return $hash->toArray() == $this->toArray();
+        
+    }
+    
 }
 
