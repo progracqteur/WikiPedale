@@ -69,3 +69,9 @@ swiftmailer:
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
+ 
+ # FOSUserBundle configuration
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Progracqteur\WikipedaleBundle\Entity\Management\User

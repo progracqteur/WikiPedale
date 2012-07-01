@@ -6,21 +6,8 @@ Progracqteur\WikipedaleBundle\Entity\Management\User:
       type: integer
       generator: {strategy: AUTO}
   fields:
-    password: 
-      type: string
-    email: 
-      type: string
-      length: 255
-    label:
-      type: string
-      length: 255
-    salt:
-      type: string
-      length: 255
     creationDate: 
       type: datetime
-    confirmed: 
-      type: boolean
     infos: 
       type: hash
     nbComment: 

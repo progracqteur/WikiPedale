@@ -2,6 +2,7 @@
 
 namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
+use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
@@ -11,43 +12,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\User
  */
-class User implements UserInterface
+class User extends BaseUser
 {
-    /**
-     * @var integer $id
-     */
-    private $id;
 
-    /**
-     * @var string $password
-     */
-    private $password = '';
-
-    /**
-     * @var string $email
-     */
     protected $email = '';
 
     /**
+     * @deprecated
      * @var string $label
      */
     protected $label = '';
 
-    /**
-     * @var string $salt
-     */
-    private $salt = '';
 
     /**
      * @var datetime $creationDate
      */
     protected $creationDate;
-
-    /**
-     * @var boolean $confirmed
-     */
-    protected $confirmed = true;
-    //TODO: supprimer la confirmation par défaut
 
     /**
      * @var Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
@@ -76,6 +56,7 @@ class User implements UserInterface
     
     public function __construct()
     {
+        parent::__construct();
         $this->setCreationDate(new \DateTime());
         $this->infos = new Hash();
         $salt = md5( uniqid(rand(0,1000), true) );
@@ -135,12 +116,12 @@ class User implements UserInterface
 
     /**
      * Set label
-     *
+     * @deprecated
      * @param string $label
      */
     public function setLabel($label)
     {
-        $this->label = $label;
+        $this->setUsername($label);
     }
 
     /**
@@ -150,7 +131,7 @@ class User implements UserInterface
      */
     public function getLabel()
     {
-        return $this->label;
+        return $this->getUsername();
     }
 
     /**
@@ -278,67 +259,11 @@ class User implements UserInterface
         return true;
     }
 
-    /**
-     * @deprecated
-     * @param SerializerInterface $serializer
-     * @param type $data
-     * @param type $format 
-     */
-    public function denormalize(SerializerInterface $serializer, $data, $format = null) {
-        
-    }
-
-    /**
-     *@deprecated
-     * @param SerializerInterface $serializer
-     * @param type $format
-     * @return type 
-     */
-    public function normalize(SerializerInterface $serializer, $format = null) {
-        return array(
-            'id' => $this->getId(),
-            'label' => $this->getLabel(),
-            'nbComment' => $this->getNbComment(),
-            'nbVote' => $this->getNbVote()
-        );
-        
-    }
-
     public function equals(UserInterface $user) {
-        if (!($user instanceof User))
+        if (!($user instanceof UnregisteredUser))
             return false;
-        if ($this->getUsername() == $user->getUsername())
-        {
-            return true;
-        } else
-        {
-            return false;
+        else {
+            return parent::equals($user);
         }
-    }
-
-    public function eraseCredentials() {
-        
-    }
-
-    public function getRoles() {
-        return array('ROLE_USER');
-    }
-    
-    public function hasRole($role)
-    {
-        $a = $this->getRoles();
-        foreach ($a as $r)
-        {
-            if ($role == $r)
-            {
-                return true;
-            } 
-        }
-        
-        return false;
-    }
-
-    public function getUsername() {
-        return $this->getUsername();
     }
 }
