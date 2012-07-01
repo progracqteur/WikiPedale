@@ -278,10 +278,22 @@ class User implements UserInterface
         return true;
     }
 
+    /**
+     * @deprecated
+     * @param SerializerInterface $serializer
+     * @param type $data
+     * @param type $format 
+     */
     public function denormalize(SerializerInterface $serializer, $data, $format = null) {
         
     }
 
+    /**
+     *@deprecated
+     * @param SerializerInterface $serializer
+     * @param type $format
+     * @return type 
+     */
     public function normalize(SerializerInterface $serializer, $format = null) {
         return array(
             'id' => $this->getId(),
