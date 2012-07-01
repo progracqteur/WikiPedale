@@ -37,6 +37,7 @@ class NormalizedResponseNormalizer implements NormalizerInterface
      */
     public function normalize($object, $format = null) {
         $a = array();
+        $a['error'] = false;
         $a['nb'] = $object->getCount();
         $a['start'] = $object->getStart();
         
