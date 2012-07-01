@@ -6,6 +6,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -33,6 +34,7 @@ class NormalizerSerializerService {
     private $placeNormalizer = null;
     private $userNormalizer = null;
     private $normalizedResponseNormalizer = null;
+    private $normalizedResponseExceptionNormalizer = null;
     
     //Encoders
     private $jsonEncoder = null;
@@ -99,6 +101,16 @@ class NormalizerSerializerService {
         return $this->normalizedResponseNormalizer;
     }
     
+    public function getNormalizedExceptionResponseNormalizer()
+    {
+        if ($this->normalizedResponseExceptionNormalizer === null)
+        {
+            $this->normalizedResponseExceptionNormalizer = new NormalizedExceptionResponseNormalizer();
+        }
+        
+        return $this->normalizedResponseExceptionNormalizer;
+    }
+    
     public function getManager()
     {
         return $this->em;
@@ -148,7 +160,12 @@ class NormalizerSerializerService {
                 throw new \Exception("Le format $format n'est pas connu par le service NormalizerSerializerService");
         }
         
-        $serializer = new Serializer(array($this->getNormalizedResponseNormalizer()), array($format => $encoder) );
+        $serializer = new Serializer(
+                array(
+                    $this->getNormalizedResponseNormalizer(),
+                    $this->getNormalizedExceptionResponseNormalizer()
+                ), 
+                array($format => $encoder) );
         return $serializer->serialize($response, $format);
         
         
