@@ -253,7 +253,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator)
     {
-        if ($creator->equals($this->getCreator()))
+        if ($this->creator === null OR  !$creator->equals($this->_getCreator()))
         {
             if ($creator instanceof UnregisteredUser)
             {
@@ -287,6 +287,27 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function getCreator()
     {
+        $creator = $this->_getCreator();
+        
+        if ($creator === null)
+        {
+            throw new \Exception('Aucun créateur enregistré');
+        } else {
+            return $creator;
+        }
+        
+        
+    }
+    
+    /**
+     * REnvoie le créateur
+     * Méthode privée utilisée pour éviter l'exception de la méthode
+     * publique getCreator. Utilisée dans setCreator().
+     * 
+     * @return Progracqteur\WikipedaleBundle\Entity\Management\User 
+     */
+    private function _getCreator()
+    {
         if (!is_null($this->creator))
         {
             return $this->creator;
@@ -303,10 +324,8 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         } 
         else 
         {
-            throw new \Exception('Aucun créateur enregistré');
+            return null;
         }
-        
-        
     }
 
     /**
