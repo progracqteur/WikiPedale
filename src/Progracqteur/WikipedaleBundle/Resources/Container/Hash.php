@@ -44,7 +44,13 @@ class Hash {
     
     public function equals(Hash $hash)
     {
-        return $hash->toArray() == $this->toArray();
+        if ($hash->toArray() == $this->toArray())
+        {
+            return true;
+        } else 
+        {
+            return false;
+        }
         
     }
     
