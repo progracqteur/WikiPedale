@@ -84,11 +84,12 @@ class ChangeService {
                     continue; //tout le monde peut ajouter un commentaire ou un vote
                     break;
                 case self::PLACE_CREATOR : 
+                    continue;
                     throw ChangeException::param('creator');
                     break;
                 case self::PLACE_STATUS_BICYCLE :
-                    if ( $this->securityContext->isGranted('IS_FULLY_AUTHENTICATED')
-                            && $author->hasRole(User::ROLE_STATUS_BICYCLE))
+                    if ( $this->securityContext->isGranted(User::ROLE_STATUS_BICYCLE)
+                            )
                     {
                         continue;
                     } else {
@@ -96,8 +97,8 @@ class ChangeService {
                     }
                     break;
                 case self::PLACE_STATUS_CITY :
-                    if ( $this->securityContext->isGranted('IS_FULLY_AUTHENTICATED')
-                            && $author->hasRole(User::ROLE_STATUS_CITY))
+                    if ( $this->securityContext->isGranted(User::ROLE_STATUS_CITY)
+                            )
                     {
                         continue;
                     } else {
