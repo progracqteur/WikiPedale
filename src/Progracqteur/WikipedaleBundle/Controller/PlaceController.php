@@ -11,7 +11,9 @@ use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Geo\BBox;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedExceptionResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
+use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
 
 /**
  * Description of PlaceController
@@ -179,6 +181,14 @@ class PlaceController extends Controller {
          */
         $securityController = $this->get('progracqteurWikipedaleSecurityControl');
         
+        try {
+            $return = $securityController->checkChangesAreAllowed($place);
+        } catch (ChangeException $exc) {
+            $r = new NormalizedExceptionResponse($exc);
+            $ret = $serializer->serialize($r, $_format);
+            return new Response($ret);
+        }
+
         $return = $securityController->checkChangesAreAllowed($place);
         
         
