@@ -140,7 +140,7 @@ class DebugController extends Controller {
     
     public function debugTwoAction()
     {
-        $manager = $this->getDoctrine()->getEntityManager();
+        /*$manager = $this->getDoctrine()->getEntityManager();
         
         $u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(14);
         /*
@@ -149,6 +149,7 @@ class DebugController extends Controller {
         $a = $p->getAddress();
         
         return new Response($a->getCity());*/
+        /*
         
          $point = $this->getRandomPoint();
         
@@ -181,13 +182,39 @@ class DebugController extends Controller {
         }*/
         
         //$r .= $addrType->convertToDatabaseValue($add, $platform);
-        
+        /*
         $manager->persist($place);
         $manager->flush();
         
         
         
-        return new Response($r);
+        return new Response($r);*/
+        
+        $security = $this->get('security.context');
+        
+        $roles = $security->getToken()->getRoles();
+        
+        $r = '';
+        
+        foreach ($roles as $role)
+        {
+            $r .= $role->getRole();
+        }
+        
+        $r.= ' statut BICYCLE '.gettype($security->isGranted('ROLE_BICYCLE'));
+        
+        if ($security->isGranted('ROLE_BICYCLE'))
+        {
+            $r .= 'true';
+        } else {
+            $r .= 'false';
+        }
+        
+        $r .= $security->getToken()->getUser()->getUsername();
+        
+        
+        
+        return new Response('<html><head><title>debug</title></head><body>'.$r.'</body></html>');
             
             
     }
