@@ -4,7 +4,6 @@
         <meta charset="UTF-8" />
     </head>
     <body>
-        <h1>Mont template</h1>
         <div>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
