@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Progracqteur\WikipedaleBundle\ProgracqteurWikipedaleBundle(),
             new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Progracqteur\UserBundle\ProgracqteurUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

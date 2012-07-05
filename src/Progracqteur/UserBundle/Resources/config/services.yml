@@ -1,0 +1,7 @@
+parameters:
+#    progracqteur_user.example.class: Progracqteur\UserBundle\Example
+
+services:
+#    progracqteur_user.example:
+#        class: %progracqteur_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

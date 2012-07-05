@@ -1,3 +1,7 @@
+ProgracqteurUserBundle:
+    resource: "@ProgracqteurUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ProgracqteurWikipedaleBundle:
     resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing.yml"
     prefix:   /
