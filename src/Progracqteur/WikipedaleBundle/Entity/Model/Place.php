@@ -253,7 +253,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator)
     {
-        if ($this->creator === null OR  !$creator->equals($this->_getCreator()))
+        if ($this->_getCreator() === null OR  !($creator->equals($this->_getCreator())))
         {
             if ($creator instanceof UnregisteredUser)
             {
