@@ -128,10 +128,13 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setAddress(Address $address)
     {
-        //TODO implémenter vérification du changement de l'adresse
-        $this->change('address', $this->address, $address);
-        $this->address = $address;
-        $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
+        if (! $address->equals($this->address))
+        {
+            $this->change('address', $this->address, $address);
+            $this->address = $address;
+            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
+        }
+        
     }
 
     /**

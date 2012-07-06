@@ -86,5 +86,10 @@ class Address {
     {
         return $this->city;
     }
+    
+    public function equals(Address $address)
+    {
+        return $this->toArray() == $address->toArray();
+    }
 }
 

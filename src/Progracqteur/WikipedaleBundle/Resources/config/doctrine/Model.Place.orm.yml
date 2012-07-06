@@ -1,6 +1,7 @@
 ## YAML Template.
 ---
 Progracqteur\WikipedaleBundle\Entity\Model\Place:
+  changeTrackingPolicy: NOTIFY
   type: entity
   table: place
   id:
