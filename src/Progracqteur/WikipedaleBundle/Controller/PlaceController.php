@@ -183,13 +183,21 @@ class PlaceController extends Controller {
         
         //try {
         //TODO implémenter une réponse avec code d'erreur en JSON
-            $return = $securityController->checkChangesAreAllowed($place);
+        $return = $securityController->checkChangesAreAllowed($place);
         /*} catch (ChangeException $exc) {
             $r = new NormalizedExceptionResponse($exc);
             $ret = $serializer->serialize($r, $_format);
             return new Response($ret);
         //}*/
         
+        $validator = $this->get('validator');
+        
+        $errors = $validator->validate($place);
+        
+        if ($errors->count() > 0)
+        {
+            return new Response(print_r($errors, true));
+        }
         
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($place);
