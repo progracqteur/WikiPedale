@@ -182,14 +182,13 @@ class PlaceController extends Controller {
         $securityController = $this->get('progracqteurWikipedaleSecurityControl');
         
         //try {
+        //TODO implémenter une réponse avec code d'erreur en JSON
             $return = $securityController->checkChangesAreAllowed($place);
-        //} catch (ChangeException $exc) {
+        /*} catch (ChangeException $exc) {
             $r = new NormalizedExceptionResponse($exc);
             $ret = $serializer->serialize($r, $_format);
             return new Response($ret);
-        //}
-
-        $return = $securityController->checkChangesAreAllowed($place);
+        //}*/
         
         
         $em = $this->getDoctrine()->getEntityManager();

@@ -46,10 +46,11 @@ class User extends BaseUser
     
     
     const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_STATUS_BICYCLE = 'BICYCLE';
-    const ROLE_STATUS_CITY = 'CITY';
+
+    const ROLE_STATUS_BICYCLE = 'ROLE_BICYCLE';
+    const ROLE_STATUS_CITY = 'ROLE_CITY';
     /**
-     * @deprecated 
+     *@deprecated tous les utilisateurs sont enregistrés... 
      */
     const ROLE_REGISTERED = 'REGISTERED';
     
