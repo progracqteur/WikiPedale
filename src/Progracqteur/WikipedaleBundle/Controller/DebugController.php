@@ -24,33 +24,12 @@ class DebugController extends Controller {
     public function debugOneAction()
     {
         
-        $place = new Place();
-        $point = $this->getRandomPoint();
-        $place->setGeom($point);
-        
-        $u = new UnregisteredUser();
-        $u->setLabel('non enregistré ');
-        $u->setEmail('test@email');
-        $u->setIp('192.168.1.89');
-        
-        $place->setCreator($u);
-        
-        $place->setAddress($this->geolocate($point));
-        
-        $a[] = $place;
-        
-        $response = new \Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse($a);
-        
-        $normalizer = $this->get('progracqteurWikipedaleSerializer');
-        
-        $r = $normalizer->serialize($response, NormalizerSerializerService::JSON_FORMAT);
-        
-        return new Response($r);
         
         
-        /*$manager = $this->getDoctrine()->getEntityManager();
         
-        $p = $manager->getRepository('ProgracqteurWikipedaleBundle:Model\Place')->find(52);
+        $manager = $this->getDoctrine()->getEntityManager();
+        
+        $p = $manager->getRepository('ProgracqteurWikipedaleBundle:Model\Place')->find(42);
         
         $u = $p->getCreator();
         
@@ -59,7 +38,25 @@ class DebugController extends Controller {
             return new Response('u est null');
         }
         
-        return new Response($u->getLabel().' '.$u->getIp().$u->getCreationDate()->format('d-m-Y'));
+        $service = $this->get('progracqteurWikipedaleSerializer');
+        
+        $userNormalizer = $service->getUserNormalizer();
+        
+        $u2 = $userNormalizer->denormalize(array('id' =>2), NormalizerSerializerService::PLACE_TYPE, 'json');
+
+        if (is_null($u2))
+        {
+            return new Response('u2 est null');
+        }
+        
+        if ($u->equals($u2))
+            $t = 'true';
+        else 
+            $t = 'false';
+        
+        
+        
+        return new Response($t);
         
         /*$u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(17);
         */
@@ -188,33 +185,11 @@ class DebugController extends Controller {
         
         
         
-        return new Response($r);*/
-        
-        $security = $this->get('security.context');
-        
-        $roles = $security->getToken()->getRoles();
-        
-        $r = '';
-        
-        foreach ($roles as $role)
-        {
-            $r .= $role->getRole();
-        }
-        
-        $r.= ' statut BICYCLE '.gettype($security->isGranted('ROLE_BICYCLE'));
-        
-        if ($security->isGranted('ROLE_BICYCLE'))
-        {
-            $r .= 'true';
-        } else {
-            $r .= 'false';
-        }
-        
-        $r .= $security->getToken()->getUser()->getUsername();
         
         
         
-        return new Response('<html><head><title>debug</title></head><body>'.$r.'</body></html>');
+        
+        return new Response('<html><head><title>debug</title></head><body>'.$r.'</body></html>');*/
             
             
     }
