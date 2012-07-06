@@ -30,10 +30,10 @@ class UserNormalizer implements NormalizerInterface
     public function denormalize($data, $class, $format = null) {
         //si la classe demandée n'est pas USER, il faut uniquement renvoyer un objet User existant,
         // ou un objet Unregistereduser
-        if ($class === $this->service->returnFullClassName(NormalizerSerializerService::PLACE_TYPE))
+        if ($class === NormalizerSerializerService::PLACE_TYPE)
         {
             if ($data['id'] === null)
-            {
+            {          
                 try {
                     $u = $this->service->getPlaceNormalizer()->getCurrentPlace()->getCreator();
                 } catch (\Exception $exc) {
@@ -45,6 +45,9 @@ class UserNormalizer implements NormalizerInterface
 
                 if (isset($data['email']))
                     $u->setEmail($data['email']);
+                
+                if (isset($data['ip']))
+                    $u->setIp($data['ip']);
 
             } else {
 
@@ -58,8 +61,10 @@ class UserNormalizer implements NormalizerInterface
                 }
             }
 
-            return $u;
+            
         }
+        
+        return $u;
     }
     
     public function normalize($object, $format = null) {

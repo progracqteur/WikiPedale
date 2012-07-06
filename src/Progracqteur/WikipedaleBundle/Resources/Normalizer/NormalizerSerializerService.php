@@ -186,14 +186,13 @@ class NormalizerSerializerService {
         {
             case self::PLACE_TYPE :
                 $array = array($this->getPlaceNormalizer());
-                $type_long = $this->returnFullClassName($type);
                 break;
             default: 
                 throw new \Exception("Le type demandé ($type) est inconnu");
         }
         
         $serializer = new Serializer($array, array($format => $encoder));
-        return $serializer->deserialize($string, $type_long, $format);
+        return $serializer->deserialize($string, $type, $format);
     }
     
 }
