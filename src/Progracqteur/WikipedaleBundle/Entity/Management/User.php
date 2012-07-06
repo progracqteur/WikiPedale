@@ -264,7 +264,7 @@ class User extends BaseUser
     }
 
     public function equals(UserInterface $user) {
-        if (!($user instanceof UnregisteredUser))
+        if ($user instanceof UnregisteredUser)
             return false;
         else {
             return parent::equals($user);
