@@ -84,7 +84,6 @@ class ChangeService {
                     continue; //tout le monde peut ajouter un commentaire ou un vote
                     break;
                 case self::PLACE_CREATOR : 
-                    continue;
                     throw ChangeException::param('creator');
                     break;
                 case self::PLACE_STATUS_BICYCLE :
