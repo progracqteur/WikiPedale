@@ -290,7 +290,9 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function getCreator()
     {
-        $creator = $this->_getCreator();
+        return $this->_getCreator();
+        
+        //TODO : modifier les lignes suivantes, devenues inutiles
         
         if ($creator === null)
         {
@@ -308,6 +310,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * publique getCreator. Utilisée dans setCreator().
      * 
      * @return Progracqteur\WikipedaleBundle\Entity\Management\User 
+     * @deprecated
      */
     private function _getCreator()
     {
