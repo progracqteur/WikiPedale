@@ -14,6 +14,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedExceptionResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Description of PlaceController
@@ -176,6 +177,15 @@ class PlaceController extends Controller {
         
         $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
         
+        //ajoute l'utilisateur courant si connecté
+        if ($place->getId() == null && $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $u = $this->get('security.context')->getToken()->getUser();
+            $place->setCreator($u);
+        }
+        
+        
+        
         /**
          * @var Progracqteur\WikipedaleBundle\Resources\Security\ChangeService 
          */
@@ -201,7 +211,14 @@ class PlaceController extends Controller {
         
         if ($errors->count() > 0)
         {
-            return new Response(print_r($errors, true));
+            $stringErrors = ''; $k = 0;
+            foreach ($errors as $error)
+            {
+                $stringErrors .= $k.'. '.$error->getMessage();
+            }
+            
+            throw new HttpException(403, 'Erreurs de validation : '.$stringErrors);
+            
         }
         
         $em = $this->getDoctrine()->getEntityManager();
