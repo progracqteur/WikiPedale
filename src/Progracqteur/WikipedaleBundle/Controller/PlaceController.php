@@ -192,7 +192,12 @@ class PlaceController extends Controller {
         
         $validator = $this->get('validator');
         
-        $errors = $validator->validate($place);
+        if ($place->getId() === null)
+            $arrayValidation = array('Default', 'creation');
+        else
+            $arrayValidation = array('Default');
+        
+        $errors = $validator->validate($place, $arrayValidation);
         
         if ($errors->count() > 0)
         {

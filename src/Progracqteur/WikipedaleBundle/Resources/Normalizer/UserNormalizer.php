@@ -34,9 +34,8 @@ class UserNormalizer implements NormalizerInterface
         {
             if ($data['id'] === null)
             {          
-                try {
-                    $u = $this->service->getPlaceNormalizer()->getCurrentPlace()->getCreator();
-                } catch (\Exception $exc) {
+                $u = $this->service->getPlaceNormalizer()->getCurrentPlace()->getCreator();
+                if ($u === null) {
                     $u = new UnregisteredUser();
                 }
 
