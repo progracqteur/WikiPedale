@@ -34,9 +34,7 @@
 <script language="javascript"> 
   <!--
       $(document).ready(function(){
-          mapWithClickActionMarkers('{{ app.session.get('city') }}',
-	                             {{app.session.get('city_center').lon}},
-				     {{app.session.get('city_center').lat}},
+          mapWithClickActionMarkers('{{ app.session.get('city') }}', {{app.session.get('city_center').lon}}, {{app.session.get('city_center').lat}},
 				     displayPlaceDataFunction);
 	  });
   // -->

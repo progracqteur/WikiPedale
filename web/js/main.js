@@ -1,17 +1,17 @@
-/**
- * PARAMETERS
- */
-var map; // will contain the openlayers map
-var osmLayer;
-var places_with_clic_layer;
-var places_no_clic_layer;
-var add_new_place_layer;
-var add_new_place_mode = false;
+var map;
+
+var osmLayer; // OSM layer
+var placesLayer; // layer where existing places are drawing
+var new_placeLayer;  // layer where the user can draw a new place
+
+var add_new_place_mode = false; // true when the user is in a mode for adding new place
+
+var marker_data_array = Array(); // markers and data related to the markers
 
 var zoom_map = 13; // zoom level of the map
 var img_url =  '../OpenLayers/img/'  // where is the dir containing the OpenLayers images
 
-var input_marker = null;
+var new_placeMarker;
 
 $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
@@ -19,77 +19,91 @@ $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids
 /**
  * FUNCTION
  */
-
 function mapWithClickActionMarkers(townId, townLon, townLat, clickAction) {
     /**
-     * Create a map with markers. When the user click on a marker,
-     an action is executed.
-     * @param {string} townId Identifier of the town
-     * @param {number} townLon Longitude of the town
-     * @param {number} townLat Latitude of the town
-     * @param {function} clickAction Action executed when the user click on the
-     marker
+     * TODO -> changer le nom
+     * @param {townId} TODO
+     * @param {townLon} TODO
+     * @param {townLat} TODO
+     * @param {clickAction} TODO
      */
+
     jsonUrlData  = '../app_dev.php/place/list/bycity.json?city=' + townId;
 
-    //map = new OpenLayers.Map('map');
+    var changingModeFunction = function() {
+        if(!add_new_place_mode) {
+            $('.olControlButtonAddPlaceItemActive').each(function(index, value){
+                value.innerHTML = 'Retour exploration';
+            });
+            $.each(marker_data_array, function(index, marker_data) {
+                if (marker_data != undefined) {
+                    marker = marker_data[0];
+                    marker.events.remove("mousedown");
+                    marker.setUrl(img_url + 'marker-gold.png')
+                }
+            });
 
-    /*
-    var zoom_panel = new OpenLayers.Control.Panel();
-    zoom_panel.addControls([
-        new OpenLayers.Control.ZoomIn(),
-        new OpenLayers.Control.ZoomOut()
-        //new OpenLayers.Control.Button({ displayClass: "MyButton", trigger: alert('blop') })
-    ]);
-    */
+            if(new_placeMarker != undefined) 
+                {
+                    new_placeMarker.display(true);
+                }
 
-    //map.addControl(zoom_panel);
+            map.events.register("click", map, function(e) {
+                var position = map.getLonLatFromPixel(e.xy);
+                //document.f.lon.value = position.lon; 
+                //document.f.lat.value = position.lat; 
 
-    // new OpenLayers.Control.ScaleLine() échelle en bas de la carte
-    // new OpenLayers.Control.Navigation() sert pour double clic zoom scroll in -> zoom in
+                if(new_placeMarker == undefined) 
+                {
+                    var size = new OpenLayers.Size(21,25);
+                    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+                    var icon = new OpenLayers.Icon( img_url + '/marker-blue.png', size, offset);
+                    new_placeMarker = new OpenLayers.Marker(position,icon);
+                    placesLayer.addMarker(new_placeMarker);
+                }
+                else 
+                {
+                    new_placeMarker.lonlat = position;
+                    placesLayer.redraw();
+                }
+            });
 
-    var blop_func = function() {
-        if(! add_new_place_mode)
-        {
-                    $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-                        value.innerHTML = 'Retour vision';
-                    });
-                    document.getElementById("div_signaler").style.display = "block";
-                    places_with_clic_layer.display(false);
-                    places_no_clic_layer.display(true);
-                    add_new_place_layer.display(true);
-            
-                    map.events.register("click", map, function(e) {
-                    var position = map.getLonLatFromPixel(e.xy);
-            
-                    if(input_marker == null) 
-                    {
-                        var size = new OpenLayers.Size(21,25);
-                        var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-                        var icon = new OpenLayers.Icon(img_url  +'marker_white.png', size, offset);
-                        input_marker = new OpenLayers.Marker(position,icon);
-                        add_new_place_layer.addMarker(input_marker);
-                    }
-                    else 
-                    {
-                        var position = map.getLonLatFromPixel(e.xy);
-                        input_marker.lonlat = position;
-                        add_new_place_layer.redraw();
-                    }
-                    
-        });
-        add_new_place_mode = true;
+            document.getElementById("div_signaler").style.display = "block";
+            document.getElementById("div_placeDetails").style.display = "none";
+            add_new_place_mode = true;
         }
-        else
-        {
+        else {
             $('.olControlButtonAddPlaceItemActive').each(function(index, value){
                 value.innerHTML = 'Ajouter un point noir';
             });
 
-            places_with_clic_layer.display(true);
-            places_no_clic_layer.display(false);
-            add_new_place_layer.display(false);
-            add_new_place_mode = false;
+            if(new_placeMarker != undefined) 
+                {
+                    new_placeMarker.display(false);
+                }
+
+            map.events.remove("click");
+
+            $.each(marker_data_array, function(index, marker_data) {
+                if (marker_data != undefined) {
+                    marker = marker_data[0];
+                    data = marker_data[1];
+
+                    var markerMouseDownFunction = (function(iid)       {
+                        return function(evt) {
+                            clickAction(marker_data_array[iid][0],marker_data_array[iid][1]);
+                            OpenLayers.Event.stop(evt);
+                        } }
+                    ) (data.id);
+
+                    marker.events.register("mousedown", marker, markerMouseDownFunction);
+                    marker.setUrl(img_url + 'marker.png')
+                }
+            });
+
+            document.getElementById("div_signaler").style.display = "none";
+            document.getElementById("div_placeDetails").style.display = "block";
+            add_new_place_mode = false; 
         }
     };
 
@@ -102,37 +116,24 @@ function mapWithClickActionMarkers(townId, townLon, townLat, clickAction) {
             new OpenLayers.Projection("EPSG:4326"),
             map.getProjectionObject()
         ), zoom_map );
-    
-    add_new_place_layer = new OpenLayers.Layer.Markers("Add new place");
-    map.addLayer(add_new_place_layer);
 
-    places_with_clic_layer = new OpenLayers.Layer.Markers( "Markers" );
-    map.addLayer(places_with_clic_layer);
+    placesLayer = new OpenLayers.Layer.Markers("Existing places");
+    map.addLayer(placesLayer);
 
-    places_no_clic_layer = new OpenLayers.Layer.Markers( "Markers" );
-    map.addLayer(places_no_clic_layer);
-
-    /*
-    button = new OpenLayers.Control.Button ({displayClass: 'olControlButtonAddPlace', trigger: blop_func, title: 'Button is to be clicked'});
-    panel = new OpenLayers.Control.Panel({defaultControl: button});
-    panel.addControls([button]);
-    map.addControl (panel);
-    */
-
-
-
+    new_placeLayer = new OpenLayers.Layer.Markers("New place");
+    map.addLayer(new_placeLayer);
+    new_placeLayer.display(false);
     
     var button_add_place = new OpenLayers.Control.Button({ 
         id : 'buttonAddPlace',
         displayClass: 'olControlButtonAddPlace',
-        trigger: blop_func,
+        trigger: changingModeFunction,
         title: 'Button is to be clicked'});
+
     var control_panel = new OpenLayers.Control.Panel({defaultControl: button_add_place});
     control_panel.addControls([
         button_add_place  ]);
     map.addControl(control_panel);
-
-    //document.getElementByClass('buttonAddPlace').innerHTML = 'Ajouter un point';
 
     $(document).ready(function(){
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
@@ -153,7 +154,7 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     /**
      * Add a marker on a layer such that when the user click on it, an 
      action is executed.
-     * @param {OpenLayers.Layer} places_with_clic_layer  The layer where the marker is added
+     * @param {OpenLayers.Layer} placesLayer  The layer where the marker is added
      * @param {number} aLon The longitude where to add the marker
      * @param {number} aLat The latitude where to add the marker
      * @param {function} anEventFunction A function to execute when the user click on the marker
@@ -170,25 +171,18 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     
     var marker = feature.createMarker();
 
+    //alert(someData.id);
+
+    marker_data_array[someData.id] = ([marker,someData]);
+
+
     var markerMouseDownFunction = function(evt) {
 	anEventFunction(marker,someData); 
         OpenLayers.Event.stop(evt);
     };
-    marker.events.register("mousedown", feature, markerMouseDownFunction);
-    places_with_clic_layer.addMarker(marker);
 
-    var feature = new OpenLayers.Feature(osm, new OpenLayers.LonLat(aLon, aLat).transform(
-    new OpenLayers.Projection("EPSG:4326"),
-    map.getProjectionObject()
-    ));
-    var size = new OpenLayers.Size(21,25);
-    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon(img_url + 'marker.png', size, offset);  
-    feature.data.icon = icon;
-    
-    var marker = feature.createMarker();
-
-    places_no_clic_layer.addMarker(marker);
+    marker.events.register("mousedown", marker, markerMouseDownFunction);
+    placesLayer.addMarker(marker);
 }
 
 function displayPlaceDataFunction(placeMarker, placeData) {
