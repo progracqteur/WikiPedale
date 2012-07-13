@@ -53,7 +53,7 @@ class ChangeService {
         {
             if ($object instanceof Place) {
                 // si l'utilisateur est authentifié, il en peut créer un objet pour un autre
-                if ( $this->securityContext->isGranted('IS_FULLY_AUTHENTICATED'))
+                if ( $this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
                 {
                     if ( $object->getCreator()->equals($this->securityContext->getToken()->getUser()))
                     {
