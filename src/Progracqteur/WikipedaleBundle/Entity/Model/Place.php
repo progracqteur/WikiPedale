@@ -112,7 +112,10 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     }
     
     private function change($propName, $oldValue, $newValue) {
-
+/* FIXME: il semble que les chagnements de la description (et de l'adresse ?)
+ * ne soient 
+ * pas pris en compte lorsque le trackingPolicy est sur Notify
+ */
         if ($this->_listeners) {
             foreach ($this->_listeners as $listener) {
                 $listener->propertyChanged($this, $propName, $oldValue, $newValue);
@@ -385,6 +388,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function setDescription($description)
     {
+        $description = trim($description);
         if ($this->description != $description )
         {
             $this->change('description', $this->description, $description);

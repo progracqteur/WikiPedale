@@ -31,42 +31,42 @@ class Address {
         
     
     public function setCity($city) {
-        $this->city = $city;
+        $this->city = trim($city);
     }
     
     public function setAdministrative($administrative) {
-        $this->administrative = $administrative;
+        $this->administrative = trim($administrative);
     }
     
     public function setStateDistrict($state_strict)
     {
-        $this->state_district = $state_strict;
+        $this->state_district = trim($state_strict);
     }
     
     public function setCounty($county) {
-        $this->county = $county;
+        $this->county = trim($county);
     }
     
     public function setState($state) {
-        $this->state = $state;
+        $this->state = trim($state);
     }
     
     public function setCountry($country) {
-        $this->country = $country;
+        $this->country = trim($country);
     }
     
     public function setCountryCode($country_code) {
-        $this->country_code = $country_code;
+        $this->country_code = trim($country_code);
     }
     
     public function setRoad($road)
     {
-        $this->road = $road;
+        $this->road = trim($road);
     }
     
     public function setPublicBuilding($public_building)
     {
-        $this->public_building = $public_building;
+        $this->public_building = trim($public_building);
     }
     
     public function toArray(){
