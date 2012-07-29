@@ -18,7 +18,7 @@ $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids
 
 
 /* <- USER */
-var isAdmin = true; // true si l'utilisateur est admin
+var isAdmin = false; // true si l'utilisateur est admin
 /* USER -> */
 
 var blopFunction = function() {
@@ -36,10 +36,10 @@ function jsonForSavingPlace(description, lon, lat, address, id) {
     * @param {string} address The address of the new place
     */
     if(id==undefined || id==null){
-        ret = '{"id":null';
+        ret = 'entity={"id":null';
     }
     else{
-        ret = '{"id":' + JSON.stringify(id) 
+        ret = 'entity={"id":' + JSON.stringify(id) 
     }
     return ret + ',"description":' + JSON.stringify(description) 
     + ',"geom":{"type":"Point","coordinates":[' 
