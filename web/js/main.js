@@ -36,15 +36,24 @@ function jsonForSavingPlace(description, lon, lat, address, id) {
     * @param {string} address The address of the new place
     */
     if(id==undefined || id==null){
-        ret = 'entity={"id":null';
+        ret = '{"id":null';
     }
     else{
-        ret = 'entity={"id":' + JSON.stringify(id) 
+        ret = '{"id":' + JSON.stringify(id) 
     }
+    
+    p = new OpenLayers.Geometry.Point(lon, lat);
+    p.transform(map.getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
+    parser = new OpenLayers.Format.GeoJSON();
+    jsonp = parser.write(p, false);
+    alert(jsonp);
+    
     return ret + ',"description":' + JSON.stringify(description) 
-    + ',"geom":{"type":"Point","coordinates":[' 
-    + JSON.stringify(lon) + ',' + JSON.stringify(lat) + ']},"addressParts":{"road":' + 
-    JSON.stringify(address) + ',"entity":"address"},"entity":"place"}';
+        +',"creator":{"id":null,"label":' + JSON.stringify("arecupererdansleformlaire") +',"entity":"user"' +'}'
+        + "," +'"geom":'+ jsonp 
+        + ',"addressParts":{"road":' +
+            JSON.stringify(address) 
+            + ',"entity":"address"},"entity":"place"}';
 }
 
 function catchPlaceForm(formName) {
@@ -69,10 +78,11 @@ function catchPlaceForm(formName) {
     else {
         alert(jsonForSavingPlace(place_data['description'], place_data['lon'],
             place_data['lat'], place_data['lieu'], place_data['id']))
+        entitystring = jsonForSavingPlace(place_data['description'], place_data['lon'],
+            place_data['lat'], place_data['lieu'], place_data['id']);
         $.ajax({
             type: "POST",
-            data: jsonForSavingPlace(place_data['description'], place_data['lon'],
-            place_data['lat'], place_data['lieu'], place_data['id']),
+            data: {entity: entitystring},
             url: path_root + "place/change.json",
             cache: false,
             success: function(output_json) { 
