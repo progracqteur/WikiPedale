@@ -2,86 +2,6 @@
 
 {% block body %}
 
-<style type='text/css'>
-/* Custom Button */
-.olControlButtonAddPlaceItemActive {
-    float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align:center;
-}
-
-.olControlButtonAddPlaceItemActive:hover {
-    background: blue;
-}
-
-.olControlButtonLatelyUpdatedItemActive {
-    float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align:center;
-}
-
-.olControlButtonLatelyUpdatedItemActive:hover {
-    background: blue;
-}
-
-.olControlButtonLatelyAddedItemActive {
-    float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align:center;
-}
-
-.olControlButtonLatelyAddedItemActive:hover {
-    background: blue;
-}
-
-.ButtonGeneral{
-  float: left;
-  background: gray;
-  height: 20px;
-  border: 1px solid black;
-  width: 75px;
-  margin-right: 10px;
-  margin-left: 10px;
-  text-align:center;
-
-}
-
-#olPanelUL {
-  background: green;
-  float: left;
-  width: 600px;
-  height: 30px;
-}
-#PanelUR {
-  background: white;
-  float: left;
-  width: 400px;
-  height: 30px;
-}
-#M {
-  background: green;
-  height: 400px;
-  width: 1000px;
-}
-</style>
-
-<p> Bonjour ! </p>
-
 {% if (app.session.get('city')) and (app.session.get('city_center')) %}
 <script language="javascript"> 
   <!--
@@ -92,15 +12,18 @@
   // -->
 </script>
 <div id="olPanelUL"></div>
+
 <div id="PanelUR">
   <div id="ButtonInfo" class="ButtonGeneral" onClick="javascript:blopFunction()">Info</div>
   <div id="ButtonAide" class="ButtonGeneral" onClick="javascript:blopFunction()">Aide</div>
   <div id="ButtonConnexion" class="ButtonGeneral" onClick="javascript:blopFunction()">Connexion</div>
 </div>
-<div id="M">
+
+<div id="MapAndEditorContener">
   <div id="map" style="width:400px; height:200px; float:left;"  class="smallmap"></div>
 
   <div style="width:600px; height:300px; float:left; overflow:auto;background: gray;">
+
     <div id="div_signaler" style="margin-left:15px;display:none;background: white;">
       <h1>Signaler un point noir.</h1>
       <strong>Pour des petits travaux et des travaux d'entretien, vous pouvez contacter directement la ville via le num&eacute;ro gratuit 0800 92 329 ou via <a href="mailto:travaux.vert@ville.mons.be">travaux.vert@ville.mons.be</a> (<a href="http://www.mons.be/default.aspx?GUID={BF4FA10D-9842-11DA-9742-0002A58CB319}&LNG=FRA" target="_blank">mons.be</a>)
@@ -109,12 +32,12 @@
       <br />
       Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.<br /><br />
       <form method="post" action="javascript:catchPlaceForm('#new_placeForm')" id="new_placeForm">
-        <input name="lon" readonly="true" />
+        <input type="hidden"  name="lon" readonly="true" />
         <input  type="hidden" name="lat" readonly="true" />
         <label for="l">Lieu : </label> <input name="lieu" id="l" size=42 /><br />
         <label for="d">Description:</label> <textarea name="description" id="d" cols=35 rows=5></textarea><br />
         <br />
-        <label for="n">Nom, prénom: </label> <input name="nomprenom" id="n" size=42 /><br />
+        <label for="n">Nom, prénom: </label> <input name="user_label" id="n" size=42 /><br />
         <br />
         <label for="e">Email:</label> <input name="email" id="e"  size=42 /><br />
         <br />
@@ -128,6 +51,7 @@
         <li>Pour nous signaler un point noir, indiquez sur la carte o&ugrave; se trouve ce point noir, remplissez le formulaire et cliquez sur "soumettre". Merci.
       </ul>                   
     </div>
+
     <div id="div_placeDetails" style="margin-left:15px;display:none;background: white;"> 
       <h1>D&eacute;tails du point noir <span class="span_id"></span></h1>	
       <strong>Lieu</strong> : <strong>TODO</strong><br />
@@ -136,6 +60,7 @@
       <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
       <strong>Cr&eacute;ateur</strong> : <span class="span_creator"></span><br />
     </div>
+
     <div id="div_placeEdit" style="margin-left:15px;display:none;background: white;"> 
       <center><h1>&Eacute;dition - point noir <span class="span_id"></span></h1></center>
       <strong><a id="link_delete" href="#">Supprimer le point noir</a><strong><br />
@@ -143,10 +68,10 @@
       <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
       <strong>Cr&eacute;ateur</strong> : <span class="span_creator"></span><br />
       <br />
-      <strong>Contact</strong> : <span id="span_nomprenom"></span><br />
+      <strong>Contact</strong> : <span id="span_user_label"></span><br />
       <strong>Mail</strong> : <span id="span_email"></span><br />
       <br />
-      <form method="post" action="#" name="f" id="formulaire_edition">
+      <form method="post" action="javascript:catchPlaceForm('#editForm')" name="f" id="editForm">
         <input type ="hidden" value="" id="f_id" name="id" />
         <p class="p_form">
           <label for="f_lieu" class="label_aligne"><strong>Lieu</ strong> : </label> 
@@ -173,6 +98,7 @@
         </p>
       </form>
     </div>
+
   </div>
 </div>
 {% else %}

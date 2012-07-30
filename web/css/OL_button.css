@@ -1,0 +1,70 @@
+/* Custom Button */
+.olControlButtonAddPlaceItemActive {
+    float: left;
+    border: 1px solid black;
+    background: red;
+    width: 150px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align:center;
+}
+
+.olControlButtonAddPlaceItemActive:hover {
+    background: blue;
+}
+
+.olControlButtonLatelyUpdatedItemActive {
+    float: left;
+    border: 1px solid black;
+    background: red;
+    width: 150px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align:center;
+}
+
+.olControlButtonLatelyUpdatedItemActive:hover {
+    background: blue;
+}
+
+.olControlButtonLatelyAddedItemActive {
+    float: left;
+    border: 1px solid black;
+    background: red;
+    width: 150px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align:center;
+}
+
+.olControlButtonLatelyAddedItemActive:hover {
+    background: blue;
+}
+
+.ButtonGeneral{
+  float: left;
+  background: gray;
+  height: 20px;
+  border: 1px solid black;
+  width: 75px;
+  margin-right: 10px;
+  margin-left: 10px;
+  text-align:center;
+
+}
+
+#olPanelUL {
+  background: green;
+  float: left;
+  width: 600px;
+  height: 30px;
+}
+#PanelUR {
+  background: white;
+  float: left;
+  width: 400px;
+  height: 30px;
+}

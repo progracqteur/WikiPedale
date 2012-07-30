@@ -1,9 +1,5 @@
-/* 
-
-    Author     : Brice Marron, Benoit Coumont, Julien Fastré
-    Description:
-        
-*/
-
-
-
+#MapAndEditorContener {
+  background: green;
+  height: 400px;
+  width: 1000px;
+}
