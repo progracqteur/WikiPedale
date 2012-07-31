@@ -31,9 +31,10 @@ function UserInJson(label,email){
     * TODO
     */
     return '{"entity":"user"' 
+        + ',"id":null'
         + ',"label":' + JSON.stringify(label)
-        + ',"email":' + JSON.stringify(email);
-        + '}'
+        + ',"email":' + JSON.stringify(email)
+        + '}';
 }
 
 function PointInJson(lon,lat){
