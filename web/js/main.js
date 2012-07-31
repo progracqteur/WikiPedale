@@ -102,7 +102,8 @@ function catchPlaceForm(formName) {
     if(error_messages != "") { alert(error_messages  + 'Merci.'); }
     else {
         entity_string = PlaceInJson(place_data['description'], place_data['lon'],
-            place_data['lat'], place_data['lieu'], place_data['id']);
+            place_data['lat'], place_data['lieu'], place_data['id'], 
+            place_data['user_label'], place_data['email']);
         alert(entity_string);
         $.ajax({
             type: "POST",
