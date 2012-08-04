@@ -67,11 +67,11 @@ class PlaceNormalizer implements NormalizerInterface {
         if (isset($data['addressparts']))
         {
             $addrNormalizer = $this->service->getAddressNormalizer();
-            if ($addrNormalizer->supportsDenormalization($data['addressparts'], 
+            if ($addrNormalizer->supportsDenormalization($data['addressParts'], 
                     $class, 
                     $format));
             {
-                $addr = $addrNormalizer->denormalize($data['addressparts'], 
+                $addr = $addrNormalizer->denormalize($data['addressParts'], 
                         $class, 
                         $format);
                 $p->setAddress($addr);
@@ -117,7 +117,7 @@ class PlaceNormalizer implements NormalizerInterface {
             'nbComm' => $object->getNbComm(),
             'nbVote' => $object->getNbVote(),
             'creator' => $userNormalizer->normalize($creator, $format),
-            'addressparts' => $addrNormalizer->normalize($object->getAddress(), $format),
+            'addressParts' => $addrNormalizer->normalize($object->getAddress(), $format),
             'createDate' => $object->getCreateDate(),
             'nbPhotos' => $object->getNbPhoto(),
             'statusBicycle' => $object->getStatusBicycle(),
