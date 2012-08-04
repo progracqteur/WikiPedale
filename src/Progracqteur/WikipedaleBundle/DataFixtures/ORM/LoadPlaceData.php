@@ -30,6 +30,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         
         for ($i=0; $i < 20; $i++)
         {
+            echo "Création du point $i (associé à un utilisateur) \n";
+            
             $point = $this->getRandomPoint();
         
             $str = $this->createId();
@@ -50,6 +52,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         //ajout de places avec utilisateurs non enregistré
         for ($i=0; $i<20; $i++)
         {
+            echo "Création du point $i (utilisateur inconnu) \n";
+            
             $place = new Place();
             $point = $this->getRandomPoint();
             $place->setGeom($point);
@@ -127,15 +131,9 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         
          $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
         
-        echo $url." \n";
+        echo "Recherche de l'adresse à l'url suivante : $url \n";
         
-        curl_setopt($ch, CURLOPT_URL, $url);
-        
-        $d = curl_exec($ch);
-        
-        curl_close($ch);
-        
-        echo $d."\n";
+   
         
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
