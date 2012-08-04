@@ -6,16 +6,23 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /**
+     *
+     * @var Symfony\Component\DependencyInjection\ContainerInterface 
+     */
+    private $container;
     
 public function getOrder() {
         return 1;
     }
     
 public function load(ObjectManager $manager) {
-        $u = new User();
+        $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();
         $u->setEmail("$str@fastre.info");
         $u->setLabel("label $str");
@@ -47,5 +54,9 @@ public function load(ObjectManager $manager) {
 
   return $s;
   }
+
+    public function setContainer(ContainerInterface $container = null) {
+        $this->container = $container;
+    }
 }
 
