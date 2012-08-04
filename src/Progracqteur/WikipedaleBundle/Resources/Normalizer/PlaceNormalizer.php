@@ -64,7 +64,7 @@ class PlaceNormalizer implements NormalizerInterface {
             $p->setGeom($point);
         }
         
-        if (isset($data['addressparts']))
+        if (isset($data['addressParts']))
         {
             $addrNormalizer = $this->service->getAddressNormalizer();
             if ($addrNormalizer->supportsDenormalization($data['addressParts'], 
