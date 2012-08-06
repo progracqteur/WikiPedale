@@ -18,17 +18,19 @@ $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids
 
 
 /* <- USER */
-var isAdmin = false; // true si l'utilisateur est admin
-var isRegister = false; // true si l'utilisateur est connecte
+var isAdmin = true; // true si l'utilisateur est admin
+var isRegister = true; // true si l'utilisateur est connecte
 /* USER -> */
 
 var blopFunction = function() {
         alert('blop');
     }
 
-function UserInJson(label,email){
+function UnregisterUserInJson(label,email){
     /**
-    * TODO
+    * Returns a json string describing an unregister user.
+    * @param{string} label The label/pseudo of the user.
+    * @parem{string} email The email of the user.
     */
     return '{"entity":"user"' 
         + ',"id":null'
@@ -39,7 +41,9 @@ function UserInJson(label,email){
 
 function PointInJson(lon,lat){
     /**
-    * TODO
+    * Returns a json string describing a point.
+    * @param{string} lon The longitude of the point.
+    * @param{string} lat} The latitude of the point.
     */
     p = new OpenLayers.Geometry.Point(lon, lat);
     p.transform(map.getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
@@ -47,26 +51,29 @@ function PointInJson(lon,lat){
     return parser.write(p, false);
 }
 
-function PlaceInJson(description, lon, lat, address, id, user_label, user_email) {
-    /* DOIT AUSSI MARCHER POUR EDITION */
+function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email) {
     /**
-    * Returns a json string used for adding a new place
-    * @param {string} description The description of the new place
-    * @param {string} lon The longitude of the new place
-    * @param {string} lat The latitude of the new place
-    * @param {string} address The address of the new place
+    * Returns a json string used for adding a new place.
+    * @param {string} description the description of the new place.
+    * @param {string} lon The longitude of the new place.
+    * @param {string} lat The latitude of the new place.
+    * @param {string} address The address of the new place.
+    * @param {string} id The id of the new place, this parameter is optionnal : if it isn't given or null it means tha the place is a new placa.
+    * @param {string} coulor The color of the place (only for existing place)
+    * @param {string} user_label The label given by the user : if the user is register and logged this field is not considered
+    * @param {string} user_email The email given by the user : if the user is register and logged this field is not considered
     */
     ret = '{"entity":"place"'
 
     if(id==undefined || id==null)
         { ret = ret + ',"id":null'; }
     else
-        { ret = ret + ',"id":' + JSON.stringify(id); }
-
-    ret = ret + ',"description":' + JSON.stringify(description) ;
+        { 
+            ret = ret + ',"id":' + JSON.stringify(id);
+        }
 
     if( !isRegister && (user_label != undefined || user_email != undefined))
-        { ret = ret + ',"creator":' + UserInJson(user_label, user_email); }
+        { ret = ret + ',"creator":' + UnregisterUserInJson(user_label, user_email); }
 
     return ret + ',"description":' + JSON.stringify(description)
         + ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}'
@@ -74,12 +81,13 @@ function PlaceInJson(description, lon, lat, address, id, user_label, user_email)
         + '}';
 }
 
-function catchPlaceForm(formName) {
-    /* DOIT AUSSI MARCHER POUR EDITION -> donner le num
-    formulaire en option? */
+function catchForm(formName) {
     /**
-    * saving the data from the new_placeForm in the db
+    * Catch a from and save the data in the db using a json request.
+    * @param{string} formName The name of the form. It is '#editForm' if it is the edition form and '#new_placeForm' if it is the new place form.
     */
+    editForm = formName == '#editForm';
+
     var place_data = {};
     $.map($(formName).serializeArray(), function(n, i){
         place_data[n['name']] = n['value'];
@@ -92,33 +100,52 @@ function catchPlaceForm(formName) {
         { error_messages = error_messages + "Veuillez remplir la description. "  }
     if(place_data['lieu'] == "")
         { error_messages = error_messages + "Veuillez indiquer l'adresse. "  }
-    if((place_data['lon'] != undefined && place_data['lon'] == "") ||
-        (place_data['lat'] != undefined && place_data['lat'] == ""))
-        { error_messages = error_messages + "Veuillez indiquer où se trouve le point noir sur la carte. "  }
-    if ((place_data['id'] != undefined && place_data['id'] == "") ||
-        (place_data['color'] != undefined && place_data['color'] == ""))
-        { error_messages = "Veuillez reéssayer et si le problème persiste prendre contact avec le webmaster. " }
-
-    if(error_messages != "") { alert(error_messages  + 'Merci.'); }
+    if( ! editForm )
+    {
+        if(place_data['lon'] == "" || place_data['lat'] == "")
+            { error_messages = error_messages + "Veuillez indiquer où se trouve le point noir en cliquant sur la carte. "  }
+    }
+    else
+    {
+        if (place_data['couleur'] == "")
+            { error_messages =  error_messages +  "Veuillez indiquer la couleur du point noir. " }
+        if (place_data['id'] == "")
+            { error_messages = "Veuillez reéssayer et si le problème persiste prendre contact avec le webmaster. " }
+    }
+    if(error_messages != "") { alert('Erreur! ' + error_messages  + 'Merci.'); }
     else {
         entity_string = PlaceInJson(place_data['description'], place_data['lon'],
-            place_data['lat'], place_data['lieu'], place_data['id'], 
+            place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
             place_data['user_label'], place_data['email']);
-        alert(entity_string);
         $.ajax({
             type: "POST",
             data: {entity: entity_string},
             url: path_root + "place/change.json",
             cache: false,
             success: function(output_json) { 
-                var output = jQuery.parseJSON(output_json);
-                alert(output.message);
-                alert('merci');
+                alert(output_json.query.error);
+                if(! output_json.query.error) { 
+                    newPlaceData = output_json.results[0];
+                    alert(newPlaceData);
+                    addMarkerWithClickAction(false,
+                        newPlaceData.geom.coordinates[0],
+                        newPlaceData.geom.coordinates[1],
+                        displayPlaceDataFunction,
+                    newPlaceData);
+                    clearNewPlaceForm();
+                    changingModeFunction();
+                }
+                else { 
+                    alert(output_json[0].message);
+                    alert('ERREUR'); }
             },
             error: function(output_json) {
-                var output = jQuery.parseJSON(output_json);
-                alert(output);
-                alert("erreur");
+                alert(JSON.stringify(output_json));
+                alert(output_json.responseText);
+                alert(JSON.parse(output_json.responseText)[0]);
+                alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
+                alert((output_json.responseText[0]).message);
+                alert('ERREUR'); 
             }
         });
 
@@ -126,43 +153,45 @@ function catchPlaceForm(formName) {
 }
 
 
-function homepageMap(townId, townLon, townLat, clickAction) {
+function clearNewPlaceForm() {
+    /** 
+    * Clear the data entered in the form with id 'new_placeForm'
+    */
+    document.getElementById("new_placeForm").user_label.value = "";
+    document.getElementById("new_placeForm").lieu.value = "";
+    document.getElementById("new_placeForm").description.value = "";
+    document.getElementById("new_placeForm").email.value = "";
+    document.getElementById("new_placeForm").lon.value = "";
+    document.getElementById("new_placeForm").lat.value = "";
+}
+
+function changingModeFunction() {
     /**
-     * TODO -> changer le nom et voir pour la gestion ce qui peut etre reutiliser
-     * @param {townId} TODO
-     * @param {townLon} TODO
-     * @param {townLat} TODO
-     * @param {clickAction} TODO
-     */
+    * TODO
+    */
+    if(!add_new_place_mode) {
+        $('.olControlButtonAddPlaceItemActive').each(function(index, value){
+            value.innerHTML = 'Retour exploration';
+        });
+        $.each(markers_and_associated_data, function(index, marker_data) {
+            if (marker_data != undefined) {
+                marker = marker_data[0];
+                marker.events.remove("mousedown");
+                marker.setUrl(img_url + 'marker-gold.png')
+            }
+        });
 
-    jsonUrlData  =  path_root + 'place/list/bycity.json?city=' + townId;
+        if(new_placeMarker != undefined) 
+            {
+                new_placeMarker.display(true);
+            }
 
-    
+        map.events.register("click", map, function(e) {
+            var position = map.getLonLatFromPixel(e.xy);
+            $("input[name=lon]").val(position.lon);
+            $("input[name=lat]").val(position.lat);
 
-    var changingModeFunction = function() {
-        if(!add_new_place_mode) {
-            $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-                value.innerHTML = 'Retour exploration';
-            });
-            $.each(markers_and_associated_data, function(index, marker_data) {
-                if (marker_data != undefined) {
-                    marker = marker_data[0];
-                    marker.events.remove("mousedown");
-                    marker.setUrl(img_url + 'marker-gold.png')
-                }
-            });
-
-            if(new_placeMarker != undefined) 
-                {
-                    new_placeMarker.display(true);
-                }
-
-            map.events.register("click", map, function(e) {
-                var position = map.getLonLatFromPixel(e.xy);
-                $("input[name=lon]").val(position.lon);
-                $("input[name=lat]").val(position.lat);
-
-                if(new_placeMarker == undefined) 
+            if(new_placeMarker == undefined) 
                 {
                     var size = new OpenLayers.Size(21,25);
                     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
@@ -206,7 +235,7 @@ function homepageMap(townId, townLon, townLat, clickAction) {
                             alert(markers_and_associated_data[iid][1]);
                             alert(markers_and_associated_data[iid][0]);
                             */
-                            clickAction(markers_and_associated_data[iid][0],markers_and_associated_data[iid][1]);
+                            displayPlaceDataFunction(markers_and_associated_data[iid][0],markers_and_associated_data[iid][1]);
                             OpenLayers.Event.stop(evt);
                         } }
                     ) (data.id);
@@ -223,6 +252,18 @@ function homepageMap(townId, townLon, townLat, clickAction) {
             add_new_place_mode = false; 
         }
     };
+
+
+function homepageMap(townId, townLon, townLat) {
+    /**
+     * TODO -> changer le nom et voir pour la gestion ce qui peut etre reutiliser
+     * @param {townId} TODO
+     * @param {townLon} TODO
+     * @param {townLat} TODO
+     * @param {clickAction} TODO
+     */
+
+    jsonUrlData  =  path_root + 'place/list/bycity.json?city=' + townId;
 
     map = new OpenLayers.Map('map');
     osm = new OpenLayers.Layer.OSM("OSM MAP");
@@ -285,11 +326,11 @@ function homepageMap(townId, townLon, townLat, clickAction) {
     });
     $.getJSON(jsonUrlData, function(data) {
 	$.each(data.results, function(index, aPlaceData) {
-        //alert(aPlaceData)
+        //alert(aPlaceData.addressparts.road);
 	    addMarkerWithClickAction(false,
 				     aPlaceData.geom.coordinates[0],
 				     aPlaceData.geom.coordinates[1],
-				     clickAction,
+				     displayPlaceDataFunction,
 				     aPlaceData); } ) }
 	     );
 }
@@ -350,10 +391,13 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('.span_creator').each(function() { this.innerHTML = placeData.creator.label; });
     
     if (isAdmin) {
+        document.getElementById("f_id").value = placeData.id;
+        document.getElementById("f_lieu").value = placeData.addressParts.road;
         document.getElementById("f_description").value = placeData.description;
         document.getElementById("div_placeEdit").style.display = "block";
     }
     else {
+        document.getElementById("span_lieu").innerHTML = placeData.addressParts.road;
         document.getElementById("span_description").innerHTML = placeData.description;
         document.getElementById("div_placeDetails").style.display = "block";
     }
