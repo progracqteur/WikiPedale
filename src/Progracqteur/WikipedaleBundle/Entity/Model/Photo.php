@@ -17,7 +17,7 @@ class Photo
     private $id;
 
     /**
-     * @var blob $file
+     * @var string $file
      */
     private $file;
 
@@ -68,8 +68,15 @@ class Photo
      */
     private $fileObjectTemp;
     
+    /**
+     *
+     * @var resource 
+     */
+    private $imageTemp;
+    
     const MAXIMUM_SIZE = 800;
     const COMPRESSION = 98;
+    const TYPE_JPEG = 'jpg';
     
     
     public function __construct()
@@ -101,17 +108,19 @@ class Photo
     public function setFile($file)
     { 
         $this->fileObjectTemp = $file;
-        $this->prepareFileName();
-        
-        $image = $this->photoService->toImage($file);
-        $this->setHeight($this->photoService->getHeight($image));
-        $this->setWidth($this->photoService->getWidth($image));
-        
+        $this->prepareFileName(self::TYPE_JPEG); //TODO à adapter si support d'autres type d'images
+                
     }
     
-    private function prepareFileName()
+    private function prepareFileName($filetype)
     {
-        $this->file = $this->createFileName();
+        switch ($filetype)
+        {
+            case self::TYPE_JPEG :
+            default:
+                $post = ".jpg";
+        }
+        $this->file = $this->createFileName().$post;
     }
 
     /**
@@ -125,12 +134,11 @@ class Photo
     }
     
     /**
-     * Cette fonction déplace et enregistre le fichier à l'emplacement
-     * prévu.
-     * Elle est appelée après l'enregistremetn de la photo dans la base de 
-     * donnée (post-persist).
+     * Ajoute les informations adéquates dans la base de donnée
+     * à partir du fichier à uploader sur le serveur
+     * @return type 
      */
-    public function upload()
+    public function preUpload()
     {
         if ($this->fileObjectTemp === null)
         {
@@ -139,12 +147,40 @@ class Photo
         
         $image = $this->photoService->toImage($this->fileObjectTemp);
         $image = $this->photoService->resizeToMaximumSize($image, self::MAXIMUM_SIZE);
-        $result =$this->photoService->saveToFile($image, $this->getUploadRootDir().$this->file.".jpg", self::COMPRESSION);
+        
+        $this->setHeight($this->photoService->getHeight($image));
+        $this->setWidth($this->photoService->getWidth($image));
+        
+        $this->imageTemp = $image;
+        unset($this->fileObjectTemp);
+    }
+    
+    
+    
+    /**
+     * Cette fonction déplace et enregistre le fichier à l'emplacement
+     * prévu.
+     * Elle est appelée après l'enregistremetn de la photo dans la base de 
+     * donnée (post-persist).
+     */
+    public function upload()
+    {
+        if ($this->imageTemp === null)
+        {
+            return;
+        }
+        
+        $result = $this->photoService
+                ->saveToFile(
+                        $this->imageTemp, 
+                        $this->getUploadRootDir().$this->file, 
+                        self::COMPRESSION);
+        
         
         if ($result == false)
             throw new \Exception("impossible de sauvegarder le fichier");
         
-        unset($this->fileObjectTemp);
+        unset($this->imageTemp);
     }
 
     /**
