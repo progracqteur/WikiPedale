@@ -45,8 +45,9 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             
             $place->setAddress($add);
 
-
             $manager->persist($place);
+            
+            $this->addReference("PLACE_FOR_REGISTERED_USER".$i, $place);
         }
     
         //ajout de places avec utilisateurs non enregistré
@@ -68,6 +69,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $place->setAddress($this->geolocate($point));
 
             $manager->persist($place);
+            
+            $this->addReference("PLACE_FOR_UNREGISTERED_USER".$i, $place);
         }
         
         

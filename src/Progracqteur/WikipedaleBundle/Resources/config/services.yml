@@ -2,6 +2,7 @@ parameters:
 #    progracqteur_wikipedale.example.class: Progracqteur\WikipedaleBundle\Example
   progracqteur_wikipedale.normalizer.class : Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService
   progracqteur_wikipedale.security.controlList.class : Progracqteur\WikipedaleBundle\Resources\Security\ChangeService
+  progracqteur_wikipedale.service.photo.class: Progracqteur\WikipedaleBundle\Resources\Services\PhotoService
 services:
   progracqteurWikipedaleSerializer:
     class: %progracqteur_wikipedale.normalizer.class%
@@ -14,6 +15,9 @@ services:
     class: %progracqteur_wikipedale.security.controlList.class%
     arguments: 
       securityContext: '@security.context'
+  progracqteurWikipedalePhotoService:
+    class: %progracqteur_wikipedale.service.photo.class%
+    
 
 #    progracqteur_wikipedale.example:
 #        class: %progracqteur_wikipedale.example.class%

@@ -65,7 +65,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     private $creatorUnregisteredProxy;
     
     /**
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Photos
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Photo
      */
     private $photos;
     /**
@@ -373,7 +373,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      *
      * @param Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos
      */
-    public function addPhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photos $photos)
+    public function addPhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photo $photos)
     {
         //TODO: implémenter le tracking policy pour les photos
         $this->photos[] = $photos;

@@ -7,12 +7,24 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
       generator: {strategy: AUTO}
   fields:
     file:
-      type: file
+      type: string
+      length: 255
+    height:
+      type: integer
+    width:
+      type: integer
     createDate:
       type: datetime
+    legend:
+      type: string
+    published:
+      type: boolean
   manyToOne:
     creator:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
     place:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
       inversedBy: photos
+  lifecycleCallbacks:
+    postPersist: [ upload ]
+    postUpdate: [ upload ]

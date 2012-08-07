@@ -22,6 +22,31 @@ public function getOrder() {
     }
     
 public function load(ObjectManager $manager) {
+        
+        /**
+         * @var Progracqteur\WikipedaleBundle\Entity\Management\User 
+         */
+        $u = $this->container->get('fos_user.user_manager')->createUser();
+        $str = $this->createId();
+        $u->setEmail("admin.$str@fastre.info");
+        $u->setLabel("admin $str");
+        $u->setPassword($str);
+        $u->addRole(User::ROLE_ADMIN);
+        
+        $u = $this->container->get('fos_user.user_manager')->createUser();
+        $str = $this->createId();
+        $u->setEmail("bicycle.$str@fastre.info");
+        $u->setLabel("bicycle $str");
+        $u->setPassword($str);
+        $u->addRole(User::ROLE_STATUS_BICYCLE);
+        
+        $u = $this->container->get('fos_user.user_manager')->createUser();
+        $str = $this->createId();
+        $u->setEmail("city.$str@fastre.info");
+        $u->setLabel("city $str");
+        $u->setPassword($str);
+        $u->addRole(User::ROLE_STATUS_CITY);
+        
         $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();
         $u->setEmail("$str@fastre.info");
@@ -38,7 +63,7 @@ public function load(ObjectManager $manager) {
     //cette partie du code sert à créer des chaines de caractères aléatoires
   private $n = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-  private $z = array(6);
+  private $z = array(3);
 
   public function createId() {
   
