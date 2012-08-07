@@ -230,7 +230,8 @@ class PlaceController extends Controller {
                 $this->generateUrl('wikipedale_place_view', 
                         array('id' => $place->getId(), 
                             '_format' => 'json',
-                            'return' => $return)
+                            'return' => $return,
+                            'addUserInfo' => $request->get('addUserInfo', false))
                         )
                 );
     }
