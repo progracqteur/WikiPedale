@@ -30,22 +30,28 @@ public function load(ObjectManager $manager) {
         $str = $this->createId();
         $u->setEmail("admin.$str@fastre.info");
         $u->setLabel("admin $str");
-        $u->setPassword($str);
+        $u->setPassword("admin");
         $u->addRole(User::ROLE_ADMIN);
+        
+        $manager->persist($u);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();
         $u->setEmail("bicycle.$str@fastre.info");
         $u->setLabel("bicycle $str");
-        $u->setPassword($str);
+        $u->setPassword("admin");
         $u->addRole(User::ROLE_STATUS_BICYCLE);
+        
+        $manager->persist($u);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();
         $u->setEmail("city.$str@fastre.info");
         $u->setLabel("city $str");
-        $u->setPassword($str);
+        $u->setPassword("admin");
         $u->addRole(User::ROLE_STATUS_CITY);
+        
+        $manager->persist($u);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();
