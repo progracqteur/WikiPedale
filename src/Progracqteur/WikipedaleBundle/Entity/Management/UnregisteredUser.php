@@ -15,8 +15,6 @@ class UnregisteredUser extends User{
     
     private $ip;
     
-    const ROLE_UNREGISTERED = "UNREGISTERED";
-    
     
     
     
@@ -88,10 +86,6 @@ class UnregisteredUser extends User{
         } else {
             return false;
         }
-    }
-    
-    public function getRoles(){
-        return array(self::ROLE_UNREGISTERED);
     }
     
 }
