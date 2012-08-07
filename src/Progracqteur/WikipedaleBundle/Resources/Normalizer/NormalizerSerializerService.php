@@ -11,6 +11,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
@@ -28,6 +29,12 @@ class NormalizerSerializerService {
     const USER_TYPE = 'user';
     
     private $em;
+    /**
+     * @var Symfony\Component\Security\Core\SecurityContext
+     */
+    private $securityContext;
+    
+    private $container;
     
     //Normalizers
     private $addressNormalizer = null;
@@ -40,9 +47,11 @@ class NormalizerSerializerService {
     private $jsonEncoder = null;
     
     
-    public function __construct(EntityManager $em)
+    public function __construct(ContainerInterface $container)//EntityManager $em, $securityContext)
     {
-        $this->em = $em;
+        /*$this->em = $em;
+        $this->securityContext = $securityContext;*/
+        $this->container = $container;
     }
     
     /**
@@ -113,12 +122,27 @@ class NormalizerSerializerService {
     
     public function getManager()
     {
-        return $this->em;
+        //return $this->em;
+        return $this->container->get('doctrine')->getEntityManager();
     }
     
+    /**
+     *
+     * @return null (?)
+     * @deprecated 
+     */
     public function getSession()
     {
         return $this->session;
+    }
+    
+    /**
+     *
+     * @return Symfony\Component\Security\Core\SecurityContext 
+     */
+    public function getSecurityContext()
+    {
+        return $this->container->get('security.context');
     }
     
     /**
@@ -158,6 +182,17 @@ class NormalizerSerializerService {
                 break;
             default :
                 throw new \Exception("Le format $format n'est pas connu par le service NormalizerSerializerService");
+        }
+        
+        if ($this->container->get('request')->get('addUserInfo', false))
+        {
+            if ($this->getSecurityContext()->isGranted('IS_AUTHENTICATED_FULLY')) 
+            {
+                $response->setUser($this->getSecurityContext()->getToken()->getUser());
+            } else {
+                $u = new \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser();
+                $response->setUser($u);
+            }
         }
         
         $serializer = new Serializer(

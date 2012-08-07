@@ -146,6 +146,7 @@ class PlaceController extends Controller {
             case 'json':
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
                 $rep = new NormalizedResponse($r);
+                
                 $ret = $normalizer->serialize($rep, $_format);
                 
                 return new Response($ret);
@@ -229,7 +230,8 @@ class PlaceController extends Controller {
                 $this->generateUrl('wikipedale_place_view', 
                         array('id' => $place->getId(), 
                             '_format' => 'json',
-                            'return' => $return)
+                            'return' => $return,
+                            'addUserInfo' => $request->get('addUserInfo', false))
                         )
                 );
     }

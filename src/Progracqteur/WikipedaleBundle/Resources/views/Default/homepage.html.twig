@@ -6,11 +6,13 @@
 <script language="javascript"> 
   <!--
       $(document).ready(function(){
-          homepageMap('{{ app.session.get('city') }}', {{app.session.get('city_center').lon}}, {{app.session.get('city_center').lat}},
-				     displayPlaceDataFunction);
+          homepageMap('{{ app.session.get('city') }}', {{app.session.get('city_center').lon}}, {{app.session.get('city_center').lat}});
 	  });
   // -->
 </script>
+
+<strong>FAIRE REFACTORIENG</strong><br>
+
 <div id="olPanelUL"></div>
 
 <div id="PanelUR">
@@ -31,7 +33,7 @@
       <br />
       <br />
       Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.<br /><br />
-      <form method="post" action="javascript:catchPlaceForm('#new_placeForm')" id="new_placeForm">
+      <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
         <input type="hidden"  name="lon" readonly="true" />
         <input  type="hidden" name="lat" readonly="true" />
         <label for="l">Lieu : </label> <input name="lieu" id="l" size=42 /><br />
@@ -54,7 +56,7 @@
 
     <div id="div_placeDetails" style="margin-left:15px;display:none;background: white;"> 
       <h1>D&eacute;tails du point noir <span class="span_id"></span></h1>	
-      <strong>Lieu</strong> : <strong>TODO</strong><br />
+      <strong>Lieu</strong> : <span id="span_lieu"></span><br />
       <strong>Description</strong> : <span id="span_description"></span><br />
       <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
       <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
@@ -71,7 +73,7 @@
       <strong>Contact</strong> : <span id="span_user_label"></span><br />
       <strong>Mail</strong> : <span id="span_email"></span><br />
       <br />
-      <form method="post" action="javascript:catchPlaceForm('#editForm')" name="f" id="editForm">
+      <form method="post" action="javascript:catchForm('#editForm')" name="f" id="editForm">
         <input type ="hidden" value="" id="f_id" name="id" />
         <p class="p_form">
           <label for="f_lieu" class="label_aligne"><strong>Lieu</ strong> : </label> 
@@ -83,12 +85,7 @@
         </p>
         <p class="p_form">
           <label for="c" class="label_aligne"><strong>Couleur</strong> :</label>
-          <select name="couleur" id="c">
-            <option id="white" value="white" >Blanc</option>
-            <option id="red" value="red">Rouge</option>
-            <option id="yellow" value="yellow">Jaune</option>
-            <option id="green" value="green">Vert</option>
-          </select>
+          TODO
         </p>
         <p class="p_form" id="message_erreur" style="display:none">
           <span style="margin-left:100px; background-color:red;">Veuillez vous <a href="connexion.php" target="_blank">connecter</a> pour enregistrer la modification.</span>
