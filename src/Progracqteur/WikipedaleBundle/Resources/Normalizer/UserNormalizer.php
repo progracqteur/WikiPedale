@@ -69,13 +69,25 @@ class UserNormalizer implements NormalizerInterface
     public function normalize($object, $format = null) {
         
         $a =  array(
+            'entity' => 'user',
             'id' => $object->getId(),
             'label' => $object->getLabel(),
             'nbComment' => $object->getNbComment(),
             'nbVote' => $object->getNbVote(),
-            'entity' => 'user',
+            'roles' => $object->getRoles(),
             'registered' => $object->isRegistered()
         );
+        
+        if (
+                $this->service->getSecurityContext()->isGranted(User::ROLE_STATUS_BICYCLE)
+              OR
+                $this->service->getSecurityContext()->isGranted(User::ROLE_STATUS_CITY)
+              OR
+                $this->service->getSecurityContext()->isGranted(User::ROLE_ADMIN)
+                )
+        {
+            $a['email'] = $object->getEmail();
+        }
         
 
         return $a;

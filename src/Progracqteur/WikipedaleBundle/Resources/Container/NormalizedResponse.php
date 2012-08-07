@@ -2,6 +2,8 @@
 
 namespace Progracqteur\WikipedaleBundle\Resources\Container;
 
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
+
 /**
  * Description of NormalizedResponse
  *
@@ -14,6 +16,7 @@ class NormalizedResponse {
     private $count = 0;
     private $start = 0;
     private $limit;
+    private $user = null;
     
     
     public function __construct($results)
@@ -33,6 +36,26 @@ class NormalizedResponse {
         } else {
             $this->count = 1;
         }
+    }
+    
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+    
+    public function hasUser()
+    {
+        if ($this->user === null) {
+            return false;
+        } else 
+        {
+            return true;
+        }
+    }
+    
+    public function getUser()
+    {
+        return $this->user;
     }
     
     public function setTotal($total)

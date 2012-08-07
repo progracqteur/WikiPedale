@@ -59,15 +59,20 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         $result = $object->getResults();
         
         if (is_array($result)) {
-            foreach ($result as $key => $object)
+            foreach ($result as $key => $data)
             {
-                $b[] = $this->getNormalizedForm($object);
+                $b[] = $this->getNormalizedForm($data);
             }
         } else {
             $b[] = $this->getNormalizedForm($result);
         }
          
         $r['results'] = $b;
+        
+        if ($object->hasUser())
+        {
+            $r['user'] = $this->getNormalizedForm($object->getUser());
+        }
         
         return $r;
        
