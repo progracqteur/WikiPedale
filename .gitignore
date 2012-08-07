@@ -6,4 +6,5 @@
 /app/bootstrap*
 /src/Acme/
 /output/
-/web/uploads/
+/web/uploads/*
+/src/Progracteur/WikipedaleBundle/DataFixtures/ORM/Files/*
