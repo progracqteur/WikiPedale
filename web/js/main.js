@@ -14,17 +14,41 @@ var path_root = './';
 
 var new_placeMarker;
 
+var last_place_selected = null;
+
 $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
 
 /* <- USER */
-var isAdmin = true; // true si l'utilisateur est admin
-var isRegister = true; // true si l'utilisateur est connecte
+var user = null;
+function UpdateUserInfo(newUserInfo){
+    alert(JSON.stringify(newUserInfo));
+    user = newUserInfo;
+}
+
+function IsAdmin() {
+    /**
+    * Returns True if the user is admin.
+    */
+    return user != null && user.roles.indexOf('ROLE_ADMIN') != -1;
+}
+
+function IsRegister(){
+    /**
+    * Returns True if the user is register.
+    */
+    return user != null && user.registered;
+}
 /* USER -> */
 
-var blopFunction = function() {
+function blopFunction() {
+    /**
+    * Testing function
+    */
         alert('blop');
     }
+
+
 
 function UnregisterUserInJson(label,email){
     /**
@@ -72,12 +96,15 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
             ret = ret + ',"id":' + JSON.stringify(id);
         }
 
-    if( !isRegister && (user_label != undefined || user_email != undefined))
+    if(lon!=undefined && lon!=null && lat!=undefined && lon!=null)
+    {
+        ret = ret + ',"geom":'+ PointInJson(lon,lat);
+    }
+    if( !IsRegister() && (user_label != undefined || user_email != undefined))
         { ret = ret + ',"creator":' + UnregisterUserInJson(user_label, user_email); }
 
     return ret + ',"description":' + JSON.stringify(description)
         + ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}'
-        + ',"geom":'+ PointInJson(lon,lat)
         + '}';
 }
 
@@ -92,8 +119,6 @@ function catchForm(formName) {
     $.map($(formName).serializeArray(), function(n, i){
         place_data[n['name']] = n['value'];
     });
-
-    alert(JSON.stringify(place_data));
 
     error_messages = "";
     if(place_data['description'] == "")
@@ -123,17 +148,26 @@ function catchForm(formName) {
             url: path_root + "place/change.json",
             cache: false,
             success: function(output_json) { 
-                alert(output_json.query.error);
                 if(! output_json.query.error) { 
                     newPlaceData = output_json.results[0];
-                    alert(newPlaceData);
                     addMarkerWithClickAction(false,
                         newPlaceData.geom.coordinates[0],
                         newPlaceData.geom.coordinates[1],
                         displayPlaceDataFunction,
                     newPlaceData);
-                    clearNewPlaceForm();
-                    changingModeFunction();
+                    
+
+                    if(! editForm) {
+                        alert("Le point noir que vous avez soumis a bien été enregistré. Merci!");
+                        changingModeFunction();
+                        document.getElementById("div_placeEdit").style.display = "none";
+                        clearNewPlaceForm();
+                        displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
+                        }
+                    else {
+                        alert("Le point noir a bien été modifié. Merci!");
+                    }
+                    
                 }
                 else { 
                     alert(output_json[0].message);
@@ -153,21 +187,37 @@ function catchForm(formName) {
 }
 
 
+function FillNewPlaceFormForRegisterUser(){
+    /**
+    * If the user is register, fill the form with id 'new_placeForm' with the email and the label ;
+    * Otherwise do nothing.
+    */
+    if(IsRegister()) {
+        document.getElementById("new_placeForm").user_label.value = user.label;
+        document.getElementById("new_placeForm").user_label.setAttribute("readonly","readonly");
+        document.getElementById("new_placeForm").email.value = user.email;
+        document.getElementById("new_placeForm").email.setAttribute("readonly","readonly");
+    }
+}
+
 function clearNewPlaceForm() {
     /** 
     * Clear the data entered in the form with id 'new_placeForm'
     */
     document.getElementById("new_placeForm").user_label.value = "";
+    document.getElementById("new_placeForm").user_label.readOnly=false;
+    document.getElementById("new_placeForm").email.value = "";
+    document.getElementById("new_placeForm").email.readOnly=false;
+    document.getElementById("new_placeForm").email.value = "";
     document.getElementById("new_placeForm").lieu.value = "";
     document.getElementById("new_placeForm").description.value = "";
-    document.getElementById("new_placeForm").email.value = "";
     document.getElementById("new_placeForm").lon.value = "";
     document.getElementById("new_placeForm").lat.value = "";
 }
 
 function changingModeFunction() {
     /**
-    * TODO
+    * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
     */
     if(!add_new_place_mode) {
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
@@ -206,6 +256,9 @@ function changingModeFunction() {
                 }
             });
 
+            if(IsRegister()) {
+                FillNewPlaceFormForRegisterUser();
+                }
             document.getElementById("div_signaler").style.display = "block";
             document.getElementById("div_placeDetails").style.display = "none";
             document.getElementById("div_placeEdit").style.display = "none";
@@ -246,9 +299,11 @@ function changingModeFunction() {
             });
 
             document.getElementById("div_signaler").style.display = "none";
-            if(isAdmin) { document.getElementById("div_placeEdit").style.display = "block"; }
-            else { document.getElementById("div_placeDetails").style.display = "block"; }
-            
+
+            if(last_place_selected != null ) {
+                if(IsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
+                else { document.getElementById("div_placeDetails").style.display = "block"; }
+            }
             add_new_place_mode = false; 
         }
     };
@@ -263,7 +318,7 @@ function homepageMap(townId, townLon, townLat) {
      * @param {clickAction} TODO
      */
 
-    jsonUrlData  =  path_root + 'place/list/bycity.json?city=' + townId;
+    jsonUrlData  =  path_root + 'place/list/bycity.json?city=' + townId + '&addUserInfo=1';
 
     map = new OpenLayers.Map('map');
     osm = new OpenLayers.Layer.OSM("OSM MAP");
@@ -325,6 +380,7 @@ function homepageMap(townId, townLon, townLat) {
         });
     });
     $.getJSON(jsonUrlData, function(data) {
+    UpdateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
         //alert(aPlaceData.addressparts.road);
 	    addMarkerWithClickAction(false,
@@ -385,12 +441,13 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
+    last_place_selected = placeData.id;
     $('.span_id').each(function() { this.innerHTML = placeData.id; });
     $('.span_nbComm').each(function() { this.innerHTML = placeData.nbComm; });
     $('.span_nbVote').each(function() { this.innerHTML = placeData.nbVote; });
     $('.span_creator').each(function() { this.innerHTML = placeData.creator.label; });
     
-    if (isAdmin) {
+    if (IsAdmin()) {
         document.getElementById("f_id").value = placeData.id;
         document.getElementById("f_lieu").value = placeData.addressParts.road;
         document.getElementById("f_description").value = placeData.description;
@@ -400,6 +457,10 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         document.getElementById("span_lieu").innerHTML = placeData.addressParts.road;
         document.getElementById("span_description").innerHTML = placeData.description;
         document.getElementById("div_placeDetails").style.display = "block";
+    }
+
+    if(IsRegister()){
+
     }
 }
 
