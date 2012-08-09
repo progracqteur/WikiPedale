@@ -39,6 +39,17 @@ wikipedale_place_change:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:change }
   requirements:
     _format: json
+    
+    
+wikipedale_photo_by_place:
+  pattern: /photo/byplace/{placeId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:getPhotoByPlace }
+  requirements:
+    _format: json|html
+    
+wikipedale_photo_new:
+  pattern: /photo/new/place-{placeId}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:new }
 
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production

@@ -1,0 +1,12 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block body %}
+
+<form method="POST" action="#" {{ form_enctype(form) }} >
+  {{ form_widget(form) }}
+
+  <input type="submit" />
+
+</form>
+
+{% endblock %}

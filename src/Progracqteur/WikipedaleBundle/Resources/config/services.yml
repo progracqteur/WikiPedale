@@ -17,6 +17,11 @@ services:
       securityContext: '@security.context'
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
+  progracqteurWikipedale.form.type.photo:
+      class: Progracqteur\WikipedaleBundle\Form\Model\PhotoType
+      arguments: ["@service_container"]
+      tags:
+          - { name: form.type, alias: photo }
     
 
 #    progracqteur_wikipedale.example:
