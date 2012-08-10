@@ -8,4 +8,4 @@
 /output/
 /web/uploads/*
 /src/Progracqteur/WikipedaleBundle/DataFixtures/ORM/Files/*
-!/src/Progracqteur/WikipedaleBundle/DataFixtures/ORM/Files/index.html
+!web/uploads/index.html
