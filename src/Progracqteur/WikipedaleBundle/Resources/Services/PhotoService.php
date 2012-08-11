@@ -63,7 +63,7 @@ class PhotoService {
     public function toImage(SplFileInfo $file)
     {
         //TODO vérifier s'il n'y a pas d'autres types d'images possibles
-        return imagecreatefromjpeg($file->getPathname());
+        return imagecreatefromjpeg($file->getRealPath());
     }
     
     public function resizeToHeight($image, $height) {

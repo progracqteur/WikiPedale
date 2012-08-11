@@ -1,12 +1,34 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
+{# 
+
+Cette vue sert à afficher le formulaire d'envoi des photos.
+
+Il reçoit deux arguments : 
+- form : le formulaire
+- photo : la photo !!!attention uniquement si une photo a déjà été uploadée !!!
+
+
+#}
+
 {% block body %}
 
+{# merci de ne pas changer le paramètre 'action' #}
 <form method="POST" action="#" {{ form_enctype(form) }} >
+    
+    {% if photo is defined %}
+       <img src="{{asset(photo.getWebPath)}}" alt="{{ photo.legend }}" />
+       <p>Liée à l'emplacement {{photo.place.address.road}}</p>
+       <p>Envoyée par {{photo.creator.username}}</p>
+    
+    {% endif %}
+    
   {{ form_widget(form) }}
 
   <input type="submit" />
 
+  {# Merci de laisser la fonction form_rest: elle rend les champs cachés #}
+  {{ form_rest(form) }}
 </form>
 
 {% endblock %}

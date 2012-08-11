@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Entity\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Services\PhotoService;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Photo
@@ -105,11 +106,13 @@ class Photo
      *
      * @param blob $file
      */
-    public function setFile($file)
+    public function setFile(File $file = null)
     { 
-        $this->fileObjectTemp = $file;
-        $this->prepareFileName(self::TYPE_JPEG); //TODO à adapter si support d'autres type d'images
-                
+        if ($file !== null) 
+        {
+            $this->fileObjectTemp = $file;
+            $this->prepareFileName(self::TYPE_JPEG); //TODO à adapter si support d'autres type d'images
+        }
     }
     
     private function prepareFileName($filetype)
@@ -133,6 +136,11 @@ class Photo
         return $this->file;
     }
     
+    public function getFileObject()
+    {
+        return $this->fileObjectTemp;
+    }
+    
     /**
      * Ajoute les informations adéquates dans la base de donnée
      * à partir du fichier à uploader sur le serveur
@@ -144,7 +152,7 @@ class Photo
         {
             return;
         }
-        
+              
         $image = $this->photoService->toImage($this->fileObjectTemp);
         $image = $this->photoService->resizeToMaximumSize($image, self::MAXIMUM_SIZE);
         
@@ -295,7 +303,7 @@ class Photo
      */
     public function setLegend($legend)
     {
-        $this->legend = $legend;
+        $this->legend = trim($legend); //TODO: XSS protection
         return $this;
     }
 

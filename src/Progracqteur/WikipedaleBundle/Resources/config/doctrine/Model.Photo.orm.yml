@@ -17,6 +17,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
       type: datetime
     legend:
       type: string
+      length: 500
     published:
       type: boolean
   manyToOne:

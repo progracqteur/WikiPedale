@@ -7,5 +7,5 @@
 /src/Acme/
 /output/
 /web/uploads/*
+!/web/uploads/images/index.hmtl
 /src/Progracqteur/WikipedaleBundle/DataFixtures/ORM/Files/*
-!/web/uploads/images/index.html

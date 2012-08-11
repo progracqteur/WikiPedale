@@ -67,6 +67,8 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
                 $manager->persist($photo);
             }
             
+            $i++;
+            
         }
 
         

@@ -48,8 +48,16 @@ wikipedale_photo_by_place:
     _format: json|html
     
 wikipedale_photo_new:
-  pattern: /photo/new/place-{placeId}
+  pattern: /photo/new/place-{placeId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:new }
+  requirements:
+    _format: html
+    
+wikipedale_photo_update:
+  pattern: /photo/update/{photoId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:update }
+  requirements:
+    _format: html
 
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production

@@ -24,4 +24,21 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - Min: {limit: 0, message: statusBicycle doit être supérieur à 0}
       - Max: {limit: 2, message: statusBicycle doit être inférieur à 2}
       - Max: {limit: 0, message: statusBicycle doit être égal à 0 lors de la création, groups: [creation]}
+
+Progracqteur\WikipedaleBundle\Entity\Model\Photo:
+  getters:
+    fileObject:
+      - Image:
+          maxSize: 3096k
+          maxSizeMessage: Le fichier est trop volumineux. Réduisez-le avant envoi.
+          mimeTypes: [image/jpeg]
+          mimeTypesMessage: Le fichier n'est pas un format accepté. Seul le format jpg est accepté.
+    creator:
+      - NotNull: {message: Le créateur ne peut pas être null}
+    place:
+      - NotNull: {message: La photo doit être reliée à un emplacement}
+  properties:
+    legend:
+      - MaxLength: {limit: 500, message: La légende ne peut dépasser 500 caractères }
       
+    
