@@ -56,6 +56,12 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * @var Progracqteur\WikipedaleBundle\Resources\Container\Hash $infos
      */
     private $infos;
+    
+    /**
+     *
+     * @var boolean
+     */
+    private $accepted = true;
 
     /**
      * @var Progracqteur\WikipedaleBundle\Entity\Management\User
@@ -147,7 +153,15 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function getAddress()
     {
-        return $this->address;
+        if ($this->address != null) 
+        {
+            return $this->address;
+        } else 
+        {
+            $addr =  new Address();
+            $addr->setRoad('Adresse inconnue');
+            return $addr;
+        }
     }
 
     /**
@@ -416,6 +430,16 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     public function getStatusBicycle()
     {
         return $this->statusBicycle;
+    }
+    
+    public function setAccepted($accepted)
+    {
+        $this->accepted = $accepted;
+    }
+    
+    public function isAccepted()
+    {
+        return $this->accepted;
     }
     
     public function setStatusBicycle($status)

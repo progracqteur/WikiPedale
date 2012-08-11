@@ -35,6 +35,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       type: integer
     lastUpdate:
       type: datetime
+    accepted:
+      type: boolean
+      default: true
   manyToOne:
 #    category:
 #      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
