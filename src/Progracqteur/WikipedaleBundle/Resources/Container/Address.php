@@ -91,5 +91,10 @@ class Address {
     {
         return $this->toArray() == $address->toArray();
     }
+    
+    public function getRoad()
+    {
+        return $this->road;
+    }
 }
 
