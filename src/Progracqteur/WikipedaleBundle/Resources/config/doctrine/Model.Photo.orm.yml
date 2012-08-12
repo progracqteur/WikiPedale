@@ -27,7 +27,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
       inversedBy: photos
   lifecycleCallbacks:
-    prePersist: [ preUpload ]
-    preUpdate: [ preUpload ]
+    prePersist: [ preUpload, informPlace ]
+    preUpdate: [ preUpload, informPlace ]
     postPersist: [ upload ]
     postUpdate: [ upload ]

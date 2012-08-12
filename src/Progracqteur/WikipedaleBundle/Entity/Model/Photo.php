@@ -75,6 +75,13 @@ class Photo
      */
     private $imageTemp;
     
+    private $mustInformPlace = null;
+    
+    const _ADD_PHOTO = 0;
+    const _DELETE_PHOTO = 1;
+    const _CHANGE_PLACE = 2;
+    private $oldPlace = null;
+    
     const MAXIMUM_SIZE = 800;
     const COMPRESSION = 98;
     const TYPE_JPEG = 'jpg';
@@ -139,6 +146,26 @@ class Photo
     public function getFileObject()
     {
         return $this->fileObjectTemp;
+    }
+    
+    /**
+     * exécutée durant la phase de prePersist de Doctrine2
+     * Informe les places du changement de photo
+     */
+    public function informPlace()
+    {
+        switch ($this->mustInformPlace) {
+            //dans le cas d'un changement (le increase est répété ensuite)
+            case self::_CHANGE_PLACE :
+                $this->oldPlace->decreasePhoto();
+            //dans le cas d'un ajout, seul le increase est modifié
+            case self::_ADD_PHOTO :
+                $this->place->increasePhoto();
+                break;
+            case self::_DELETE_PHOTO :
+                $this->place->decreasePhoto();
+            
+        }
     }
     
     /**
@@ -238,7 +265,21 @@ class Photo
      */
     public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place)
     {
+        //suis le changement de place
+        //dans le cas d'un changmetn de place
+        if ($this->place !== null && $this->place->getId() != $place->getId())
+        {
+            //vérifie qu'il n'y a pas eu plusieurs changements de place
+            //seule la place lors du retrait de l'instance de la BD doit être informée
+            if ($this->oldPlace !== null)
+                $this->oldPlace = $this->place;
+            $this->mustInformPlace = self::_CHANGE_PLACE;
+        } else {
+            $this->mustInformPlace = self::_ADD_PHOTO;
+        }
+        
         $this->place = $place;
+        
     }
 
     /**
@@ -325,8 +366,22 @@ class Photo
      */
     public function setPublished($published)
     {
+        if ($this->published == true && $published == false)
+        {
+            $this->mustInformPlace = self::_DELETE_PHOTO;
+        } elseif ($this->published == false && $published == true)
+        {
+            $this->mustInformPlace = self::_ADD_PHOTO;
+        }
+        
         $this->published = $published;
+        
         return $this;
+        
+        /*
+         * FIXME : il semble que le suivi du compteur de photo ne soit pas enregistré 
+         * lorsqu'une photo est dépubliée / publiée
+         */
     }
 
     /**

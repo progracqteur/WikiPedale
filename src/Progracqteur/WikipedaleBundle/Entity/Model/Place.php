@@ -379,6 +379,19 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         $this->change('nbVote', ($this->nbVote - 1), $this->nbVote);
         $this->getChangeset()->addChange(ChangeService::PLACE_ADD_VOTE, null);
     }
+    
+    public function increasePhoto()
+    {
+        $this->nbPhoto++;
+        $this->change('nbPhoto', ($this->nbPhoto -1), $this->nbPhoto);
+    }
+    
+    public function decreasePhoto()
+    {
+        $this->nbPhoto--;
+        $this->change('nbPhoto', ($this->nbPhoto +1), $this->nbPhoto);
+                
+    }
 
  
 
