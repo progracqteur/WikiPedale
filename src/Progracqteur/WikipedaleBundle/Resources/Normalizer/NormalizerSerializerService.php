@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
@@ -40,6 +41,7 @@ class NormalizerSerializerService {
     private $addressNormalizer = null;
     private $placeNormalizer = null;
     private $userNormalizer = null;
+    private $photoNormalizer = null;
     private $normalizedResponseNormalizer = null;
     private $normalizedResponseExceptionNormalizer = null;
     
@@ -94,6 +96,16 @@ class NormalizerSerializerService {
         }
         
         return $this->userNormalizer;
+    }
+    
+    public function getPhotoNormalizer()
+    {
+        if ($this->photoNormalizer === null)
+        {
+            $this->photoNormalizer = new PhotoNormalizer($this);
+        }
+        
+        return $this->photoNormalizer;
     }
     
     /**

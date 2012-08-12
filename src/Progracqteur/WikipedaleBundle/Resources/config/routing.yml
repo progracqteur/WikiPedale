@@ -42,7 +42,7 @@ wikipedale_place_change:
     
     
 wikipedale_photo_by_place:
-  pattern: /photo/byplace/{placeId}.{_format}
+  pattern: /photo/list/byplace/{placeId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:getPhotoByPlace }
   requirements:
     _format: json|html

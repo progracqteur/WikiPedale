@@ -19,9 +19,10 @@ class NormalizedResponse {
     private $user = null;
     
     
-    public function __construct($results)
+    public function __construct($results = null)
     {
-        $this->setResults($results);
+        if ($results !== null)
+            $this->setResults($results);
     }
     
     public function setResults($results)

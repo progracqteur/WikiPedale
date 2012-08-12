@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 
 /**
  * Description of PhotoController
@@ -25,20 +26,26 @@ class PhotoController extends Controller
             throw $this->createNotFoundException("La place $placeId n'a pas été trouvée");
         }
         
-        $q = $em->createQuery("SELECT ph from ProgracqteurWikipedaleBundle:Model\\Photo ph where ph.place = :place")
+        $q = $em->createQuery("SELECT ph from ProgracqteurWikipedaleBundle:Model\\Photo ph 
+            where ph.place = :place and ph.published = true")
                 ->setParameter('place', $place);
         
         $photos = $q->getResult();
         
-        $response = "Nombre de photos ".count($photos)." 
-            ";
-        
-        foreach ($photos as $photo)
+        switch($_format)
         {
-            $response.= $photo->getFile();
+            case 'json':
+                $response = new NormalizedResponse();
+                $response->setResults($photos);
+                
+                $serializer = $this->get('progracqteurWikipedaleSerializer');
+                $string = $serializer->serialize($response, $_format);
+                
+                return new Response($string);
+                break;
+            default:
+                throw new \Exception("le format $_format est inconnu");
         }
-        
-        return new Response($response);
     }
     
     public function newAction($placeId, $_format, Request $request)

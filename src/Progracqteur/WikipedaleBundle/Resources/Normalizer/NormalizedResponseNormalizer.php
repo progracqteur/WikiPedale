@@ -7,6 +7,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
 /**
@@ -87,6 +88,9 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         } else if ($object instanceof User)
         {
             return $this->service->getUserNormalizer()->normalize($object);
+        } else if ($object instanceof Photo)
+        {
+            return $this->service->getPhotoNormalizer()->normalize($object);
         }
     }
 
