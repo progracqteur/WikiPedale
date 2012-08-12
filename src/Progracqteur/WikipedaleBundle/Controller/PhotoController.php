@@ -45,7 +45,7 @@ class PhotoController extends Controller
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
         {
-            throw new AccessDeniedException('Vous devez être authentifié pour envoyer une image');
+            throw new AccessDeniedException('Vous devez être un administrateur pour modifier une image');
         }
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -110,6 +110,7 @@ class PhotoController extends Controller
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
         {
+            $this->get('session')->setFlash('notice', "Vous devez être un administrateur pour modifier une image");
             throw new AccessDeniedException('Vous devez être authentifié pour modifier une image');
         }
         
