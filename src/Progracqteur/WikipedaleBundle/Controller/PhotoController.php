@@ -99,7 +99,8 @@ class PhotoController extends Controller
                 $this->get('session')->setFlash('notice', "Votre photo a été correctement enregistrée.");
                 
                 return $this->redirect($this->generateUrl('wikipedale_photo_update', array(
-                    'photoId' => $photo->getId(),
+                    'fileNameP' => $photo->getFileName(),
+                    'photoType' => $photo->getPhotoType(),
                     '_format' => $_format
                 ))); //TODO renvoyer vers le chemin adéquat
             }
@@ -113,7 +114,7 @@ class PhotoController extends Controller
         
     }
     
-    public function updateAction($photoId, $_format, Request $request)
+    public function updateAction($fileNameP, $photoType, $_format, Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
         {
@@ -123,7 +124,8 @@ class PhotoController extends Controller
         
         $em = $this->getDoctrine()->getEntityManager();
         
-        $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')->find($photoId);
+        $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
+                ->findOneBy(array('file' => $fileNameP.'.'.$photoType));
         
         if ($photo === null)
         {
@@ -138,11 +140,13 @@ class PhotoController extends Controller
         if ($request->getMethod() == 'POST')
         {
             $form->bindRequest($request);
+            $photo->setPhotoService($this->get('progracqteurWikipedalePhotoService'));
             
             $uploadedFile = $form['file']->getData();
-            if ($uploadedFile !== null && !$uploadedFile->isValid())
+            if ($uploadedFile != null && $uploadedFile->isValid())
             {
-                throw new \Exception("Le fichier envoyé n'est pas valide");
+                $error = $uploadedFile->getError();
+                throw new \Exception("Le fichier envoyé n'est pas valide. Erreur : $error dump : $dump");
             }
             
             if ($form->isValid())
@@ -152,7 +156,8 @@ class PhotoController extends Controller
                 $this->get('session')->setFlash('notice', "La photo a été mise à jour");
                 
                 return $this->redirect($this->generateUrl('wikipedale_photo_update', array(
-                    'photoId' => $photo->getId(),
+                    'fileNameP' => $photo->getFileName(),
+                    'photoType' => $photo->getPhotoType(),
                     '_format' => $_format
                     
                     )));

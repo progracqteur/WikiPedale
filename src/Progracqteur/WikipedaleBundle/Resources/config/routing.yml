@@ -54,7 +54,7 @@ wikipedale_photo_new:
     _format: html
     
 wikipedale_photo_update:
-  pattern: /photo/update/{photoId}.{_format}
+  pattern: /photo/update/{fileNameP}.{photoType}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:update }
   requirements:
     _format: html

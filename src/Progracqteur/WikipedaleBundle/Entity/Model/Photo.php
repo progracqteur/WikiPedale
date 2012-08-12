@@ -115,7 +115,6 @@ class Photo
      */
     public function setFile(File $file = null)
     { 
-        //TODO : comportement spécifique si modification du fichier (enlever du serveur l'ancien)
         if ($file !== null) 
         {
             $this->fileObjectTemp = $file;
@@ -125,13 +124,18 @@ class Photo
     
     private function prepareFileName($filetype)
     {
-        switch ($filetype)
+        //le nom du fichier ne peut pas être modifié s'il existe déjà
+        if ($this->file == null)
         {
-            case self::TYPE_JPEG :
-            default:
-                $post = ".jpg";
+            switch ($filetype)
+            {
+                case self::TYPE_JPEG :
+                default:
+                    $post = ".jpg";
+            }
+            $this->file = $this->createFileName().$post;
         }
-        $this->file = $this->createFileName().$post;
+        
     }
 
     /**
@@ -142,6 +146,18 @@ class Photo
     public function getFile()
     {
         return $this->file;
+    }
+    
+    public function getFileName()
+    {
+        $a = explode('.', $this->getFile());
+        return $a[0];
+    }
+    
+    public function getPhotoType()
+    {
+        $a = explode('.', $this->getFile());
+        return $a[1];
     }
     
     public function getFileObject()
@@ -180,7 +196,7 @@ class Photo
         {
             return;
         }
-              
+        
         $image = $this->photoService->toImage($this->fileObjectTemp);
         $image = $this->photoService->resizeToMaximumSize($image, self::MAXIMUM_SIZE);
         
@@ -209,7 +225,7 @@ class Photo
         $result = $this->photoService
                 ->saveToFile(
                         $this->imageTemp, 
-                        $this->getUploadRootDir().$this->file, 
+                        $this->getAbsolutePath(), 
                         self::COMPRESSION);
         
         
