@@ -34,13 +34,15 @@ class PhotoNormalizer implements NormalizerInterface {
         return array(
             'entity' => 'photo',
             'webPath' => $object->getWebPath(),
-            'fileName' => $object->getFile(),
+            'fullFileName' => $object->getFile(),
             'width' => $object->getWidth(),
             'height' => $object->getHeight(),
             'legend' => $object->getLegend(),
             'creator'=> $this->normalizerService->getUserNormalizer()->normalize($object->getCreator()),
             'placeId' => $object->getPlace()->getId(),
-            'published' => $object->getPublished()
+            'published' => $object->getPublished(),
+            'filename' => $object->getFileName(),
+            'photoType' => $object->getPhotoType()
         );
     }
 
