@@ -30,7 +30,7 @@ class PlaceController extends Controller {
         
         $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')->find($id);
         
-        if ($place === null)
+        if ($place === null OR $place->isAccepted() == false)
         {
             throw $this->createNotFoundException("L'endroit n'a pas été trouvé dans la base de donnée");
         }
@@ -95,7 +95,8 @@ class PlaceController extends Controller {
         
         $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
         
-        $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p where covers(:bbox, p.geom) = true')
+        $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
+                  where covers(:bbox, p.geom) = true and accepted = true')
                 ->setParameter('bbox', $bbox->toWKT());
         
         $r = $p->getResult();
@@ -137,7 +138,8 @@ class PlaceController extends Controller {
                 throw new \Exception("La ville renseignée ('$city') n'est pas connue du système");
         }
         
-        $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p where covers(:bbox, p.geom) = true')
+        $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
+            where covers(:bbox, p.geom) = true and accepted = true')
                 ->setParameter('bbox', $bbox->toWKT());
         
         $r = $p->getResult();
