@@ -447,7 +447,12 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     
     public function setAccepted($accepted)
     {
-        $this->accepted = $accepted;
+        if ($this->accepted != $accepted)
+        {
+            $this->change('accepted', $this->accepted, $accepted);
+            $this->accepted = $accepted;
+            $this->getChangeset()->addChange(ChangeService::PLACE_ACCEPTED, null);
+        }
     }
     
     public function isAccepted()

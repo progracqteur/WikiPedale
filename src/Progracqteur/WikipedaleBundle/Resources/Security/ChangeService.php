@@ -24,6 +24,7 @@ class ChangeService {
     const PLACE_STATUS_BICYCLE = 140;
     const PLACE_STATUS_CITY = 150;
     const PLACE_CREATOR = 160;
+    const PLACE_ACCEPTED = 170;
     
     
     /**
@@ -104,6 +105,13 @@ class ChangeService {
                         throw ChangeException::param('statusCity');
                     }
                     break;
+                 case self::PLACE_ACCEPTED:
+                     if ($this->securityContext->isGranted(User::ROLE_ADMIN))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('accepted');
+                     }
                  case self::PLACE_DETAILS :
                      //TODO implémenter le rôle particulier 'enregistré'
                      continue;

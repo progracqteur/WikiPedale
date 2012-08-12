@@ -102,6 +102,11 @@ class PlaceNormalizer implements NormalizerInterface {
             $p->setStatusCity($data['statusCity']);
         }
         
+        if (isset($data['accepted']))
+        {
+            $p->setAccepted($data['accepted']);
+        }
+        
         return $p;
     }
     
@@ -121,7 +126,8 @@ class PlaceNormalizer implements NormalizerInterface {
             'createDate' => $object->getCreateDate(),
             'nbPhotos' => $object->getNbPhoto(),
             'statusBicycle' => $object->getStatusBicycle(),
-            'statusCity' => $object->getStatusCity()
+            'statusCity' => $object->getStatusCity(),
+            'accepted' => $object->isAccepted()
             
             //TODO: ajouter les autres paramètres
         );
