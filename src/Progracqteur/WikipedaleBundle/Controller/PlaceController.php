@@ -96,7 +96,7 @@ class PlaceController extends Controller {
         $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
         
         $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
-                  where covers(:bbox, p.geom) = true and accepted = true')
+                  where covers(:bbox, p.geom) = true and p.accepted = true')
                 ->setParameter('bbox', $bbox->toWKT());
         
         $r = $p->getResult();
@@ -139,7 +139,7 @@ class PlaceController extends Controller {
         }
         
         $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
-            where covers(:bbox, p.geom) = true and accepted = true')
+            where covers(:bbox, p.geom) = true and p.accepted = true')
                 ->setParameter('bbox', $bbox->toWKT());
         
         $r = $p->getResult();
