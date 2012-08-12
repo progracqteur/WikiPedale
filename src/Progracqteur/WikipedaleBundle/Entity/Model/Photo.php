@@ -115,6 +115,7 @@ class Photo
      */
     public function setFile(File $file = null)
     { 
+        //TODO : comportement spécifique si modification du fichier (enlever du serveur l'ancien)
         if ($file !== null) 
         {
             $this->fileObjectTemp = $file;
