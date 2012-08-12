@@ -42,12 +42,12 @@ class PlaceController extends Controller {
                 $ret = $normalizer->serialize($rep, $_format);
                 return new Response($ret);
                 
-                
+                /* code mort
                 $jsonencoder = new JsonEncoder();
                 $serializer = new Serializer(array(new CustomNormalizer()) , array('json' => $jsonencoder));
 		$rep = array('results' => array($place));
                 $ret = $serializer->serialize($rep, $_format);
-                return new Response($ret);
+                return new Response($ret);*/
                 break;
             
             case 'html' :
