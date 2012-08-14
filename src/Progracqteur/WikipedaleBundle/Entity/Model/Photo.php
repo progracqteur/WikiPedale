@@ -13,68 +13,88 @@ use Symfony\Component\HttpFoundation\File\File;
 class Photo
 {
     /**
+     * identifiant unique de la photo dans la base de donnée
      * @var integer $id
      */
     private $id;
 
     /**
+     * Nom du fichier. Contient aussi l'extension 
      * @var string $file
      */
     private $file;
 
     /**
+     * Date de création du fichier. Correspond à la date d'envoi sur le serveur.
      * @var datetime $createDate
      */
     private $createDate;
 
     /**
+     * Référence vers le créateur
      * @var Progracqteur\WikipedaleBundle\Entity\Management\User
      */
     private $creator;
 
     /**
+     * Référence vers un emplacement
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Place
      */
     private $place;
     
-        /**
+     /**
+     * hauteur en pixels. Calculé par le système avant l'enregistrement (pre-persist)
      * @var integer $height
      */
     private $height = 0;
 
     /**
+     * largeur en pixels. Calculé par le système avant l'enregistrement (pre-persist)
      * @var integer $width
      */
     private $width = 0;
 
     /**
+     * Légende. Maximum 500 caractères.
      * @var string $legend
      */
     private $legend = "";
 
     /**
+     * Statut de la photo. Par défaut, publié. 
+     * Seuls les administrateurs peuvent modifier un statut.
      * @var boolean $published
      */
     private $published = true;
     
     /**
-     *
+     * Référence vers le service photo
      * @var Progracqteur\WikipedaleBundle\Resources\Services\PhotoService 
      */
     private $photoService;
     
     /**
-     *
+     * Fichier temporaire
+     * Lors de l'upload, les fichiers transmis à la classe par symfony sont
+     * stockés ici. Les images sont extraites et redimensionnées avant l'enregistrement
+     * (pre-persist). fileObjectTemp est ensuite détruit.
      * @var Symfony\Component\HttpFoundation\File\File 
      */
     private $fileObjectTemp;
     
     /**
-     *
-     * @var resource 
+     * L'image redimensionnée. Le fichier transmis est transformé en resource
+     * GD avant l'enregistrement, puis, après l'enregsitrement dans la base de donnée, 
+     * si celui-ci a réussi,
+     * l'image est enregistrée sur le serveur.
+     * @var resource GD
      */
     private $imageTemp;
     
+    /**
+     *
+     * @var int une des constantes privées _ADD_PHOTO, _DELETE_PHOTO, _CHANGE_PLACE
+     */
     private $mustInformPlace = null;
     
     const _ADD_PHOTO = 0;
