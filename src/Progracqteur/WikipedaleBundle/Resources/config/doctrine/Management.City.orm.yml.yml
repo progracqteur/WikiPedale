@@ -1,0 +1,25 @@
+Progracqteur\WikipedaleBundle\Entity\Management\City:
+  type: entity
+  table: cities
+  id:
+    id:
+      type: integer
+      generator: {strategy: NONE}
+  indexes:
+    slug:
+      columns: [slug]
+    geo_city:
+      columsn: [polygon]
+  fields:
+    name:
+      type: string
+      length: 60
+    slug:
+      type: string
+      length: 60
+    codeProvince:
+      type: string
+      length: 4
+    polygon:
+      type: polygon
+      
