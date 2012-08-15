@@ -38,7 +38,7 @@ class PolygonType extends Type {
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return Polygon::fromGeoJson($value);
+        return $value; //Polygon::fromGeoJson($value);
     }
     
     public function getName()
@@ -48,23 +48,15 @@ class PolygonType extends Type {
     
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value->toWKT();
+        return $value;
     }
     
     public function canRequireSQLConversion()
     {
-        return true;
+        return false;
     }
     
-    public function convertToPHPValueSQL($sqlExpr, $platform)
-    {
-        return 'ST_AsGeoJSON('.$sqlExpr.') ';
-    }
-    
-    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
-    {
-        return $sqlExpr;
-    }
+
     
     
     

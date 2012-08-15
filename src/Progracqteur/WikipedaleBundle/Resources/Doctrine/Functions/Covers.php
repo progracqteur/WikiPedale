@@ -17,7 +17,7 @@ class Covers extends FunctionNode {
     
     
     public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker) {
-        return 'ST_Covers(ST_GeogFromText('.$this->bbox->dispatch($sqlWalker).'), '.$this->point->dispatch($sqlWalker).')';
+        return 'ST_Covers('.$this->bbox->dispatch($sqlWalker).', '.$this->point->dispatch($sqlWalker).')';
     }
     
     public function parse(\Doctrine\ORM\Query\Parser $parser) {

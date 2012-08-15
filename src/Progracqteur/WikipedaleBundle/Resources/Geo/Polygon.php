@@ -61,18 +61,18 @@ class Polygon {
      */
     public static function fromGeoJson($geojson) 
     {
-        return self::_contruct();
+        return new Polygon;
                 
     }
     
     public static function fromLonLat($lon, $lat)
     {
-        return self::_construct();
+        return new Polygon;
     }
     
     public static function fromArrayGeoJson($array)
     {
-        return self::_construct();
+        return new Polygon;
     }
     
     

@@ -15,6 +15,13 @@ class DefaultController extends Controller
     
     public function homepageAction()
     {
-        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $cities = $em->createQuery("select c from ProgracqteurWikipedaleBundle:Management\\City c")->getResult();
+
+        
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', array('cities' => $cities));
     }
 }

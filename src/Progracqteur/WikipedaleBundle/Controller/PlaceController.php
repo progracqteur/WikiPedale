@@ -61,19 +61,8 @@ class PlaceController extends Controller {
     
     public function listByBBoxAction($_format, Request $request){
         
-        /*TODO la requête actuelle crée un rectangle grossier autour 
-         * des limites de la commune pour extraire les place à l'intérieur de cette limite
-         * 
-         * La finesse de cette requete pourra être améliorée lorsque les coordonnées géographiques
-         * des limites de communes auront été ajoutées au système
-         * 
-         * 
-         */
+        throw new \Exception("cette fonction n'est plus fonctionnelle tant que la fonction covers n'a pas été adaptée");
         
-        /* TODO
-         * Pour l'instant, seuls Mons et Liège sont disponible dans cette requete. Ajouter 
-         * d'autres villes si nécessaire.
-         */
         $em = $this->getDoctrine()->getEntityManager();
         
         $BboxStr = $request->get('bbox', null);
@@ -118,29 +107,31 @@ class PlaceController extends Controller {
     
     public function listByCityAction($_format, Request $request)
     {
+        
+        
         $em = $this->getDoctrine()->getEntityManager();
         
-        $city = $request->get('city', null);
-        if ($city === null)
+        $citySlug = $request->get('city', null);
+        
+        if ($citySlug === null)
         {
             throw new \Exception('Renseigner une ville dans une variable \'city\' ');
         }
         
+        $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\City')
+                ->findOneBy(array('slug' => $request->get('city', '')));
         
-        switch($city) {
-            case 'mons':
-                $bbox = BBOX::fromCoord(50.515173, 4.086857, 50.374591, 3.852024);
-                break;
-            case 'liege':
-                $bbox = BBOX:: fromCoord(50.6910, 5.678158, 50.559469, 5.520229);
-                break;
-            default:
-                throw new \Exception("La ville renseignée ('$city') n'est pas connue du système");
+        if ($city === null)
+        {
+            throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
         }
+
         
-        $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
-            where covers(:bbox, p.geom) = true and p.accepted = true')
-                ->setParameter('bbox', $bbox->toWKT());
+        $p = $em->createQuery('SELECT p 
+            from ProgracqteurWikipedaleBundle:Model\\Place p 
+                
+            where covers(:polygon, p.geom) = true and p.accepted = true')
+                ->setParameter('polygon', $city->getPolygon());
         
         $r = $p->getResult();
         
