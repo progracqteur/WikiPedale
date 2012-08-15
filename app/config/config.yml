@@ -52,6 +52,7 @@ doctrine:
         file: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\FileType
         hash: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\HashType
         address: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\AddressType
+        polygon: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PolygonType
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true

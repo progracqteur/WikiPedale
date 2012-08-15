@@ -23,7 +23,7 @@ public function getOrder() {
     
 public function load(ObjectManager $manager) {
         
-        $admin = $this->container->get('fos_user.user_manager')->getUserByUsername('admin');
+        $admin = $this->container->get('fos_user.user_manager')->findUserByUsername('admin');
         
         if ($admin == null)
         {
@@ -41,8 +41,6 @@ public function load(ObjectManager $manager) {
         }
     
         
-        
-        $manager->persist($u);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();

@@ -8,8 +8,6 @@ Progracqteur\WikipedaleBundle\Entity\Management\City:
   indexes:
     slug:
       columns: [slug]
-    geo_city:
-      columsn: [polygon]
   fields:
     name:
       type: string
