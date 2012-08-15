@@ -23,15 +23,24 @@ public function getOrder() {
     
 public function load(ObjectManager $manager) {
         
-        /**
-         * @var Progracqteur\WikipedaleBundle\Entity\Management\User 
-         */
-        $u = $this->container->get('fos_user.user_manager')->createUser();
-        $str = $this->createId();
-        $u->setEmail("admin.$str@fastre.info");
-        $u->setLabel("admin $str");
-        $u->setPassword("admin");
-        $u->addRole(User::ROLE_ADMIN);
+        $admin = $this->container->get('fos_user.user_manager')->getUserByUsername('admin');
+        
+        if ($admin == null)
+        {
+            echo "création d'un administrateur admin \n";
+            
+            $admin = $this->container->get('fos_user.user_manager')->createUser();
+            $admin->setUsername('admin');
+            $admin->setPassword('admin');
+            $admin->setEmail('admin@wikipedale.org');
+            $admin->addRole(User::ROLE_ADMIN);
+            
+            $manager->persist($admin);
+        } else {
+            echo "un utilisateur admin existe déjà \n";
+        }
+    
+        
         
         $manager->persist($u);
         
