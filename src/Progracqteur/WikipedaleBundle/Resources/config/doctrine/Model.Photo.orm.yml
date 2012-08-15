@@ -5,6 +5,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
     id:
       type: integer
       generator: {strategy: AUTO}
+  indexes:
+    place_photo:
+      columns: [place]
   fields:
     file:
       type: string
