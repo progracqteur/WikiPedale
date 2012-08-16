@@ -7,10 +7,8 @@ wikipedale_homepage:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
   
 wikipedale_to_city:
-  pattern: /{city}
+  pattern: /city/{citySlug}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:toCity }
-  requirements:
-    city: mons|liege
     
 wikipedale_reset_city:
   pattern: /reset_city

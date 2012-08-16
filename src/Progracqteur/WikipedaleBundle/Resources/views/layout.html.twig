@@ -51,6 +51,10 @@
             {% else %}
                 <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
             {% endif %}
+                
+            {% if app.session.get('city') %}
+                <p>Votre ville actuelle est {{app.session.get('city').name}} <a href="{{path('wikipedale_reset_city')}}">Annuler</a></p>
+            {% endif %}
         </div>
             
         <div id="body">

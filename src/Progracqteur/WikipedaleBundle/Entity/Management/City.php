@@ -3,6 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
+use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\City
@@ -33,6 +34,12 @@ class City
      * @var polygon $polygon
      */
     private $polygon;
+    
+    /**
+     *
+     * @var Progracqteur\WikipedaleBundle\Resources\Geo\Point 
+     */
+    private $center;
 
 
     /**
@@ -143,5 +150,14 @@ class City
     public function getPolygon()
     {
         return $this->polygon;
+    }
+    
+    /**
+     *
+     * @return Progracqteur\WikipedaleBundle\Resources\Geo\Point 
+     */
+    public function getCenter()
+    {
+        return $this->center;
     }
 }

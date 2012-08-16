@@ -16,9 +16,16 @@ class DefaultController extends Controller
     public function homepageAction()
     {
         
-        $em = $this->getDoctrine()->getEntityManager();
-        
-        $cities = $em->createQuery("select c from ProgracqteurWikipedaleBundle:Management\\City c")->getResult();
+        if ($this->getRequest()->getSession()->get('city') == null)
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+
+            $cities = $em->createQuery("select c from ProgracqteurWikipedaleBundle:Management\\City c")
+                    ->getResult();            
+        } else {
+            $cities = array();
+        }
+
 
         
         

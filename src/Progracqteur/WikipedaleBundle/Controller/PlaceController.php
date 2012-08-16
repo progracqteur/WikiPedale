@@ -112,6 +112,7 @@ class PlaceController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         
         $citySlug = $request->get('city', null);
+        $citySlug = strtolower($citySlug);
         
         if ($citySlug === null)
         {
@@ -119,7 +120,7 @@ class PlaceController extends Controller {
         }
         
         $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\City')
-                ->findOneBy(array('slug' => $request->get('city', '')));
+                ->findOneBy(array('slug' => $citySlug));
         
         if ($city === null)
         {

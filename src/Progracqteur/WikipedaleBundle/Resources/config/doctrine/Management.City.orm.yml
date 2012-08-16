@@ -20,4 +20,6 @@ Progracqteur\WikipedaleBundle\Entity\Management\City:
       length: 4
     polygon:
       type: polygon
+    center:
+      type: point
       
