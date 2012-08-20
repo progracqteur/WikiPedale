@@ -5,14 +5,20 @@ ProgracqteurWikipedaleBundle_homepage:
 wikipedale_homepage:
   pattern: /
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
+  options:
+    expose: true
   
 wikipedale_to_city:
   pattern: /city/{citySlug}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:toCity }
+  options:
+    expose: true
     
 wikipedale_reset_city:
   pattern: /reset_city
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:resetCity }
+  options:
+    expose: true
   
 wikipedale_place_view:
   pattern: /place/view/{id}.{_format}
@@ -31,12 +37,16 @@ wikipedale_place_list_by_city:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:listByCity }
   requirements:
     _format: json
+  options:
+    expose: true
 
 wikipedale_place_change:
   pattern: /place/change.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:change }
   requirements:
     _format: json
+  options:
+    expose: true
     
     
 wikipedale_photo_list_by_place:
@@ -44,18 +54,24 @@ wikipedale_photo_list_by_place:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:getPhotoByPlace }
   requirements:
     _format: json|html
+  options:
+    expose: true
     
 wikipedale_photo_new:
   pattern: /photo/new/place-{placeId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:new }
   requirements:
     _format: html
+  options:
+    expose: true
     
 wikipedale_photo_update:
   pattern: /photo/update/{fileNameP}.{photoType}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:update }
   requirements:
     _format: html
+  options:
+    expose: true
 
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production

@@ -318,7 +318,7 @@ function homepageMap(townId, townLon, townLat) {
      * @param {clickAction} TODO
      */
 
-    jsonUrlData  =  path_root + 'place/list/bycity.json?city=' + townId + '&addUserInfo=1';
+    jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId, addUserInfo: true});
 
     map = new OpenLayers.Map('map');
     osm = new OpenLayers.Layer.OSM("OSM MAP");
