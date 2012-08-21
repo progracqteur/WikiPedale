@@ -4,13 +4,10 @@ var placesLayer; // layer where existing places are drawing
 var new_placeLayer;  // layer where the user can draw a new place
 var zoom_map = 13; // zoom level of the map
 
-var img_url =  '../OpenLayers/img/';  // where is the dir containing the OpenLayers images
+var img_url =  'OpenLayers/img/';  // where is the dir containing the OpenLayers images
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
 var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
-
-
-var path_root = './';
 
 var new_placeMarker;
 
@@ -22,7 +19,6 @@ $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids
 /* <- USER */
 var user = null;
 function UpdateUserInfo(newUserInfo){
-    alert(JSON.stringify(newUserInfo));
     user = newUserInfo;
 }
 
@@ -142,10 +138,11 @@ function catchForm(formName) {
         entity_string = PlaceInJson(place_data['description'], place_data['lon'],
             place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
             place_data['user_label'], place_data['email']);
+        url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
         $.ajax({
             type: "POST",
             data: {entity: entity_string},
-            url: path_root + "place/change.json",
+            url: url_edit,
             cache: false,
             success: function(output_json) { 
                 if(! output_json.query.error) { 
