@@ -52,6 +52,8 @@
                 </a>
             {% else %}
                 <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                <br/>
+                <a href="{{ path('fos_user_registration_register') }}">Créer un compte</a>
             {% endif %}
                 
             {% if app.session.get('city') %}

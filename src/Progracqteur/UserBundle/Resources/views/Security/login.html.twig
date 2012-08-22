@@ -19,4 +19,6 @@
 <br/><br/>
     <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
 </form>
+    
+    <p><a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a></p>
 {% endblock fos_user_content %}
