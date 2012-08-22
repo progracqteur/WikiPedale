@@ -6,6 +6,7 @@
 /app/bootstrap*
 /src/Acme/
 /output/
-/web/uploads/images/* !/web/uploads/images/index.html
+/web/uploads/images/* 
+!/web/uploads/images/index.html
 /src/Progracqteur/WikipedaleBundle/DataFixtures/ORM/Files/*
 .gitignore~
