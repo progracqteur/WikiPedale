@@ -338,6 +338,11 @@ class DebugController extends Controller {
         ));
         
   }
+  
+  public function devSendRequestWsseAction()
+  {
+      return $this->render("ProgracqteurWikipedaleBundle:Dev:send_request_wsse.html.twig");
+  }
     
     
 }

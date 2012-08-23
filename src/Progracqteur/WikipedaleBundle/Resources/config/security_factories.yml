@@ -1,0 +1,5 @@
+services:
+    security.authentication.factory.wsse:
+        class:  Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseFactory
+        tags:
+            - { name: security.listener.factory }

@@ -22,8 +22,17 @@ services:
       arguments: ["@service_container"]
       tags:
           - { name: form.type, alias: photo }
-    
+          
+  wsse.security.authentication.provider:
+    class:  Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseProvider
+    arguments: ['', %kernel.cache_dir%/security/nonces]
 
+  wsse.security.authentication.listener:
+    class: Progracqteur\WikipedaleBundle\Resources\Security\Firewall\WsseListener
+    arguments: ['@security.context', '@security.authentication.manager']  
+
+
+    
 #    progracqteur_wikipedale.example:
 #        class: %progracqteur_wikipedale.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
