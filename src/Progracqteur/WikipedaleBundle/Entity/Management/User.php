@@ -110,6 +110,11 @@ class User extends BaseUser
     {
         $this->salt = $salt;
     }
+    
+    public function getSalt()
+    {
+        return '';
+    }
 
 
 

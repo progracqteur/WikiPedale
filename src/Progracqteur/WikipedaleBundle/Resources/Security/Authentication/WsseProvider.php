@@ -32,6 +32,8 @@ class WsseProvider implements AuthenticationProviderInterface {
         if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
             $authenticatedToken = new WsseUserToken($user->getRoles());
             $authenticatedToken->setUser($user);
+            
+            //TODO vérifier l'expiration du mot de passe
 
             return $authenticatedToken;
         }

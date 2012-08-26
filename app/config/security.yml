@@ -31,6 +31,7 @@ security:
                 csrf_provider: form.csrf_provider
             logout: true
             anonymous: true
+            wsse: true
             #http_basic:
             #    realm: "Secured Demo Area"
 

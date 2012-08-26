@@ -20,7 +20,7 @@ class DefaultController extends Controller
         {
             $em = $this->getDoctrine()->getEntityManager();
 
-            $cities = $em->createQuery("select c from ProgracqteurWikipedaleBundle:Management\\City c")
+            $cities = $em->createQuery("select c from ProgracqteurWikipedaleBundle:Management\\City c order by c.name")
                     ->getResult();            
         } else {
             $cities = array();

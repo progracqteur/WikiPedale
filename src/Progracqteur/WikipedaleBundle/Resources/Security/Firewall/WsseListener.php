@@ -29,7 +29,7 @@ class WsseListener implements ListenerInterface {
     
     public function handle(GetResponseEvent $event) {
         $request = $event->getRequest();
-
+        
         if ($request->headers->has('x-wsse')) {
 
             $wsseRegex = '/UsernameToken Username="([^"]+)", PasswordDigest="([^"]+)", Nonce="([^"]+)", Created="([^"]+)"/';
@@ -46,19 +46,23 @@ class WsseListener implements ListenerInterface {
                     $returnValue = $this->authenticationManager->authenticate($token);
 
                     if ($returnValue instanceof TokenInterface) {
+                        //TODO mettre à jour le dernier login
                         return $this->securityContext->setToken($returnValue);
                     } elseif ($returnValue instanceof Response) {
                         return $event->setResponse($returnValue);
                     }
                 } catch (AuthenticationException $e) {
-                    // you might log something here
+                    $response = new Response($e->getMessage());
+                    $response->setStatusCode(403);
+                    $event->setResponse($response);
                 }
             }
+        
+            
+            
         }
 
-        $response = new Response();
-        $response->setStatusCode(403);
-        $event->setResponse($response);
+        
     }
 }
 
