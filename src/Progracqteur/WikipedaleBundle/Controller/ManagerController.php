@@ -7,6 +7,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 
 /**
  * Description of PlaceController
@@ -75,6 +76,26 @@ class ManagerController extends Controller {
         }
         
         return $this->redirect($url);
+     }
+     
+     public function wsseAuthenticateAction($_format)
+     {
+         if ($_format != NormalizerSerializerService::JSON_FORMAT)
+         {
+             throw new \Exception("Le format demandé n'est pas disponible");
+         }
+         
+         $u = $this->get('security.context')->getToken()->getUser();
+         
+         $r = new \Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse();
+         $r->setResults(array($u));
+         
+         $serializer = $this->get('progracqteurWikipedaleSerializer');
+         
+         $t = $serializer->serialize($r, NormalizerSerializerService::JSON_FORMAT);
+         
+         return new Response($t);
+         
      }
     
 }

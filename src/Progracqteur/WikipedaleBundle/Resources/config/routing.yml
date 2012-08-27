@@ -73,6 +73,14 @@ wikipedale_photo_update:
   options:
     expose: true
 
+wikipedale_wsse_authenticate:
+  pattern: /wsse/authenticate.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:wsseAuthenticate }
+  requirements:
+    _format: json
+  options:
+    expose: true
+
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production
 
