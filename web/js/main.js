@@ -22,7 +22,6 @@ var last_place_selected = null;
 
 $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
-
 /* <- USER */
 var user = null;
 function UpdateUserInfo(newUserInfo){
@@ -41,6 +40,16 @@ function IsRegister(){
     * Returns True if the user is register.
     */
     return user != null && user.registered;
+}
+
+
+setInterval( "checkUser()", 5000 ); //toutes les minutes -> checkUser() / 60000 -> i min
+
+function  checkUser() // regarde si l'user est connecte
+{
+    $.getJSON(url_edit = Routing.generate('wikipedale_wsse_authenticate', {_format: 'json'}), function(data) {
+        UpdateUserInfo(data.results[0]);
+    });
 }
 /* USER -> */
 
