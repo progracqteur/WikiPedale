@@ -4,7 +4,14 @@ var placesLayer; // layer where existing places are drawing
 var new_placeLayer;  // layer where the user can draw a new place
 var zoom_map = 13; // zoom level of the map
 
-var img_url =  'OpenLayers/img/';  // where is the dir containing the OpenLayers images
+var baseUrlsplit = Routing.getBaseUrl().split('/');
+var web_dir = ''
+for (i = 0; i < (baseUrlsplit.length - 1); i++)
+{
+    web_dir = web_dir + baseUrlsplit[i] + '/';
+} 
+var img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
+
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
 var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
