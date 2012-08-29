@@ -47,7 +47,7 @@ setInterval( "checkUser()", 30000 ); //toutes les minutes -> checkUser() / 60000
 
 function  checkUser() // regarde si l'user est connecte
 {
-    $.getJSON(url_edit = Routing.generate('wikipedale_wsse_authenticate', {_format: 'json'}), function(data) {
+    $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
         UpdateUserInfo(data.results[0]);
     });
 }
