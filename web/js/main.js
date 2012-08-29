@@ -43,7 +43,7 @@ function IsRegister(){
 }
 
 
-setInterval( "checkUser()", 5000 ); //toutes les minutes -> checkUser() / 60000 -> i min
+setInterval( "checkUser()", 30000 ); //toutes les minutes -> checkUser() / 60000 -> i min
 
 function  checkUser() // regarde si l'user est connecte
 {
@@ -157,6 +157,10 @@ function catchForm(formName) {
         url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
         $.ajax({
             type: "POST",
+            beforeSend: function(xhrObj){
+                xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
+                xhrObj.setRequestHeader("X-WSSE",wsseHeader("login", "password"));
+            },
             data: {entity: entity_string},
             url: url_edit,
             cache: false,
