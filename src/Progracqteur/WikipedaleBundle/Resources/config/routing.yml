@@ -73,8 +73,8 @@ wikipedale_photo_update:
   options:
     expose: true
 
-wikipedale_wsse_authenticate:
-  pattern: /wsse/authenticate.{_format}
+wikipedale_authenticate:
+  pattern: /authenticate.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:wsseAuthenticate }
   requirements:
     _format: json
