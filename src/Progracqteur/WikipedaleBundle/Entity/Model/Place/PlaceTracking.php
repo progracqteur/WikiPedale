@@ -6,6 +6,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 
 /**
  * Description of PlaceTracking
@@ -14,25 +16,62 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
  */
 class PlaceTracking implements ChangesetInterface {
     
+    private $id;
+    
     private $author;
     
-    private $changes;
+    private $details;
     
     private $types = array();
-    private $intTypes = 0;
     
     private $isCreation = false;
     
-    public function __construct()
+    private $date;
+    
+    /**
+     *
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     */
+    private $place;
+    
+    public function __construct(Place $place)
     {
-        $this->changes = new Hash;
+        $this->details = new Hash;
+        $this->place = $place;
+        $this->date = new \DateTime();
     }
     
-    public function addChange($type, $params)
+    public function addChange($type, $newValue)
     {
         if (!in_array($type, $this->types))
         {
+            //pour le suivi des changements par Security
             $this->types[] = $type;
+            
+            //pour l'enregistrement dans la base de donnée
+            
+            $h = new Hash;
+            $h->type = $type;
+            
+            switch ($type)
+            {
+                case ChangeService::PLACE_CREATOR:
+                    if ($newValue instanceof UnregisteredUser)
+                    {
+                        $h->new = $newValue->toHash();
+                    } else if ($newValue instanceof User)
+                    {
+                        $h->new = $newValue->getId();
+                    }
+                    break;
+                default:
+                    $h->new = $newValue;
+            }
+            
+            $n = count($this->types)-1;
+            $this->details->{$n} = $h;
+            
+            
         }
         
         if ($type === ChangeService::PLACE_CREATION)
@@ -41,15 +80,56 @@ class PlaceTracking implements ChangesetInterface {
         }
     }
     
+    public function isCreation() {
+        return $this->isCreation;
+    }
+    
+    private $proxyAuthor;
+    
+    public function getAuthor() {
+        
+        if ($this->proxyAuthor !== null)
+        {
+            return $this->proxyAuthor;
+        }
+        
+        if ($this->author !== null)
+            return $this->author;
+        else {
+            if ($this->details->has('author')){
+                $u = UnregisteredUser::fromHash($this->details->author);
+                return $u;
+            } else
+                return null;
+        }
+    }
+    
+    public function setAuthor(User $user) {
+        $this->proxyAuthor = $user;
+        
+        if ($user instanceof UnregisteredUser)
+        {
+            $this->details->author = $user->toHash();
+        } else if ($user instanceof User) {
+            $this->author = $user;
+        }    
+    }
+    
+    public function getDate()
+    {
+        return $this->date;
+    }
+    
+    
+    
+    // fonctions pour l'implémentation de Iterable
+    private $intTypes = 0;
+    
     public function current() {
         $prop = $this->types[$this->intTypes];
         return new PlaceChange($prop);
     }
-    
-    public function getAuthor() {
-        return $this->author;
-    }
-    
+        
     public function key() {
         return $this->intTypes;
     }
@@ -62,16 +142,9 @@ class PlaceTracking implements ChangesetInterface {
         $this->intTypes = 0;
     }
     
-    public function setAuthor(User $user) {
-        $this->author = $user;
-    }
-    
     public function valid() {
         return isset($this->types[$this->intTypes]);
     }
 
-    public function isCreation() {
-        return $this->isCreation;
-    }
 }
 

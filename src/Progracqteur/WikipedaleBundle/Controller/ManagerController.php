@@ -22,6 +22,8 @@ class ManagerController extends Controller {
         
         $em = $this->getDoctrine()->getEntityManager();
         
+        $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
+        
         $cities = $em->createQuery("SELECT  c from ProgracqteurWikipedaleBundle:Management\\City c 
                  where c.slug = :slug")
                 ->setParameter('slug', $citySlug)

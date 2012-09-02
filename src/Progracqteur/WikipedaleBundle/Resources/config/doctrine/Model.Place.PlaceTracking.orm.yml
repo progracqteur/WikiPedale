@@ -1,0 +1,27 @@
+## YAML Template.
+---
+Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking:
+#  changeTrackingPolicy: NOTIFY
+#FIXME: implémenter le tracking policy: pour l'instant, rien ne change
+  type: entity
+  table: placeTracking
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    isCreation:
+      type: boolean
+    details:
+      type: hash
+    date:
+      type: datetime
+  manyToOne:
+    author:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
+      nullable: true
+      mappedBy: PlaceChanges
+    place:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+      nullable: false
+      inversedBy: changesets

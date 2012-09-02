@@ -3,6 +3,7 @@ parameters:
   progracqteur_wikipedale.normalizer.class : Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService
   progracqteur_wikipedale.security.controlList.class : Progracqteur\WikipedaleBundle\Resources\Security\ChangeService
   progracqteur_wikipedale.service.photo.class: Progracqteur\WikipedaleBundle\Resources\Services\PhotoService
+  progracqteur_wikipedale.service.slug.class: Progracqteur\WikipedaleBundle\Resources\Services\SlugService
 services:
   progracqteurWikipedaleSerializer:
     class: %progracqteur_wikipedale.normalizer.class%
@@ -22,6 +23,9 @@ services:
       arguments: ["@service_container"]
       tags:
           - { name: form.type, alias: photo }
+  
+  progracqteur.wikipedale.slug:
+    class: %progracqteur_wikipedale.service.slug.class%
           
   wsse.security.authentication.provider:
     class:  Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseProvider

@@ -50,3 +50,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     photos:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Photo
       mappedBy: place
+    changesets:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+      mappedBy: place
+      cascade: [persist,update]
