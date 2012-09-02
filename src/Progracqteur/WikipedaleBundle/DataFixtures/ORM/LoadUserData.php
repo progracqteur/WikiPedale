@@ -24,7 +24,7 @@ public function getOrder() {
 public function load(ObjectManager $manager) {
         
         $admin = $this->container->get('fos_user.user_manager')->findUserByUsername('admin');
-        
+                
         if ($admin == null)
         {
             echo "création d'un administrateur admin \n";

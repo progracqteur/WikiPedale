@@ -93,6 +93,13 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     private $changeset = null;
     
+    /**
+     * pour la persistance
+     * @var \Doctrine\Common\Collections\ArrayCollection 
+     */
+    private $changesets;
+            
+    
     private $_listeners = array();
 
     public function __construct()
@@ -103,6 +110,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         $this->setCreateDate($d);
         $this->infos = new Hash();
         $this->address = new Address();
+        $this->changesets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->getChangeset()->addChange(ChangeService::PLACE_CREATION, null);
     }
 
@@ -533,7 +541,8 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         
         if ($this->changeset === null)
         {
-            $this->changeset = new Place\PlaceTracking();
+            $this->changeset = new Place\PlaceTracking($this);
+            $this->changesets->add($this->changeset);
         }
         
         return $this->changeset;
