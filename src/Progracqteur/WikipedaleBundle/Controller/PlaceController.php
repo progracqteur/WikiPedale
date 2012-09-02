@@ -112,7 +112,7 @@ class PlaceController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         
         $citySlug = $request->get('city', null);
-        $citySlug = strtolower($citySlug);
+        $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
         
         if ($citySlug === null)
         {
