@@ -20,13 +20,27 @@
 <div id="panelUR">
   <div id="ButtonInfo" class="ButtonGeneral" onClick="javascript:blopFunction()">Info</div>
   <div id="ButtonAide" class="ButtonGeneral" onClick="javascript:blopFunction()">Aide</div>
-  <div id="ButtonConnexion" class="ButtonGeneral" onClick="javascript:blopFunction()">
-    <a class='connexion' href='login'>Connexion</a></div>
+  <div id="ButtonConnexion" class="ButtonGeneral">
+    <a class='connexion' href="#login_user_form_div">Connexion</a></div>
 </div>
 
 <script>
-    jQuery('a.connexion').colorbox({iframe:true,width:"300px", height:"500px"});
+    jQuery('a.connexion').colorbox({inline:true,width:"300px", height:"300px"});
 </script>
+
+<div style='display:none'>
+  <div id='login_user_form_div' style='padding:10px; background:#fff;'>
+    <form method="post" action="javascript:catchLoginForm()" id="loginForm">
+      <label for="i_username">Username:</label>
+      <input type="text" id="i_username" name="username" value="" />
+      <br/><br/>
+      <label for="i_password">Password:</label>
+      <input type="password" id="i_password" name="password" />
+      <br/><br/>
+      <input type="submit" id="i_submit" name="submit" value="Login" />
+    </form>
+  </div>
+</div>
 
 <div id="MapAndEditorContener">
   <div id="map" style="width:400px; height:200px; float:left;"  class="smallmap"></div>

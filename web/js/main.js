@@ -120,6 +120,42 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
         + '}';
 }
 
+function catchLoginForm(){
+    var user_data = {};
+    $.map($('#loginForm').serializeArray(), function(n, i){
+        user_data[n['name']] = n['value'];
+    });
+
+    url_login = Routing.generate('wikipedale_authenticate', {_format: 'json'});
+    alert(url_login);
+    $.ajax({
+        type: "POST",
+        beforeSend: function(xhrObj){
+            xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
+            xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
+        },
+        data: "",
+        url: url_login,
+        cache: false,
+        success: function(output_json) { 
+            if(! output_json.query.error) { 
+                alert('ok');
+            }
+            else { 
+                alert(output_json[0].message);
+                alert('ERREUR_1'); }
+        },
+        error: function(output_json) {
+            alert(JSON.stringify(output_json));
+            alert(output_json.responseText);
+            alert(JSON.parse(output_json.responseText)[0]);
+            alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
+            alert((output_json.responseText[0]).message);
+            alert('ERREUR'); 
+        }
+    });
+}
+
 function catchForm(formName) {
     /**
     * Catch a from and save the data in the db using a json request.
