@@ -1,5 +1,7 @@
 /web/bundles/
 /app/cache/*
+!/app/cache/dev/security/nonces/index
+!/app/cache/prod/security/nonces/index
 /app/logs/*
 /vendor/
 /app/config/parameters.ini
