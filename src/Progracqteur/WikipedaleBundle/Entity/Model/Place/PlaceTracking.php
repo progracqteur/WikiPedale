@@ -50,26 +50,21 @@ class PlaceTracking implements ChangesetInterface {
             
             //pour l'enregistrement dans la base de donnée
             
-            $h = new Hash;
-            $h->type = $type;
-            
             switch ($type)
             {
                 case ChangeService::PLACE_CREATOR:
                     if ($newValue instanceof UnregisteredUser)
                     {
-                        $h->new = $newValue->toHash();
+                        $this->details->{$type} = $newValue->toHash();
                     } else if ($newValue instanceof User)
                     {
-                        $h->new = $newValue->getId();
+                        $this->details->{$type} = $newValue->getId();
                     }
                     break;
                 default:
-                    $h->new = $newValue;
+                    $this->details->{$type} = $newValue;
             }
             
-            $n = count($this->types)-1;
-            $this->details->{$n} = $h;
             
             
         }

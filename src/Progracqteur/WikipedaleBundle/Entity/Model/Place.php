@@ -149,7 +149,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('address', $this->address, $address);
             $this->address = $address;
-            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
+            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, serialize($address->toArray()));
         }
         
     }
@@ -191,7 +191,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('geom', $this->geom, $geom);
             $this->geom = $geom;
-            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
+            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, $geom->toGeoJson() );
         }
     }
 
@@ -297,12 +297,12 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
                 $this->creatorUnregisteredProxy = $creator;
 
                 $this->change('infos', $old, $this->getInfos());
-                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
+                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
 
             } else {
                 $this->change('creator', $this->creator, $creator);
                 $this->creator = $creator;
-                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, null);
+                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
                 //TODO : si un unregistreredCreator existe, il faut l'enlever
             }
         }
@@ -378,14 +378,14 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     {
         $this->nbComm++;
         $this->change('nbComm', ($this->nbComm -1 ), $this->nbComm);
-        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_COMMENT, null);
+        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_COMMENT, 1);
     }
     
     public function increaseVote()
     {
         $this->nbVote++;
         $this->change('nbVote', ($this->nbVote - 1), $this->nbVote);
-        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_VOTE, null);
+        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_VOTE, 1);
     }
     
     public function increasePhoto()
@@ -398,6 +398,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     {
         $this->nbPhoto--;
         $this->change('nbPhoto', ($this->nbPhoto +1), $this->nbPhoto);
+        //TODO: implémenter tracking policy
                 
     }
 
@@ -428,7 +429,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('description', $this->description, $description);
             $this->description = $description;
-            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, null);
+            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, $description);
         }
         
     }
@@ -459,7 +460,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('accepted', $this->accepted, $accepted);
             $this->accepted = $accepted;
-            $this->getChangeset()->addChange(ChangeService::PLACE_ACCEPTED, null);
+            $this->getChangeset()->addChange(ChangeService::PLACE_ACCEPTED, $accepted);
         }
     }
     
@@ -474,7 +475,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('statusBicycle', $this->statusBicycle, $status);
             $this->statusBicycle = $status;
-            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_BICYCLE, null);
+            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_BICYCLE, $status);
         }
     }
     
@@ -484,7 +485,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('statusCity', $this->statusCity, $status);
             $this->statusCity = $status;
-            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_CITY, null);
+            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_CITY, $status);
         }
     }
     
