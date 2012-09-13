@@ -1,3 +1,6 @@
+// override sha1.js default setting.
+b64pad  = "=";
+
 var map;
 var osmLayer; // OSM layer
 var placesLayer; // layer where existing places are drawing
