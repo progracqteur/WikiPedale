@@ -97,13 +97,13 @@ function catchLoginForm(){
     });
 
     url_login = Routing.generate('wikipedale_authenticate', {_format: 'json'});
-    alert(url_login);
     $.ajax({
         type: "POST",
         beforeSend: function(xhrObj){
             xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
             xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
             UserUpdatePassword(user_data['password']);
+            jQuery('a.connexion').colorbox.close("blop");
         },
         data: "",
         url: url_login,
@@ -111,6 +111,9 @@ function catchLoginForm(){
         success: function(output_json) { 
             if(! output_json.query.error) { 
                 alert('ok');
+                alert(JSON.stringify(output_json.results[0]));
+                UpdateUserInfo(output_json.results[0]);
+                alert('blop');
             }
             else { 
                 alert(output_json[0].message);
@@ -404,6 +407,7 @@ function homepageMap(townId, townLon, townLat) {
         });
     });
     $.getJSON(jsonUrlData, function(data) {
+    alert(data.user.label);
     UpdateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
         //alert(aPlaceData.addressparts.road);

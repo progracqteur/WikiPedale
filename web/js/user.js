@@ -1,21 +1,23 @@
-var user = null;
+var user = {};
 
 function UpdateUserInfo(newUserInfo){
-    user.label = newUserInfo.label;
-    user.roles = newUserInfo.roles;
-    user.registered = newUserInfo.registered;
-    user.email = newUserInfo.email;
+    if (newUserInfo.id != null || newUserInfo.label != null) {
+        //alert(JSON.stringify(newUserInfo));
+        //alert(JSON.stringify(user));
+        user.label = newUserInfo.label;
+        user.roles = newUserInfo.roles;
+        user.registered = newUserInfo.registered;
+        user.email = newUserInfo.email;
+    }
 }
 
 function UserUpdatePassword(password){
     user.password = password;
 }
 
-
 function UserResetInfo()
 {
-    alert('plutot supprimer la variable user');
-    user = null
+    user = {};
 }
 
 
@@ -23,14 +25,14 @@ function IsAdmin() {
     /**
     * Returns True if the user is admin.
     */
-    return user != null && user.roles.indexOf('ROLE_ADMIN') != -1;
+    return user.roles != undefined && user.roles.indexOf('ROLE_ADMIN') != -1;
 }
 
 function IsRegister(){
     /**
     * Returns True if the user is register.
     */
-    return user != null && user.registered;
+    return user.registered != undefined && user.registered;
 }
 
 setInterval( "checkUser()", 30000 ); //toutes les minutes -> checkUser() / 60000 -> i min
