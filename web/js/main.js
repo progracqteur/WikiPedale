@@ -22,45 +22,12 @@ var last_place_selected = null;
 
 $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
-/* <- USER */
-var user = null;
-function UpdateUserInfo(newUserInfo){
-    user = newUserInfo;
-}
-
-function IsAdmin() {
-    /**
-    * Returns True if the user is admin.
-    */
-    return user != null && user.roles.indexOf('ROLE_ADMIN') != -1;
-}
-
-function IsRegister(){
-    /**
-    * Returns True if the user is register.
-    */
-    return user != null && user.registered;
-}
-
-
-setInterval( "checkUser()", 30000 ); //toutes les minutes -> checkUser() / 60000 -> i min
-
-function  checkUser() // regarde si l'user est connecte
-{
-    $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
-        UpdateUserInfo(data.results[0]);
-    });
-}
-/* USER -> */
-
 function blopFunction() {
     /**
     * Testing function
     */
         alert('blop');
     }
-
-
 
 function UnregisterUserInJson(label,email){
     /**
@@ -133,6 +100,7 @@ function catchLoginForm(){
         beforeSend: function(xhrObj){
             xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
             xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
+            UserUpdatePassword(user_data['password']);
         },
         data: "",
         url: url_login,
