@@ -388,13 +388,13 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         $this->getChangeset()->addChange(ChangeService::PLACE_ADD_VOTE, 1);
     }
     
-    public function increasePhoto()
+    private function increasePhoto()
     {
         $this->nbPhoto++;
         $this->change('nbPhoto', ($this->nbPhoto -1), $this->nbPhoto);
     }
     
-    public function decreasePhoto()
+    private function decreasePhoto()
     {
         $this->nbPhoto--;
         $this->change('nbPhoto', ($this->nbPhoto +1), $this->nbPhoto);
@@ -413,6 +413,14 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     {
         //TODO: implémenter le tracking policy pour les photos
         $this->photos[] = $photos;
+        $this->increasePhoto();
+        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_PHOTO, $photos->getFileName());
+    }
+    
+    public function removePhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photo $photo)
+    {
+        $this->decreasePhoto();
+        $this->getChangeset()->addChange(ChangeService::PLACE_REMOVE_PHOTO, $photo->getFileName());
     }
     
 

@@ -21,6 +21,7 @@ class ChangeService {
     const PLACE_ADD_COMMENT = 110;
     const PLACE_ADD_VOTE = 120;
     const PLACE_ADD_PHOTO = 130;
+    const PLACE_REMOVE_PHOTO = 135;
     const PLACE_STATUS_BICYCLE = 140;
     const PLACE_STATUS_CITY = 150;
     const PLACE_CREATOR = 160;
@@ -117,7 +118,11 @@ class ChangeService {
                      continue;
                      break;
                  case self::PLACE_ADD_PHOTO:
-                     //TODO : implémenter qui peut ajouter des photos
+                     //l'ajout de photo est réglé dans le controleur PhotoController
+                     continue;
+                     break;
+                 case self::PLACE_REMOVE_PHOTO:
+                     //la modification des photos est réglé dans le controleur PhotoController
                      continue;
                      break;
                  default:

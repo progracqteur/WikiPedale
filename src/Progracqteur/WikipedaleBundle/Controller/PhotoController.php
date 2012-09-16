@@ -97,6 +97,12 @@ class PhotoController extends Controller
             
             if ($form->isValid()) //TODO créer une formulaire de validation
             {
+                //enregistre l'utilisateur courant dans le tracking policy de la place
+                $photo->getPlace()->getChangeset()->setAuthor(
+                            $this->get('security.context')->getToken()->getUser()
+                        );
+                
+                
                 $em->persist($photo);
                 $em->flush();
                 

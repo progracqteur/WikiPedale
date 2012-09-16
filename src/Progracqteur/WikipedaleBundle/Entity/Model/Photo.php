@@ -194,10 +194,10 @@ class Photo
         switch ($this->mustInformPlace) {
             //dans le cas d'un changement (le increase est répété ensuite)
             case self::_CHANGE_PLACE :
-                $this->oldPlace->decreasePhoto();
+                $this->oldPlace->removePhotos();
             //dans le cas d'un ajout, seul le increase est modifié
             case self::_ADD_PHOTO :
-                $this->place->increasePhoto();
+                $this->place->addPhotos($this);
                 break;
             case self::_DELETE_PHOTO :
                 $this->place->decreasePhoto();
