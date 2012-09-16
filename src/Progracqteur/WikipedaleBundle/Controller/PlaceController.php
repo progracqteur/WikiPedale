@@ -173,14 +173,14 @@ class PlaceController extends Controller {
         $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
         
         //ajoute l'utilisateur courant comme créateur si connecté
-        if ($place->getId() == null && $this->get('security.context')->getToken()->getUser()->isRegistered())
+        if ($place->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof \Progracqteur\WikipedaleBundle\Entity\Management\User)
         {
             $u = $this->get('security.context')->getToken()->getUser();
             $place->setCreator($u);
         }
         
         //ajoute l'utilisateur courant au changeset
-        if ($this->get('security.context')->getToken()->getUser()->isRegistered()) //si utilisateur connecté
+        if ($this->get('security.context')->getToken()->getUser() instanceof Progracqteur\WikipedaleBundle\Entity\Management\User) //si utilisateur connecté
         {
             $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
         } elseif ($place->getChangeset()->isCreation()) { //si c'est une création, on ajoute l'utilisateur non enregistré qui a créé
