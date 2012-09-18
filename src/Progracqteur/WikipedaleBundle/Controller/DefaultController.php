@@ -25,10 +25,21 @@ class DefaultController extends Controller
         } else {
             $cities = array();
         }
+        
+        $mainCitiesSlug = array('mons', 'liege', 'gembloux', 'namur', 'ciney', 'wanze', 'braine-l-alleud');
+        $mainCities = array();
+        
+        foreach ($cities as $c)
+        {
+            if (in_array($c->getSlug(), $mainCitiesSlug))
+            {
+                $mainCities[] = $c;
+            }
+        }
 
 
         
         
-        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', array('cities' => $cities));
+        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', array('mainCities' => $mainCities, 'cities' => $cities));
     }
 }

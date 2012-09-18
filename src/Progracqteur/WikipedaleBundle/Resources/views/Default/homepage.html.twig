@@ -122,14 +122,27 @@
 {% else %}
 <p>Veuillez choisir une ville. Merci. </p>
 
+
+
 <ul>
-{% for city in cities %}
+{% for city in mainCities %}
 
         <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}"> {{city.name}}</a></li>
 
 {% endfor %}
 
     </ul>
+
+<p>Votre ville n'est pas dans la liste ? Essayez donc ici : 
+    <select>
+    {% for city in cities %}
+            <option value="{{city.slug}}">{{city.name}}</option>
+    {% endfor %}
+           
+    
+    </select>
+    
+</p>
 
 {% endif %}
 
