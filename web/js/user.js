@@ -1,9 +1,7 @@
 var user = {};
 
 function UpdateUserInfo(newUserInfo){
-    if (newUserInfo.id != null || newUserInfo.label != null) {
-        //alert(JSON.stringify(newUserInfo));
-        //alert(JSON.stringify(user));
+    if (user.registered && (newUserInfo.id != null || newUserInfo.label != null)) {
         user.label = newUserInfo.label;
         user.roles = newUserInfo.roles;
         user.registered = newUserInfo.registered;
@@ -20,15 +18,14 @@ function UserResetInfo()
     user = {};
 }
 
-
-function IsAdmin() {
+function UserIsAdmin() {
     /**
     * Returns True if the user is admin.
     */
     return user.roles != undefined && user.roles.indexOf('ROLE_ADMIN') != -1;
 }
 
-function IsRegister(){
+function UserIsRegister(){
     /**
     * Returns True if the user is register.
     */

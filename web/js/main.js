@@ -82,7 +82,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     {
         ret = ret + ',"geom":'+ PointInJson(lon,lat);
     }
-    if( !IsRegister() && (user_label != undefined || user_email != undefined))
+    if( !UserIsRegister() && (user_label != undefined || user_email != undefined))
         { ret = ret + ',"creator":' + UnregisterUserInJson(user_label, user_email); }
 
     return ret + ',"description":' + JSON.stringify(description)
@@ -103,7 +103,6 @@ function catchLoginForm(){
             xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
             xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
             UserUpdatePassword(user_data['password']);
-            jQuery('a.connexion').colorbox.close("blop");
         },
         data: "",
         url: url_login,
@@ -113,7 +112,7 @@ function catchLoginForm(){
                 alert('ok');
                 alert(JSON.stringify(output_json.results[0]));
                 UpdateUserInfo(output_json.results[0]);
-                alert('blop');
+                jQuery('a.connexion').colorbox.close("blop");
             }
             else { 
                 alert(output_json[0].message);
@@ -168,8 +167,10 @@ function catchForm(formName) {
         $.ajax({
             type: "POST",
             beforeSend: function(xhrObj){
-                xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
-                xhrObj.setRequestHeader("X-WSSE",wsseHeader("login", "password"));
+                if(UserIsRegister()){
+                    xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
+                    xhrObj.setRequestHeader("X-WSSE",wsseHeader("login", "password"));
+                }
             },
             data: {entity: entity_string},
             url: url_edit,
@@ -219,7 +220,7 @@ function FillNewPlaceFormForRegisterUser(){
     * If the user is register, fill the form with id 'new_placeForm' with the email and the label ;
     * Otherwise do nothing.
     */
-    if(IsRegister()) {
+    if(UserIsRegister()) {
         document.getElementById("new_placeForm").user_label.value = user.label;
         document.getElementById("new_placeForm").user_label.setAttribute("readonly","readonly");
         document.getElementById("new_placeForm").email.value = user.email;
@@ -283,7 +284,7 @@ function changingModeFunction() {
                 }
             });
 
-            if(IsRegister()) {
+            if(UserIsRegister()) {
                 FillNewPlaceFormForRegisterUser();
                 }
             document.getElementById("div_signaler").style.display = "block";
@@ -328,7 +329,7 @@ function changingModeFunction() {
             document.getElementById("div_signaler").style.display = "none";
 
             if(last_place_selected != null ) {
-                if(IsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
+                if(UserIsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
                 else { document.getElementById("div_placeDetails").style.display = "block"; }
             }
             add_new_place_mode = false; 
@@ -475,7 +476,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('.span_nbVote').each(function() { this.innerHTML = placeData.nbVote; });
     $('.span_creator').each(function() { this.innerHTML = placeData.creator.label; });
     
-    if (IsAdmin()) {
+    if (UserIsAdmin()) {
         document.getElementById("f_id").value = placeData.id;
         document.getElementById("f_lieu").value = placeData.addressParts.road;
         document.getElementById("f_description").value = placeData.description;
@@ -487,7 +488,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         document.getElementById("div_placeDetails").style.display = "block";
     }
 
-    if(IsRegister()){
+    if(UserIsRegister()){
 
     }
 }
