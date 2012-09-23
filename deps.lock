@@ -1,4 +1,4 @@
-symfony v2.0.12
+symfony v2.0.17
 twig v1.6.2
 monolog 1.0.2
 doctrine-common 2.2.2
@@ -6,12 +6,14 @@ doctrine-dbal 2.2.2
 doctrine 2.2.2
 swiftmailer v4.1.5
 assetic v1.0.3
-twig-extensions 446d870272cd87a720e95242eade38a2acf56eaa
+twig-extensions f904575642b1213db69b4a98f08397e722ba1cae
 metadata 1.0.0
-SensioFrameworkExtraBundle 1eda94d838aa885e154f92f426df35f2252cdb92
+SensioFrameworkExtraBundle v2.0.17
 JMSSecurityExtraBundle e752f888c51425f71382c056961f10f2be642102
-SensioDistributionBundle 20b66a408084ad8752f98e50f10533f5245310bf
-SensioGeneratorBundle 83b768a487a6878f2bc2ad6859bd61a3651a7885
+SensioDistributionBundle v2.0.17
+SensioGeneratorBundle v2.0.17
 AsseticBundle v1.0.1
-doctrine-fixtures 31040a8501c486e0a550a204a7097690340153ae
+doctrine-fixtures b29bad9738fada9486961f60542f2d2d77c7b501
 DoctrineFixturesBundle a66be2f077f3a4e5c3801b356b42b8782f1abbd6
+FOSUserBundle 1.2.0
+FOSJsRoutingBundle f1a19530756d9614e5ab58a509587b1dd0f3f826
