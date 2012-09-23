@@ -32,7 +32,7 @@ function blopFunction() {
         alert('blop');
     }
 
-function UnregisterUserInJson(label,email){
+function unregisterUserInJson(label,email){
     /**
     * Returns a json string describing an unregister user.
     * @param{string} label The label/pseudo of the user.
@@ -82,8 +82,8 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     {
         ret = ret + ',"geom":'+ PointInJson(lon,lat);
     }
-    if( !UserIsRegister() && (user_label != undefined || user_email != undefined))
-        { ret = ret + ',"creator":' + UnregisterUserInJson(user_label, user_email); }
+    if( !userIsRegister() && (user_label != undefined || user_email != undefined))
+        { ret = ret + ',"creator":' + unregisterUserInJson(user_label, user_email); }
 
     return ret + ',"description":' + JSON.stringify(description)
         + ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}'
@@ -102,17 +102,15 @@ function catchLoginForm(){
         beforeSend: function(xhrObj){
             xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
             xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
-            UserUpdatePassword(user_data['password']);
         },
         data: "",
         url: url_login,
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                alert('ok');
                 alert(JSON.stringify(output_json.results[0]));
-                UpdateUserInfo(output_json.results[0]);
-                jQuery('a.connexion').colorbox.close("blop");
+                updateUserInfo(output_json.results[0]);
+                jQuery('a.connexion').colorbox.close('');
             }
             else { 
                 alert(output_json[0].message);
@@ -158,6 +156,19 @@ function catchForm(formName) {
         if (place_data['id'] == "")
             { error_messages = "Veuillez reéssayer et si le problème persiste prendre contact avec le webmaster. " }
     }
+    /* Ne marche pas car pbm de synchonisation
+    A regler TODO
+    if(userIsRegister && (!userIsStillRegisterOnServer()))
+        { error_messages = "Veuillez vous reconnecter";
+            $('#login_message').text("Veuillez vous reconnecter.")
+            $.colorbox({inline:true, href:"#login_user_form_div"});
+         }
+    else
+    {
+        if(editFrom && userIsAdminServer())
+            { error_messages = "Vous devez être admin pour éditer ce point noir"; }
+    }
+    */
     if(error_messages != "") { alert('Erreur! ' + error_messages  + 'Merci.'); }
     else {
         entity_string = PlaceInJson(place_data['description'], place_data['lon'],
@@ -166,12 +177,14 @@ function catchForm(formName) {
         url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
         $.ajax({
             type: "POST",
+            /*
             beforeSend: function(xhrObj){
-                if(UserIsRegister()){
+                if(userIsRegister()){
                     xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
                     xhrObj.setRequestHeader("X-WSSE",wsseHeader("login", "password"));
                 }
             },
+            */
             data: {entity: entity_string},
             url: url_edit,
             cache: false,
@@ -220,7 +233,7 @@ function FillNewPlaceFormForRegisterUser(){
     * If the user is register, fill the form with id 'new_placeForm' with the email and the label ;
     * Otherwise do nothing.
     */
-    if(UserIsRegister()) {
+    if(userIsRegister()) {
         document.getElementById("new_placeForm").user_label.value = user.label;
         document.getElementById("new_placeForm").user_label.setAttribute("readonly","readonly");
         document.getElementById("new_placeForm").email.value = user.email;
@@ -284,7 +297,7 @@ function changingModeFunction() {
                 }
             });
 
-            if(UserIsRegister()) {
+            if(userIsRegister()) {
                 FillNewPlaceFormForRegisterUser();
                 }
             document.getElementById("div_signaler").style.display = "block";
@@ -329,7 +342,7 @@ function changingModeFunction() {
             document.getElementById("div_signaler").style.display = "none";
 
             if(last_place_selected != null ) {
-                if(UserIsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
+                if(userIsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
                 else { document.getElementById("div_placeDetails").style.display = "block"; }
             }
             add_new_place_mode = false; 
@@ -408,8 +421,7 @@ function homepageMap(townId, townLon, townLat) {
         });
     });
     $.getJSON(jsonUrlData, function(data) {
-    alert(data.user.label);
-    UpdateUserInfo(data.user);
+    updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
         //alert(aPlaceData.addressparts.road);
 	    addMarkerWithClickAction(false,
@@ -476,7 +488,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('.span_nbVote').each(function() { this.innerHTML = placeData.nbVote; });
     $('.span_creator').each(function() { this.innerHTML = placeData.creator.label; });
     
-    if (UserIsAdmin()) {
+    if (userIsAdmin()) {
         document.getElementById("f_id").value = placeData.id;
         document.getElementById("f_lieu").value = placeData.addressParts.road;
         document.getElementById("f_description").value = placeData.description;
@@ -486,10 +498,6 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         document.getElementById("span_lieu").innerHTML = placeData.addressParts.road;
         document.getElementById("span_description").innerHTML = placeData.description;
         document.getElementById("div_placeDetails").style.display = "block";
-    }
-
-    if(UserIsRegister()){
-
     }
 }
 
