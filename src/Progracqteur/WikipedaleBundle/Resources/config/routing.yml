@@ -80,6 +80,14 @@ wikipedale_authenticate:
     _format: json
   options:
     expose: true
+    
+wikipedale_history_place_by_city:
+  pattern: /history/places/bycity/{citySlug}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:PlaceTracking:byCity }
+  requirements:
+    _format: json|atom
+  options:
+    expose: true
 
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production

@@ -41,6 +41,24 @@ class PlaceTracking implements ChangesetInterface {
         $this->date = new \DateTime();
     }
     
+    /**
+     * 
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place
+     */
+    public function getPlace()
+    {
+        return $this->place;
+    }
+    
+    /**
+     * 
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     public function addChange($type, $newValue)
     {
         if (!in_array($type, $this->types))

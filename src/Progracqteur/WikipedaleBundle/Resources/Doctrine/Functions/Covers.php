@@ -31,7 +31,7 @@ class Covers extends FunctionNode {
         
         $this->point = $parser->StringPrimary();
         
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(Lexer::T_CLOSE_PARENTHESIS);  
         
     }
 }
