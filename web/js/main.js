@@ -156,75 +156,63 @@ function catchForm(formName) {
         if (place_data['id'] == "")
             { error_messages = "Veuillez reéssayer et si le problème persiste prendre contact avec le webmaster. " }
     }
-    /* Ne marche pas car pbm de synchonisation
-    A regler TODO
-    if(userIsRegister && (!userIsStillRegisterOnServer()))
-        { error_messages = "Veuillez vous reconnecter";
-            $('#login_message').text("Veuillez vous reconnecter.")
-            $.colorbox({inline:true, href:"#login_user_form_div"});
-         }
-    else
-    {
-        if(editFrom && userIsAdminServer())
-            { error_messages = "Vous devez être admin pour éditer ce point noir"; }
-    }
-    */
-    if(error_messages != "") { alert('Erreur! ' + error_messages  + 'Merci.'); }
-    else {
-        entity_string = PlaceInJson(place_data['description'], place_data['lon'],
-            place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
-            place_data['user_label'], place_data['email']);
-        url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
-        $.ajax({
-            type: "POST",
-            /*
-            beforeSend: function(xhrObj){
-                if(userIsRegister()){
-                    xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
-                    xhrObj.setRequestHeader("X-WSSE",wsseHeader("login", "password"));
-                }
-            },
-            */
-            data: {entity: entity_string},
-            url: url_edit,
-            cache: false,
-            success: function(output_json) { 
-                if(! output_json.query.error) { 
-                    newPlaceData = output_json.results[0];
-                    addMarkerWithClickAction(false,
-                        newPlaceData.geom.coordinates[0],
-                        newPlaceData.geom.coordinates[1],
-                        displayPlaceDataFunction,
-                    newPlaceData);
-                    
-
-                    if(! editForm) {
-                        alert("Le point noir que vous avez soumis a bien été enregistré. Merci!");
-                        changingModeFunction();
-                        document.getElementById("div_placeEdit").style.display = "none";
-                        clearNewPlaceForm();
-                        displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
-                        }
-                    else {
-                        alert("Le point noir a bien été modifié. Merci!");
-                    }
-                    
-                }
-                else { 
-                    alert(output_json[0].message);
-                    alert('ERREUR'); }
-            },
-            error: function(output_json) {
-                alert(JSON.stringify(output_json));
-                alert(output_json.responseText);
-                alert(JSON.parse(output_json.responseText)[0]);
-                alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
-                alert((output_json.responseText[0]).message);
-                alert('ERREUR'); 
+    /* Ne marche pas car pbm de synchonisation */
+    //A regler TODO
+    isUserInAccordWithServer().done(function(userInAccordWithServer)
+        {
+        alert(userInAccordWithServer);
+        if(!userInAccordWithServer)
+            {
+                $('#login_message').text("Veuillez vous reconnecter.")
+                $.colorbox({inline:true, href:"#login_user_form_div"});
             }
-        });
-
-    }
+        else {
+            if(editForm && userIsAdminServer())
+                { error_messages = "Vous devez être admin pour éditer ce point noir"; }
+            if(error_messages != "") { alert('Erreur! ' + error_messages  + 'Merci.'); }
+            else {
+                entity_string = PlaceInJson(place_data['description'], place_data['lon'],
+                    place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
+                    place_data['user_label'], place_data['email']);
+                url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+                $.ajax({
+                    type: "POST",
+                    data: {entity: entity_string},
+                    url: url_edit,
+                    cache: false,
+                    success: function(output_json) { 
+                        if(! output_json.query.error) { 
+                        newPlaceData = output_json.results[0];
+                        addMarkerWithClickAction(false,
+                            newPlaceData.geom.coordinates[0],
+                            newPlaceData.geom.coordinates[1],
+                            displayPlaceDataFunction,
+                            newPlaceData);
+                        if(! editForm) {
+                            alert("Le point noir que vous avez soumis a bien été enregistré. Merci!");
+                            changingModeFunction();
+                            document.getElementById("div_placeEdit").style.display = "none";
+                            clearNewPlaceForm();
+                            displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
+                            }
+                        else {
+                            alert("Le point noir a bien été modifié. Merci!");
+                        }
+                        }
+                        else { 
+                        alert(output_json[0].message);
+                        alert('ERREUR'); } },
+                    error: function(output_json) {
+                    alert(JSON.stringify(output_json));
+                    alert(output_json.responseText);
+                    alert(JSON.parse(output_json.responseText)[0]);
+                    alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
+                    alert((output_json.responseText[0]).message);
+                    alert('ERREUR');  }
+                });
+            }
+        }
+    });
 }
 
 
