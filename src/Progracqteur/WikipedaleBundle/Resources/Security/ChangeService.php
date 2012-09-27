@@ -45,30 +45,27 @@ class ChangeService {
          * @var Progracqteur\WikipedaleBundle\Entity\Management\User
          */
         $author = $object->getChangeset()->getAuthor();
-            if ($author === null)
-            {
-                $author = $this->securityContext->getToken()->getUser();
-            }
+            
     
         //s'il s'agit d'une création
         if ($object->getChangeset()->isCreation())
         {
             if ($object instanceof Place) {
-                // si l'utilisateur est authentifié, il en peut créer un objet pour un autre
-                if ( $this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
+                // si l'utilisateur est authentifié, il ne peut créer un objet pour un autre
+                if ( $author->isRegistered())
                 {
-                    if ( $object->getCreator()->equals($this->securityContext->getToken()->getUser()))
+                    if ( $object->getCreator()->equals($author))
                     {
                         return true;
                     } else 
                     {
-                        throw ChangeException::mayNotCreateEntityForAnotherUser();
+                        throw ChangeException::mayNotCreateEntityForAnotherUser(10);
                     }
                 } else { //si l'utilisateur n'est pas enregistré, alors il ne peut 
                     //pas créer d'objet pour un utilisateur enregistré
                     if ( $object->getCreator()->isRegistered() === true )
                     {
-                        throw ChangeException::mayNotCreateEntityForAnotherUser();
+                        throw ChangeException::mayNotCreateEntityForAnotherUser(100);
                     } else {
                         return true;
                     }
