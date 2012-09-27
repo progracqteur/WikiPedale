@@ -5,7 +5,8 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
-
+use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
+use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 /**
  * normalizer PlaceTracking elements to an array, and back. 
  * Used with Serializer.
@@ -27,7 +28,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
     
     
     public function denormalize($data, $class, $format = null) {
-        
+        throw new \Exception("denormalization of a placeTracking is forbidden");
     }
 
     /**
@@ -48,11 +49,38 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
         
         $changes = array();
         
-        foreach ($object as $change)
+        if ( !$object->isCreation()) //si le tracking est une création, alors on n'envoie pas les détails
         {
-            $changes[] = array('type' => $change->getType(),
-                'newValue' => $change->getNewValue());
+            foreach ($object as $change)
+            {
+                switch($change->getType())
+                {
+                    case ChangeService::PLACE_ADDRESS :
+                        $value = $change->getNewValue();
+                        /*$h = $change->getNewValue();
+                        
+                        $value = $this->service->getAddressNormalizer()->normalize($adresse, $format);
+                        */
+                        break;
+                        
+                    case ChangeService::PLACE_ADD_PHOTO : 
+                        $value = $change->getNewValue(); //on garde le filename de la photo
+                        break;
+                    case ChangeService::PLACE_GEOM :
+                        $geom = unserialize($change->getNewValue());
+                        $value = $geom->toArrayGeoJson();
+                        break;
+                    default:
+                        $value = $change->getNewValue();
+                }
+
+
+
+                $changes[] = array('type' => $change->getType(),
+                    'newValue' => $value);
+            }
         }
+        
         
         $a['changes'] = $changes;
         
@@ -60,7 +88,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
     }
 
     public function supportsDenormalization($data, $type, $format = null) {
-        return false; //TODO implémenter normalisation
+        return false; //la dénormalisation n'a pas de sens
     }
 
     public function supportsNormalization($data, $format = null) {

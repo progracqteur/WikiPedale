@@ -75,29 +75,44 @@ class PlaceTracking implements ChangesetInterface {
                 $this->details->changes = new Hash();
             }
             
+            //transformation de newValue si nécessaire
+            //et traitement de creation
             switch ($type)
             {
                 case ChangeService::PLACE_CREATOR:
-                    if ($newValue instanceof UnregisteredUser)
+                    //Il ne faut rien faire: place creator n'est normalement pas permis
+                    break;
+                case ChangeService::PLACE_ADD_PHOTO:
+                    $newValue = $newValue->getFileName();
+                    break;
+                case ChangeService::PLACE_CREATION:
+                    $this->isCreation = true;
+                    break;
+                case ChangeService::PLACE_GEOM:
+                    $newValue = $newValue->toGeoJson();
+                    break;
+                case ChangeService::PLACE_ADDRESS:
+                    $newValue = '';
+                    /*$a = $newValue->toArray();
+                    $b = new Hash();
+                    foreach ($a as $key => $value)
                     {
-                        $this->details->changes->{$type} = $newValue->toHash();
-                    } else if ($newValue instanceof User)
-                    {
-                        $this->details->changes->{$type} = $newValue->getId();
+                        $b->{$key} = $value;
                     }
+                    break;*/
+                    //TODO implémentation adresse
                     break;
                 default:
-                    $this->details->changes->{$type} = $newValue;
+                    //rien à faire
             }
+            
+            $this->details->changes->{$type} = $newValue;
             
             
             
         }
         
-        if ($type === ChangeService::PLACE_CREATION)
-        {
-            $this->isCreation = true;
-        }
+        
     }
     
     public function isCreation() {

@@ -17,7 +17,13 @@ use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 class ChangeService {
     
     const PLACE_CREATION = 100;
+    /**
+     * @deprecated since 2012-09-27
+     */
     const PLACE_DETAILS = 105;
+    const PLACE_DESCRIPTION = 1050;
+    const PLACE_ADDRESS = 1060;
+    const PLACE_GEOM = 1070;
     const PLACE_ADD_COMMENT = 110;
     const PLACE_ADD_VOTE = 120;
     const PLACE_ADD_PHOTO = 130;
@@ -110,8 +116,13 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('accepted');
                      }
-                 case self::PLACE_DETAILS :
-                     //TODO implémenter le rôle particulier 'enregistré'
+                 case self::PLACE_ADDRESS : 
+                 case self::PLACE_DESCRIPTION :
+                 case self::PLACE_GEOM:
+                     if (! $author->isRegistered())
+                     {
+                         throw ChangeException::param('details');
+                     }
                      continue;
                      break;
                  case self::PLACE_ADD_PHOTO:
