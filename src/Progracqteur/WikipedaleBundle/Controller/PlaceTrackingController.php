@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 
 /**
  * 
@@ -62,7 +63,19 @@ class PlaceTrackingController extends Controller {
                 ->setMaxResults($max)
                 ->getResult();
         
-        return new Response(count($tracks).$tracks[0]->getId());
+        switch ($_format) {
+            case 'json' :
+                $r = new NormalizedResponse($tracks);
+                $r->setLimit($max);
+                $r->setStart($first);
+                $normalizer = $this->get('progracqteurWikipedaleSerializer');
+                $ret = $normalizer->serialize($r, $_format);
+                
+                return new Response($ret);
+                break;
+        }
+        
+        //return new Response(count($tracks).$tracks[0]->getId());
     }
     
 }
