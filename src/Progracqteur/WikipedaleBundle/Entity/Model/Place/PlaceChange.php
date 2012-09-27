@@ -12,14 +12,20 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeInterface;
 class PlaceChange implements ChangeInterface{
     
     private $type;
+    private $value = null;
     
-    public function __construct($type)
+    public function __construct($type, $newValue = null)
     {
         $this->type = $type;
     }
     
     public function getType() {
         return $this->type;
+    }
+    
+    public function getNewValue()
+    {
+        return $this->value;
     }
 }
 
