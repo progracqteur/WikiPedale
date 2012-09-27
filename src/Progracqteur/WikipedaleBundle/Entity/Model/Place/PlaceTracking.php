@@ -23,6 +23,7 @@ class PlaceTracking implements ChangesetInterface {
     private $details;
     
     private $types = array();
+    private $values = array();
     
     private $isCreation = false;
     
@@ -65,22 +66,28 @@ class PlaceTracking implements ChangesetInterface {
         {
             //pour le suivi des changements par Security
             $this->types[] = $type;
+            $this->values[] = $newValue;
             
             //pour l'enregistrement dans la base de donnée
+            
+            if ($this->details->has('changes') === false)
+            {
+                $this->details->changes = new Hash();
+            }
             
             switch ($type)
             {
                 case ChangeService::PLACE_CREATOR:
                     if ($newValue instanceof UnregisteredUser)
                     {
-                        $this->details->{$type} = $newValue->toHash();
+                        $this->details->changes->{$type} = $newValue->toHash();
                     } else if ($newValue instanceof User)
                     {
-                        $this->details->{$type} = $newValue->getId();
+                        $this->details->changes->{$type} = $newValue->getId();
                     }
                     break;
                 default:
-                    $this->details->{$type} = $newValue;
+                    $this->details->changes->{$type} = $newValue;
             }
             
             
@@ -140,7 +147,8 @@ class PlaceTracking implements ChangesetInterface {
     
     public function current() {
         $prop = $this->types[$this->intTypes];
-        return new PlaceChange($prop);
+        $val = $this->values[$this->intTypes];
+        return new PlaceChange($prop, $val);
     }
         
     public function key() {
@@ -156,7 +164,24 @@ class PlaceTracking implements ChangesetInterface {
     }
     
     public function valid() {
+        
+        if ($this->details->has("changes")=== true && count($this->types) === 0)
+        {
+            $this->prepareIterationFromHash();
+        }
+        
         return isset($this->types[$this->intTypes]);
+    }
+    
+    private function prepareIterationFromHash()
+    {
+        $a = $this->details->changes->toArray();
+        
+        foreach ($a as $key => $value)
+        {
+            $this->types[] = $key;
+            $this->values[] = $value;
+        }
     }
 
 }
