@@ -89,11 +89,11 @@
 #connexion {
     background-color:#2D2D2D;
     text-align: right;
-    margin:0;
+    margin:0 0 1em 0;
     border-bottom: 1px solid #AAAAAA;
-    padding: 0.5em 0.5em 0 0;
+    padding: 0.5em 1em 0 0;
 }
-#connexion a, #connexion a:visited { color: #AAAAAA; font:bold 0.8em; text-decoration: none;}
+#connexion a, #connexion a:visited { color: #AAAAAA; font-size:0.8em; text-decoration: none;}
 #connexion a:hover { color: #FFFFFF;}
 
 select#Villes { float:left; }
@@ -105,3 +105,18 @@ ul#VillesSelection {
     margin:0;
 }
 ul#VillesSelection li { float:left; list-style-type: none; margin-left: 1em; }
+
+span#VilleActuelle {
+    color:#FFFFFF;
+}
+
+<!-- page Création de compte -->
+form.fos_user_registration_register {
+    width:300px;
+    margin:0 auto;
+}
+
+form.register {
+    width:300px;
+    border:1px solid black;
+}
