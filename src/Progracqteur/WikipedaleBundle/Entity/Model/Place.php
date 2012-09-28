@@ -149,7 +149,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('address', $this->address, $address);
             $this->address = $address;
-            $this->getChangeset()->addChange(ChangeService::PLACE_ADDRESS, serialize($address->toArray()));
+            $this->getChangeset()->addChange(ChangeService::PLACE_ADDRESS, $address);
         }
         
     }
@@ -434,7 +434,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     public function setDescription($description)
     {
         $description = trim($description);
-        if ($this->description != $description )
+        if ($this->description !== $description )
         {
             $this->change('description', $this->description, $description);
             $this->description = $description;

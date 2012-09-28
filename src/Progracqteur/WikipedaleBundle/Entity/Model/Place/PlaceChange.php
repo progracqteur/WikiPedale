@@ -17,6 +17,7 @@ class PlaceChange implements ChangeInterface{
     public function __construct($type, $newValue = null)
     {
         $this->type = $type;
+        $this->value = $newValue;
     }
     
     public function getType() {

@@ -8,6 +8,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
 /**
  * Description of PlaceTracking
@@ -87,22 +89,14 @@ class PlaceTracking implements ChangesetInterface {
                     break;
                 case ChangeService::PLACE_CREATION:
                     $this->isCreation = true;
+                    //il n'y a pas d'autrs modifs à effectuer
                     break;
                 case ChangeService::PLACE_GEOM:
                     $newValue = $newValue->toGeoJson();
                     break;
                 case ChangeService::PLACE_ADDRESS:
-                    $newValue = '';
-                    /*$a = $newValue->toArray();
-                    $b = new Hash();
-                    foreach ($a as $key => $value)
-                    {
-                        $b->{$key} = $value;
-                    }
-                    break;*/
-                    //TODO implémentation adresse
-                    break;
-                default:
+                    $newValue = json_encode($newValue->toArray());
+                //default:
                     //rien à faire
             }
             
@@ -195,7 +189,30 @@ class PlaceTracking implements ChangesetInterface {
         foreach ($a as $key => $value)
         {
             $this->types[] = $key;
-            $this->values[] = $value;
+            
+            switch ($key)
+            {
+                case ChangeService::PLACE_CREATOR:
+                    //Il ne faut rien faire: place creator n'est normalement pas permis
+                    break;
+                case ChangeService::PLACE_ADD_PHOTO:
+                    $newValue = $value;
+                    break;
+                case ChangeService::PLACE_CREATION:
+                    //nothing to do - this case should not happen
+                    break;
+                case ChangeService::PLACE_GEOM:
+                    $newValue = Point::fromGeoJson($value);
+                    break;
+                case ChangeService::PLACE_ADDRESS:
+                    $a = json_decode($value);
+                    $newValue = Address::fromArray($a);
+                    break;
+                default:
+                    $newValue = $value;
+            }
+
+            $this->values[] = $newValue;
         }
     }
 
