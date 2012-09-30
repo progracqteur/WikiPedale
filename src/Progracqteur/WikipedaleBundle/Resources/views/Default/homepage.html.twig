@@ -17,8 +17,7 @@
 
 <div id="olPanelUL"></div>
 
-<a class="AjoutPoint" href="#form_AjoutPoint">Ajout point (ColorBox)</a>
-
+<a class="AjoutPoint" href="#form_AjoutPoint">Ajout point (ColorBox)</a>&nbsp;
 <div class="clearboth"></div>
 
 <script>
@@ -31,7 +30,7 @@
 
 <!-- Écran de connexion -->
 <div style='display:none'>
-  <div id='login_user_form_div' style='padding:10px; background:#fff;'>
+  <div id='login_user_form_div'>
     <b><span id='login_message'></span></b><br />
     <form method="post" action="javascript:catchLoginForm()" id="loginForm">
       <label for="i_username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
@@ -44,7 +43,6 @@
     </form>
   </div>
 </div>
-
 
 <!-- Écran ajout point -->
 <div style='display:none'>
@@ -141,11 +139,17 @@
 {% else %}
 
 <div id="BoiteChoixVille">
-    <select id="Villes">
+
+    <select id="Cities_dhtmlx">
     {% for city in cities %}
             <option value="{{city.slug}}">{{city.name}}</option>
     {% endfor %}
     </select>
+    
+    <script>
+        var z = dhtmlXComboFromSelect("Cities_dhtmlx");
+        z.enableFilteringMode(true);
+    </script>
 
     <ul id="VillesSelection">
     {% for city in mainCities %}
