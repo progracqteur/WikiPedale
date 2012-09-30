@@ -250,7 +250,7 @@ function changingModeFunction() {
     */
     if(!add_new_place_mode) {
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Retour exploration';
+            value.innerHTML = 'Retour';
         });
         $.each(markers_and_associated_data, function(index, marker_data) {
             if (marker_data != undefined) {
@@ -295,7 +295,7 @@ function changingModeFunction() {
         }
         else {
             $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-                value.innerHTML = 'Ajouter un point noir';
+                value.innerHTML = 'Ajouter un point';
             });
 
             if(new_placeMarker != undefined) 
@@ -387,7 +387,7 @@ function homepageMap(townId, townLon, townLat) {
     var control_panel = new OpenLayers.Control.Panel({
         div: document.getElementById('olPanelUL')});
     map.addControl(control_panel);
-    control_panel.addControls([button_lately_added, button_lately_updated, button_add_place ]);
+    control_panel.addControls([button_add_place, button_lately_added, button_lately_updated ]);
     
     button_add_place.activate();
     button_lately_added.activate();
@@ -395,7 +395,7 @@ function homepageMap(townId, townLon, townLat) {
 
     $(document).ready(function(){
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Ajouter un point noir';
+            value.innerHTML = 'Ajouter un point';
         });
     });
     $(document).ready(function(){

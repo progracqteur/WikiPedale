@@ -1,14 +1,21 @@
+#html, body {
+    padding:0; margin: 0; width:100%;
+}
+
 /* Contour de la carte */
 #MapAndEditorContener {
-  background: green;
-  height: 400px;
-  width: 1000px;
+}
+
+#MapAndEditorContener #map {
+    width:600px;
+    height:600px;
+    float:left;
+    margin:0.5em;
 }
 
 /* Panel */
 /**** Panel haut-gauche ****/
 #olPanelUL {
-  background: green;
   float: left;
   width: 600px;
   height: 30px;
@@ -25,47 +32,32 @@
 /* Button */
 .olControlButtonAddPlaceItemActive {
     float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
     height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin: 0 0.5em 1em 0.5em;
     text-align:center;
+    padding : 0.2em 0.5em 0.2em 27px;
+    background: #D14836 url('../img/plus.png') no-repeat 0.5em;
+    border: 1px solid transparent;
+    color: #FFFFFF;
+    text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
 }
 
 .olControlButtonAddPlaceItemActive:hover {
-    background: blue;
+    background: #E23D27 url('../img/plusblanc.png') no-repeat 0.5em;
 }
 
-.olControlButtonLatelyUpdatedItemActive {
+.olControlButtonLatelyUpdatedItemActive, .olControlButtonLatelyAddedItemActive {
     float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin:0.2em 0.5em 0.5em 0.5em;
     text-align:center;
+    color: #FF0000;
+    text-decoration:underline;
 }
 
-.olControlButtonLatelyUpdatedItemActive:hover {
-    background: blue;
-}
-
-.olControlButtonLatelyAddedItemActive {
-    float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align:center;
-}
-
-.olControlButtonLatelyAddedItemActive:hover {
-    background: blue;
+.olControlButtonLatelyUpdatedItemActive:hover, .olControlButtonLatelyAddedItemActive:hover {
+    color: #800000;
+    text-decoration:underline;
 }
 
 .ButtonGeneral{
@@ -77,13 +69,6 @@
   margin-right: 10px;
   margin-left: 10px;
   text-align:center;
-
-}
-
-<!-- mods ben -->
-
-#html, body {
-    padding:0; margin: 0; width:100%;
 }
 
 #connexion {
@@ -98,25 +83,25 @@
 
 select#Villes { float:left; }
 
+div#BoiteChoixVille {
+    clear:right;
+}
+
 ul#VillesSelection {
-    display:inline;
-    float:left;
     padding: 0;
     margin:0;
 }
-ul#VillesSelection li { float:left; list-style-type: none; margin-left: 1em; }
+ul#VillesSelection li { float:left; list-style-type: none; margin-left: 1em; display:inline; }
 
 span#VilleActuelle {
     color:#FFFFFF;
 }
 
-<!-- page Création de compte -->
-form.fos_user_registration_register {
-    width:300px;
-    margin:0 auto;
-}
-
-form.register {
-    width:300px;
-    border:1px solid black;
+#PiedDePage {
+    display:block;
+    text-align: center;
+    font-weight: normal;
+    font-size: 0.8em;
+    clear:both;
+    margin:2em 0 0 0;
 }

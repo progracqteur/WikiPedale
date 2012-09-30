@@ -18,10 +18,7 @@
 <div id="olPanelUL"></div>
 
 <div id="panelUR">
-  <div id="ButtonInfo" class="ButtonGeneral" onClick="javascript:blopFunction()">Info</div>
   <div id="ButtonAide" class="ButtonGeneral" onClick="javascript:blopFunction()">Aide</div>
-  <div id="ButtonConnexion" class="ButtonGeneral">
-    <a class='connexion' href="#login_user_form_div">Connexion</a></div>
 </div>
 
 <script>
@@ -32,19 +29,19 @@
   <div id='login_user_form_div' style='padding:10px; background:#fff;'>
     <b><span id='login_message'></span></b><br />
     <form method="post" action="javascript:catchLoginForm()" id="loginForm">
-      <label for="i_username">Username:</label>
+      <label for="i_username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
       <input type="text" id="i_username" name="username" value="" />
       <br/><br/>
-      <label for="i_password">Password:</label>
+      <label for="i_password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
       <input type="password" id="i_password" name="password" />
       <br/><br/>
-      <input type="submit" id="i_submit" name="submit" value="Login" />
+      <input type="submit" id="i_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
     </form>
   </div>
 </div>
 
 <div id="MapAndEditorContener">
-  <div id="map" style="width:400px; height:200px; float:left;"  class="smallmap"></div>
+  <div id="map"  class="smallmap"></div>
 
   <div style="width:600px; height:300px; float:left; overflow:auto;background: gray;">
 
@@ -127,8 +124,6 @@
     {% for city in cities %}
             <option value="{{city.slug}}">{{city.name}}</option>
     {% endfor %}
-           
-    
     </select>
 
     <ul id="VillesSelection">
@@ -137,8 +132,8 @@
             <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}"> {{city.name}}</a></li>
 
     {% endfor %}
-
     </ul>
+        
 </div>
 
 {% endif %}
