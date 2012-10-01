@@ -1,17 +1,20 @@
 var user = {};
 
 function updateUserInfo(newUserInfo){
+    /**
+    * Update the user informations contained locally in the JS.
+    * @param newUserInfo contains the new informations (label, roles, registered, email, id)
+    */
     if (newUserInfo.registered) {
-        user.label = newUserInfo.label;
-        user.roles = newUserInfo.roles;
-        user.registered = newUserInfo.registered;
-        user.email = newUserInfo.email;
-        user.id = newUserInfo.id;
+        user = newUserInfo;
     }
 }
 
 function userResetInfo()
 {
+    /**
+    * Remove all the user informations (contained locally in the JS). Must be used when the user logs out.
+    */
     user = {};
 }
 
@@ -29,16 +32,14 @@ function userIsRegister(){
     return user.registered != undefined && user.registered;
 }
 
-//setInterval( "checkUser()", 30000 ); //toutes les minutes -> checkUser() / 60000 -> i min
-
 function isUserInAccordWithServer(){
+    /**
+    * Returns True if the information contained locally in the JS is in accord with information in the server.
+    * A difference happens when the session ends on the server but not in the js.
+    */
     var defe = $.Deferred();
     if(userIsRegister){
         $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
-            /*alert(data.results[0].registered);
-            alert(data.results[0].id);
-            alert(user.id);
-            alert(data.results[0].id == user.id); */
             if(data.results[0].registered && data.results[0].id == user.id)
                 {   
                     alert("defe is true - ");
@@ -55,6 +56,9 @@ function isUserInAccordWithServer(){
 }
 
 function userIsAdminServer()
+    /**
+    * Returns True if the user is admin. The checking in by asking to the server.
+    */
 {
     $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
         updateUserInfo(data.results[0]);
