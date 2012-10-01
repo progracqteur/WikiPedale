@@ -250,7 +250,7 @@ function changingModeFunction() {
     */
     if(!add_new_place_mode) {
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Retour exploration';
+            value.innerHTML = 'Retour';
         });
         $.each(markers_and_associated_data, function(index, marker_data) {
             if (marker_data != undefined) {
@@ -295,7 +295,7 @@ function changingModeFunction() {
         }
         else {
             $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-                value.innerHTML = 'Ajouter un point noir';
+                value.innerHTML = 'Ajouter un point';
             });
 
             if(new_placeMarker != undefined) 
@@ -387,7 +387,7 @@ function homepageMap(townId, townLon, townLat) {
     var control_panel = new OpenLayers.Control.Panel({
         div: document.getElementById('olPanelUL')});
     map.addControl(control_panel);
-    control_panel.addControls([button_lately_added, button_lately_updated, button_add_place ]);
+    control_panel.addControls([button_add_place, button_lately_added, button_lately_updated ]);
     
     button_add_place.activate();
     button_lately_added.activate();
@@ -395,7 +395,7 @@ function homepageMap(townId, townLon, townLat) {
 
     $(document).ready(function(){
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Ajouter un point noir';
+            value.innerHTML = 'Ajouter un point';
         });
     });
     $(document).ready(function(){
@@ -461,6 +461,28 @@ display_placeEdit_vars = [
     ['.span_nbVote', 'nbVote'],
 ]
 
+// PHOTO
+function pop_up_add_photo(i) {
+    window.open(Routing.generate('wikipedale_photo_new', {_format: 'html', placeId: i}));
+}
+
+function refresh_span_photo(id) {
+    url_photo_list = Routing.generate('wikipedale_photo_list_by_place', {_format: 'json', placeId: i});
+    $.getJSON(url_photo_list, function(raw_data) {
+    data = raw_data.results;
+    if(data.length == 0) {
+        $('.span_photo').each(function() { this.innerHTML = 'pas encore de photos'; });
+        }
+    else {
+        span_photo_inner = '<br />';
+        $.each(data, function(i,row) {
+        span_photo_inner +=  ' <a target="_blank" href="' + row.webPath + '"><image height="' + row.height  + '"width="' + row.width  + '" src="' + row.webPath + '"></image></a>';
+        $('.span_photo').each(function() { this.innerHTML = span_photo_inner; });
+        })
+        }
+    });
+}
+
 function displayPlaceDataFunction(placeMarker, placeData) {
     /**
      * Function which display some data of the place on the webpage.
@@ -475,7 +497,10 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('.span_nbComm').each(function() { this.innerHTML = placeData.nbComm; });
     $('.span_nbVote').each(function() { this.innerHTML = placeData.nbVote; });
     $('.span_creator').each(function() { this.innerHTML = placeData.creator.label; });
-    
+    refresh_span_photo(placeData.id);
+    url_add_photo = "javascript:pop_up_add_photo(" + placeData.id + ")";
+    $('a.link_add_photo').each(function() { $(this).attr("href", url_add_photo)});
+
     if (userIsAdmin()) {
         document.getElementById("f_id").value = placeData.id;
         document.getElementById("f_lieu").value = placeData.addressParts.road;

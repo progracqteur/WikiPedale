@@ -15,14 +15,16 @@
         <script src="{{ asset('js/jquery.colorbox.js') }}" type="text/javascript"></script>
         <link rel="stylesheet"  href="{{ asset('css/colorbox.css') }}" type="text/css"/>
 
-
+        <script  src="{{ asset('js/dhtmlxcommon.js') }}" type="text/javascript"></script>
+        <script  src="{{ asset('js/dhtmlxcombo.js') }}" type="text/javascript"></script>
         
         {% block javascript %}
         
             <!-- Aucun fichier javascript ajouté par le template -->
         {% endblock %}
             
-        <link rel="stylesheet"  href="{{ asset('css/main.css') }}" type="text/css"/> 
+        <link rel="stylesheet"  href="{{ asset('css/main.css') }}" type="text/css"/>
+        <link rel="stylesheet"  href="{{ asset('css/dhtmlxcombo.css') }}" type="text/css"/>
 
 
         <style type="text/css">
@@ -52,19 +54,20 @@
         </div>
             
         <div id="connexion">
+            {% if app.session.get('city') %}
+                <span id="VilleActuelle">{{app.session.get('city').name}} <a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a> | </span>
+            {% endif %}
+            
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
                 <a href="{{ path('fos_user_security_logout') }}">
                     {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                 </a>
             {% else %}
-                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+               <!-- <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a> -->
+                <a class ="connexion" href="#login_user_form_div">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
                 &nbsp;
-                <a href="{{ path('fos_user_registration_register') }}">Créer un compte</a>
-            {% endif %}
-                
-            {% if app.session.get('city') %}
-                <p>Votre ville actuelle est {{app.session.get('city').name}} <a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a></p>
+                <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
             {% endif %}
         </div>
             
@@ -80,5 +83,11 @@
 
             {% block body %}Rien dans le body...{% endblock %}
         </div>
+ 
+            <div id="PiedDePage">
+                <a href="#">À propos de...</a> - 
+                <a href="#">Aide</a> - 
+                <a href="#">Contact</a>
+            </div>
     </body>
 </html>

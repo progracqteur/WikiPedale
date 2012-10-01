@@ -1,71 +1,67 @@
-/* Contour de la carte */
+#html, body { padding:0; margin: 0; width:100%; }
+.clearboth { clear:both; }
+
+/* #form_AjoutPoint { display: none; } */
+
+/* Carte */
 #MapAndEditorContener {
-  background: green;
-  height: 400px;
-  width: 1000px;
 }
+
+#MapAndEditorContener #map {
+    width:70%;
+    height:600px;
+    margin:1em;
+    float:left;
+}
+
+#MapAndEditorContener #div_signaler {
+    display:none;
+    margin:0 0 0 1em;
+    height:300px;
+    background: #FFFFFF;
+    overflow:auto;
+}
+
+div#form_AjoutPoint h1 { text-transform: uppercase; color: #333333; margin-bottom:0; }
+div#form_AjoutPoint label { width: 20%; float: left; }
+div#form_AjoutPoint .champs { width:77%; }
+div#form_AjoutPoint .send { float:right; margin:1em 2% 1em 1em; font-weight: bold; }
 
 /* Panel */
 /**** Panel haut-gauche ****/
 #olPanelUL {
-  background: green;
-  float: left;
-  width: 600px;
-  height: 30px;
+  clear:both;
 }
 
-/**** Panel haut-droite ****/
-#panelUR {
-  background: white;
-  float: left;
-  width: 400px;
-  height: 30px;
-}
-
-/* Button */
+/* Menu actions Signalement */
 .olControlButtonAddPlaceItemActive {
     float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
     height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin: 0 0.5em 1em 0.5em;
     text-align:center;
+    padding : 0.2em 0.5em 0.2em 27px;
+    background: #D14836 url('../img/plus.png') no-repeat 0.5em;
+    border: 1px solid transparent;
+    color: #FFFFFF;
+    text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
 }
 
 .olControlButtonAddPlaceItemActive:hover {
-    background: blue;
+    background: #E23D27 url('../img/plusblanc.png') no-repeat 0.5em;
 }
 
-.olControlButtonLatelyUpdatedItemActive {
+.olControlButtonLatelyUpdatedItemActive, .olControlButtonLatelyAddedItemActive {
     float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin:0.2em 0.5em 0.5em 0.5em;
     text-align:center;
+    color: #FF0000;
+    text-decoration:underline;
 }
 
-.olControlButtonLatelyUpdatedItemActive:hover {
-    background: blue;
-}
-
-.olControlButtonLatelyAddedItemActive {
-    float: left;
-    border: 1px solid black;
-    background: red;
-    width: 150px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align:center;
-}
-
-.olControlButtonLatelyAddedItemActive:hover {
-    background: blue;
+.olControlButtonLatelyUpdatedItemActive:hover, .olControlButtonLatelyAddedItemActive:hover {
+    color: #800000;
+    text-decoration:underline;
 }
 
 .ButtonGeneral{
@@ -77,31 +73,39 @@
   margin-right: 10px;
   margin-left: 10px;
   text-align:center;
-
-}
-
-<!-- mods ben -->
-
-#html, body {
-    padding:0; margin: 0; width:100%;
 }
 
 #connexion {
     background-color:#2D2D2D;
     text-align: right;
-    margin:0;
+    margin:0 0 1em 0;
     border-bottom: 1px solid #AAAAAA;
-    padding: 0.5em 0.5em 0 0;
+    padding: 0.5em 1em 0 0;
 }
-#connexion a, #connexion a:visited { color: #AAAAAA; font:bold 0.8em; text-decoration: none;}
+#connexion a, #connexion a:visited { color: #AAAAAA; font-size:0.8em; text-decoration: none;}
 #connexion a:hover { color: #FFFFFF;}
 
-select#Villes { float:left; }
+select#Cities_dhmlx { float:left; }
+
+div#BoiteChoixVille {
+    clear:right;
+}
 
 ul#VillesSelection {
-    display:inline;
-    float:left;
     padding: 0;
     margin:0;
 }
-ul#VillesSelection li { float:left; list-style-type: none; margin-left: 1em; }
+ul#VillesSelection li { float:left; list-style-type: none; margin-left: 1em; display:inline; }
+
+span#VilleActuelle {
+    color:#FFFFFF;
+}
+
+#PiedDePage {
+    display:block;
+    text-align: center;
+    font-weight: normal;
+    font-size: 0.8em;
+    clear:both;
+    margin:2em 0 0 0;
+}

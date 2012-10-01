@@ -17,69 +17,86 @@
 
 <div id="olPanelUL"></div>
 
-<div id="panelUR">
-  <div id="ButtonInfo" class="ButtonGeneral" onClick="javascript:blopFunction()">Info</div>
-  <div id="ButtonAide" class="ButtonGeneral" onClick="javascript:blopFunction()">Aide</div>
-  <div id="ButtonConnexion" class="ButtonGeneral">
-    <a class='connexion' href="#login_user_form_div">Connexion</a></div>
-</div>
+<a class="AjoutPoint" href="#form_AjoutPoint">Ajout point (ColorBox)</a>&nbsp;
+<div class="clearboth"></div>
 
 <script>
     jQuery('a.connexion').colorbox({inline:true,width:"300px", height:"300px"});
+
+    $(document).ready(function(){
+        $(".AjoutPoint").colorbox({inline:true, width:"50%"});
+    });
 </script>
 
+<!-- Écran de connexion -->
 <div style='display:none'>
-  <div id='login_user_form_div' style='padding:10px; background:#fff;'>
+  <div id='login_user_form_div'>
     <b><span id='login_message'></span></b><br />
     <form method="post" action="javascript:catchLoginForm()" id="loginForm">
-      <label for="i_username">Username:</label>
+      <label for="i_username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
       <input type="text" id="i_username" name="username" value="" />
       <br/><br/>
-      <label for="i_password">Password:</label>
+      <label for="i_password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
       <input type="password" id="i_password" name="password" />
       <br/><br/>
-      <input type="submit" id="i_submit" name="submit" value="Login" />
+      <input type="submit" id="i_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
     </form>
   </div>
 </div>
 
+<!-- Écran ajout point -->
+<div style='display:none'>
+    <div id="form_AjoutPoint">
+    <h1>Signaler un point noir</h1>
+        <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
+            <input type="hidden"  name="lon" readonly="true" />
+            <input  type="hidden" name="lat" readonly="true" />
+            <label for="l">{{ 'black_points.location'|trans({}, 'FOSUserBundle') }}</label>
+                <input name="lieu" id="l" class="champs" />
+            <label for="d">{{ 'black_points.description'|trans({}, 'FOSUserBundle') }}</label>
+                <textarea name="description" id="d" cols=35 rows=5 class="champs"></textarea><br />
+            <label for="n">Votre nom</label>
+                <input name="user_label" id="n" class="champs" />
+            <label for="e">Votre e-mail</label>
+                <input name="email" id="e" class="champs" />
+            <input class="send" type="submit" value="OK">
+        </form>
+    </div>
+</div>
+
 <div id="MapAndEditorContener">
-  <div id="map" style="width:400px; height:200px; float:left;"  class="smallmap"></div>
+  <div id="map"  class="smallmap"></div>
 
-  <div style="width:600px; height:300px; float:left; overflow:auto;background: gray;">
+  <div style="width:25%; height:300px; float:left; overflow:auto;background: gray;">
 
-    <div id="div_signaler" style="margin-left:15px;display:none;background: white;">
-      <h1>Signaler un point noir.</h1>
-      <strong>Pour des petits travaux et des travaux d'entretien, vous pouvez contacter directement la ville via le num&eacute;ro gratuit 0800 92 329 ou via <a href="mailto:travaux.vert@ville.mons.be">travaux.vert@ville.mons.be</a> (<a href="http://www.mons.be/default.aspx?GUID={BF4FA10D-9842-11DA-9742-0002A58CB319}&LNG=FRA" target="_blank">mons.be</a>)
-      </strong>.
-      <br />
-      <br />
-      Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.<br /><br />
+    <div id="div_signaler">
+      <h1>Signaler un point noir</h1>
+      <p>Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.</p>
       <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
         <input type="hidden"  name="lon" readonly="true" />
         <input  type="hidden" name="lat" readonly="true" />
-        <label for="l">Lieu : </label> <input name="lieu" id="l" size=42 /><br />
-        <label for="d">Description:</label> <textarea name="description" id="d" cols=35 rows=5></textarea><br />
-        <br />
-        <label for="n">Nom, prénom: </label> <input name="user_label" id="n" size=42 /><br />
-        <br />
-        <label for="e">Email:</label> <input name="email" id="e"  size=42 /><br />
-        <br />
-        <div style="padding-left:100px"><input type="submit" value="soumettre"></div>
+        <label for="l">Lieu exact</label> <input name="lieu" id="l" size=42 />
+        <label for="d">Description</label> <textarea name="description" id="d" cols=35 rows=5></textarea><br />
+        <label for="n">Votre nom</label> <input name="user_label" id="n" size=42 />
+        <label for="e">Votre e-mail</label> <input name="email" id="e"  size=42 />
+        <div style="text-align: center;"><input type="submit" value="Soumettre"></div>
       </form>
       <br />
+      <!--
+      <p>Pour des petits travaux et des travaux d'entretien, vous pouvez contacter directement la ville via le num&eacute;ro gratuit 0800 92 329 ou via <a href="mailto:travaux.vert@ville.mons.be">travaux.vert@ville.mons.be</a> (<a href="http://www.mons.be/default.aspx?GUID={BF4FA10D-9842-11DA-9742-0002A58CB319}&LNG=FRA" target="_blank">mons.be</a>)</p>
       <b>Aide :</b>
       <ul>
         <li>Un point noir est quelque chose qui pose probl&egrave;me &agrave; la pratique id&eacute;ale du v&eacute;lo ;  
             ça peut &ecirc;tre une bordure non abaiss&eacute;e, une piste cyclable mal entretenue, un feu mal synchronis&eacute;, ...
         <li>Pour nous signaler un point noir, indiquez sur la carte o&ugrave; se trouve ce point noir, remplissez le formulaire et cliquez sur "soumettre". Merci.
-      </ul>                   
+      </ul> -->                   
     </div>
 
     <div id="div_placeDetails" style="margin-left:15px;display:none;background: white;"> 
       <h1>D&eacute;tails du point noir <span class="span_id"></span></h1>	
       <strong>Lieu</strong> : <span id="span_lieu"></span><br />
       <strong>Description</strong> : <span id="span_description"></span><br />
+      <strong>Photos (<a href="#" class="link_add_photo">Ajouter</a>)</strong> : <span class="span_photo"></span><br />
       <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
       <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
       <strong>Cr&eacute;ateur</strong> : <span class="span_creator"></span><br />
@@ -88,6 +105,7 @@
     <div id="div_placeEdit" style="margin-left:15px;display:none;background: white;"> 
       <center><h1>&Eacute;dition - point noir <span class="span_id"></span></h1></center>
       <strong><a id="link_delete" href="#">Supprimer le point noir</a><strong><br />
+      <strong>Photos (<a href="#" class="link_add_photo">Ajouter</a>)</strong> : <span class="span_photo"></span><br />
       <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
       <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
       <strong>Cr&eacute;ateur</strong> : <span class="span_creator"></span><br />
@@ -123,13 +141,17 @@
 {% else %}
 
 <div id="BoiteChoixVille">
-    <select id="Villes">
+
+    <select id="Cities_dhtmlx">
     {% for city in cities %}
             <option value="{{city.slug}}">{{city.name}}</option>
     {% endfor %}
-           
-    
     </select>
+    
+    <script>
+        var z = dhtmlXComboFromSelect("Cities_dhtmlx");
+        z.enableFilteringMode(true);
+    </script>
 
     <ul id="VillesSelection">
     {% for city in mainCities %}
@@ -137,8 +159,8 @@
             <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}"> {{city.name}}</a></li>
 
     {% endfor %}
-
     </ul>
+        
 </div>
 
 {% endif %}
