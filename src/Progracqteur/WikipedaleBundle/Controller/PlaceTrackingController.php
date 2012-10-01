@@ -63,6 +63,7 @@ class PlaceTrackingController extends Controller {
                 ->setMaxResults($max)
                 ->getResult();
         
+        
         switch ($_format) {
             case 'json' :
                 $r = new NormalizedResponse($tracks);
@@ -72,6 +73,17 @@ class PlaceTrackingController extends Controller {
                 $ret = $normalizer->serialize($r, $_format);
                 
                 return new Response($ret);
+                break;
+            case 'atom' :
+                $n = 'dd';
+                $r = $this->render('ProgracqteurWikipedaleBundle:History:places.atom.twig', array(
+                   'title' => $n." | Wikipedale",
+                   'subtitle' => "Dernières mises à jour de la ville de ".$n,
+                   'tracks' => $tracks,
+                   'date_format' => \DateTime::ATOM
+                ));
+                //$r->setCharset(Pro)
+                return $r;
                 break;
         }
         

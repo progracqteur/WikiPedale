@@ -62,6 +62,11 @@ class PlaceTracking implements ChangesetInterface {
         return $this->id;
     }
     
+    public function getIdUUID()
+    {
+        return dechex($this->getId());
+    }
+    
     public function addChange($type, $newValue)
     {
         if (!in_array($type, $this->types))
