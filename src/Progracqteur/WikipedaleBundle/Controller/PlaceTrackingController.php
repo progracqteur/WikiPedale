@@ -75,12 +75,12 @@ class PlaceTrackingController extends Controller {
                 return new Response($ret);
                 break;
             case 'atom' :
-                $n = 'dd';
+
                 $r = $this->render('ProgracqteurWikipedaleBundle:History:places.atom.twig', array(
-                   'title' => $n." | Wikipedale",
-                   'subtitle' => "Dernières mises à jour de la ville de ".$n,
+                   'title' => $city->getName()." | Wikipedale",
+                   'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
                    'tracks' => $tracks,
-                   'date_format' => \DateTime::ATOM
+                   'citySlug' => $city->getSlug()
                 ));
                 //$r->setCharset(Pro)
                 return $r;

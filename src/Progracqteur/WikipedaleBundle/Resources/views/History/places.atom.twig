@@ -1,0 +1,31 @@
+{% extends 'ProgracqteurWikipedaleBundle::layout.atom.twig' %}
+
+{% block id %}urn:uuid:90379151-653f-4e7e-9552-806217b62713{% endblock %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block subtitle %}{{subtitle}}{% endblock %}
+
+{% block linkself %}{{ url('wikipedale_history_place_by_city', 
+    {_format: 'atom', citySlug : citySlug}) }}{% endblock %}
+
+{% block entries %}
+
+{% for track in tracks %}
+  <entry>
+   <title>{{track.place.address.road}}</title>
+   <id>tag:wikipedale.org,{{track.date|date("Y-m-d")}}:/{{track.id}}</id>
+   <link href="{{ url('wikipedale_homepage', {id : track.place.id}) }}" title="Voir l'emplacement dans sa forme actuelle" />
+   <updated>{{ track.date|date("Y-m-d\\TH:i:sP" ) }}</updated>
+   <summary>
+       Poisson d'avril !
+   
+   
+   
+   </summary>
+ </entry>
+
+{% endfor %}
+
+
+{% endblock %}
