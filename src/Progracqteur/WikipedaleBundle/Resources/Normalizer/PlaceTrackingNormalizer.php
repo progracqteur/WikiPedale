@@ -41,6 +41,8 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
         $userNormalizer = $this->service->getUserNormalizer();
         
         $a = array(
+          'id' => $object->getId(),
+          'entity' => 'placeTracking',
           'date' => $object->getDate(),
           'isCreation' => $object->isCreation(),
           'author' => $userNormalizer->normalize($object->getAuthor()),
@@ -68,7 +70,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
                         $value = $change->getNewValue(); //on garde le filename de la photo
                         break;
                     case ChangeService::PLACE_GEOM :
-                        $value = $geom->toArrayGeoJson();
+                        $value = $change->getNewValue()->toArrayGeoJson();
                         break;
                     default:
                         $value = $change->getNewValue();
