@@ -78,7 +78,7 @@ class HashType extends Type {
             {
                 foreach ($node->childNodes as $n)
                 {
-                    $h->__set($n->getAttribute('key'), $this->transformXMLtoHash($dom, $n));
+                    $h->__set($n->getAttribute('key'), $this->xmlentities_backtostring($this->transformXMLtoHash($dom, $n)));
                 }
             }
             return $h;
@@ -153,12 +153,24 @@ class HashType extends Type {
             }
             
             
-            $text = $dom->createTextNode($data);
+            $text = $dom->createTextNode($this->xmlentities($data));
             $node->appendChild($text);
             $node->setAttribute('key', $key);
             return $node;
         }
     }
+    
+    private function xmlentities($string) {
+        return str_replace(array("&", "<", ">", "\"", "'"),
+            array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;"), $string);
+    }
+    
+    private function xmlentities_backtostring($string)
+    {
+        return str_replace(array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;"),
+                array("&", "<", ">", "\"", "'"), $string);
+    }
+
     
         public function canRequireSQLConversion()
     {

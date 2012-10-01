@@ -47,7 +47,7 @@ class UserNormalizer implements NormalizerInterface
                 
                 if (isset($data['ip']))
                     $u->setIp($data['ip']);
-
+                
             } else {
 
                 $u = $this->service->getManager()

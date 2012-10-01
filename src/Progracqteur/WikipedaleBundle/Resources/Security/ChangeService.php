@@ -17,7 +17,13 @@ use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 class ChangeService {
     
     const PLACE_CREATION = 100;
+    /**
+     * @deprecated since 2012-09-27
+     */
     const PLACE_DETAILS = 105;
+    const PLACE_DESCRIPTION = 1050;
+    const PLACE_ADDRESS = 1060;
+    const PLACE_GEOM = 1070;
     const PLACE_ADD_COMMENT = 110;
     const PLACE_ADD_VOTE = 120;
     const PLACE_ADD_PHOTO = 130;
@@ -45,30 +51,27 @@ class ChangeService {
          * @var Progracqteur\WikipedaleBundle\Entity\Management\User
          */
         $author = $object->getChangeset()->getAuthor();
-            if ($author === null)
-            {
-                $author = $this->securityContext->getToken()->getUser();
-            }
+            
     
         //s'il s'agit d'une création
         if ($object->getChangeset()->isCreation())
         {
             if ($object instanceof Place) {
-                // si l'utilisateur est authentifié, il en peut créer un objet pour un autre
-                if ( $this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
+                // si l'utilisateur est authentifié, il ne peut créer un objet pour un autre
+                if ( $author->isRegistered())
                 {
-                    if ( $object->getCreator()->equals($this->securityContext->getToken()->getUser()))
+                    if ( $object->getCreator()->equals($author))
                     {
                         return true;
                     } else 
                     {
-                        throw ChangeException::mayNotCreateEntityForAnotherUser();
+                        throw ChangeException::mayNotCreateEntityForAnotherUser(10);
                     }
                 } else { //si l'utilisateur n'est pas enregistré, alors il ne peut 
                     //pas créer d'objet pour un utilisateur enregistré
                     if ( $object->getCreator()->isRegistered() === true )
                     {
-                        throw ChangeException::mayNotCreateEntityForAnotherUser();
+                        throw ChangeException::mayNotCreateEntityForAnotherUser(100);
                     } else {
                         return true;
                     }
@@ -113,8 +116,13 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('accepted');
                      }
-                 case self::PLACE_DETAILS :
-                     //TODO implémenter le rôle particulier 'enregistré'
+                 case self::PLACE_ADDRESS : 
+                 case self::PLACE_DESCRIPTION :
+                 case self::PLACE_GEOM:
+                     if (! $author->isRegistered())
+                     {
+                         throw ChangeException::param('details');
+                     }
                      continue;
                      break;
                  case self::PLACE_ADD_PHOTO:

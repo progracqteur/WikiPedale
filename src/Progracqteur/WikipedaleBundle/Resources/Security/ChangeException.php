@@ -17,9 +17,9 @@ class ChangeException extends AccessDeniedException{
         return new self("L'utilisateur ne peut pas modifier le paramètre $param");
     }
     
-    public static function mayNotCreateEntityForAnotherUser()
+    public static function mayNotCreateEntityForAnotherUser($line = null)
     {
-        return new self("L'utilisateur ne peut pas créer une entité sous le nom d'un autre utilisateur");
+        return new self("L'utilisateur ne peut pas créer une entité sous le nom d'un autre utilisateur $line");
     }
     
     
