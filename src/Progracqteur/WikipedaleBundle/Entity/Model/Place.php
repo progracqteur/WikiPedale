@@ -149,7 +149,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('address', $this->address, $address);
             $this->address = $address;
-            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, serialize($address->toArray()));
+            $this->getChangeset()->addChange(ChangeService::PLACE_ADDRESS, $address);
         }
         
     }
@@ -191,7 +191,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         {
             $this->change('geom', $this->geom, $geom);
             $this->geom = $geom;
-            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, $geom->toGeoJson() );
+            $this->getChangeset()->addChange(ChangeService::PLACE_GEOM, $geom );
         }
     }
 
@@ -414,11 +414,12 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         //TODO: implémenter le tracking policy pour les photos
         $this->photos[] = $photos;
         $this->increasePhoto();
-        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_PHOTO, $photos->getFileName());
+        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_PHOTO, $photos);
     }
     
     public function removePhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photo $photo)
     {
+        //TODO: compléter la fonction removePhoto
         $this->decreasePhoto();
         $this->getChangeset()->addChange(ChangeService::PLACE_REMOVE_PHOTO, $photo->getFileName());
     }
@@ -433,11 +434,11 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     public function setDescription($description)
     {
         $description = trim($description);
-        if ($this->description != $description )
+        if ($this->description !== $description )
         {
             $this->change('description', $this->description, $description);
             $this->description = $description;
-            $this->getChangeset()->addChange(ChangeService::PLACE_DETAILS, $description);
+            $this->getChangeset()->addChange(ChangeService::PLACE_DESCRIPTION, $description);
         }
         
     }

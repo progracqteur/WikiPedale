@@ -8,6 +8,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
 /**
  * Description of PlaceTracking
@@ -23,6 +25,7 @@ class PlaceTracking implements ChangesetInterface {
     private $details;
     
     private $types = array();
+    private $values = array();
     
     private $isCreation = false;
     
@@ -65,32 +68,45 @@ class PlaceTracking implements ChangesetInterface {
         {
             //pour le suivi des changements par Security
             $this->types[] = $type;
+            $this->values[] = $newValue;
             
             //pour l'enregistrement dans la base de donnée
             
+            if ($this->details->has('changes') === false)
+            {
+                $this->details->changes = new Hash();
+            }
+            
+            //transformation de newValue si nécessaire
+            //et traitement de creation
             switch ($type)
             {
                 case ChangeService::PLACE_CREATOR:
-                    if ($newValue instanceof UnregisteredUser)
-                    {
-                        $this->details->{$type} = $newValue->toHash();
-                    } else if ($newValue instanceof User)
-                    {
-                        $this->details->{$type} = $newValue->getId();
-                    }
+                    //Il ne faut rien faire: place creator n'est normalement pas permis
                     break;
-                default:
-                    $this->details->{$type} = $newValue;
+                case ChangeService::PLACE_ADD_PHOTO:
+                    $newValue = $newValue->getFileName();
+                    break;
+                case ChangeService::PLACE_CREATION:
+                    $this->isCreation = true;
+                    //il n'y a pas d'autrs modifs à effectuer
+                    break;
+                case ChangeService::PLACE_GEOM:
+                    $newValue = $newValue->toGeoJson();
+                    break;
+                case ChangeService::PLACE_ADDRESS:
+                    $newValue = json_encode($newValue->toArray());
+                //default:
+                    //rien à faire
             }
+            
+            $this->details->changes->{$type} = $newValue;
             
             
             
         }
         
-        if ($type === ChangeService::PLACE_CREATION)
-        {
-            $this->isCreation = true;
-        }
+        
     }
     
     public function isCreation() {
@@ -140,7 +156,8 @@ class PlaceTracking implements ChangesetInterface {
     
     public function current() {
         $prop = $this->types[$this->intTypes];
-        return new PlaceChange($prop);
+        $val = $this->values[$this->intTypes];
+        return new PlaceChange($prop, $val);
     }
         
     public function key() {
@@ -156,7 +173,47 @@ class PlaceTracking implements ChangesetInterface {
     }
     
     public function valid() {
+        
+        if ($this->details->has("changes")=== true && count($this->types) === 0)
+        {
+            $this->prepareIterationFromHash();
+        }
+        
         return isset($this->types[$this->intTypes]);
+    }
+    
+    private function prepareIterationFromHash()
+    {
+        $a = $this->details->changes->toArray();
+        
+        foreach ($a as $key => $value)
+        {
+            $this->types[] = $key;
+            
+            switch ($key)
+            {
+                case ChangeService::PLACE_CREATOR:
+                    //Il ne faut rien faire: place creator n'est normalement pas permis
+                    break;
+                case ChangeService::PLACE_ADD_PHOTO:
+                    $newValue = $value;
+                    break;
+                case ChangeService::PLACE_CREATION:
+                    //nothing to do - this case should not happen
+                    break;
+                case ChangeService::PLACE_GEOM:
+                    $newValue = Point::fromGeoJson($value);
+                    break;
+                case ChangeService::PLACE_ADDRESS:
+                    $a = json_decode($value);
+                    $newValue = Address::fromArray($a);
+                    break;
+                default:
+                    $newValue = $value;
+            }
+
+            $this->values[] = $newValue;
+        }
     }
 
 }

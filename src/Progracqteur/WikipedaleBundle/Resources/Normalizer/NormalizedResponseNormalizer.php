@@ -9,6 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
 
 /**
  * Description of NormalizedResponseNormalizer
@@ -91,11 +92,14 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         } else if ($object instanceof Photo)
         {
             return $this->service->getPhotoNormalizer()->normalize($object);
+        } else if ($object instanceof PlaceTracking)
+        {
+            return $this->service->getPlaceTrackingNormalizer()->normalize($object);
         }
     }
 
     public function supportsDenormalization($data, $type, $format = null) {
-        
+        return false;
     }
 
     public function supportsNormalization($data, $format = null) {

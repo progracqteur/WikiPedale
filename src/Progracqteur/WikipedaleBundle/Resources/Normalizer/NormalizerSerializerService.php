@@ -9,7 +9,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
-use Doctrine\ORM\EntityManager;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTrackingNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -44,6 +44,7 @@ class NormalizerSerializerService {
     private $photoNormalizer = null;
     private $normalizedResponseNormalizer = null;
     private $normalizedResponseExceptionNormalizer = null;
+    private $placeTrackingNormalizer = null;
     
     //Encoders
     private $jsonEncoder = null;
@@ -106,6 +107,16 @@ class NormalizerSerializerService {
         }
         
         return $this->photoNormalizer;
+    }
+    
+    public function getPlaceTrackingNormalizer()
+    {
+        if ($this->placeTrackingNormalizer === null)
+        {
+            $this->placeTrackingNormalizer = new PlaceTrackingNormalizer($this);
+        }
+        
+        return $this->placeTrackingNormalizer;
     }
     
     /**

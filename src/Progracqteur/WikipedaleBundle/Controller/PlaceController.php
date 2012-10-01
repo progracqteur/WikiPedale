@@ -15,6 +15,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedExceptionRespons
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * Description of PlaceController
@@ -172,36 +173,67 @@ class PlaceController extends Controller {
         
         $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
         
+        //SECURITE: refuse la modification d'une place par un utilisateur anonyme
+        if (
+                ($this->get('security.context')->getToken()->getUser() instanceof User) == false 
+                && 
+                $place->getChangeset()->isCreation() == false
+            )
+        {
+            $r = new Response("Il faut être enregistré pour modifier une place");
+            $r->setStatusCode(403);
+            return $r;
+        }
+        
+        
         //ajoute l'utilisateur courant comme créateur si connecté
-        if ($place->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof \Progracqteur\WikipedaleBundle\Entity\Management\User)
+        if ($place->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User)
         {
             $u = $this->get('security.context')->getToken()->getUser();
             $place->setCreator($u);
         }
         
+        //ajoute l'adresse IP du modificateur si utilisateur anonyme et création
+        
         //ajoute l'utilisateur courant au changeset
-        if ($this->get('security.context')->getToken()->getUser() instanceof Progracqteur\WikipedaleBundle\Entity\Management\User) //si utilisateur connecté
+        if ($place->getChangeset()->isCreation()) // si création
         {
+            
+            if ($this->get('security.context')->getToken()->getUser() instanceof User) //si utilisateur connecté
+            {
+                $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+            } else { 
+                $user = $place->getCreator();
+                
+                $place->getChangeset()->setAuthor($user);
+            }
+        } else { //si modification d'une place
+            //les vérifications de sécurité ayant eu lieu, il suffit d'ajouter l'utilisateur courant
             $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
-        } elseif ($place->getChangeset()->isCreation()) { //si c'est une création, on ajoute l'utilisateur non enregistré qui a créé
-            $user = new \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser();
-            //Todo compléter
-            $place->getChangeset()->setAuthor($user);
         }
+        
+        
         
         /**
          * @var Progracqteur\WikipedaleBundle\Resources\Security\ChangeService 
          */
         $securityController = $this->get('progracqteurWikipedaleSecurityControl');
         
-        //try {
+        try {
         //TODO implémenter une réponse avec code d'erreur en JSON
         $return = $securityController->checkChangesAreAllowed($place);
-        /*} catch (ChangeException $exc) {
-            $r = new NormalizedExceptionResponse($exc);
-            $ret = $serializer->serialize($r, $_format);
-            return new Response($ret);
-        //}*/
+        } catch (ChangeException $exc) {
+            $r = new Response($exc->getMessage());
+            $r->setStatusCode(403);
+            return $r;
+        }
+        
+        if ($return == false)
+        {
+            $r = new Response("Vous n'avez pas de droits suffisant pour effectuer cette modification");
+            $r->setStatusCode(403);
+            return $r;
+        }
         
         $validator = $this->get('validator');
         

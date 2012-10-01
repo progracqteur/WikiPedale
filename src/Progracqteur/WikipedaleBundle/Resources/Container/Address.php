@@ -96,5 +96,46 @@ class Address {
     {
         return $this->road;
     }
+    
+    public static function fromArray($array)
+    {
+        $a = new self;
+        
+        foreach ($array as $key => $v)
+        {
+                switch ($key) {
+                    case self::CITY_DECLARATION :
+                        $a->setCity($v);
+                        break;
+                    case self::ADMINISTRATIVE_DECLARATION :
+                        $a->setAdministrative($v);
+                        break;
+                    case self::COUNTY_DECLARATION :
+                        $a->setCounty($v);
+                        break;
+                    case self::STATE_DISTRICT_DECLARATION :
+                        $a->setStateDistrict($v);
+                        break;
+                    case self::STATE_DECLARATION :
+                        $a->setState($v);
+                        break;
+                    case self::COUNTRY_DECLARATION :
+                        $a->setCountry($v);
+                        break;
+                    case self::COUNTRY_CODE_DECLARATION :
+                        $a->setCountryCode($v);
+                        break;
+                    case self::ROAD_DECLARATION : 
+                        $a->setRoad($v);
+                            break;
+                    case self::PUBLIC_BUILDING_DECLARATION :
+                        $a->setPublicBuilding($v);
+                        break;
+                }
+        }
+              
+        return $a;
+        
+    }
 }
 

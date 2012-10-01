@@ -51,7 +51,7 @@
 
         </div>
             
-        <div>
+        <div id="connexion">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
                 <a href="{{ path('fos_user_security_logout') }}">
@@ -59,12 +59,12 @@
                 </a>
             {% else %}
                 <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-                <br/>
+                &nbsp;
                 <a href="{{ path('fos_user_registration_register') }}">Créer un compte</a>
             {% endif %}
                 
             {% if app.session.get('city') %}
-                <p>Votre ville actuelle est {{app.session.get('city').name}} <a href="{{path('wikipedale_reset_city')}}">Annuler</a></p>
+                <p>Votre ville actuelle est {{app.session.get('city').name}} <a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a></p>
             {% endif %}
         </div>
             
