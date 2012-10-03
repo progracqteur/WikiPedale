@@ -22,10 +22,16 @@
     overflow:auto;
 }
 
-div#form_AjoutPoint h1 { text-transform: uppercase; color: #333333; margin-bottom:0; }
-div#form_AjoutPoint label { width: 20%; float: left; }
-div#form_AjoutPoint .champs { width:77%; }
-div#form_AjoutPoint .send { float:right; margin:1em 2% 1em 1em; font-weight: bold; }
+div#div_signaler input#l, div#div_signaler textarea#d { width:90%; }
+#div_signaler .send { float:right; margin:0.1em 8% 1em 1em; }
+
+#div_placeDetails { margin:0 0 0 1em; }
+#div_placeDetails h1 { color: #333333; font-size:1.2em; margin:0 1em 0 0; float:left; }
+#div_placeDetails #span_lieu { font-weight:bold; margin:0 0 1em 0; }
+#div_placeDetails #QuotationBegin { background: url('../img/QuotationMark.png') no-repeat top left; float:left; width:32px; height:32px; }
+#div_placeDetails #span_description { background: url('../img/QuotationMark-end.png') no-repeat bottom right; padding:0 35px 0 40px; margin:0; height:32px; font-style: italic; }
+#div_placeDetails a.link_add_photo { margin-left:2px; }
+#div_placeDetails p.creator { font-size: 0.8em; color: #2D2D2D; margin:0; }
 
 /* Panel */
 /**** Panel haut-gauche ****/
@@ -82,7 +88,7 @@ div#form_AjoutPoint .send { float:right; margin:1em 2% 1em 1em; font-weight: bol
     border-bottom: 1px solid #AAAAAA;
     padding: 0.5em 1em 0 0;
 }
-#connexion a, #connexion a:visited { color: #AAAAAA; font-size:0.8em; text-decoration: none;}
+#connexion a, #connexion a:visited, #connexion { color: #AAAAAA; font-size:0.9em; text-decoration: none;}
 #connexion a:hover { color: #FFFFFF;}
 
 select#Cities_dhmlx { float:left; }

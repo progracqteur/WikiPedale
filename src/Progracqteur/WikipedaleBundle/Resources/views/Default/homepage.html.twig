@@ -16,8 +16,6 @@
 
 
 <div id="olPanelUL"></div>
-
-<a class="AjoutPoint" href="#form_AjoutPoint">Ajout point (ColorBox)</a>&nbsp;
 <div class="clearboth"></div>
 
 <script>
@@ -44,42 +42,20 @@
   </div>
 </div>
 
-<!-- Écran ajout point -->
-<div style='display:none'>
-    <div id="form_AjoutPoint">
-    <h1>Signaler un point noir</h1>
-        <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
-            <input type="hidden"  name="lon" readonly="true" />
-            <input  type="hidden" name="lat" readonly="true" />
-            <label for="l">{{ 'black_points.location'|trans({}, 'FOSUserBundle') }}</label>
-                <input name="lieu" id="l" class="champs" />
-            <label for="d">{{ 'black_points.description'|trans({}, 'FOSUserBundle') }}</label>
-                <textarea name="description" id="d" cols=35 rows=5 class="champs"></textarea><br />
-            <label for="n">Votre nom</label>
-                <input name="user_label" id="n" class="champs" />
-            <label for="e">Votre e-mail</label>
-                <input name="email" id="e" class="champs" />
-            <input class="send" type="submit" value="OK">
-        </form>
-    </div>
-</div>
-
 <div id="MapAndEditorContener">
   <div id="map"  class="smallmap"></div>
 
-  <div style="width:25%; height:300px; float:left; overflow:auto;background: gray;">
+  <div style="width:25%; height:300px; float:left; overflow:auto;">
 
     <div id="div_signaler">
-      <h1>Signaler un point noir</h1>
-      <p>Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.</p>
       <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
         <input type="hidden"  name="lon" readonly="true" />
         <input  type="hidden" name="lat" readonly="true" />
-        <label for="l">Lieu exact</label> <input name="lieu" id="l" size=42 />
-        <label for="d">Description</label> <textarea name="description" id="d" cols=35 rows=5></textarea><br />
-        <label for="n">Votre nom</label> <input name="user_label" id="n" size=42 />
-        <label for="e">Votre e-mail</label> <input name="email" id="e"  size=42 />
-        <div style="text-align: center;"><input type="submit" value="Soumettre"></div>
+        <input name="lieu" id="l" placeholder="{{ 'add_black_points.location'|trans({}, 'FOSUserBundle') }}" />
+        <textarea name="description" id="d" placeholder="{{ 'add_black_points.description'|trans({}, 'FOSUserBundle') }}"></textarea><br />
+        <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'FOSUserBundle') }}" />
+        <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'FOSUserBundle') }}" />
+        <input type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'FOSUserBundle') }}">
       </form>
       <br />
       <!--
@@ -92,14 +68,19 @@
       </ul> -->                   
     </div>
 
-    <div id="div_placeDetails" style="margin-left:15px;display:none;background: white;"> 
-      <h1>D&eacute;tails du point noir <span class="span_id"></span></h1>	
-      <strong>Lieu</strong> : <span id="span_lieu"></span><br />
-      <strong>Description</strong> : <span id="span_description"></span><br />
-      <strong>Photos (<a href="#" class="link_add_photo">Ajouter</a>)</strong> : <span class="span_photo"></span><br />
-      <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
-      <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
-      <strong>Cr&eacute;ateur</strong> : <span class="span_creator"></span><br />
+    <div id="div_placeDetails" style="display:none;"> 
+      <h1>#<span class="span_id"></span></h1>	
+      <p id="span_lieu"></p>
+      
+      <p class="creator">{{ 'display_black_points.author'|trans({}, 'FOSUserBundle') }} <span class="span_creator"></span> :</p>
+      <div class="clearboth"></div>
+      <div id="QuotationBegin"></div>
+      <p id="span_description"></p>
+      
+      <p><span class="span_photo"></span><a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'FOSUserBundle') }}"><img src='../img/AddPicture.png' /></a></p>
+
+      <span class='span_nbVote'></span> votes      
+      <span class="span_nbComm"></span> {{ 'display_black_points.comments'|trans({}, 'FOSUserBundle') }}<br />
     </div>
 
     <div id="div_placeEdit" style="margin-left:15px;display:none;background: white;"> 
@@ -108,7 +89,7 @@
       <strong>Photos (<a href="#" class="link_add_photo">Ajouter</a>)</strong> : <span class="span_photo"></span><br />
       <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
       <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
-      <strong>Cr&eacute;ateur</strong> : <span class="span_creator"></span><br />
+      <strong>Cr&eacute;ateur</strong> : <br />
       <br />
       <strong>Contact</strong> : <span id="span_user_label"></span><br />
       <strong>Mail</strong> : <span id="span_email"></span><br />
