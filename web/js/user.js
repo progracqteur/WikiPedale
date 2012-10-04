@@ -38,20 +38,18 @@ function isUserInAccordWithServer(){
     * A difference happens when the session ends on the server but not in the js.
     */
     var defe = $.Deferred();
-    if(userIsRegister){
+    if(userIsRegister()){
         $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
             if(data.results[0].registered && data.results[0].id == user.id)
                 {   
-                    alert("defe is true - ");
                     defe.resolve(true);
                 }
             else
                 {
-                alert("defe is false - ");
                 defe.resolve(false);
                 }
         });  }
-    else{  alert("defe is else true - "); defe.resolve(true); }
+    else{  defe.resolve(true); }
     return defe;
 }
 
