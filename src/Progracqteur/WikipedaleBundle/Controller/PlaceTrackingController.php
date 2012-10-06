@@ -77,7 +77,7 @@ class PlaceTrackingController extends Controller {
             case 'atom' :
 
                 $r = $this->render('ProgracqteurWikipedaleBundle:History:places.atom.twig', array(
-                   'title' => $city->getName()." | Wikipedale",
+                   'title' => $city->getName(),
                    'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
                    'tracks' => $tracks,
                    'citySlug' => $city->getSlug(),
