@@ -4,6 +4,7 @@ parameters:
   progracqteur_wikipedale.security.controlList.class : Progracqteur\WikipedaleBundle\Resources\Security\ChangeService
   progracqteur_wikipedale.service.photo.class: Progracqteur\WikipedaleBundle\Resources\Services\PhotoService
   progracqteur_wikipedale.service.slug.class: Progracqteur\WikipedaleBundle\Resources\Services\SlugService
+  progracqteur.wikipedale.service.place.tracking.toText.class: Progracqteur\WikipedaleBundle\Resources\Services\PlaceTrackingToTextService
 services:
   progracqteurWikipedaleSerializer:
     class: %progracqteur_wikipedale.normalizer.class%
@@ -26,6 +27,10 @@ services:
   
   progracqteur.wikipedale.slug:
     class: %progracqteur_wikipedale.service.slug.class%
+    
+  progracqteur.wikipedale.place.tracking.toText:
+    class: %progracqteur.wikipedale.service.place.tracking.toText.class%
+    arguments: ["@translator"]
           
   wsse.security.authentication.provider:
     class:  Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseProvider

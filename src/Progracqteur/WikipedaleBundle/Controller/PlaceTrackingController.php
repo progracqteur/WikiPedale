@@ -80,7 +80,8 @@ class PlaceTrackingController extends Controller {
                    'title' => $city->getName()." | Wikipedale",
                    'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
                    'tracks' => $tracks,
-                   'citySlug' => $city->getSlug()
+                   'citySlug' => $city->getSlug(),
+                   'toTextService' => $this->get('progracqteur.wikipedale.place.tracking.toText')
                 ));
                 //$r->setCharset(Pro)
                 return $r;

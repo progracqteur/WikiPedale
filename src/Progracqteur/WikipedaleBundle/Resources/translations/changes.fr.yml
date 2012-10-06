@@ -1,0 +1,14 @@
+place:
+  is:
+    created: "%author% a créé l'emplacement %place%."
+  add:
+    photo: "%author% a ajouté une photo à l'emplacement %place%."
+  change:
+    one: "%author% a modifié %change% de l'emplacement %place%."
+    two: "%author% a modifié %change_% et %change__% de l'emplacement %place%."
+    more: "{1} %author% a modifié %change0%, %change1% et une autre caractéristique de l'emplacement %place%. | [2,Inf] %author% a modifié %change0%, %change1% et %more% autres caractéristiques de l'emplacement %place%."
+change:
+   place:
+     description: "la description"
+     address: "l'adresse"
+     geom: "la position géographique"
