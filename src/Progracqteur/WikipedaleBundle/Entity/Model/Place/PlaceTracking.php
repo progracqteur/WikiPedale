@@ -155,6 +155,25 @@ class PlaceTracking implements ChangesetInterface {
     }
     
     
+    /**
+     * get all the changes into an array of 
+     * Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceChange
+     * 
+     * @return array
+     */
+    public function getChanges()
+    {
+        $a = array();
+        
+        foreach ($this as $changes)
+        {
+            $a[] = $changes;
+        }
+        
+        return $a;
+    }
+    
+    
     
     // fonctions pour l'implémentation de Iterable
     private $intTypes = 0;
