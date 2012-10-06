@@ -330,6 +330,25 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     }
     
     /**
+     * return the common way to name a place
+     * (currently the name of the street)
+     * 
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->getAddress()->getRoad();
+    }
+    
+    /**
+     * transform the place into a string displayable on UI
+     * @return string
+     */
+    public function __toString() {
+        return $this->getLabel();
+    }
+    
+    /**
      * REnvoie le créateur
      * Méthode privée utilisée pour éviter l'exception de la méthode
      * publique getCreator. Utilisée dans setCreator().
