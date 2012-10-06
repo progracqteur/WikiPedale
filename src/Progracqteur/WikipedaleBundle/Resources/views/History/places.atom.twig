@@ -23,7 +23,7 @@
 {% block entries %}
     {% for track in tracks %}
       <entry>
-       <title>{{track.place.address.road}}</title>
+       <title>{{track.place.label}}</title>
        <id>tag:wikipedale.org,{{track.date|date("Y-m-d")}}:/{{track.id}}</id>
        <link href="{{ url('wikipedale_homepage', {id : track.place.id}) }}" title="Voir l'emplacement dans sa forme actuelle" />
        <updated>{{ track.date|date("Y-m-d\\TH:i:sP" ) }}</updated>
