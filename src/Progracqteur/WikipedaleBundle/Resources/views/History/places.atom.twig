@@ -1,13 +1,24 @@
 {% extends 'ProgracqteurWikipedaleBundle::layout.atom.twig' %}
 
+{#
+  The parameters passed to this template are the following : 
+
+* title title of the feed
+* subtitle descrption of the feed
+* urlFeed : url of the feed
+* tracks: the placeTracking instances 
+* toTextService : the service which transforme placeTracking into text. See in service config : progracqteur.wikipedale.place.tracking.toText
+
+
+#}
+
 {% block id %}urn:uuid:90379151-653f-4e7e-9552-806217b62713{% endblock %}
 
 {% block title %}{{title}}{% endblock %}
 
 {% block subtitle %}{{subtitle}}{% endblock %}
 
-{% block linkself %}{{ url('wikipedale_history_place_by_city', 
-    {_format: 'atom', citySlug : citySlug}) }}{% endblock %}
+{% block linkself %}{{ urlFeed }}{% endblock %}
 
 {% block entries %}
     {% for track in tracks %}

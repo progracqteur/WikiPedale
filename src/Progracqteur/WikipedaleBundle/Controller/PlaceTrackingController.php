@@ -81,7 +81,10 @@ class PlaceTrackingController extends Controller {
                    'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
                    'tracks' => $tracks,
                    'citySlug' => $city->getSlug(),
-                   'toTextService' => $this->get('progracqteur.wikipedale.place.tracking.toText')
+                   'toTextService' => $this->get('progracqteur.wikipedale.place.tracking.toText'),
+                   'urlFeed' => $this->generateUrl('wikipedale_history_place_by_city', 
+                           array('_format' => 'atom',
+                               'citySlug' => $citySlug), true)
                 ));
                 //$r->setCharset(Pro)
                 return $r;
