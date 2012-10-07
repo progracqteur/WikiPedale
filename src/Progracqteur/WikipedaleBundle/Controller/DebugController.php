@@ -13,6 +13,7 @@ use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Ce controller est uniquement prévu pour le débogage de l'application
@@ -302,8 +303,13 @@ class DebugController extends Controller {
         return $a;
   }
   
-  public function devSendPlaceAction()
+  public function devSendPlaceAction(Request $request)
   {
+      
+      $id = $request->get('id', null);
+      
+      if ($id === null)
+      {
       $point = $this->getRandomPoint();
         
         $str = $this->createId();
@@ -321,6 +327,23 @@ class DebugController extends Controller {
         $add = $this->geolocate($point);
 
         $place->setAddress($add);
+        }
+        else {
+            
+            $orm = $this->getDoctrine()->getEntityManager();
+            
+            $place = $orm->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
+                    ->find($id);
+            
+            if ($place === null)
+            {
+                return $this->createNotFoundException("place avec id $id non trouvée");
+                
+            }
+            
+            
+      
+        }
         
         /**
          * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 

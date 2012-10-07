@@ -28,6 +28,7 @@ class ChangeService {
     const PLACE_ADD_VOTE = 120;
     const PLACE_ADD_PHOTO = 130;
     const PLACE_REMOVE_PHOTO = 135;
+    const PLACE_STATUS = 141;
     const PLACE_STATUS_BICYCLE = 140;
     const PLACE_STATUS_CITY = 150;
     const PLACE_CREATOR = 160;
@@ -119,6 +120,7 @@ class ChangeService {
                  case self::PLACE_ADDRESS : 
                  case self::PLACE_DESCRIPTION :
                  case self::PLACE_GEOM:
+                 case self::PLACE_STATUS:
                      if (! $author->isRegistered())
                      {
                          throw ChangeException::param('details');

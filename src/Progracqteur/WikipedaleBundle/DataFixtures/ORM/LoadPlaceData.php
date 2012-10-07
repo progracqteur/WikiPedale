@@ -44,6 +44,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $add = $this->geolocate($point);
             
             $place->setAddress($add);
+            
+            $place->getChangeset()->setAuthor($this->getReference('user'));
 
             $manager->persist($place);
             
@@ -67,6 +69,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $place->setCreator($u);
 
             $place->setAddress($this->geolocate($point));
+            
+            $place->getChangeset()->setAuthor($u);
 
             $manager->persist($place);
             

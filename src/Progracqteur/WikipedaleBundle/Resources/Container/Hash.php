@@ -42,6 +42,11 @@ class Hash {
             return false;
     }
     
+    public function remove($name)
+    {
+        unset($this->container[$name]);
+    }
+    
     public function equals(Hash $hash)
     {
         if ($hash->toArray() == $this->toArray())

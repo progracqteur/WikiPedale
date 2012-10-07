@@ -64,6 +64,7 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
             {
                 $photo->setPlace($this->getReference($strRef));
                 $photo->setCreator($this->getReference('user'));
+                $photo->getPlace()->getChangeset()->setAuthor($photo->getCreator());
                 $manager->persist($photo);
             }
             

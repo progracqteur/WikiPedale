@@ -24,6 +24,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - Min: {limit: 0, message: statusBicycle doit être supérieur à 0}
       - Max: {limit: 2, message: statusBicycle doit être inférieur à 2}
       - Max: {limit: 0, message: statusBicycle doit être égal à 0 lors de la création, groups: [creation]}
+  constraints:
+    - Callback:
+        methods: [isStatusesValid, hasOnlyOneChange]
 
 Progracqteur\WikipedaleBundle\Entity\Model\Photo:
   getters:

@@ -14,6 +14,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeableInterface;
 use Doctrine\Common\NotifyPropertyChanged;
 use Doctrine\Common\PropertyChangedListener;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
+use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
@@ -112,6 +114,9 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         $this->address = new Address();
         $this->changesets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->getChangeset()->addChange(ChangeService::PLACE_CREATION, null);
+        
+        //initialize the placeStatuses
+        $this->infos->placeStatuses = new Hash();
     }
 
 
@@ -134,7 +139,18 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
             foreach ($this->_listeners as $listener) {
                 $listener->propertyChanged($this, $propName, $oldValue, $newValue);
             }
-            $this->setLastUpdateNow();
+        }
+        
+        
+        $oldUpdate = $this->getLastUpdate();
+        $this->setLastUpdateNow();
+        
+        //change date update
+        if ($this->_listeners) {
+            foreach ($this->_listeners as $listener) {
+                $listener->propertyChanged($this, 'lastUpdate', $oldUpdate, $this->getLastUpdate());
+            }
+            
         }  
     }
 
@@ -330,6 +346,181 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     }
     
     /**
+     * variable used as proxy by the getStatuses function
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection()|null
+     */
+    private $proxyStatuses = null;
+    
+    private function initializeProxyStatuses()
+    {
+        if ($this->proxyStatuses === null)
+        {
+            $this->proxyStatuses = new \Doctrine\Common\Collections\ArrayCollection();
+            
+            foreach ($this->infos->placeStatuses->toArray() as $type => $value)
+            {
+                $status = new PlaceStatus();
+                $status->setType($type)->setValue($value);
+                $this->proxyStatuses->add($status);
+            }
+        }
+        
+        /*if (! $this->infos->has('placeStatuses'))
+        {
+            $this->infos->placeStatuses = new Hash();
+        }*/
+    }
+    
+    /**
+     * return the statuses
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection()
+     */
+    public function getStatuses()
+    {
+        $this->initializeProxyStatuses();
+        
+        return $this->proxyStatuses;
+    }
+        
+    /**
+     * Add a new status to the class, and retrieve old status 
+     * with same type.
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus $status
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     */
+    public function addStatus(PlaceStatus $status)
+    {
+        $this->initializeProxyStatuses(); 
+        
+        $old = clone($this->infos);
+ 
+        foreach ($this->getStatuses() as $key => $oldStatus)
+        {
+            if ($status->getType() ===  $oldStatus->getType())
+            {
+                if ($status->getValue() !== $oldStatus->getValue())
+                {
+                    $this->proxyStatuses->remove($key);
+                    $this->infos->placeStatuses->remove($status->getType());
+                } else {
+                    return $this;
+                }
+                
+                break;
+            }
+        }
+        
+        $this->proxyStatuses->add($status);
+        $this->infos->placeStatuses->__set($status->getType(), $status->getValue());
+        
+        $this->change('infos', $old, $this->infos);
+        
+        $this->getChangeset()->addChange(ChangeService::PLACE_STATUS, $status);
+        
+        $this->proxyCountStatusChanges++;
+
+        return $this;
+    }
+    
+    /**
+     * Remove completely the statuses equals of the given status
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus $status
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     */
+    public function removeStatus(PlaceStatus $status)
+    {
+        $this->initializeProxyStatuses();
+        
+        foreach ($this->getStatuses() as $key => $inStatus)
+        {
+            if ($status->equals($inStatus))
+            {
+                $old = clone($this->infos);
+                $this->proxyStatuses->remove($key);
+                $this->infos->placeStatuses->remove($status->getType());
+                $this->change('infos', $old, $this->infos);
+                $this->proxyCountStatusChanges++;
+                break;
+            }
+        }
+        return $this;
+    }
+    
+    /**
+     * Currently, we must update only ONE change at a time. 
+     * 
+     * This is necessary for the changes to be kept into changesets.
+     * 
+     * @var int 
+     */
+    private $proxyCountStatusChanges = 0;
+    
+    //TODO: allow changeset to record more than one change of status
+    
+    //TODO: reset proxyCountStatusChange after update
+    
+    /**
+     * check if value of statuses are valid.
+     * 
+     * the verifiation of validity of statuses's types are delegated 
+     * to the controller.
+     * 
+     * function used by validation service.
+     * 
+     * @return boolean
+     */
+    public function isStatusesValid(ExecutionContext $context)
+    {
+        $this->initializeProxyStatuses();
+
+        foreach($this->getStatuses() as $status)
+        {
+            
+            if ($status->getValue() >= -1 && $status->getValue() <= 3)
+            {
+                
+            } else 
+            {
+                $propertyPath = $context->getPropertyPath() . '.status';
+                $context->setPropertyPath($propertyPath);
+                $context->addViolation('place.validation.message.status.valueNotCorrect', array(), null);
+            }
+        }
+        
+        return true;
+        
+    }
+    
+    /**
+     * Currently, we must update only ONE change at a time. 
+     * 
+     * This is necessary for the changes to be kept into changesets.
+     * 
+     * This function check if only one change has been made and is used
+     * for validation
+     * @return boolean
+     */
+    public function hasOnlyOneChange(ExecutionContext $context)
+    {
+        if ($this->proxyCountStatusChanges <= 1)
+            return true;
+        else
+        {
+            $propertyPath = $context->getPropertyPath() . '.status';
+            $context->setPropertyPath($propertyPath);
+            $context->addViolation('place.validation.message.onlyOneStatusAtATime', array(), null);
+        }
+            
+    }
+
+    
+    
+    
+    /**
      * return the common way to name a place
      * (currently the name of the street)
      * 
@@ -337,7 +528,14 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      */
     public function getLabel()
     {
-        return $this->getAddress()->getRoad();
+        $l =  $this->getAddress()->getRoad();
+        
+        if (strlen($l) < 2)
+        {
+            $l = "Sans label";
+        }
+        
+        return $l;
     }
     
     /**
@@ -531,6 +729,8 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
             $this->lastUpdate = new \DateTime();
             $this->proxyLastUpdate = true;
         }
+        
+        //be careful: do not add method $this->change you risk recursive operation
                 
     }
     
@@ -566,6 +766,12 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         
     }
 
+    /**
+     * return the changeset made since the entity was created or 
+     * retrieved from the database.
+     * 
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+     */
     public function getChangeset() {
         
         if ($this->changeset === null)
@@ -578,7 +784,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     }
 
     public function addPropertyChangedListener(PropertyChangedListener $listener) {
-        $this->_listeners = $listener;
+        $this->_listeners[] = $listener;
     }
     
 

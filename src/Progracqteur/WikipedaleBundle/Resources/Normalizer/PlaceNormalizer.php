@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
@@ -107,6 +108,23 @@ class PlaceNormalizer implements NormalizerInterface {
             $p->setAccepted($data['accepted']);
         }
         
+        if (isset($data['statuses']))
+        {
+            foreach ($data['statuses'] as $key => $arrayStatus)
+            {
+                if (is_array($arrayStatus) 
+                        && isset($arrayStatus['t']) 
+                        && isset($arrayStatus['v']) 
+                        )
+                {
+                    $status = new PlaceStatus();
+                    $status->setType($arrayStatus['t'])
+                            ->setValue($arrayStatus['v']);
+                    $p->addStatus($status);
+                }
+            }
+        }
+        
         return $p;
     }
     
@@ -114,7 +132,17 @@ class PlaceNormalizer implements NormalizerInterface {
         $creator = $object->getCreator();
         $addrNormalizer = $this->service->getAddressNormalizer();
         $userNormalizer = $this->service->getUserNormalizer();
-        return array(
+        
+        //create an array with statuses
+        $statuses = $object->getStatuses();
+        $s = array();
+        
+        foreach ($statuses as $status)
+        {
+            $s[] = array('t' => $status->getType(), 'v' => $status->getValue());
+        }
+        
+        return  array(
             'entity' => 'place',
             'description' => $object->getDescription(),
             'geom' => $object->getGeom()->toArrayGeoJson(),
@@ -127,9 +155,9 @@ class PlaceNormalizer implements NormalizerInterface {
             'nbPhotos' => $object->getNbPhoto(),
             'statusBicycle' => $object->getStatusBicycle(),
             'statusCity' => $object->getStatusCity(),
-            'accepted' => $object->isAccepted()
+            'accepted' => $object->isAccepted(),
+            'statuses' => $s,
             
-            //TODO: ajouter les autres paramètres
         );
     }
     

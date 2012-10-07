@@ -67,7 +67,7 @@ class PlaceTracking implements ChangesetInterface {
         return dechex($this->getId());
     }
     
-    public function addChange($type, $newValue)
+    public function addChange($type, $newValue, $options = array())
     {
         if (!in_array($type, $this->types))
         {
@@ -101,6 +101,12 @@ class PlaceTracking implements ChangesetInterface {
                     break;
                 case ChangeService::PLACE_ADDRESS:
                     $newValue = json_encode($newValue->toArray());
+                    break;
+                case ChangeService::PLACE_STATUS:
+                    $a = array('type' => $newValue->getType(),
+                        'value' => $newValue->getValue());
+                    $newValue = json_encode($a);
+                    
                 //default:
                     //rien à faire
             }
@@ -231,6 +237,12 @@ class PlaceTracking implements ChangesetInterface {
                 case ChangeService::PLACE_ADDRESS:
                     $a = json_decode($value);
                     $newValue = Address::fromArray($a);
+                    break;
+                case ChangeService::PLACE_STATUS:
+                    $a = json_decode($value); 
+                    $status = new PlaceStatus();
+                    $status->setType($a->type)->setValue($a->value);
+                    $newValue = $status;
                     break;
                 default:
                     $newValue = $value;

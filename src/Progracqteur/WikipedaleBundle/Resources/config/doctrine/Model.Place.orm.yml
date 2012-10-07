@@ -1,7 +1,7 @@
 ## YAML Template.
 ---
 Progracqteur\WikipedaleBundle\Entity\Model\Place:
-#  changeTrackingPolicy: NOTIFY
+  changeTrackingPolicy: NOTIFY
 #FIXME: implémenter le tracking policy: pour l'instant, rien ne change
   type: entity
   table: place
