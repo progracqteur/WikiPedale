@@ -1,0 +1,12 @@
+Progracqteur\WikipedaleBundle\Entity\Management\Notation:
+  type: entity
+  table: notations
+  id:
+    id:
+      type: string
+      length: 20
+      generator: {strategy: NONE}
+  fields:
+    name:
+      type: string
+      length: 60

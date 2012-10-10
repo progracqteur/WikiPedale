@@ -1,0 +1,14 @@
+Progracqteur\WikipedaleBundle\Entity\Management\Group:
+  type: entity
+  table: group_table
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    polygon:
+      type: polygon
+  manyToOne:
+    notation:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Notation
+      nullable: true

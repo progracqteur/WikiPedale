@@ -13,4 +13,8 @@ Progracqteur\WikipedaleBundle\Entity\Management\User:
     nbComment: 
       type: integer
     nbVote: 
-      type: integer 
+      type: integer
+  manyToMany:
+    groups:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
+      nullable: true
