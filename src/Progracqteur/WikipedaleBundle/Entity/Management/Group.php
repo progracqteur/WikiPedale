@@ -3,12 +3,12 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Entity\User as BaseUser;
+use FOS\UserBundle\Entity\Group as BaseGroup;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\Group
  */
-class Group extends BaseUser
+class Group extends BaseGroup
 {
 
     /**
@@ -49,7 +49,7 @@ class Group extends BaseUser
      * @param Progracqteur\WikipedaleBundle\Management\Notation $notation
      * @return Group
      */
-    public function setNotation(\Progracqteur\WikipedaleBundle\Management\Notation $notation = null)
+    public function setNotation(\Progracqteur\WikipedaleBundle\Entity\Management\Notation $notation = null)
     {
         $this->notation = $notation;
         return $this;
