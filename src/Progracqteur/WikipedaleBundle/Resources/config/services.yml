@@ -38,8 +38,8 @@ services:
 
   wsse.security.authentication.listener:
     class: Progracqteur\WikipedaleBundle\Resources\Security\Firewall\WsseListener
-    arguments: ['@security.context', '@security.authentication.manager']  
-
+    arguments: ['@security.context', '@security.authentication.manager'] 
+  
 
     
 #    progracqteur_wikipedale.example:
