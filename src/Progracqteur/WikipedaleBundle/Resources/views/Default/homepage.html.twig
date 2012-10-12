@@ -13,11 +13,6 @@
 
 
 
-
-
-<div id="olPanelUL"></div>
-<div class="clearboth"></div>
-
 <script>
     jQuery('a.connexion').colorbox({inline:true,width:"300px", height:"300px"});
 
@@ -31,13 +26,13 @@
   <div id='login_user_form_div'>
     <b><span id='login_message'></span></b><br />
     <form method="post" action="javascript:catchLoginForm()" id="loginForm">
-      <label for="i_username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+      <label for="i_username">{{ 'security.login.username'|trans({}, 'changes') }}</label>
       <input type="text" id="i_username" name="username" value="" />
       <br/><br/>
-      <label for="i_password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+      <label for="i_password">{{ 'security.login.password'|trans({}, 'changes') }}</label>
       <input type="password" id="i_password" name="password" />
       <br/><br/>
-      <input type="submit" id="i_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+      <input type="submit" id="i_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'changes') }}" />
     </form>
   </div>
 </div>
@@ -45,17 +40,22 @@
 <div id="MapAndEditorContener">
   <div id="map"  class="smallmap"></div>
 
-  <div style="width:25%; height:300px; float:left; overflow:auto;">
+  <div id="ToolsPanel">
+
+    <div id="olPanelUL"></div>
 
     <div id="div_signaler">
+      <span class="instructions">{{ 'instructions.add_point1'|trans({}, 'changes') }}</span>
+      <span class="instructions">{{ 'instructions.add_point2'|trans({}, 'changes') }}</span>
+      
       <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
         <input type="hidden"  name="lon" readonly="true" />
         <input  type="hidden" name="lat" readonly="true" />
-        <input name="lieu" id="l" placeholder="{{ 'add_black_points.location'|trans({}, 'FOSUserBundle') }}" />
-        <textarea name="description" id="d" placeholder="{{ 'add_black_points.description'|trans({}, 'FOSUserBundle') }}"></textarea><br />
-        <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'FOSUserBundle') }}" />
-        <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'FOSUserBundle') }}" />
-        <input type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'FOSUserBundle') }}">
+        <input name="lieu" id="l" placeholder="{{ 'add_black_points.location'|trans({}, 'changes') }}" />
+        <textarea name="description" id="d" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}"></textarea><br />
+        <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" />
+        <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" />
+        <input type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
       </form>
       <br />
       <!--
@@ -68,19 +68,20 @@
       </ul> -->                   
     </div>
 
-    <div id="div_placeDetails" style="display:none;"> 
+    <div id="div_placeDetails" style="display:none;">
+      
       <h1>#<span class="span_id"></span></h1>	
       <p id="span_lieu"></p>
       
-      <p class="creator">{{ 'display_black_points.author'|trans({}, 'FOSUserBundle') }} <span class="span_creator"></span> :</p>
+      <p class="creator">{{ 'display_black_points.author'|trans({}, 'changes') }} <span class="span_creator"></span> :</p>
       <div class="clearboth"></div>
       <div id="QuotationBegin"></div>
       <p id="span_description"></p>
       
-      <p><span class="span_photo"></span><a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'FOSUserBundle') }}"><img src='../img/AddPicture.png' /></a></p>
+      <p><span class="span_photo"></span><a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}"><img src='../img/AddPicture.png' /></a></p>
 
       <span class='span_nbVote'></span> votes      
-      <span class="span_nbComm"></span> {{ 'display_black_points.comments'|trans({}, 'FOSUserBundle') }}<br />
+      <span class="span_nbComm"></span> {{ 'display_black_points.comments'|trans({}, 'changes') }}<br />
     </div>
 
     <div id="div_placeEdit" style="margin-left:15px;display:none;background: white;"> 
