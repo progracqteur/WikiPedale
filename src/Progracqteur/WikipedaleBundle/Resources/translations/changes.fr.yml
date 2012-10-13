@@ -1,3 +1,10 @@
+# Global strings
+layout:
+    logout: Déconnexion
+    login: Connexion
+    register: Créer un compte
+    logged_in_as: Bonjour %username%
+
 place:
   is:
     created: "%author% a créé l'emplacement %place%."
@@ -18,3 +25,28 @@ change:
      description: "la description"
      address: "l'adresse"
      geom: "la position géographique"
+     
+
+     
+# Black points
+add_black_points:
+  add: Signaler un point noir
+  last_added : Derniers ajoutés
+  last_edited : Derniers modifiés
+  location : Localisation exacte du problème
+  description : Description précise du problème et solutions proposées.
+  name: Votre nom ou identifiant
+  mail: Votre adresse e-mail
+  submit: Signaler le point noir
+  help1: Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.
+  
+display_black_points:
+  blackpoint: Point noir
+  author: Constat effectué par
+  add_picture: Ajouter une photo
+  comments: commentaires
+  
+#help
+instructions:
+  add_point1: 1. Localisez votre point sur la carte ci-contre.
+  add_point2: 2. Completez le formulaire ci-dessous.
