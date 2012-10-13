@@ -14,7 +14,12 @@
 
 
 <script>
-    jQuery('a.connexion').colorbox({inline:true,width:"300px", height:"300px"});
+    jQuery('a.connexion').colorbox({
+        inline:true,
+        width:"300px",
+        height:"300px",
+        onComplete: function(){ $("#i_username").focus(); }
+      });
 
     $(document).ready(function(){
         $(".AjoutPoint").colorbox({inline:true, width:"50%"});
@@ -98,7 +103,7 @@
       <form method="post" action="javascript:catchForm('#editForm')" name="f" id="editForm">
         <input type ="hidden" value="" id="f_id" name="id" />
         <p class="p_form">
-          <label for="f_lieu" class="label_aligne"><strong>Lieu</ strong> : </label> 
+          <label for="f_lieu" class="label_aligne"><strong>Lieu</strong> : </label> 
           <input name="lieu"  id="f_lieu" size=42 />
         </p>
         <p class="p_form">

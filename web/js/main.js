@@ -411,7 +411,7 @@ function homepageMap(townId, townLon, townLat) {
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
-        //alert(aPlaceData.addressparts.road);
+        //alert(JSON.stringify(aPlaceData));
 	    addMarkerWithClickAction(false,
 				     aPlaceData.geom.coordinates[0],
 				     aPlaceData.geom.coordinates[1],
