@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
@@ -28,6 +29,11 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager) {
         
+        
+        $notations = array('gracq', "spw", "villedemons");
+        $valuesNotations = array(-1,0,1,2,3);
+        
+        
         for ($i=0; $i < 20; $i++)
         {
             echo "Création du point $i (associé à un utilisateur) \n";
@@ -45,8 +51,26 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             
             $place->setAddress($add);
             
+            //ajout un statut à toutes les places, sauf à quatre d'entre elles
+            if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19)
+            {
+                $p = new PlaceStatus();
+                $p->setType($notations[array_rand($notations)])
+                        ->setValue($valuesNotations[array_rand($valuesNotations)]);
+                $place->addStatus($p);
+                
+                //ajoute un deuxième statut à une sur trois
+                if ($i%3 == 0)
+                {
+                    $p = new PlaceStatus();
+                $p->setType($notations[array_rand($notations)])
+                        ->setValue($valuesNotations[array_rand($valuesNotations)]);
+                $place->addStatus($p);
+                }
+            }
+            
             $place->getChangeset()->setAuthor($this->getReference('user'));
-
+            
             $manager->persist($place);
             
             $this->addReference("PLACE_FOR_REGISTERED_USER".$i, $place);
@@ -69,6 +93,24 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $place->setCreator($u);
 
             $place->setAddress($this->geolocate($point));
+            
+            //ajout un statut à toutes les places, sauf à quatre d'entre elles
+            if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19)
+            {
+                $p = new PlaceStatus();
+                $p->setType($notations[array_rand($notations)])
+                        ->setValue($valuesNotations[array_rand($valuesNotations)]);
+                $place->addStatus($p);
+                
+                //ajoute un deuxième statut à une sur trois
+                if ($i%3 == 0)
+                {
+                    $p = new PlaceStatus();
+                $p->setType($notations[array_rand($notations)])
+                        ->setValue($valuesNotations[array_rand($valuesNotations)]);
+                $place->addStatus($p);
+                }
+            }
             
             $place->getChangeset()->setAuthor($u);
 
