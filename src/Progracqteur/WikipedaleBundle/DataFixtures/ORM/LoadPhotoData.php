@@ -24,7 +24,7 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
     private $container;
     
     public function getOrder() {
-        return 3;
+        return 4;
     }
     public function load(ObjectManager $manager) {
         $path = __DIR__."/Files";
