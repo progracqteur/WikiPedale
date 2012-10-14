@@ -38,11 +38,12 @@ class PhotoNormalizer implements NormalizerInterface {
             'width' => $object->getWidth(),
             'height' => $object->getHeight(),
             'legend' => $object->getLegend(),
-            'creator'=> $this->normalizerService->getUserNormalizer()->normalize($object->getCreator()),
+            'creator'=> $this->normalizerService->getUserNormalizer()->normalize($object->getCreator(), $format),
             'placeId' => $object->getPlace()->getId(),
             'published' => $object->getPublished(),
             'filename' => $object->getFileName(),
-            'photoType' => $object->getPhotoType()
+            'photoType' => $object->getPhotoType(),
+            'createDate' => $this->normalizerService->getDateNormalizer()->normalize($object->getCreateDate(), $format)
         );
     }
 
