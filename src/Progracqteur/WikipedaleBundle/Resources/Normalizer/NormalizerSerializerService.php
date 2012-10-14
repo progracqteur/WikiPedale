@@ -9,6 +9,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTrackingNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
@@ -45,6 +46,7 @@ class NormalizerSerializerService {
     private $normalizedResponseNormalizer = null;
     private $normalizedResponseExceptionNormalizer = null;
     private $placeTrackingNormalizer = null;
+    private $dateNormalizer = null;
     
     //Encoders
     private $jsonEncoder = null;
@@ -69,6 +71,20 @@ class NormalizerSerializerService {
         }
         
         return $this->addressNormalizer;
+    }
+    
+    /**
+     * 
+     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer
+     */
+    public function getDateNormalizer()
+    {
+        if ($this->dateNormalizer === null)
+        {
+            $this->dateNormalizer = new DateNormalizer($this);
+        }
+        
+        return $this->dateNormalizer;
     }
     
     /**

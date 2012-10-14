@@ -1,0 +1,5 @@
+security:
+  login:
+    username: Votre identifiant
+    password: Votre mot de passe
+    submit: Envoi

@@ -43,7 +43,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
         $a = array(
           'id' => $object->getId(),
           'entity' => 'placeTracking',
-          'date' => $object->getDate(),
+          'date' => $this->service->getDateNormalizer()->normalize($object->getDate(), $format),
           'isCreation' => $object->isCreation(),
           'author' => $userNormalizer->normalize($object->getAuthor()),
           'placeId' => $object->getPlace()->getId()
