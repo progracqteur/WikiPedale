@@ -31,13 +31,13 @@
   <div id='login_user_form_div'>
     <b><span id='login_message'></span></b><br />
     <form method="post" action="javascript:catchLoginForm()" id="loginForm">
-      <label for="i_username">{{ 'security.login.username'|trans({}, 'changes') }}</label>
+      <label for="i_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
       <input type="text" id="i_username" name="username" value="" />
       <br/><br/>
-      <label for="i_password">{{ 'security.login.password'|trans({}, 'changes') }}</label>
+      <label for="i_password">{{ 'security.login.password'|trans({}, 'userMessages') }}</label>
       <input type="password" id="i_password" name="password" />
       <br/><br/>
-      <input type="submit" id="i_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'changes') }}" />
+      <input type="submit" id="i_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
     </form>
   </div>
 </div>
