@@ -34,6 +34,3 @@ fos_user_change_password:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"    
     
-fos_user_group:
-    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
-    prefix: /group

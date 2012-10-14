@@ -1,0 +1,16 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block title %}{% trans %}groups.list.title{% endtrans %} {% endblock %}
+
+{% block body %}
+
+<ul>
+{% for group in groups %}
+        <li>{{group.name}}</li>
+
+{% endfor %}
+
+</ul>
+
+
+{% endblock %}

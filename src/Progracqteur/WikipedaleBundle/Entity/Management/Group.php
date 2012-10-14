@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\Group as BaseGroup;
+use Progracqteur\WikipedaleBundle\Entity\Management\City;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\Group
@@ -12,36 +13,43 @@ class Group extends BaseGroup
 {
 
     /**
-     * @var polygon $polygon
+     * @var Progracqteur\WikipedaleBundle\Management\City $polygon
      */
-    private $polygon;
+    private $city;
 
     /**
      * @var Progracqteur\WikipedaleBundle\Management\Notation
      */
     private $notation;
+    
 
+ //   private ;
+    
+
+    public function __construct($name, $roles = array()) {
+        parent::__construct($name, $roles);
+        $this->addRole('ROLE_NOTATION');
+    }
+    
     /**
-     * Set polygon
+     * Set City
      *
-     * @param polygon $polygon
+     * @param Progracqteur\WikipedaleBundle\Entity\Management\City $city
      * @return Group
      */
-    public function setPolygon($polygon)
+    public function setCity(City $city = null)
     {
-        $this->polygon = $polygon;
+        $this->city = $city;
         return $this;
     }
-
-    /**
-     * Get polygon
-     *
-     * @return polygon 
-     */
-    public function getPolygon()
+    
+    public function getCity()
     {
-        return $this->polygon;
+        return $this->city;
     }
+
+    
+    
 
     /**
      * Set notation

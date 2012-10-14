@@ -1,0 +1,27 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{#
+    This template is used to render the form 
+Progracqteur\WikipedaleBundle\Form\Management\GroupType
+
+The variable injected by controllers are : 
+
+- form : the form
+
+#}
+
+{% block title %}{% trans %}groups.list.title{% endtrans %} {% endblock %}
+
+{% block body %}
+
+<form method="post" {{ form_enctype(form) }} path="#">
+
+
+    
+    {# please do not delete this : #} {{form_rest(form)}}
+    
+    <input type="submit" value="{% trans %}form.button.submit{% endtrans %}" />
+</form>
+
+
+{% endblock %}

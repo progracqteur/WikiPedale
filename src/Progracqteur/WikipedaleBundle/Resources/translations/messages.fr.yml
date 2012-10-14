@@ -1,0 +1,6 @@
+groups:
+  list:
+    title: Liste des groupes d'utilisateurs
+form:
+  button:
+    submit: Envoi

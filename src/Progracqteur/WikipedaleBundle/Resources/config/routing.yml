@@ -89,6 +89,28 @@ wikipedale_history_place_by_city:
   options:
     expose: true
 
+wikipedale_groups_list:
+  pattern: /admin/group
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:list }
+  options:
+    expose: false
+    
+wikipedale_groups_create:
+  pattern: /admin/group/create
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:create }
+  options:
+    expose: false
+
+wikipedale_groups_update:
+  pattern: /admin/group/update/{id}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:update }
+  options:
+    expose: false
+    
+wikipedale_notations:
+    resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/management_notation.yml"
+    prefix:   /admin/notation
+
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production
 

@@ -136,7 +136,7 @@ class City
      * @param polygon $polygon
      * @return City
      */
-    public function setPolygon(\polygon $polygon)
+    public function setPolygon($polygon)
     {
         $this->polygon = $polygon;
         return $this;
@@ -159,5 +159,9 @@ class City
     public function getCenter()
     {
         return $this->center;
+    }
+    
+    public function __toString() {
+        return $this->getName();
     }
 }

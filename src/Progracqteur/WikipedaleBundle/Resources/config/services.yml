@@ -31,7 +31,7 @@ services:
   progracqteur.wikipedale.place.tracking.toText:
     class: %progracqteur.wikipedale.service.place.tracking.toText.class%
     arguments: ["@translator"]
-          
+    
   wsse.security.authentication.provider:
     class:  Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseProvider
     arguments: ['', %kernel.cache_dir%/security/nonces]

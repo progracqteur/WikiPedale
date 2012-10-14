@@ -46,6 +46,9 @@ doctrine:
           user:     %database_user%
           password: %database_password%
           charset:  UTF8  
+          mapping_types:
+            geography: point
+            xml: hash
         
       types:
         point: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PointType

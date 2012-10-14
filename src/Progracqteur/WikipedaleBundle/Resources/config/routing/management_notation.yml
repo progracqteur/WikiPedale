@@ -1,0 +1,30 @@
+admin:
+    pattern:  /
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Notation:index" }
+
+admin_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Notation:show" }
+
+admin_new:
+    pattern:  /new
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Notation:new" }
+
+admin_create:
+    pattern:  /create
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Notation:create" }
+    requirements: { _method: post }
+
+admin_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Notation:edit" }
+
+admin_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Notation:update" }
+    requirements: { _method: post }
+
+admin_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Notation:delete" }
+    requirements: { _method: post }
