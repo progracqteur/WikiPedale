@@ -37,7 +37,7 @@ add_black_points:
   description : Description précise du problème et solutions proposées.
   name: Votre nom ou identifiant
   mail: Votre adresse e-mail
-  submit: Signaler le point noir
+  submit: Envoyer
   help1: Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.
   
 display_black_points:

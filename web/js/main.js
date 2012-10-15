@@ -250,7 +250,7 @@ function changingModeFunction() {
     */
     if(!add_new_place_mode) {
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Retour';
+            value.innerHTML = 'Annuler';
         });
         $.each(markers_and_associated_data, function(index, marker_data) {
             if (marker_data != undefined) {
@@ -398,7 +398,7 @@ function homepageMap(townId, townLon, townLat) {
             value.innerHTML = 'Ajouter un point';
         });
     });
-    $(document).ready(function(){
+    /* $(document).ready(function(){
         $('.olControlButtonLatelyAddedItemActive').each(function(index, value){
             value.innerHTML = 'Derniers ajoutés';
         });
@@ -407,7 +407,7 @@ function homepageMap(townId, townLon, townLat) {
         $('.olControlButtonLatelyUpdatedItemActive').each(function(index, value){
             value.innerHTML = 'Derniers modifiés';
         });
-    });
+    }); */
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
