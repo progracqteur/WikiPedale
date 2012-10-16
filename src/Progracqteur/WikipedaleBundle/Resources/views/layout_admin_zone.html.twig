@@ -1,0 +1,15 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block zoneMenu %}
+
+<h1>{% trans %}admin.you_are_in_admin_zone{% endtrans %}</h1>
+<p>{% trans %}admin.menu{% endtrans %} :</p>
+<ul>
+    <li><a href="{{ path('wikipedale_groups_list')}}">Liste des groupes</a>
+    <li><a href="{{ path('wikipedale_groups_create') }}">Créer un groupe</a></li>
+    <li><a href="{{ path('wikipedale_notations') }}">Vers la liste des notations</a></li>
+    <li><a href="{{ path('wikipedale_notations_new') }}">Creer une notation</a>
+
+</ul>
+
+{% endblock %}

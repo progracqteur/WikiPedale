@@ -82,7 +82,7 @@ class NotationController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('wikipedale_notations_show', array('id' => $entity->getId())));
             
         }
 
@@ -107,6 +107,7 @@ class NotationController extends Controller
         }
 
         $editForm = $this->createForm(new NotationType(), $entity);
+        $editForm->remove('id');
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ProgracqteurWikipedaleBundle:Management/Notation:edit.html.twig', array(
@@ -131,6 +132,7 @@ class NotationController extends Controller
         }
 
         $editForm   = $this->createForm(new NotationType(), $entity);
+        $editForm->remove('id');
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -141,7 +143,7 @@ class NotationController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('wikipedale_notations_edit', array('id' => $entity->getId())));
         }
 
         return $this->render('ProgracqteurWikipedaleBundle:Management/Notation:edit.html.twig', array(
@@ -157,6 +159,8 @@ class NotationController extends Controller
      */
     public function deleteAction($id)
     {
+        throw new \Exception('Cette action est interdite');
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 

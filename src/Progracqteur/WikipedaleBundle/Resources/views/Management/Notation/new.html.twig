@@ -1,10 +1,10 @@
-{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
 
 {% block body %}
 
 <h1>Management\Notation creation</h1>
 
-<form action="{{ path('admin_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('wikipedale_notations_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>
@@ -13,7 +13,7 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('admin') }}">
+        <a href="{{ path('wikipedale_notations') }}">
             Back to the list
         </a>
     </li>

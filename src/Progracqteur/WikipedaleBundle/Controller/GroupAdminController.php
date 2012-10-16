@@ -40,7 +40,7 @@ class GroupAdminController extends Controller {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
-        $g = new Group('vide');
+        $g = new Group('');
         $form = $this->createForm(new GroupType($this->getDoctrine()->getEntityManager()), $g);
         
         if ($request->getMethod() === 'POST')
@@ -66,7 +66,8 @@ class GroupAdminController extends Controller {
         
         
         return $this->render('ProgracqteurWikipedaleBundle:Groups:form.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'title' => 'create'
         ));
     }
     
@@ -112,7 +113,8 @@ class GroupAdminController extends Controller {
         }
         
         return $this->render('ProgracqteurWikipedaleBundle:Groups:form.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'title' => 'update'
         ));
     }
     

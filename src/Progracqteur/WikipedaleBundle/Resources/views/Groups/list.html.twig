@@ -1,14 +1,41 @@
-{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
 
 {% block title %}{% trans %}groups.list.title{% endtrans %} {% endblock %}
 
 {% block body %}
 
-<ul>
-{% for group in groups %}
-        <li>{{group.name}}</li>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Notation</th>
+            <th>&nbsp;</th>
+        </tr>
+        
+    </thead>
+    
+    <tbody>
+       {% for group in groups %}
+            <tr>
+                <td>{{group.name}}</td>
+                <td>{{group.city.name}}</td>
+                <td>{{group.notation.name}} ({{group.notation.id}})</td>
+                <td>
+                    <ul>
+                        <li><a href="{{ path('wikipedale_groups_update', {id : group.id}) }}">Modifier</a></li>
+                    </ul>
+                </td>
+            </tr>
+        <li></li>
 
-{% endfor %}
+       {% endfor %} 
+    
+    
+    </tbody>
+    
+</table>
+
 
 </ul>
 

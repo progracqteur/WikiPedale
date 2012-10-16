@@ -1,6 +1,10 @@
 groups:
   list:
     title: Liste des groupes d'utilisateurs
+  form:
+    update: Mise à jour du groupe
+    create: Création d'un groupe
+  updated: Le groupe a été mis à jour
 form:
   button:
     submit: Envoi

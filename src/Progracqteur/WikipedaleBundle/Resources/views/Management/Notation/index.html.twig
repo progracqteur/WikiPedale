@@ -1,4 +1,4 @@
-{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
 
 {% block body %}
 
@@ -15,15 +15,15 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('admin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a href="{{ path('wikipedale_notations_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.name }}</td>
             <td>
                 <ul>
                     <li>
-                        <a href="{{ path('admin_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('wikipedale_notations_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('wikipedale_notations_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
             </td>
@@ -34,7 +34,7 @@
 
 <ul>
     <li>
-        <a href="{{ path('admin_new') }}">
+        <a href="{{ path('wikipedale_notations_new') }}">
             Create a new entry
         </a>
     </li>

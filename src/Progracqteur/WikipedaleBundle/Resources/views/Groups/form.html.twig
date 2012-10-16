@@ -1,4 +1,4 @@
-{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
 
 {#
     This template is used to render the form 
@@ -7,10 +7,13 @@ Progracqteur\WikipedaleBundle\Form\Management\GroupType
 The variable injected by controllers are : 
 
 - form : the form
+- type: the role of the form. It may be:
+   * update
+   * create
 
 #}
 
-{% block title %}{% trans %}groups.list.title{% endtrans %} {% endblock %}
+{% block title %}{% if title == 'update' %}{% trans %}groups.form.update{% endtrans %}{% elseif title == 'create' %}{% trans %}groups.form.create{% endtrans %}{% endif %}{% endblock %}
 
 {% block body %}
 

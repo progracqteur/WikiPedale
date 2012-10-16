@@ -44,4 +44,26 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
     legend:
       - MaxLength: {limit: 500, message: La légende ne peut dépasser 500 caractères }
       
-    
+Progracqteur\WikipedaleBundle\Entity\Management\Notation:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: id
+        message: admin.notation.id.not.unique
+  properties:
+    id: 
+      - Regex:
+          pattern: "/^[a-z]/"
+          message: admin.notation.id.must_be_character_alphabeticals
+      - MaxLength: 20
+      - MinLength: 3
+    name:
+      - NotBlank: ~
+      - MaxLength: 60
+      - MinLength: 3
+
+Progracqteur\WikipedaleBundle\Entity\Management\Group:
+  properties:
+    name:
+      - NotBlank: ~
+      - MinLength: 5
+      - MaxLength: 120
