@@ -56,8 +56,8 @@
       <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
         <input type="hidden"  name="lon" readonly="true" />
         <input  type="hidden" name="lat" readonly="true" />
-        <input name="lieu" id="l" placeholder="{{ 'add_black_points.location'|trans({}, 'changes') }}" />
-        <textarea name="description" id="d" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}"></textarea><br />
+        <input name="lieu" id="l" maxlength="35" placeholder="{{ 'add_black_points.location'|trans({}, 'changes') }}" />
+        <textarea name="description" id="d" maxlength="150" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}"></textarea><br />
         <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" />
         <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" />
         <input type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
@@ -74,19 +74,44 @@
     </div>
 
     <div id="div_placeDetails" style="display:none;">
+      <p class="PointTitle">#<span class="span_id"></span> <span id="span_lieu"></span></p>
       
-      <h1>#<span class="span_id"></span></h1>	
-      <p id="span_lieu"></p>
-      
-      <p class="creator">{{ 'display_black_points.author'|trans({}, 'changes') }} <span class="span_creator"></span> :</p>
-      <div class="clearboth"></div>
-      <div id="QuotationBegin"></div>
-      <p id="span_description"></p>
-      
-      <p><span class="span_photo"></span><a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}"><img src='../img/AddPicture.png' /></a></p>
+      <div class="PointDescription">
+          <p class="creator">{{ 'display_black_points.author'|trans({}, 'changes') }} <a href="#"><span class="span_creator"></span></a> :</p>
+        <div class="clearboth"></div>
+        <span class="QuotationBegin"></span><p class="p_description"><span id="span_description"></span> <a href="#">Modifier</a></p>
 
-      <span class='span_nbVote'></span> votes      
-      <span class="span_nbComm"></span> {{ 'display_black_points.comments'|trans({}, 'changes') }}<br />
+        <span class="span_photo"></span><a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}"><img src='../img/AddPicture.png' /></a>
+
+        <!-- <span class='span_nbVote'></span> votes      
+        <span class="span_nbComm"></span> {{ 'display_black_points.comments'|trans({}, 'changes') }} -->
+        
+        <div class="solutions">
+            <div class="solution">
+                <span class="SolutionTitle">Solution 1 : Lorem ipsum dolor sit amet</span>
+                <p class="SolutionAuthor">Proposée par <a href="#">Michel</a></p>
+                <div class="SolutionVote">
+                    <span class="SolutionVotingNumber">18</span><br />
+                    <a href="#" class="PositiveVote"><img src='../img/PositiveVote.png' /></a>
+                    <a href="#" class="NegativeVote"><img src='../img/NegativeVote.png' /></a>
+                </div>
+                <p class="SolutionDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Afficher la suite</a></p>
+            </div>
+
+            <div class="solution">
+                <span class="SolutionTitle">Solution 2 : Mauris at turpis id sapien...</span>
+                <p class="SolutionAuthor">Proposée par <a href="#">Robert</a></p>
+                <div class="SolutionVote">
+                    <span class="SolutionVotingNumber">5</span><br />
+                    <a href="#" class="PositiveVote"><img src='../img/PositiveVote.png' /></a>
+                    <a href="#" class="NegativeVote"><img src='../img/NegativeVote.png' /></a>
+                </div>
+                <p class="SolutionDescription">Mauris at turpis id sapien consectetur consequat eu sed elit. Duis ac nulla nibh. Sed adipiscing ullamcorper neque vel tempus. <a href="#">Afficher la suite</a></p>
+            </div>
+            <a href="#">Proposer une autre solution</a>
+        </div>
+        
+      </div>
     </div>
 
     <div id="div_placeEdit" style="margin-left:15px;display:none;background: white;"> 
