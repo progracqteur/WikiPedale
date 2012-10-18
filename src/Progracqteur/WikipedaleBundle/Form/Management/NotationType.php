@@ -7,10 +7,26 @@ use Symfony\Component\Form\FormBuilder;
 
 class NotationType extends AbstractType
 {
+    
+    private $type;
+
+
+    public function __construct($type = 'new')
+    {
+        $this->type = $type;
+        
+    }
+    
     public function buildForm(FormBuilder $builder, array $options)
     {
+        if ($this->type === 'update')
+        {
+            $builder->add('id', 'text', array('read_only' => true));
+        } else {
+            $builder->add('id');
+        }
+        
         $builder
-            ->add('id')
             ->add('name')
         ;
     }

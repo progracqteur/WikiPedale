@@ -106,8 +106,7 @@ class NotationController extends Controller
             throw $this->createNotFoundException('Unable to find Notation entity.');
         }
 
-        $editForm = $this->createForm(new NotationType(), $entity);
-        $editForm->remove('id');
+        $editForm = $this->createForm(new NotationType('update'), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ProgracqteurWikipedaleBundle:Management/Notation:edit.html.twig', array(
@@ -131,8 +130,7 @@ class NotationController extends Controller
             throw $this->createNotFoundException('Unable to find Notation entity.');
         }
 
-        $editForm   = $this->createForm(new NotationType(), $entity);
-        $editForm->remove('id');
+        $editForm   = $this->createForm(new NotationType('update'), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
