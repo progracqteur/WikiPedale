@@ -467,8 +467,10 @@ function pop_up_add_photo(i) {
 }
 
 function refresh_span_photo(id) {
-    url_photo_list = Routing.generate('wikipedale_photo_list_by_place', {_format: 'json', placeId: i});
+    url_photo_list = Routing.generate('wikipedale_photo_list_by_place', {_format: 'json', placeId: id});
+    alert(url_photo_list);
     $.getJSON(url_photo_list, function(raw_data) {
+    alert(JSON.stringify(raw_data));
     data = raw_data.results;
     if(data.length == 0) {
         $('.span_photo').each(function() { this.innerHTML = 'pas encore de photos'; });
@@ -476,7 +478,9 @@ function refresh_span_photo(id) {
     else {
         span_photo_inner = '<br />';
         $.each(data, function(i,row) {
-        span_photo_inner +=  ' <a target="_blank" href="' + row.webPath + '"><image height="' + row.height  + '"width="' + row.width  + '" src="' + row.webPath + '"></image></a>';
+        alert(web_dir + row.webPath);
+        alert(row.webPath);
+        span_photo_inner +=  ' <a target="_blank" href="' + web_dir + row.webPath + '"><image height="' + row.height  + '"width="' + row.width  + '" src="' + row.webPath + '"></image></a>';
         $('.span_photo').each(function() { this.innerHTML = span_photo_inner; });
         })
         }
