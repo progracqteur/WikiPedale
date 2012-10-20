@@ -4,6 +4,9 @@ layout:
     login: Connexion
     register: Créer un compte
     logged_in_as: Bonjour %username%
+    
+about:
+  prout: prout
 
 place:
   is:

@@ -471,7 +471,7 @@ function refresh_span_photo(id) {
     $.getJSON(url_photo_list, function(raw_data) {
     data = raw_data.results;
     if(data.length == 0) {
-        $('.span_photo').each(function() { this.innerHTML = 'pas encore de photos'; });
+        $('.span_photo').each(function() { this.innerHTML = '<img src="../img/NoPictureYet.png" />'; });
         }
     else {
         span_photo_inner = '<br />';

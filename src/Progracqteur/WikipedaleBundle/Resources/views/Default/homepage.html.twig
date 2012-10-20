@@ -23,6 +23,7 @@
 
     $(document).ready(function(){
         $(".AjoutPoint").colorbox({inline:true, width:"50%"});
+        $(".About").colorbox({inline:true, width:"50%"});
     });
 </script>
 
@@ -108,7 +109,7 @@
                 </div>
                 <p class="SolutionDescription">Mauris at turpis id sapien consectetur consequat eu sed elit. Duis ac nulla nibh. Sed adipiscing ullamcorper neque vel tempus. <a href="#">Afficher la suite</a></p>
             </div>
-            <a href="#">Proposer une autre solution</a>
+            <a href="#">Voir les commentaires ou proposer une autre solution</a>
         </div>
         
       </div>
@@ -140,7 +141,7 @@
           TODO
         </p>
         <p class="p_form" id="message_erreur" style="display:none">
-          <span style="margin-left:100px; background-color:red;">Veuillez vous <a href="connexion.php" target="_blank">connecter</a> pour enregistrer la modification.</span>
+          <span style="margin-left:100px; background-color:red;">Veuillez vous <a href="#login_user_form_div" target="_blank">connecter</a> pour enregistrer la modification.</span>
         </p>
         <p class="p_form">
           <span style="padding-left:100px;"><input type="submit" value="&Eacute;diter"></span>
@@ -151,6 +152,10 @@
   </div>
 </div>
 {% else %}
+
+<div id="About">
+    {{ 'summary'|trans({}, 'about')|raw }}
+</div>
 
 <div id="BoiteChoixVille">
 
@@ -168,7 +173,8 @@
     <ul id="VillesSelection">
     {% for city in mainCities %}
 
-            <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}"> {{city.name}}</a></li>
+            <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">
+                <img src="../img/cities/{{city.name}}.png" /><br />{{city.name}}</a></li>
 
     {% endfor %}
     </ul>

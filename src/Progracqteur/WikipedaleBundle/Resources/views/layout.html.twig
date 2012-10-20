@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html>
     <head>
-        <title>Wikipedale | {% block title %}Titre par défaut{% endblock %}</title>
+        <title>{% block title %}Uello{% endblock %}</title>
         
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
@@ -25,45 +25,6 @@
             
         <link rel="stylesheet"  href="{{ asset('css/main.css') }}" type="text/css"/>
         <link rel="stylesheet"  href="{{ asset('css/dhtmlxcombo.css') }}" type="text/css"/>
-
-
-        <style type="text/css">       
-        .olControlAttribution {
-            position: absolute;
-            font-size: 10px;
-            text-align: right;
-            color: #eeeeee;
-            bottom: 0;
-            right: 0;
-            background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-            background: rgba(0, 60, 136, 0.3);
-            filter: alpha(opacity=90);
-            font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-            padding: 2px 4px;
-            border-radius: 5px 0 0 0;
-        }
-        .olControlAttribution a {
-            color: #eeeeee;
-            font-weight: bold;
-        }
-        .olControlZoom a:hover {
-            color: white;
-        }
-        div.olControlZoomPanel {
-            top: 15px;
-            left: 15px;
-        }
-           div.flash-notice {
-               background-color: rgba(68,68,221,0.65);
-               color: white;
-               font-weight: bold;
-               box-shadow: 2px 2px 3px rgba(68,68,221,0.45), -2px -2px 3px rgba(68,68,221,0.45);
-               text-align: center;
-               paddding: 15px;
-               margin-left: 50px;
-               margin-right: 50px;
-               }
-        </style>
 
         {% block css %}
             <!-- Aucune instruction css ajouté par le template -->
@@ -105,9 +66,11 @@
 
             {% block body %}Rien dans le body...{% endblock %}
         </div>
+            
+
  
             <div id="PiedDePage">
-                <a href="#">À propos de...</a> - 
+                <a href="{{path('wikipedale_about')}}">À propos de Uello</a> - 
                 <a href="#">Aide</a> - 
                 <a href="#">Contact</a>
             </div>
