@@ -117,6 +117,10 @@ wikipedale_notations:
     resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/management_notation.yml"
     prefix:   /admin/notation
     
+wikipedale_admin_homepage:
+  pattern: /admin
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:index }
+
 wikipedale_admin_usergroups:
   pattern: /admin/usergroup
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userList }

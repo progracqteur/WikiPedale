@@ -16,6 +16,16 @@ use Progracqteur\WikipedaleBundle\Form\Management\GroupUser\GroupUserType;
  */
 class GroupAdminController extends Controller {
     
+    public function indexAction()
+    {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        return $this->redirect($this->generateUrl('wikipedale_admin_usergroups'));
+    }
+    
     public function listAction()
     {
         if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
