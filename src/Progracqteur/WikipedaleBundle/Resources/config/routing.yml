@@ -7,6 +7,12 @@ wikipedale_homepage:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
   options:
     expose: true
+    
+wikipedale_about:
+    pattern:  /about
+    defaults: { _controller: ProgracqteurWikipedaleBundle:Default:about }
+    options:
+      expose: true
   
 wikipedale_to_city:
   pattern: /city/{citySlug}

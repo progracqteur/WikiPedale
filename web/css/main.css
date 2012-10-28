@@ -49,7 +49,7 @@ input#l, textarea#d, input#n, input#e { width:90%; }
 #div_placeDetails .QuotationBegin { background: url('../img/QuotationMark.png') no-repeat top left; float:left; width:32px; height:32px; }
 #div_placeDetails .p_description { background: url('../img/QuotationMark-end.png') no-repeat bottom right; padding:0 35px 0 40px; margin:0 0 1em 0; }
 #span_description { font-style: italic; }
-#div_placeDetails a.link_add_photo { margin-left:2px; }
+#div_placeDetails a.link_add_photo { margin-left:4px; }
 
 div.PointDescription p.creator, div.solutions p.SolutionAuthor {
     font-size: 0.8em;
@@ -130,16 +130,55 @@ select#Cities_dhmlx { float:left; }
 
 div#BoiteChoixVille {
     clear:right;
+    margin:0 auto;
+    width:700px;
 }
 
 ul#VillesSelection {
     padding: 0;
-    margin:0;
+    margin:0 auto;
+    text-align: center;
 }
-ul#VillesSelection li { float:left; list-style-type: none; margin-left: 1em; display:inline; }
+ul#VillesSelection li {
+    float:left;
+    list-style-type: none;
+    margin-left: 1em;
+    display:inline;
+    margin:0.2em;
+}
+
+ul#VillesSelection li img {
+    width:100px;
+    height:100px;
+}
+
+ul#VillesSelection li a {
+    text-align: center;
+    color: #AEAEAE;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #2E2E2E;
+    border:1px solid black;
+    display:block;
+    padding: 0.1em;
+}
+
+ul#VillesSelection li a:hover {
+    background-color: #D14836;
+    color: #2E2E2E;
+    border:1px solid red;
+}
+
+path { fill:green; }
 
 span#VilleActuelle {
     color:#FFFFFF;
+}
+
+#About { 
+    width:700px;
+    color: #2E2E2E;
+    margin:0 auto;
 }
 
 #PiedDePage {
@@ -155,3 +194,41 @@ span#VilleActuelle {
     clear:both;
     margin:2em 0 0 0;
 }
+
+
+/* OpenLayers */
+        .olControlAttribution {
+            position: absolute;
+            font-size: 10px;
+            text-align: right;
+            color: #eeeeee;
+            bottom: 0;
+            right: 0;
+            background: #130085; /* fallback for IE - IE6 requires background shorthand*/
+            background: rgba(0, 60, 136, 0.3);
+            filter: alpha(opacity=90);
+            font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+            padding: 2px 4px;
+            border-radius: 5px 0 0 0;
+        }
+        .olControlAttribution a {
+            color: #eeeeee;
+            font-weight: bold;
+        }
+        .olControlZoom a:hover {
+            color: white;
+        }
+        div.olControlZoomPanel {
+            top: 15px;
+            left: 15px;
+        }
+           div.flash-notice {
+               background-color: rgba(68,68,221,0.65);
+               color: white;
+               font-weight: bold;
+               box-shadow: 2px 2px 3px rgba(68,68,221,0.45), -2px -2px 3px rgba(68,68,221,0.45);
+               text-align: center;
+               paddding: 15px;
+               margin-left: 50px;
+               margin-right: 50px;
+               }
