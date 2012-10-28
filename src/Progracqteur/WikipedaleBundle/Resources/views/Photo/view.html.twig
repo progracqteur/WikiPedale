@@ -1,0 +1,15 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block title %}{% endblock %}
+
+
+{% block body %}
+
+       <img src="{{asset(photo.getWebPath)}}" alt="{{ photo.legend }}" />
+       <p>{{ photo.legend }}</p>
+       <p>Liée à l'emplacement {{photo.place.address.road}}</p>
+       <p>Envoyée par {{photo.creator.username}}</p>
+
+
+
+{% endblock %}

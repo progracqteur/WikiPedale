@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * Description of PhotoController
@@ -50,7 +51,7 @@ class PhotoController extends Controller
     
     public function newAction($placeId, $_format, Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.context')->getToken()->getUser() instanceof User)
         {
             throw new AccessDeniedException('Vous devez être un administrateur pour modifier une image');
         }
@@ -108,7 +109,14 @@ class PhotoController extends Controller
                 
                 $this->get('session')->setFlash('notice', "Votre photo a été correctement enregistrée.");
                 
-                return $this->redirect($this->generateUrl('wikipedale_photo_update', array(
+                if ($this->get('security.context')->isGranted('ROLE_NOTATION'))
+                {
+                    $path = 'wikipedale_photo_update';
+                } else {
+                    $path = 'wikipedale_photo_view';
+                }
+                
+                return $this->redirect($this->generateUrl($path, array(
                     'fileNameP' => $photo->getFileName(),
                     'photoType' => $photo->getPhotoType(),
                     '_format' => $_format
@@ -124,9 +132,27 @@ class PhotoController extends Controller
         
     }
     
+    
+    public function viewAction($fileNameP, $photoType, $_format, Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
+                ->findOneBy(array('file' => $fileNameP.'.'.$photoType));
+        
+        if ($photo === null)
+        {
+            throw $this->createNotFoundException("La photo demandée n'a pas été trouvée");
+        }
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Photo:view.html.twig', array(
+            'photo' => $photo,
+        ));
+    }
+    
     public function updateAction($fileNameP, $photoType, $_format, Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.context')->isGranted('ROLE_NOTATION'))
         {
             $this->get('session')->setFlash('notice', "Vous devez être un administrateur pour modifier une image");
             throw new AccessDeniedException('Vous devez être authentifié pour modifier une image');

@@ -70,6 +70,14 @@ wikipedale_photo_new:
     _format: html
   options:
     expose: true
+
+wikipedale_photo_view:
+  pattern: /photo/view/{fileNameP}.{photoType}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:view }
+  requirements:
+    _format: html
+  options:
+    expose: true
     
 wikipedale_photo_update:
   pattern: /photo/update/{fileNameP}.{photoType}.{_format}
