@@ -1,0 +1,41 @@
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
+
+
+{# This view receive the following arguments : 
+
+ - user : the user watched (class : Progracqteur\WikipedaleBundle\Entity\Management\User)
+ - formGroup : the form to add/remove groups to user (class: Progracqteur\WikipedaleBundle\Form\Management\GroupUser\GroupUserType)
+
+#}
+
+{% block body %}
+<h1>{% trans %}admin.user.details{% endtrans %}</h1>
+
+<p><a href="{{ path('wikipedale_admin_usergroups') }}">Retour à la liste des utilisateurs/groupes</a></p>
+
+<dl>
+    <dt>{% trans %}user.username{% endtrans %}</dt>
+    <dd>{{user.username}}</dd>
+    
+    <dt>{% trans %}user.email{% endtrans %}</dt>
+    <dd>{{user.email}}</dd>
+    
+    <dt>{% trans %}user.creationdate{% endtrans %}</dt>
+    <dd>{{user.creationdate|date("d/m/Y H:i:s")}}</dd>
+    
+    <dt>{% trans %}user.last.login{% endtrans %}</dt>
+    <dd>{{user.lastlogin|date("d/m/Y H:i:s")}}</dd>
+    
+</dl>
+
+<form method="POST" action="{{ path('wikipedale_admin_usergroups_add_or_remove_groups', {id: user.id}) }}" {{ form_enctype(formGroup) }} >
+    {{ form_errors(formGroup) }}
+    
+        
+    {# Please do not remove this line #}{{ form_rest(formGroup) }}
+        
+        <button type="submit">{% trans %}form.button.submit{% endtrans %}</button>
+</form>
+
+
+{% endblock %}

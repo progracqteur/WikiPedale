@@ -72,4 +72,8 @@ class Group extends BaseGroup
     {
         return $this->notation;
     }
+    
+    public function __toString() {
+        return $this->getName().' ("'.$this->getNotation().'" à '.$this->getCity().')';
+    }
 }

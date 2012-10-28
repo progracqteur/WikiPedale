@@ -110,6 +110,20 @@ wikipedale_groups_update:
 wikipedale_notations:
     resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/management_notation.yml"
     prefix:   /admin/notation
+    
+wikipedale_admin_usergroups:
+  pattern: /admin/usergroup
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userList }
+  
+wikipedale_admin_usergroups_update:
+  pattern: /admin/usergroup/user/{id}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userUpdate }
+
+wikipedale_admin_usergroups_add_or_remove_groups:
+  pattern: /admin/usergroup/user/{id}/add_remove_groups
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:addRemoveGroups }
+  requirements:
+    method: POST
 
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production

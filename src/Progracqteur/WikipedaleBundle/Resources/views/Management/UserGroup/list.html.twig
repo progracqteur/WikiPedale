@@ -1,0 +1,105 @@
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
+
+{% block title %}{% trans %}admin.management.user_group{% endtrans %}{% endblock %}
+
+{% block body %}
+
+<h1>{% trans %}admin.user.management{% endtrans %}</h1>
+
+<p>{% transchoice nb with {'%nb%': nb} %}admin.total_of_results{% endtranschoice %}.</p>
+
+<form method="get" action="#">
+    <input type="hidden" value="{{first}}" name="first" />
+    
+    <input type="text" value="{{query}}" name="q" placeholder="{% trans %}admin.usergroup.filter_your_research{% endtrans %}" />
+    
+    <label for="max">{% trans %}admin.number_of_results_per_page{% endtrans %}</label>
+    <select name="max" >
+        {% set max_values = [5, 10, 20, 30, 40, 50] %}
+            {% for value in max_values %}
+            <option value="{{value}}" {% if max == value %} selected="selected" {% endif %}>{{value}}</option>     
+            {% endfor %}
+    </select>
+    
+    <input type="submit" value="{% trans %}form.button.submit{% endtrans %}" />
+</form>
+
+<table>
+    <thead>
+        <th>{% trans %}user.username{% endtrans %}</th>
+        <th>{% trans %}user.email{% endtrans %}</th>
+        <th>{% trans %}user.groups{% endtrans %}</th>
+        <th>&nbsp;</th>
+    </thead>
+    <tbody>
+    {% for user in users %}
+            <tr>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>
+                    {% if user.groups|length > 0 %}
+                        {% for group in user.groups %}
+                            <a href="{{ path('wikipedale_groups_update', {id:group.id})}}">{{group}}</a> |
+                        {% endfor %}
+                    {% else %}
+                            {% trans %}user.is_not_member_of_any_group{% endtrans %}
+                    {% endif %}
+                </td>
+                <td><a href="{{ path('wikipedale_admin_usergroups_update', {id : user.id} ) }}">{% trans %}admin.user.add_remove_groups{% endtrans %}</a></td>
+            </tr>
+    {% endfor %}
+    
+    
+    </tbody>
+        
+
+</table>
+    
+
+<p>{% trans %}pagination.pages{% endtrans %} </p>
+
+<ul>
+  {% if first > 0 %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': 0, 'max': max, 'q': query}) }}">Première page</a></li>
+  {% endif %}
+
+  {% if (first-max) > 0 %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': first-max, 'max': max, 'q': query}) }}">Précédente</a></li>
+  {% endif %}
+        
+  {% if (first-max*3) > 0 %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': first-max*3, 'max': max, 'q': query}) }}">{{this_page-3+1}}</a></li>
+  {% endif %}
+
+  {% if (first-max*2) > 0 %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': first-max*2, 'max': max, 'q': query}) }}">{{this_page-2+1}}</a></li>
+  {% endif %}
+
+  {% if (first-max) > 0 %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': first-max, 'max': max, 'q': query}) }}">{{this_page-1+1}}</a></li>
+  {% endif %}
+
+    <li>{{this_page+1}}</li>
+
+  {% if (first+max) < nb %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': first+max, 'max': max, 'q': query}) }}">{{this_page+1+1}}</a></li>
+  {% endif %}
+  {% if (first+max*2) < nb %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': first+max*2, 'max': max, 'q': query}) }}">{{this_page+2+1}}</a></li>
+  {% endif %}
+  {% if (first+max*3) < nb %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': first+max*3, 'max': max, 'q': query}) }}">{{this_page+3+1}}</a></li>
+  {% endif %}
+
+  {% if (first+max) < nb %}
+    <li><a href="{{path('wikipedale_admin_usergroups',{'first': first+max, 'max': max, 'q': query}) }}">Suivante</a></li>
+  {% endif %}
+
+  {% if  (first+max) > nb %}
+    <li><a href="{{path('wikipedale_admin_usergroups', {'first': nb_pages*max, 'max': max, 'q': query}) }}">Dernière page</a></li>
+  {% endif %}
+
+</ul>
+
+
+{% endblock %}

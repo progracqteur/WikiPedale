@@ -1,15 +1,17 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
+
+
 {% block zoneMenu %}
 
 <h1>{% trans %}admin.you_are_in_admin_zone{% endtrans %}</h1>
-<p>{% trans %}admin.menu{% endtrans %} :</p>
+<p>{% trans %}admin.menu.label{% endtrans %} :</p>
 <ul>
-    <li><a href="{{ path('wikipedale_groups_list')}}">Liste des groupes</a>
-    <li><a href="{{ path('wikipedale_groups_create') }}">Créer un groupe</a></li>
-    <li><a href="{{ path('wikipedale_notations') }}">Vers la liste des notations</a></li>
-    <li><a href="{{ path('wikipedale_notations_new') }}">Creer une notation</a>
-
+    <li><a href="{{ path('wikipedale_groups_list')}}">{% trans %}admin.menu.groups_list{% endtrans %}</a>
+    <li><a href="{{ path('wikipedale_groups_create') }}">{% trans %}admin.menu.group_create{% endtrans %}</a></li>
+    <li><a href="{{ path('wikipedale_notations') }}">{% trans %}admin.menu.notations_list{% endtrans %}</a></li>
+    <li><a href="{{ path('wikipedale_notations_new') }}">{% trans %}admin.menu.notation_create{% endtrans %}</a>
+    <li><a href="{{ path('wikipedale_admin_usergroups') }}">{% trans %}admin.menu.users_groups_list{% endtrans %}</a></li>
 </ul>
 
 {% endblock %}

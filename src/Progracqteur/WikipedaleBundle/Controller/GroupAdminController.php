@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Progracqteur\WikipedaleBundle\Form\Management\GroupType;
 use Symfony\Component\HttpFoundation\Request;
+use Progracqteur\WikipedaleBundle\Form\Management\GroupUser\GroupUserType;
 
 /**
  * Description of GroupAdminController
@@ -116,6 +117,149 @@ class GroupAdminController extends Controller {
             'form' => $form->createView(),
             'title' => 'update'
         ));
+    }
+    
+    
+    public function userListAction(Request $request)
+    {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        $query = $request->get('q', '');
+        $first = (int) $request->get('first', 0);
+        $max = (int) $request->get('max', 20);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if ($query !== '')
+        {
+            $users = $em->createQuery('Select u from ProgracqteurWikipedaleBundle:Management\User u
+                LEFT JOIN u.groups g
+                where u.username LIKE :query 
+                ORDER BY u.username')
+                    ->setParameter('query', '%'.$query.'%')
+                    ->setFirstResult($first)
+                    ->setMaxResults($max)
+                    ->getResult()
+                    ;
+            
+            $nb = $em->createQuery('select count (u.id) from ProgracqteurWikipedaleBundle:Management\User u
+                where u.username LIKE :query')
+                    ->setParameter('query', '%'.$query.'%')
+                    ->getSingleResult()
+                    ;
+            
+        } else {
+            $users = $em->createQuery('Select u from 
+                ProgracqteurWikipedaleBundle:Management\User u
+                LEFT JOIN u.groups g
+                ORDER BY u.username')
+                    ->setFirstResult($first)
+                    ->setMaxResults($max)        
+                    ->getResult()
+                    ;
+            $nb = $em->createQuery('select count (u.id) from ProgracqteurWikipedaleBundle:Management\User u')
+                    ->getSingleResult()
+                    ;
+        }
+        $nb = $nb[1];
+        $a = $nb/$max;
+        $nbPages = round($a, 0);
+        $a = $first/$max;
+        $thisPage = round($a,0);
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Management\UserGroup:list.html.twig',
+                array(
+                    'users' => $users,
+                    'nb' => $nb,
+                    'nb_pages' => $nbPages,
+                    'this_page' => $thisPage,
+                    'query' => $query,
+                    'first' => $first,
+                    'max' => $max
+                    
+                    )
+                
+                );
+        
+                
+        
+    }
+    
+    
+    public function userUpdateAction($id, Request $request)
+    {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
+                ->find($id);
+        
+        if (null === $user)
+        {
+            throw $this->createNotFoundException('user.not.found');
+        }
+        
+        $formGroups = $this->createForm(new GroupUserType(), $user);
+               
+        return $this->render('ProgracqteurWikipedaleBundle:Management\UserGroup:view.html.twig', array(
+                'user' => $user,
+                'formGroup' => $formGroups->createView(),
+            ));
+        
+    }
+    
+    public function addRemoveGroupsAction($id, Request $request)
+    {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
+                ->find($id);
+        
+        if (null === $user)
+        {
+            throw $this->createNotFoundException('user.not.found');
+        }
+        
+        $formGroups = $this->createForm(new GroupUserType(), $user);
+        
+        if ($request->getMethod() == "POST")
+        {
+            $formGroups->bindRequest($request);
+            
+            if ($formGroups->isValid())
+            {
+                $em->flush();
+                $this->get('session')->setFlash('notice', 
+                        'user.groups.added_or_removed');
+                
+                return $this->redirect(
+                        $this->generateUrl('wikipedale_admin_usergroups_update',
+                                array('id' => $user->getId())
+                            )
+                        );
+            }
+            
+        }
+        //if not valid : (not POST or not valid form)
+        $this->get('session')->setFlash('notice',
+                    'user.groups.error_adding_or_removing_group');
+        return $this->redirect(
+                        $this->generateUrl('wikipedale_admin_usergroups_update',
+                                array('id' => $user->getId())
+                            )
+                        );
     }
     
 }

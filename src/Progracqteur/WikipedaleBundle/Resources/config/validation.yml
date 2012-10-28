@@ -53,7 +53,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\Notation:
     id: 
       - Regex:
           pattern: "/^[a-z0-9]/"
-          message: admin.notation.id.must_be_character_alphabeticals
+          message: admin.notation.id.must_be_character_alphabeticals_or_numeric
       - MaxLength: 20
       - MinLength: 3
     name:

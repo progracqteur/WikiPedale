@@ -8,3 +8,25 @@ groups:
 form:
   button:
     submit: Envoi
+admin:
+  you_are_in_admin_zone: Zone administrateur
+  menu:
+    label: Menu administrateur
+    groups_list : Liste des groupes
+    group_create: Créer un groupe
+    notations_list: Liste des notations
+    notation_create: Créer une notation
+    users_groups_list: Gestion des utilisateurs/groupes
+  total_of_results: "{0} La requête ne renvoie aucun résultat | {1} La requête ne renvoie qu'un seul résultat | [2, Inf] La requête renvoie %nb% résultats"
+  number_of_results_per_page : Nombre de résultats par page
+  usergroup:
+    filter_your_research: Filtre de nom d'utilisateur
+  user:
+    add_remove_groups: Modifie les appartenances de l'utilisateur
+    management: Gestion des appartenances utilisateurs
+user:
+  username: Nom d'utilisateur
+  email: Adresse de courriel
+  groups: Groupes
+paginations:
+  pages: Pages
