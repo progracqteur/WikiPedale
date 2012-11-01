@@ -39,6 +39,10 @@ services:
   wsse.security.authentication.listener:
     class: Progracqteur\WikipedaleBundle\Resources\Security\Firewall\WsseListener
     arguments: ['@security.context', '@security.authentication.manager'] 
+    
+  progracqteur.wikipedale.geoservice:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\GeoService
+    arguments: ["@doctrine.orm.entity_manager"]
   
 
     

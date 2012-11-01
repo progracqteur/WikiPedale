@@ -37,3 +37,8 @@ layout:
     register: Créer un compte
     logged_in_as: Bonjour %username%
     profile: Votre profil
+    
+errors:
+  404:
+    place:
+      not_found: L'emplacement demandé n'existe pas.
