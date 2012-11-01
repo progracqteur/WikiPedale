@@ -30,3 +30,10 @@ user:
   groups: Groupes
 paginations:
   pages: Pages
+
+layout:
+    logout: Déconnexion
+    login: Connexion
+    register: Créer un compte
+    logged_in_as: Bonjour %username%
+    profile: Votre profil

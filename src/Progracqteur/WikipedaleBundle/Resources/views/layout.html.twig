@@ -41,16 +41,19 @@
                 <span id="VilleActuelle">{{app.session.get('city').name}} <a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a> | </span>
             {% endif %}
             
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'changes') }} |
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'changes') }}
-                </a>
+            {% if app.user %}
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'messages') }}
             {% else %}
-               <!-- <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'changes') }}</a> -->
-                <a class ="connexion" href="#login_user_form_div">{{ 'layout.login'|trans({}, 'changes') }}</a>
-                &nbsp;
-                <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'changes') }}</a>
+               <!-- <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'messages') }}</a> -->
+                <a class ="connexion" href="#login_user_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
+            {% endif %}
+                &nbsp;|&nbsp;
+            {% if app.user %}
+                <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.profile'|trans({}, 'messages') }}</a>
+                &nbsp;|&nbsp;
+                <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'messages') }}</a>
+            {% else %}
+                <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
             {% endif %}
         </div>
             
