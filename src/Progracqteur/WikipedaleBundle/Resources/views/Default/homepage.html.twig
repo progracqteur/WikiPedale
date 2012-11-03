@@ -2,17 +2,6 @@
 
 {% block body %}
 
-{% if (app.session.get('city') ) %}
-<script language="javascript"> 
-  <!--
-      $(document).ready(function(){
-          homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}});
-	  });
-  // -->
-</script>
-
-
-
 <script>
     jQuery('a.connexion').colorbox({
         inline:true,
@@ -20,11 +9,6 @@
         height:"300px",
         onComplete: function(){ $("#i_username").focus(); }
       });
-
-    $(document).ready(function(){
-        $(".AjoutPoint").colorbox({inline:true, width:"50%"});
-        $(".About").colorbox({inline:true, width:"50%"});
-    });
 </script>
 
 <!-- Écran de connexion -->
@@ -42,6 +26,25 @@
     </form>
   </div>
 </div>
+
+{% if (app.session.get('city') ) %}
+<script language="javascript"> 
+  <!--
+      $(document).ready(function(){
+          homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}});
+	  });
+  // -->
+</script>
+
+
+
+
+<script>
+    $(document).ready(function(){
+        $(".AjoutPoint").colorbox({inline:true, width:"50%"});
+        $(".About").colorbox({inline:true, width:"50%"});
+    });
+</script>
 
 <div id="MapAndEditorContener">
   <div id="map"  class="smallmap"></div>
