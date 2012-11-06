@@ -10,20 +10,6 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - MaxLength: {limit: 10000, message: La description ne peut pas être plus longue que 1000 caractères}
     geom:
       - NotNull: {message: Indiquez un emplacement géographique}
-    statusBicycle:
-      - Type:
-          type: integer
-          message: La valeur {{value}} n'est pas un type valide {{type}}
-      - Min: {limit: 0, message: statusBicycle doit être supérieur à 0}
-      - Max: {limit: 2, message: statusBicycle doit être inférieur à 2}
-      - Max: {limit: 0, message: statusBicycle doit être égal à 0 lors de la création, groups: [creation]}
-    statusCity:
-      - Type:
-          type: integer
-          message: La valeur {{value}} n'est pas un type valide {{type}}
-      - Min: {limit: 0, message: statusBicycle doit être supérieur à 0}
-      - Max: {limit: 2, message: statusBicycle doit être inférieur à 2}
-      - Max: {limit: 0, message: statusBicycle doit être égal à 0 lors de la création, groups: [creation]}
   constraints:
     - Callback:
         methods: [isStatusesValid, hasOnlyOneChange]
