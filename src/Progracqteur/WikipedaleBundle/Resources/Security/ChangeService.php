@@ -4,8 +4,9 @@ namespace Progracqteur\WikipedaleBundle\Resources\Security;
 
 use Symfony\Component\HttpFoundation\Session;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
-
+use Doctrine\ORM\EntityManager;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Resources\Services\GeoService;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
@@ -41,9 +42,23 @@ class ChangeService {
      */
     private $securityContext;
     
-    public function __construct($securityContext)
+    /**
+     *
+     * @var Doctrine\ORM\EntityManager 
+     */
+    private $em;
+    
+    /**
+     *
+     * @var Progracqteur\WikipedaleBundle\Resources\Services\GeoService 
+     */
+    private $geoService;
+    
+    public function __construct($securityContext, EntityManager $em, GeoService $geoService)
     {
         $this->securityContext = $securityContext;
+        $this->em = $em;
+        $this->geoService = $geoService;
     }
     
     public function checkChangesAreAllowed(ChangeableInterface $object) 
@@ -92,6 +107,7 @@ class ChangeService {
                 case self::PLACE_CREATOR : 
                     throw ChangeException::param('creator');
                     break;
+                //This case is deprecated
                 case self::PLACE_STATUS_BICYCLE :
                     if ( $this->securityContext->isGranted(User::ROLE_STATUS_BICYCLE)
                             )
@@ -101,6 +117,7 @@ class ChangeService {
                         throw ChangeException::param('statusBicycle');
                     }
                     break;
+                // this case is deprecated
                 case self::PLACE_STATUS_CITY :
                     if ( $this->securityContext->isGranted(User::ROLE_STATUS_CITY)
                             )
@@ -121,11 +138,130 @@ class ChangeService {
                  case self::PLACE_DESCRIPTION :
                  case self::PLACE_GEOM:
                  case self::PLACE_STATUS:
-                     if (! $author->isRegistered())
+                     
+                     
+                     if ($object instanceof Place)
                      {
-                         throw ChangeException::param('details');
+                        $geomString = $this->geoService->toString($object->getGeom());
+                     } else 
+                     {
+                         throw new \Exception('Unexpected object : expecting Place, receiving '
+                                 .get_class($object));
                      }
-                     continue;
+                     
+                     $dql = "select g from ProgracqteurWikipedaleBundle:Management\Group g 
+                         JOIN g.city c JOIN g.notation n 
+                         WHERE 
+                                EXISTS (select h from ProgracqteurWikipedaleBundle:Management\User u
+                                           JOIN u.groups h
+                                           WHERE u = :author)
+                            AND
+                                n.id like :notationId 
+                            AND
+                                COVERS(c.polygon, :geomString) = true
+                            ";
+                     
+                     $q = $this->em->createQuery($dql);
+                     $q->setParameters(array(
+                         'geomString' => $geomString,
+                         'author' => $author,
+                         'notationId' => $change->getNewValue()->getType()
+                     ));
+                     
+                     $groups = $q->getResult();
+                     
+                     if (count($groups) === 0)
+                     {
+                         throw ChangeException::param('Status '.$change->getnewValue()->getType().' no rights ');
+                     }
+                     
+                     //filter by role
+                     $groups_notation = array();
+                     foreach ($groups as $group)
+                     {
+                         if ($group->hasRole('ROLE_NOTATION'))
+                         {
+                             $groups_notation[] = $group;
+                         }
+                     }
+                     
+                     if (count($groups_notation) > 0)
+                     {
+                         continue;
+                     } else 
+                     {
+                         throw ChangeException::param('Status '.$change->getnewValue()->getType().' no rights ');
+                     }
+                      
+                     /* old implementation
+                     
+                     $groups = $author->getGroups();
+                     
+                     //filter by role
+                     $groups_notation = array();
+                     foreach($groups as $group)
+                     {
+                         if ($group->hasRole('ROLE_NOTATION'))
+                         {
+                             $groups_notation[] = $group;
+                         }
+                     }
+                     
+                     //filter by notation
+                     $groups_matched_notation = array();
+                     foreach($groups_notation as $group)
+                     {
+                         if ($change->getNewValue()->getType() === $group->getNotation()->getId())
+                         {
+                             $groups_matched_notation[] = $group;
+                         }
+                     }
+                     
+                     //if there isn't any group any more, we may stop here:
+                     if (count($groups_matched_notation) === 0)
+                     {
+                         throw ChangeException::param('Status '.$change->getnewValue()->getType());
+                     }
+                     
+                     //filter by geography
+                     if ($object instanceof Place)
+                     {
+                         $q = $this->em->createQuery();
+                         
+                         $geomString = $this->geoService->toString($object->getGeom());
+                         
+                         $dql = "SELECT count(g.id) from ProgracqteurWikipedaleBundle:Management\Group g
+                                JOIN g.city c
+                             WHERE COVERS(c.polygon, :placegeom) = true and (";
+                         $q->setParameter('placegeom', $geomString);
+                         
+                         $i = 0;
+                         foreach ($groups_matched_notation as $group)
+                         {
+                             if ($i > 0) 
+                             {
+                                 $dql .= ' OR ';
+                             }
+                             $dql .= "g = :group_$i";
+                             $q->setParameter("group_$i", $group);
+                         }
+                         
+                         $dql .= ")";
+                         
+                         $q->setDQL($dql);
+                         
+                         
+                         $r = $q->getScalarResult();
+                         
+                         
+                         if ($r[0] > 0)
+                         {
+                             continue;
+                         } else {
+                             throw ChangeException::param('Status '.$a['type'].' no rights ');
+                         }
+                     }*/
+                     
                      break;
                  case self::PLACE_ADD_PHOTO:
                      //l'ajout de photo est réglé dans le controleur PhotoController

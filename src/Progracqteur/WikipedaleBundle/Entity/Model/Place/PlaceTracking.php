@@ -12,7 +12,10 @@ use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
 /**
- * Description of PlaceTracking
+ * PlaceTracking store changes on Place instances.
+ * 
+ * PlaceTracking is iterable: every element of an iteration is an instance of 
+ * PlaceChange
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
@@ -120,6 +123,10 @@ class PlaceTracking implements ChangesetInterface {
         
     }
     
+    /**
+     * return true if the changeset concern a creation of a place.
+     * @return boolean
+     */
     public function isCreation() {
         return $this->isCreation;
     }
@@ -184,6 +191,10 @@ class PlaceTracking implements ChangesetInterface {
     // fonctions pour l'implémentation de Iterable
     private $intTypes = 0;
     
+    /**
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceChange
+     */
     public function current() {
         $prop = $this->types[$this->intTypes];
         $val = $this->values[$this->intTypes];
@@ -212,6 +223,10 @@ class PlaceTracking implements ChangesetInterface {
         return isset($this->types[$this->intTypes]);
     }
     
+    /**
+     * this function prepare the class for iteration. It transforms the hash
+     * into PlaceChanges elements, ready to be iterated one by one.
+     */
     private function prepareIterationFromHash()
     {
         $a = $this->details->changes->toArray();

@@ -1,4 +1,4 @@
-   
+  
 wikipedale_homepage:
   pattern: /
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }

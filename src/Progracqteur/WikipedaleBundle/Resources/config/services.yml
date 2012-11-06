@@ -17,6 +17,8 @@ services:
     class: %progracqteur_wikipedale.security.controlList.class%
     arguments: 
       securityContext: '@security.context'
+      em: '@doctrine.orm.entity_manager'
+      geoService: '@progracqteur.wikipedale.geoservice'
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
   progracqteurWikipedale.form.type.photo:
