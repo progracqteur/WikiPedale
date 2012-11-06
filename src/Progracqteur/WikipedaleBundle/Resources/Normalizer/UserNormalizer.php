@@ -37,17 +37,15 @@ class UserNormalizer implements NormalizerInterface
                 $u = $this->service->getPlaceNormalizer()->getCurrentPlace()->getCreator();
                 if ($u === null) {
                     $u = new UnregisteredUser();
+                    if (isset($data['label']))
+                        $u->setLabel($data['label']);
+
+                    if (isset($data['email']))
+                        $u->setEmail($data['email']);
+
+                    $u->setIp($this->service->getRequest()->getClientIp());
                 }
 
-                if (isset($data['label']))
-                    $u->setLabel($data['label']);
-
-                if (isset($data['email']))
-                    $u->setEmail($data['email']);
-                
-                if (isset($data['ip']))
-                    $u->setIp($data['ip']);
-                
             } else {
 
                 $u = $this->service->getManager()

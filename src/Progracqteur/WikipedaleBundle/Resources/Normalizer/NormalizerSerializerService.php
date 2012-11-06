@@ -165,6 +165,11 @@ class NormalizerSerializerService {
         return $this->container->get('doctrine')->getEntityManager();
     }
     
+    public function getRequest()
+    {
+        return $this->container->get('request');
+    }
+    
     /**
      *
      * @return null (?)

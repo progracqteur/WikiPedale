@@ -1,10 +1,8 @@
 Progracqteur\WikipedaleBundle\Entity\Model\Place:
   getters:
     creator: 
-      - NotNull: {message: La creator ne peut être nulle}
-      - Type:
-          type: object
-          message: Le créateur doit être un objet
+      - NotNull: {message: La creator ne peut être nul}
+      - Valid: ~
   properties:
     description:
       - MaxLength: {limit: 10000, message: La description ne peut pas être plus longue que 1000 caractères}
@@ -53,3 +51,28 @@ Progracqteur\WikipedaleBundle\Entity\Management\Group:
       - NotBlank: ~
       - MinLength: 5
       - MaxLength: 120
+      
+Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
+  properties:
+    ip: 
+      - Ip:
+          version: all
+      - NotBlank: {message: user.ip.not_blank}
+      - NotNull: {message: user.ip.not_null}
+    username:
+      - NotNull: {message: user.validation.label.not_null}
+      - NotBlank: {message: user.validation.label.not_blank}
+      - MinLength:
+          limit: 3
+          message: user.validation.label.more_than_three_letters
+      - MaxLength:
+          limit: 50
+          message: user.validation.label.maximum_50_letters
+    email:
+      - NotNull: {message: user.validation.email.not_null}
+      - NotBlank: {message: user.validation.email.not_blank}
+      - Email: 
+          message: user.validation.email.not_valid_or_domain_not_exist
+          checkMX: true
+      
+    
