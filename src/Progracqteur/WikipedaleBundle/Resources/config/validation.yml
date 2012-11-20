@@ -5,7 +5,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - Valid: ~
   properties:
     description:
-      - MaxLength: {limit: 10000, message: La description ne peut pas être plus longue que 1000 caractères}
+      - MaxLength: {limit: 1000, message: La description ne peut pas être plus longue que 1000 caractères}
     geom:
       - NotNull: {message: Indiquez un emplacement géographique}
   constraints:
