@@ -14,6 +14,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 use Symfony\Component\HttpFoundation\File\File;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
 
 /**
  * Description of ImportCommand
@@ -81,8 +82,28 @@ class ImportCommand extends ContainerAwareCommand {
             $json_point = $nsql->getSingleScalarResult();
             
             $point = Point::fromGeoJson($json_point);
-            
             $p->setGeom($point);
+            
+            $status_new_value = null;
+            switch($old_place->couleur)
+            {
+                case 'red' : $status_new_value = 1;
+                    break;
+                case 'green' : $status_new_value = 3;
+                    break;
+                case 'white' : $status_new_value = null;
+                    break;
+                case 'yellow' : $status_new_value = 2;
+                    break;
+            }
+            
+            if ($status_new_value !== null)
+            {
+                $status = new PlaceStatus();
+                $status->setType('gracq')->setValue($status_new_value);
+                $p->addStatus($status);
+            }
+           
             
             $errors = $this->getContainer()->get('validator')->validate($p);
             
