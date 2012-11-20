@@ -16,7 +16,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     geom:
       type: point
     description:
-      type: string
+      type: text
     createDate:
       type: datetime
     nbVote:
