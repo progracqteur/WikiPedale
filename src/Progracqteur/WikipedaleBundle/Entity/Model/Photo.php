@@ -217,6 +217,11 @@ class Photo
             return;
         }
         
+        if ($this->photoService === null)
+        {
+            throw new \Exception('The photo you want to flush does not have any reference to photoService. Please create Photo instance with photoService#createPhoto() function.');
+        }
+        
         $image = $this->photoService->toImage($this->fileObjectTemp);
         $image = $this->photoService->resizeToMaximumSize($image, self::MAXIMUM_SIZE);
         
