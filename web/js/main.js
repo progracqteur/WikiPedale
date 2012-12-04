@@ -111,6 +111,7 @@ function catchLoginForm(){
                 alert(JSON.stringify(output_json.results[0]));
                 updateUserInfo(output_json.results[0]);
                 jQuery('a.connexion').colorbox.close('');
+                jQuery('a.connexion').text('Bonjour');
             }
             else { 
                 alert(output_json[0].message);
