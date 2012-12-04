@@ -366,6 +366,11 @@ class DebugController extends Controller {
   {
       return $this->render("ProgracqteurWikipedaleBundle:Dev:send_request_wsse.html.twig");
   }
+  
+  public function devSendTestTokenAction()
+  {
+      return $this->render("ProgracqteurWikipedaleBundle:Dev:send_token_form.html.twig");
+  }
     
     
 }
