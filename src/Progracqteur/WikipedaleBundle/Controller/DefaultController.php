@@ -5,7 +5,10 @@ namespace Progracqteur\WikipedaleBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-
+/**
+ * 
+ * @author Julien Fastré <julien arobase fastre point info>
+ */
 class DefaultController extends Controller
 {
     

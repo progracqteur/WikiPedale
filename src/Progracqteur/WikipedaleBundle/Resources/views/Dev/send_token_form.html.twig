@@ -1,0 +1,16 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block body %}
+
+<form method="post" action="{{ path('wikipedale_token_request_new', {_format:'json'})}}">
+
+    <input type="text" placeholder="token à tester" name="token" />
+
+    <br/><br/>
+    
+    <input type="submit" value="Envoi">
+</form>
+
+
+
+{% endblock %}

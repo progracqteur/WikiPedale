@@ -92,6 +92,14 @@ wikipedale_authenticate:
   options:
     expose: true
     
+wikipedale_token_request_new:
+  pattern: /token/new.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Token:getNewTokens}
+  requirements:
+    _format: json
+  options:
+    expose: true
+    
 wikipedale_history_place_by_city:
   pattern: /history/places/bycity/{citySlug}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:PlaceTracking:byCity }
@@ -154,3 +162,7 @@ debug_two:
 dev_send_request:
   pattern: /dev/send_place
   defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:devSendPlace }
+  
+dev_test_token:
+  pattern: /dev/test_token
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:devSendTestToken}

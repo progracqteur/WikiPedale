@@ -45,9 +45,14 @@ services:
   progracqteur.wikipedale.geoservice:
     class: Progracqteur\WikipedaleBundle\Resources\Services\GeoService
     arguments: ["@doctrine.orm.entity_manager"]
+    
+  progracqteur.wikipedale.token_provider:
+    class: Progracqteur\WikipedaleBundle\Resources\Security\Csrf\TokenService
+    arguments:
+      csrf_provider: "@session"
+      salt: framework.secret
   
 
-    
 #    progracqteur_wikipedale.example:
 #        class: %progracqteur_wikipedale.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
