@@ -14,6 +14,8 @@ class WsseUserToken extends AbstractToken {
     public $created;
     public $digest;
     public $nonce;
+    
+    private $is_fully_authenticated = false;
 
     public function __construct(array $roles = array())
     {
@@ -26,6 +28,16 @@ class WsseUserToken extends AbstractToken {
     public function getCredentials()
     {
         return '';
+    }
+    
+    public function setFullyAuthenticated()
+    {
+        $this->is_fully_authenticated = true;
+    }
+    
+    public function isFullyAuthenticated()
+    {
+        return $this->is_fully_authenticated;
     }
     
     

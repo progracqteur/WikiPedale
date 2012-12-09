@@ -16,6 +16,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
 
 /**
  * Description of PlaceController
@@ -160,6 +161,45 @@ class PlaceController extends Controller {
         if ($request->getMethod() != 'POST')
         {
             throw new \Exception("Only post method accepted");
+        }
+        
+        //check tokens
+        $token = $request->attributes->get('token', null);
+        if ($token === null)
+        {
+            //if WSSE authentication, does not need token
+            if(! 
+                    (
+                        $this->get('security.context')->getToken() instanceof WsseUserToken
+                        AND 
+                        $this->get('security.context')->getToken()->isFullyAuthenticated()
+                    )
+              )
+            {
+                /*TODO: when the token will be enabled into javascript, if there
+                 * is no token, the script must reject request without tokens
+                 */
+                $this->get('logger')->warn('Wikipedale:PlaceController:ChangeAction change place without token');
+                
+                //TODO: remove debug code below :
+                if ($this->get('security.context')->getToken() instanceof WsseUserToken)
+                {
+                    if (!$this->get('security.context')->getToken()->isFullyAuthenticated())
+                    {
+                        $this->get('logger')->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
+                    }
+                }
+                
+            }
+                
+        } else {
+            if (false === $this->get('progracqteur.wikipedale.token_provider')->isCsrfTokenValid($token))
+            {
+                $this->get('logger')->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
+                $response = new Response('invalid token provided');
+                $response->setStatusCode(400);
+                return $response;
+            }
         }
         
         $serializedJson = $request->get('entity', null);
