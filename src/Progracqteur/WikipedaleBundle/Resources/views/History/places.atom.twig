@@ -27,9 +27,12 @@
        <id>tag:wikipedale.org,{{track.date|date("Y-m-d")}}:/{{track.id}}</id>
        <link href="{{ url('wikipedale_homepage', {id : track.place.id}) }}" title="Voir l'emplacement dans sa forme actuelle" />
        <updated>{{ track.date|date("Y-m-d\\TH:i:sP" ) }}</updated>
+       {# every track should have an author... FIXME #}
+       {% if track.author.label is defined %}
        <author>
            <name>{{track.author.label}}</name>
        </author>
+       {% endif %}
        <georss:point>{{ track.place.geom.lat }} {{track.place.geom.lon}}</georss:point>
        <content type="html">{{ toTextService.toText(track)}}</content>
      </entry>
