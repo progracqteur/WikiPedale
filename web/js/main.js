@@ -493,6 +493,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
+    alert(JSON.stringify(placeData));
     last_place_selected = placeData.id;
     $('.span_id').each(function() { this.innerHTML = placeData.id; });
     $('.span_nbComm').each(function() { this.innerHTML = placeData.nbComm; });
