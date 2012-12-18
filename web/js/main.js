@@ -108,7 +108,7 @@ function catchLoginForm(){
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                alert(JSON.stringify(output_json.results[0]));
+                console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
                 updateUserInfo(output_json.results[0]);
                 jQuery('a.connexion').colorbox.close('');
                 jQuery('a.connexion').text('Bonjour');
@@ -216,20 +216,6 @@ function catchForm(formName) {
     });
 }
 
-
-function FillNewPlaceFormForRegisterUser(){
-    /**
-    * If the user is register, fill the form with id 'new_placeForm' with the email and the label ;
-    * Otherwise do nothing.
-    */
-    if(userIsRegister()) {
-        document.getElementById("new_placeForm").user_label.value = user.label;
-        document.getElementById("new_placeForm").user_label.setAttribute("readonly","readonly");
-        document.getElementById("new_placeForm").email.value = user.email;
-        document.getElementById("new_placeForm").email.setAttribute("readonly","readonly");
-    }
-}
-
 function clearNewPlaceForm() {
     /** 
     * Clear the data entered in the form with id 'new_placeForm'
@@ -288,8 +274,11 @@ function changingModeFunction() {
             });
 
             if(userIsRegister()) {
-                FillNewPlaceFormForRegisterUser();
+                document.getElementById("div_new_place_form_user_mail").style.display = 'none';
                 }
+            else {
+                document.getElementById("div_new_place_form_user_mail").style.display = 'block';
+            }
             document.getElementById("div_signaler").style.display = "block";
             document.getElementById("div_placeDetails").style.display = "none";
             document.getElementById("div_placeEdit").style.display = "none";
@@ -494,7 +483,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
-    alert(JSON.stringify(placeData));
+    console.log("place info:" + JSON.stringify(placeData));
     last_place_selected = placeData.id;
     $('.span_id').each(function() { this.innerHTML = placeData.id; });
     $('.span_nbComm').each(function() { this.innerHTML = placeData.nbComm; });
