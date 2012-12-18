@@ -267,6 +267,7 @@ function changingModeFunction() {
             }
 
         map.events.register("click", map, function(e) {
+            update_informer_map(); //le croix rouge dans le formulaire nouveau point devient verte
             var position = map.getLonLatFromPixel(e.xy);
             $("input[name=lon]").val(position.lon);
             $("input[name=lat]").val(position.lat);

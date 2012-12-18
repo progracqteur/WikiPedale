@@ -59,25 +59,25 @@
 
     <div id="div_signaler">
       <span class="instructions">
-        <img src="../img/form_not_ok.jpg" id="form_indicator_map" alt="is the field ok" height="20" width="20">
+        <img src="../img/form_not_ok.jpg" id="form_informer_map" alt="is the field ok" height="20" width="20">
         {{ 'instructions.add_point1'|trans({}, 'changes') }}
       </span>
 
       <span class="instructions">
-      <img src="../img/form_not_ok.jpg" id="form_indicator_general_text" alt="is the field ok" height="20" width="20">
+      <img src="../img/form_not_ok.jpg" id="form_informer_general_text" alt="is the field ok" height="20" width="20">
       {{ 'instructions.add_point2'|trans({}, 'changes') }}</span>
       
       <form method="post" action="javascript:catchForm('#new_placeForm')" id="new_placeForm">
         <input type="hidden"  name="lon" readonly="true" />
         <input  type="hidden" name="lat" readonly="true" />
-        <img src="../img/form_not_ok.jpg" id="form_indicator_lieu" alt="is the field ok" height="15" width="15">
-           <input name="lieu" id="l" maxlength="35" placeholder="{{ 'add_black_points.location'|trans({}, 'changes') }}" />
-        <img src="../img/form_not_ok.jpg" id="form_indicator_description" alt="is the field ok" height="15" width="15">
-           <textarea name="description" id="d" maxlength="150" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}"></textarea><br />
-        <img src="../img/form_not_ok.jpg" id="form_indicator_user_label" alt="is the field ok" height="15" width="15">
-           <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" />
-        <img src="../img/form_not_ok.jpg" id="form_indicator_email" alt="is the field ok" height="15" width="15">
-           <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" />
+        <img src="../img/form_not_ok.jpg" id="form_informer_lieu" alt="is the field ok" height="15" width="15">
+           <input name="lieu" id="l" maxlength="35" placeholder="{{ 'add_black_points.location'|trans({}, 'changes') }}" onchange="javascript:update_informer_for_form()" />
+        <img src="../img/form_not_ok.jpg" id="form_informer_description" alt="is the field ok" height="15" width="15">
+           <textarea name="description" id="d" maxlength="150" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}" onchange="javascript:update_informer_for_form()"></textarea><br />
+        <img src="../img/form_not_ok.jpg" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
+           <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" onchange="javascript:update_informer_for_form()" />
+        <img src="../img/form_not_ok.jpg" id="form_informer_email" alt="is the field ok" height="15" width="15">
+           <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" onchange="javascript:update_informer_for_form()" />
         <input type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
       </form>
       <br />
