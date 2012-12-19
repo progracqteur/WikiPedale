@@ -21,7 +21,7 @@ function update_informer_for_form() {
 		document.getElementById('form_informer_description').src="../img/form_not_ok.jpg";
 		all_field_filled = false;
 	}
-	if (n_value) {
+	if (n_value || userIsRegister()) {
 		document.getElementById('form_informer_user_label').src="../img/form_ok.jpg";
 	}
 	else
@@ -29,7 +29,7 @@ function update_informer_for_form() {
 		document.getElementById('form_informer_user_label').src="../img/form_not_ok.jpg";
 		all_field_filled = false;
 	}
-	if (e_value) {
+	if (e_value || userIsRegister()) {
 		document.getElementById('form_informer_email').src="../img/form_ok.jpg";
 	}
 	else
