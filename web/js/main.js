@@ -98,10 +98,6 @@ function updatePageWhenLogged(){
     document.getElementById("menu_register").style.display = 'none';
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a9dfb00b32c2572837fa78b4d8bea615463b535
 }
 
 function catchLoginForm(){
