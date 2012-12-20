@@ -90,6 +90,17 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
         + '}';
 }
 
+function updatePageWhenLogged(){
+    document.getElementById("menu_user_name").style.display = 'inline';
+    document.getElementById("menu_connexion").style.display = 'none';
+    document.getElementById("menu_profile").style.display = 'inline';
+    document.getElementById("menu_logout").style.display = 'inline';
+    document.getElementById("menu_register").style.display = 'none';
+    jQuery('a.connexion').colorbox.close('');
+    jQuery('.username').text(user.label);
+
+}
+
 function catchLoginForm(){
     var user_data = {};
     $.map($('#loginForm').serializeArray(), function(n, i){
@@ -110,9 +121,7 @@ function catchLoginForm(){
             if(! output_json.query.error) { 
                 console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
                 updateUserInfo(output_json.results[0]);
-                document.getElementById("div_new_place_form_user_mail").style.display = 'none';
-                jQuery('a.connexion').colorbox.close('');
-                jQuery('a.connexion').text('Bonjour');
+                updatePageWhenLogged()
             }
             else { 
                 alert(output_json[0].message);
