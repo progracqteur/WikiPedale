@@ -110,6 +110,7 @@ function catchLoginForm(){
             if(! output_json.query.error) { 
                 console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
                 updateUserInfo(output_json.results[0]);
+                document.getElementById("div_new_place_form_user_mail").style.display = 'none';
                 jQuery('a.connexion').colorbox.close('');
                 jQuery('a.connexion').text('Bonjour');
             }
