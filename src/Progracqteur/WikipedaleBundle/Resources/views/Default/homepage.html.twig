@@ -1,5 +1,16 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
+
+{% block javascript %}
+    <script  type="text/javascript">
+       {% if goToPlaceId is defined %}
+    var goToPlaceId = {{goToPlaceId}};
+       {% else %}
+    var goToPlaceId = null;
+       {% endif %}
+    </script>
+{% endblock %}
+
 {% block body %}
 
 <script>

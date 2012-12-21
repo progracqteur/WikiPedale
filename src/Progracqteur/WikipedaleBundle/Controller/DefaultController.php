@@ -68,10 +68,20 @@ class DefaultController extends Controller
                 $mainCities[] = $c;
             }
         }
+        
+        $paramsToView = array(
+                    'mainCities' => $mainCities, 
+                    'cities' => $cities
+                );
 
-
+        if ($id != null)
+        {
+            $paramsToView['goToPlaceId'] = $id;
+        }
         
         
-        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', array('mainCities' => $mainCities, 'cities' => $cities));
+        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', 
+                $paramsToView
+            );
     }
 }
