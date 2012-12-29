@@ -1,48 +1,84 @@
-function update_informer_for_form() {
-	var l_value = jQuery('#l').attr('value');
-	var d_value = jQuery('#d').attr('value');
-	var n_value = jQuery('#n').attr('value');
-	var e_value = jQuery('#e').attr('value');
-	var all_field_filled = true;
+var error_for_l_field = false;
+var error_for_d_field = false;
+var error_for_n_field = false;
+var error_for_e_field = false;
+var change_informer_fields = false;
 
+function reset_informer(){
+	error_for_l_field = false;
+	error_for_d_field = false;
+	error_for_n_field = false;
+	error_for_e_field = false;
+	change_informer_fields = false;
+}
+
+function update_l_informer_for_form() {
+	var l_value = jQuery('#l').attr('value');
 	if (l_value) {
 		document.getElementById('form_informer_lieu').src="../img/form_ok.jpg";
+		error_for_l_field = false;
 	}
 	else
 	{
 		document.getElementById('form_informer_lieu').src="../img/form_not_ok.jpg";
-		all_field_filled = false;
+		error_for_l_field = true;
 	}
-	if (d_value) {
+	update_informer_fields()
+}
+
+function update_d_informer_for_form() {
+	var l_value = jQuery('#d').attr('value');
+	if (l_value) {
 		document.getElementById('form_informer_description').src="../img/form_ok.jpg";
+		error_for_d_field = false;
 	}
 	else
 	{
 		document.getElementById('form_informer_description').src="../img/form_not_ok.jpg";
-		all_field_filled = false;
+		error_for_d_field = true;
 	}
-	if (n_value || userIsRegister()) {
+	update_informer_fields()
+}
+
+function update_n_informer_for_form() {
+	var l_value = jQuery('#n').attr('value');
+	if (l_value) {
 		document.getElementById('form_informer_user_label').src="../img/form_ok.jpg";
+		error_for_n_field = false;
 	}
 	else
 	{
 		document.getElementById('form_informer_user_label').src="../img/form_not_ok.jpg";
-		all_field_filled = false;
+		error_for_n_field = true;
 	}
-	if (e_value || userIsRegister()) {
+	update_informer_fields()
+}
+
+function update_e_informer_for_form() {
+	var l_value = jQuery('#e').attr('value');
+	if (l_value) {
 		document.getElementById('form_informer_email').src="../img/form_ok.jpg";
+		error_for_e_field = false;
 	}
 	else
 	{
 		document.getElementById('form_informer_email').src="../img/form_not_ok.jpg";
-		all_field_filled = false;
+		error_for_e_field = true;
 	}
-	if (all_field_filled) {
-		document.getElementById('form_informer_general_text').src="../img/form_ok.jpg";
+	update_informer_fields()
+}
+
+function update_informer_fields(){
+	if (error_for_l_field || error_for_d_field || error_for_n_field || error_for_e_field) {
+		document.getElementById('form_informer_general_text').src="../img/form_not_ok.jpg";
+		change_informer_fields = true;
 	}
 	else
 	{
-		document.getElementById('form_informer_general_text').src="../img/form_not_ok.jpg";
+		if (change_informer_fields)
+		{
+			document.getElementById('form_informer_general_text').src="../img/form_ok.jpg";
+		}
 	}
 }
 
