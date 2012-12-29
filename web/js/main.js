@@ -123,16 +123,20 @@ function catchLoginForm(){
                 updatePageWhenLogged()
             }
             else { 
-                alert(output_json[0].message);
-                alert('ERREUR_1'); }
+                $('#login_message').text(output_json[0].message);
+                //document.getElementById("login_message").
+                }
         },
         error: function(output_json) {
+            $('#login_message').text(output_json.responseText);
+            /*
             alert(JSON.stringify(output_json));
             alert(output_json.responseText);
             alert(JSON.parse(output_json.responseText)[0]);
             alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
             alert((output_json.responseText[0]).message);
             alert('ERREUR'); 
+            */
         }
     });
 }
