@@ -87,9 +87,9 @@
            <textarea name="description" id="d" maxlength="150" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}" onblur="javascript:update_d_informer_for_form()"></textarea><br />
         <div id="div_new_place_form_user_mail">
         <img src="../img/form_rond.jpg" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
-           <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" onchange="javascript:update_n_informer_for_form()" />
+           <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" onblur="javascript:update_n_informer_for_form()" />
         <img src="../img/form_rond.jpg" id="form_informer_email" alt="is the field ok" height="15" width="15">
-           <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" onchange="javascript:update_e_informer_for_form()" />
+           <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" onblur="javascript:update_e_informer_for_form()" />
         </div>
         <input type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
       </form>
