@@ -124,11 +124,13 @@ function catchLoginForm(){
             }
             else { 
                 $('#login_message').text(output_json[0].message);
+                $('#login_message').addClass('errorMessage');
                 //document.getElementById("login_message").
                 }
         },
         error: function(output_json) {
             $('#login_message').text(output_json.responseText);
+            $('#login_message').addClass('errorMessage');
             /*
             alert(JSON.stringify(output_json));
             alert(output_json.responseText);
@@ -154,14 +156,32 @@ function catchForm(formName) {
     });
 
     error_messages = "";
-    if(place_data['description'] == "")
-        { error_messages = error_messages + "Veuillez remplir la description. "  }
-    if(place_data['lieu'] == "")
-        { error_messages = error_messages + "Veuillez indiquer l'adresse. "  }
-    if( ! editForm )
+    if(place_data['description'] == "") { 
+        error_messages = error_messages + "Veuillez remplir la description. ";
+        update_d_informer_for_form();
+        }
+    if(place_data['lieu'] == "") {
+        error_messages = error_messages + "Veuillez indiquer l'adresse. ";
+        update_l_informer_for_form();
+    }
+    if(! userIsRegister())
     {
-        if(place_data['lon'] == "" || place_data['lat'] == "")
-            { error_messages = error_messages + "Veuillez indiquer où se trouve le point noir en cliquant sur la carte. "  }
+        if(place_data['user_label'] == "") { 
+            error_messages = error_messages + "Veuillez donner votre nom. ";
+            update_n_informer_for_form();
+            }
+    if(! is_mail_valid(place_data['email'])) {
+        error_messages = error_messages + "Veuillez indiquer une adresse email valide. ";
+        update_e_informer_for_form();
+    }
+
+    }
+    if( ! editForm)
+    {
+        if(place_data['lon'] == "" || place_data['lat'] == "") {
+            error_messages = error_messages + "Veuillez indiquer où se trouve le point noir en cliquant sur la carte. ";
+            update_informer_map_not_ok();
+            }
     }
     else
     {
@@ -174,7 +194,6 @@ function catchForm(formName) {
     //A regler TODO
     isUserInAccordWithServer().done(function(userInAccordWithServer)
         {
-        alert(userInAccordWithServer);
         if(!userInAccordWithServer)
             {
                 $('#login_message').text("Veuillez vous reconnecter.")
@@ -183,7 +202,10 @@ function catchForm(formName) {
         else {
             if(editForm && userIsAdminServer())
                 { error_messages = "Vous devez être admin pour éditer ce point noir"; }
-            if(error_messages != "") { alert('Erreur! ' + error_messages  + 'Merci.'); }
+            if(error_messages != "") {
+                $('#new_placeFrom_message').text('Erreur! ' + error_messages  + 'Merci.');
+                $('#new_placeFrom_message').addClass('errorMessage');
+                }
             else {
                 entity_string = PlaceInJson(place_data['description'], place_data['lon'],
                     place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
@@ -196,33 +218,39 @@ function catchForm(formName) {
                     cache: false,
                     success: function(output_json) { 
                         if(! output_json.query.error) { 
-                        newPlaceData = output_json.results[0];
-                        addMarkerWithClickAction(false,
-                            newPlaceData.geom.coordinates[0],
-                            newPlaceData.geom.coordinates[1],
-                            displayPlaceDataFunction,
-                            newPlaceData);
-                        if(! editForm) {
-                            alert("Le point noir que vous avez soumis a bien été enregistré. Merci!");
-                            changingModeFunction();
-                            document.getElementById("div_placeEdit").style.display = "none";
-                            clearNewPlaceForm();
-                            displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
+                            newPlaceData = output_json.results[0];
+                            addMarkerWithClickAction(false,
+                                newPlaceData.geom.coordinates[0],
+                                newPlaceData.geom.coordinates[1],
+                                displayPlaceDataFunction,
+                                newPlaceData);
+                            if(! editForm) {
+                                $('#new_placeFrom_message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
+                                setTimeout(
+                                    function(){
+                                        changingModeFunction();
+                                        document.getElementById("div_placeEdit").style.display = "none";
+                                        clearNewPlaceForm();
+                                        displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
+                                    },3000);        
+                                }
+                            else {
+                                $('#new_placeFrom_message').text("Le point noir a bien été modifié. Merci!");
                             }
-                        else {
-                            alert("Le point noir a bien été modifié. Merci!");
-                        }
+                            $('#new_placeFrom_message').addClass('successMessage');
+                            $('#new_place_form_submit_button').attr("disabled", "disabled");
                         }
                         else { 
-                        alert(output_json[0].message);
-                        alert('ERREUR'); } },
+                            alert(output_json[0].message);
+                            alert('ERREUR'); } },
                     error: function(output_json) {
-                    alert(JSON.stringify(output_json));
-                    alert(output_json.responseText);
-                    alert(JSON.parse(output_json.responseText)[0]);
-                    alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
-                    alert((output_json.responseText[0]).message);
-                    alert('ERREUR');  }
+                        alert(JSON.stringify(output_json));
+                        alert(output_json.responseText);
+                        alert(JSON.parse(output_json.responseText)[0]);
+                        alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
+                        alert((output_json.responseText[0]).message);
+                        alert('ERREUR'); 
+                    }
                 });
             }
         }
@@ -242,6 +270,9 @@ function clearNewPlaceForm() {
     document.getElementById("new_placeForm").description.value = "";
     document.getElementById("new_placeForm").lon.value = "";
     document.getElementById("new_placeForm").lat.value = "";
+    reset_informer();
+    $('#new_placeFrom_message').text("");
+    $('#new_place_form_submit_button').removeAttr("disabled");   
 }
 
 function changingModeFunction() {
@@ -266,7 +297,7 @@ function changingModeFunction() {
             }
 
         map.events.register("click", map, function(e) {
-            update_informer_map(); //le croix rouge dans le formulaire nouveau point devient verte
+            update_informer_map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
             var position = map.getLonLatFromPixel(e.xy);
             $("input[name=lon]").val(position.lon);
             $("input[name=lat]").val(position.lat);

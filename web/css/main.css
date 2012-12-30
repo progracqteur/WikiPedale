@@ -195,6 +195,14 @@ span#VilleActuelle {
     margin:2em 0 0 0;
 }
 
+.errorMessage{
+    color:red;
+}
+
+.successMessage{
+    color:green;
+}
+
 
 /* OpenLayers */
         .olControlAttribution {

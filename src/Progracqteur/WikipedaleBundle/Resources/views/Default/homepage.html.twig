@@ -91,7 +91,8 @@
         <img src="../img/form_rond.jpg" id="form_informer_email" alt="is the field ok" height="15" width="15">
            <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" onblur="javascript:update_e_informer_for_form()" />
         </div>
-        <input type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
+        <div id="new_placeFrom_message"></div>
+        <input id="new_place_form_submit_button" type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
       </form>
       <br />
       <!--

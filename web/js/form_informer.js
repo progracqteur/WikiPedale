@@ -16,6 +16,13 @@ function reset_informer(){
 	error_for_n_field = false;
 	error_for_e_field = false;
 	change_informer_fields = false;
+	document.getElementById('form_informer_map').src="../img/form_rond.jpg";
+	document.getElementById('form_informer_lieu').src="../img/form_rond.jpg";
+	document.getElementById('form_informer_description').src="../img/form_rond.jpg";
+	document.getElementById('form_informer_user_label').src="../img/form_rond.jpg";
+	document.getElementById('form_informer_email').src="../img/form_rond.jpg";
+	document.getElementById('form_informer_general_text').src="../img/form_rond.jpg";
+
 }
 
 function update_l_informer_for_form() {
@@ -88,6 +95,10 @@ function update_informer_fields(){
 	}
 }
 
-function update_informer_map() {
+function update_informer_map_not_ok() {
+	document.getElementById('form_informer_map').src="../img/form_not_ok.jpg";
+	}
+
+function update_informer_map_ok() {
 	document.getElementById('form_informer_map').src="../img/form_ok.jpg";
 	}
