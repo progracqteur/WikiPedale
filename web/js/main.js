@@ -373,13 +373,13 @@ function changingModeFunction() {
     };
 
 
-function homepageMap(townId, townLon, townLat) {
+function homepageMap(townId, townLon, townLat, marker_id_to_display) {
     /**
      * TODO -> changer le nom et voir pour la gestion ce qui peut etre reutiliser
-     * @param {townId} TODO
-     * @param {townLon} TODO
-     * @param {townLat} TODO
-     * @param {clickAction} TODO
+     * @param {townId} id of the town
+     * @param {townLon} longitude of the town
+     * @param {townLat} latitude of the town
+     * @param {marker_id_to_display} id of the marker to display (direct acces) // none if no marker to display
      */
 
     jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId, addUserInfo: true});
@@ -446,12 +446,19 @@ function homepageMap(townId, townLon, townLat) {
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
-        //alert(JSON.stringify(aPlaceData));
+        //console.log(JSON.stringify(aPlaceData));
+        //console.log(aPlaceData.id);
 	    addMarkerWithClickAction(false,
 				     aPlaceData.geom.coordinates[0],
 				     aPlaceData.geom.coordinates[1],
 				     displayPlaceDataFunction,
-				     aPlaceData); } ) }
+				     aPlaceData);
+        if(aPlaceData.id == marker_id_to_display)
+        {
+            displayPlaceDataFunction(markers_and_associated_data[marker_id_to_display][0],markers_and_associated_data[marker_id_to_display][1]);
+        }
+
+         } ) }
 	     );
 }
 

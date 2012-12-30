@@ -1,16 +1,5 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
-
-{% block javascript %}
-    <script  type="text/javascript">
-       {% if goToPlaceId is defined %}
-    var goToPlaceId = {{goToPlaceId}};
-       {% else %}
-    var goToPlaceId = null;
-       {% endif %}
-    </script>
-{% endblock %}
-
 {% block body %}
 
 <script>
@@ -22,8 +11,6 @@
       });
       
       {% render "ProgracqteurWikipedaleBundle:Token:insertTokens" with {'number':15} %}
-      
-      
 </script>
 
 <!-- Écran de connexion -->
@@ -44,14 +31,18 @@
 
 {% if (app.session.get('city') ) %}
 <script language="javascript"> 
-  <!--
-      $(document).ready(function(){
-          homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}});
-	  });
+ <!--
+  {% if goToPlaceId is defined %}
+  $(document).ready(function(){
+          homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},{{goToPlaceId}});
+    });
+  {% else %}
+    $(document).ready(function(){
+          homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},null);
+    });
+  {% endif %}
   // -->
 </script>
-
-
 
 
 <script>
