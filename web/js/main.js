@@ -13,7 +13,7 @@ for (i = 0; i < (baseUrlsplit.length - 1); i++)
 {
     web_dir = web_dir + baseUrlsplit[i] + '/';
 } 
-var img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
+var marker_img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
 
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
@@ -22,6 +22,49 @@ var markers_and_associated_data = Array(); // all the markers drawed on the map 
 var new_placeMarker;
 
 var last_place_selected = null;
+
+
+// marker with color
+var color_trad = new Array();
+color_trad['0'] = 'w';
+color_trad['-1'] = 'd';
+color_trad['1'] = 'r';
+color_trad['2'] = 'o';
+color_trad['3'] = 'g';
+
+function marker_img_name(statuses, numberOfWatcher)
+{
+    /**
+    returns the name of the image used for the marker
+    @statuses is the data "statuses" from the data associated to the point
+    @numberOfWatcher is the number of colors in the marker
+    */
+    c1 = 'w';
+    c2 = 'w';
+    c3 = 'w';
+
+
+    for (i = 0; i < (statuses.length - 1); i++)
+    {
+        c1 = color_trad[statuses[i].v]
+    }
+
+    if (numberOfWatcher == 1 )
+    {
+        return c1;
+    }
+    else if (numberOfWatcher == 1 )
+    {
+        return c1 + c2;
+    }
+    else
+    {
+        return c1 + c2 + c3;
+    }
+}
+
+
+
 
 $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
@@ -287,7 +330,7 @@ function changingModeFunction() {
             if (marker_data != undefined) {
                 marker = marker_data[0];
                 marker.events.remove("mousedown");
-                marker.setUrl(img_url + 'marker-gold.png')
+                marker.setUrl(marker_img_url + 'marker-gold.png')
             }
         });
 
@@ -306,7 +349,7 @@ function changingModeFunction() {
                 {
                     var size = new OpenLayers.Size(21,25);
                     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-                    var icon = new OpenLayers.Icon( img_url + '/marker-blue.png', size, offset);
+                    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([],3) + '_selected.png', size, offset); 
                     new_placeMarker = new OpenLayers.Marker(position,icon);
                     placesLayer.addMarker(new_placeMarker);
                 }
@@ -358,7 +401,7 @@ function changingModeFunction() {
                     ) (data.id);
 
                     marker.events.register("mousedown", marker, markerMouseDownFunction);
-                    marker.setUrl(img_url + 'marker.png')
+                    marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,3) + '.png');
                 }
             });
 
@@ -476,9 +519,9 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
 	new OpenLayers.Projection("EPSG:4326"),
 	map.getProjectionObject()
     ));
-    var size = new OpenLayers.Size(21,25);
+    var size = new OpenLayers.Size(19,25);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon(img_url + 'marker.png', size, offset);  
+    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(someData.statuses,3) + '.png', size, offset); 
     feature.data.icon = icon;
     
     var marker = feature.createMarker();
@@ -534,6 +577,13 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
+    if (last_place_selected != null) {
+        markers_and_associated_data[last_place_selected][0].setUrl(
+            marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses,3) + '.png'
+            );
+    }
+
+    placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses,3) + '_selected.png');
     console.log("place info:" + JSON.stringify(placeData));
     last_place_selected = placeData.id;
     $('.span_id').each(function() { this.innerHTML = placeData.id; });
