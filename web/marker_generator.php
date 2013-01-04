@@ -10,8 +10,9 @@ $black = imagecolorallocate($image, 0, 0, 0);
 $dimgray = imagecolorallocate($image, 105, 105, 105);
 $brown = imagecolorallocate($image,238,59,59);
 $select = imagecolorallocate($image,255,52,179);
+$lightgray = imagecolorallocate($image, 131, 131, 131);
 
-$colors = array('g' =>  $green, 'r' =>  $red, 'o' => $orange, 'w' => $white, 'b' => $black, 'd' => $dimgray, 'b' => $brown, 's' => $select);
+$colors = array('g' =>  $green, 'r' =>  $red, 'o' => $orange, 'w' => $white, 'b' => $black, 'd' => $dimgray, 'b' => $brown, 's' => $select, 'l' => $lightgray);
 
 $bg_color = $black;
 if(isset($_GET["bg"])) {

@@ -330,7 +330,7 @@ function changingModeFunction() {
             if (marker_data != undefined) {
                 marker = marker_data[0];
                 marker.events.remove("mousedown");
-                marker.setUrl(marker_img_url + 'marker-gold.png')
+                marker.setUrl(marker_img_url + 'm_' + marker_img_name(marker_data[1].statuses,3) + '_no_active.png')
             }
         });
 
@@ -347,7 +347,7 @@ function changingModeFunction() {
 
             if(new_placeMarker == undefined) 
                 {
-                    var size = new OpenLayers.Size(21,25);
+                    var size = new OpenLayers.Size(19,25);
                     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
                     var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([],3) + '_selected.png', size, offset); 
                     new_placeMarker = new OpenLayers.Marker(position,icon);
