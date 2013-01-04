@@ -43,7 +43,7 @@ class PlaceTrackingToTextService {
             $authorLabel = $placeTracking->getAuthor()->getUsername();
             //FIXME: this should not throw an error !
         }
-        catch (Exception $e) {$authorLabel = "Sans nom"; }
+        catch (\Exception $e) {$authorLabel = "Sans nom"; }
         
         $placeName = $placeTracking->getPlace()->getLabel();
         
