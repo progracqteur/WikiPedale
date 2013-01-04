@@ -39,7 +39,12 @@ class PlaceTrackingToTextService {
     {
         
         //prepare common arguments for translator
-        $authorLabel = $placeTracking->getAuthor()->getLabel();
+        try {
+            $authorLabel = $placeTracking->getAuthor()->getUsername();
+            //FIXME: this should not throw an error !
+        }
+        catch (Exception $e) {$authorLabel = "Sans nom"; }
+        
         $placeName = $placeTracking->getPlace()->getLabel();
         
         $args = array(
