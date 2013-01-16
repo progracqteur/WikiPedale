@@ -1,0 +1,20 @@
+Progracqteur\WikipedaleBundle\Entity\Model\Category:
+  type: entity
+  table: categories
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    label:
+      type: string
+      length: 255
+  oneToMany:
+    children:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
+      mappedBy: parent
+  manyToOne:
+    parent:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
+      inversedBy: children
+      nullable: true

@@ -100,6 +100,11 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * @var \Doctrine\Common\Collections\ArrayCollection 
      */
     private $changesets;
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $category;
             
     
     private $_listeners = array();
@@ -114,6 +119,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         $this->address = new Address();
         $this->changesets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->getChangeset()->addChange(ChangeService::PLACE_CREATION, null);
+        $this->category = new \Doctrine\Common\Collections\ArrayCollection();
         
         //initialize the placeStatuses
         $this->infos->placeStatuses = new Hash();
@@ -786,8 +792,29 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     public function addPropertyChangedListener(PropertyChangedListener $listener) {
         $this->_listeners[] = $listener;
     }
+   
+    
     
 
-    
-    
+    /**
+     * Add category
+     *
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Category $category
+     * @return Place
+     */
+    public function addCategory(\Progracqteur\WikipedaleBundle\Entity\Model\Category $category)
+    {
+        $this->category[] = $category;
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 }

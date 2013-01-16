@@ -20,7 +20,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
 
 
     public function getOrder() {
-        return 3;
+        return 4;
     }
     
     /**
@@ -50,6 +50,14 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $add = $this->geolocate($point);
             
             $place->setAddress($add);
+            
+            //add a random category amongst the one loaded
+            $cat_array = array('1', '2', '3', null, null, null, null);
+            $rand = array_rand($cat_array);
+            if ($rand !== null) 
+            {
+                $place->addCategory($this->getReference('cat'.$cat_array[$rand]));
+            }
             
             //ajout un statut à toutes les places, sauf à quatre d'entre elles
             if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19)
@@ -113,6 +121,14 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             }
             
             $place->getChangeset()->setAuthor($u);
+            
+            //add a random category amongst the one loaded
+            $cat_array = array('1', '2', '3', null, null, null, null);
+            $rand = array_rand($cat_array);
+            if ($rand !== null) 
+            {
+                $place->addCategory($this->getReference('cat'.$cat_array[$rand]));
+            }
 
             $manager->persist($place);
             
