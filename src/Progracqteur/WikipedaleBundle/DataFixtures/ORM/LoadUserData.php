@@ -20,7 +20,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     private $container;
     
 public function getOrder() {
-        return 1;
+        return 2;
     }
     
 public function load(ObjectManager $manager) {
@@ -37,6 +37,7 @@ public function load(ObjectManager $manager) {
             $admin->setPassword('admin');
             $admin->setEmail('admin@wikipedale.org');
             $admin->addRole(User::ROLE_ADMIN);
+            $admin->setEnabled(true);
             
             $userManager->updateUser($admin);
         } else {

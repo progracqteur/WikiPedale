@@ -24,6 +24,13 @@ admin:
   user:
     add_remove_groups: Modifie les appartenances de l'utilisateur
     management: Gestion des appartenances utilisateurs
+  category:
+    form: 
+      parent: 
+        empty_value: Sans parent, catégorie racine
+    show:
+      parent:
+        empty: Catégorie racine
 user:
   username: Nom d'utilisateur
   email: Adresse de courriel

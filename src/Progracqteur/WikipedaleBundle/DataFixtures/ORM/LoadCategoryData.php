@@ -40,7 +40,7 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
         $deg = new Category();
         $deg->setLabel("Revêtement dégradé (trous...)")
                 ->setParent($revetement);
-        $manager->persist($revetement);
+        $manager->persist($deg);
         
         $this->addReference('cat2', $deg);
         
@@ -55,6 +55,8 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
         
         $this->addReference('cat3', $feu);
         
+        $manager->flush();
+        
     }
 
     public function setContainer(ContainerInterface $container = null) {
@@ -62,7 +64,7 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
     }
 
     public function getOrder() {
-        return 2;
+        return 3;
     }
 }
 

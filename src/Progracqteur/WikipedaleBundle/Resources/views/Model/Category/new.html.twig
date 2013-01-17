@@ -1,0 +1,22 @@
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
+
+{% block body %}
+
+<h1>Model\Category creation</h1>
+
+<form action="{{ path('admin_category_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_category') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+
+{% endblock %}

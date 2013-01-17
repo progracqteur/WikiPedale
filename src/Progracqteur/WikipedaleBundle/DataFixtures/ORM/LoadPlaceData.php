@@ -20,7 +20,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
 
 
     public function getOrder() {
-        return 4;
+        return 5;
     }
     
     /**
@@ -54,8 +54,10 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             //add a random category amongst the one loaded
             $cat_array = array('1', '2', '3', null, null, null, null);
             $rand = array_rand($cat_array);
-            if ($rand !== null) 
+            if ($cat_array[$rand] !== null) 
             {
+                $cat_string_ref = 'cat'.$cat_array[$rand];
+                echo "add $cat_string_ref \n";
                 $place->addCategory($this->getReference('cat'.$cat_array[$rand]));
             }
             
@@ -125,8 +127,10 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             //add a random category amongst the one loaded
             $cat_array = array('1', '2', '3', null, null, null, null);
             $rand = array_rand($cat_array);
-            if ($rand !== null) 
+            if ($cat_array[$rand] !== null) 
             {
+                $cat_string_ref = 'cat'.$cat_array[$rand];
+                echo "add $cat_string_ref \n";
                 $place->addCategory($this->getReference('cat'.$cat_array[$rand]));
             }
 

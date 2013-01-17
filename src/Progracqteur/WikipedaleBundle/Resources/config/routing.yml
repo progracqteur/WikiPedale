@@ -147,6 +147,11 @@ wikipedale_admin_usergroups_add_or_remove_groups:
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:addRemoveGroups }
   requirements:
     method: POST
+    
+ProgracqteurWikipedaleBundle_admin_category:
+        resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_category.yml"
+        prefix:   /admin/category
+    
 
 #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
 # en version de production
