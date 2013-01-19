@@ -8,6 +8,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
+use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
 
@@ -86,15 +87,18 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         if ($object instanceof Place)
         {
             return $this->service->getPlaceNormalizer()->normalize($object);
-        } else if ($object instanceof User)
+        } elseif ($object instanceof User)
         {
             return $this->service->getUserNormalizer()->normalize($object);
-        } else if ($object instanceof Photo)
+        } elseif ($object instanceof Photo)
         {
             return $this->service->getPhotoNormalizer()->normalize($object);
-        } else if ($object instanceof PlaceTracking)
+        } elseif ($object instanceof PlaceTracking)
         {
             return $this->service->getPlaceTrackingNormalizer()->normalize($object);
+        } elseif  ($object instanceof Category) 
+        {
+            return $this->service->getCategoryNormalizer()->normalize($object);
         }
     }
 

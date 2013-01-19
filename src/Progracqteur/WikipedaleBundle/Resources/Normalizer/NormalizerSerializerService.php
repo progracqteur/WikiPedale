@@ -3,6 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
@@ -47,6 +48,12 @@ class NormalizerSerializerService {
     private $normalizedResponseExceptionNormalizer = null;
     private $placeTrackingNormalizer = null;
     private $dateNormalizer = null;
+    
+    /**
+     *
+     * @var \Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer 
+     */
+    private $categoryNormalizer = null;
     
     //Encoders
     private $jsonEncoder = null;
@@ -133,6 +140,20 @@ class NormalizerSerializerService {
         }
         
         return $this->placeTrackingNormalizer;
+    }
+    
+    /**
+     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer category normalizer
+     */
+    public function getCategoryNormalizer()
+    {
+        if ($this->categoryNormalizer === null)
+        {
+            $this->categoryNormalizer = new CategoryNormalizer($this);
+        }
+        
+        return $this->categoryNormalizer;
+        
     }
     
     /**
