@@ -9,6 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
 
 
 
@@ -125,9 +126,35 @@ class PlaceNormalizer implements NormalizerInterface {
             }
         }
         
+        if (isset($data['categories']))
+        {
+            $arrayCategories = array();
+            foreach($data['categories'] as $cat)
+            {
+                if ($this->service->getCategoryNormalizer()->supportsDenormalization($cat, $type, $format))
+                {
+                    $arrayCategories[] = $this->service->getCategoryNormalizer()->denormalize($cat, null);
+                } else {
+                    throw new NormalizingException('Could not denormalize category '.print_r($cat, true));
+                }
+            }
+            
+            foreach ($arrayCategories as $cat)
+            {
+                //TODO
+            }
+            
+        }
+        
         return $p;
     }
     
+    /**
+     * 
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Place $object
+     * @param string $format
+     * @return array
+     */
     public function normalize($object, $format = null) {
         $creator = $object->getCreator();
         $addrNormalizer = $this->service->getAddressNormalizer();
@@ -140,6 +167,15 @@ class PlaceNormalizer implements NormalizerInterface {
         foreach ($statuses as $status)
         {
             $s[] = array('t' => $status->getType(), 'v' => $status->getValue());
+        }
+        
+        //create an array with categories
+        $categories = $object->getCategory();
+        $c = array();
+        
+        foreach ($categories as $cat)
+        {
+            $c[] = $this->service->getCategoryNormalizer()->normalize($cat, $format);
         }
         
         return  array(
@@ -158,6 +194,7 @@ class PlaceNormalizer implements NormalizerInterface {
             //'statusCity' => $object->getStatusCity(),
             'accepted' => $object->isAccepted(),
             'statuses' => $s,
+            'categories' => $c
             
         );
     }

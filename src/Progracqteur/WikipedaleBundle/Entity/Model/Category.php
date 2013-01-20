@@ -102,4 +102,9 @@ class Category
     public function __toString() {
         return $this->getLabel();
     }
+    
+    public function hasParent()
+    {
+        return (!($this->parent === null));
+    }
 }

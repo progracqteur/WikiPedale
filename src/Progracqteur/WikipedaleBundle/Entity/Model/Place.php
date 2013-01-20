@@ -817,4 +817,19 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     {
         return $this->category;
     }
+    
+    /**
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category\Progracqteur\WikipedaleBundle\Entity\Model\Category $category
+     * @return boolean
+     */
+    public function hasCategory(Category\Progracqteur\WikipedaleBundle\Entity\Model\Category $category)
+    {
+        foreach($this->category as $cat)
+        {
+            if ($cat->getId() == $category->getId())
+                return true;
+        }
+        return false;
+    }
 }
