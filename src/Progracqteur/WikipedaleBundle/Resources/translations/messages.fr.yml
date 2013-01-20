@@ -49,3 +49,23 @@ errors:
   404:
     place:
       not_found: L'emplacement demandé n'existe pas.
+      
+# Form field labels
+fos_user_group_form_name: "Nom du groupe :"
+
+fos_user_profile_form_username:             "Votre nom d'utilisateur"
+fos_user_profile_form_email:                "Votre adresse e-mail"
+fos_user_profile_form_plainPassword_first:  "Choisissez un mot de passe"
+fos_user_profile_form_plainPassword_second: "Répétez le mot de passe"
+
+fos_user_registration_form_username:             "Votre nom d'utilisateur"
+fos_user_registration_form_email:                "Votre adresse e-mail"
+fos_user_registration_form_plainPassword_first:  "Choisissez un mot de passe"
+fos_user_registration_form_plainPassword_second: "Répétez le mot de passe"
+
+fos_user_resetting_form_new_first:  "Nouveau mot de passe"
+fos_user_resetting_form_new_second: "Vérification"
+
+fos_user_change_password_form_new_first:    "Nouveau mot de passe"
+fos_user_change_password_form_new_second:   "Vérification"
+fos_user_change_password_form_current:  "Mot de passe actuel"

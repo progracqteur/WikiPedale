@@ -1,3 +1,7 @@
+body {
+    text-align: center;
+}
+
 form.register {
     margin:0 auto;
     width: 500px;
@@ -5,7 +9,7 @@ form.register {
 
 #fos_user_registration_form label {
 width:200px;
-text-align:right;
+text-align:left;
 margin-right: 1em;
 float:left;
 }
@@ -17,4 +21,10 @@ form.register input {
 form.register input.submit {
     float:right;
     margin:1em;
+}
+
+#logo img {
+    width: 300px;
+    margin:1em auto;
+    display: block;
 }
