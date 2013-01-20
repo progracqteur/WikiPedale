@@ -1,0 +1,20 @@
+form.register {
+    margin:0 auto;
+    width: 500px;
+}
+
+#fos_user_registration_form label {
+width:200px;
+text-align:right;
+margin-right: 1em;
+float:left;
+}
+
+form.register input {
+    display:block;
+}
+
+form.register input.submit {
+    float:right;
+    margin:1em;
+}

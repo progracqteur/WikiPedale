@@ -15,7 +15,8 @@ body {
 #MapAndEditorContener #map {
     position: absolute;
     width: 70%;
-    height: 95%;
+    top:27px;
+    bottom:36px;
 }
 
 #ToolsPanel { margin: 1em 0 0 0; width:30%; float:right; overflow:auto; }
@@ -116,12 +117,12 @@ div.PointDescription p.creator, div.solutions p.SolutionAuthor {
 }
 
 #connexion {
-    background-color:#2D2D2D;
+    background: #2D2D2D url('../img/logos/logo_uello_blanc.png') no-repeat left;
     text-align: right;
     margin:0;
     border-bottom: 1px solid #AAAAAA;
     padding: 0.5em 1em 0 0;
-    height:5%;
+    height:18px;
 }
 #connexion a, #connexion a:visited, #connexion { color: #AAAAAA; font-size:0.9em; text-decoration: none;}
 #connexion a:hover { color: #FFFFFF;}
@@ -185,14 +186,26 @@ span#VilleActuelle {
     display:block;
     position: fixed;
     width: 100%;
-    height: 20px;
+
     left: 0px;
     bottom: 0px;
     text-align: center;
     font-weight: normal;
     font-size: 0.8em;
     clear:both;
-    margin:2em 0 0 0;
+    margin:0 1em 0.5em 1em;
+    background-color:#FFFFFF;
+}
+
+#logos {
+    float:right;
+    position:fixed;
+    bottom:0.2em;
+    right:1em;
+}
+
+#logos img {
+    height:48px;
 }
 
 .errorMessage{
@@ -207,17 +220,16 @@ span#VilleActuelle {
 /* OpenLayers */
         .olControlAttribution {
             position: absolute;
+            bottom:0em;
             font-size: 10px;
             text-align: right;
             color: #eeeeee;
-            bottom: 0;
-            right: 0;
             background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-            background: rgba(0, 60, 136, 0.3);
+            background: rgba(45, 45, 45, 0.4);
             filter: alpha(opacity=90);
             font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
             padding: 2px 4px;
-            border-radius: 5px 0 0 0;
+            border-radius: 0 5px 0 0;
         }
         .olControlAttribution a {
             color: #eeeeee;
@@ -225,6 +237,7 @@ span#VilleActuelle {
         }
         .olControlZoom a:hover {
             color: white;
+            background: rgba(45, 45, 45, 0.4);
         }
         div.olControlZoomPanel {
             top: 15px;
@@ -239,4 +252,9 @@ span#VilleActuelle {
                paddding: 15px;
                margin-left: 50px;
                margin-right: 50px;
+               }
+               
+               div#OpenLayers.Control.Attribution_7 {
+                   position:absolute;
+                   bottom:0;
                }
