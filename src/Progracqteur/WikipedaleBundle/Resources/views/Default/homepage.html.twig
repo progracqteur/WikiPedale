@@ -40,10 +40,9 @@
     $(document).ready(function(){
           homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},null);
     });
-  {% endif %}
   // -->
 </script>
-
+ {% endif %}
 
 <script>
     $(document).ready(function(){
@@ -76,6 +75,54 @@
            <input name="lieu" id="l" maxlength="35" placeholder="{{ 'add_black_points.location'|trans({}, 'changes') }}" onblur="javascript:update_l_informer_for_form()" />
         <img src="../img/form_rond.jpg" id="form_informer_description" alt="is the field ok" height="15" width="15">
            <textarea name="description" id="d" maxlength="150" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}" onblur="javascript:update_d_informer_for_form()"></textarea><br />
+
+
+      <select data-placeholder="Cat&eacute;gorie" style="width:300px;" class="chzn-select" multiple tabindex="6">
+      <option></option>
+      <optgroup label="Rev&ecirc;tement">
+        <option>Mauvais rev&ecirc;tement (pav&eacute;s&hellip;)</option>
+        <option>Rev&ecirc;tement d&eacute;grad&eacute; (trous&hellip;)</option>
+        <option>Accumulation d&rsquo;eau en cas de pluie</option>
+      </optgroup>
+
+      <optgroup label="Signalisation">
+        <option>Signalisation manquante ou peu claire</option>
+        <option>Feux en panne</option>
+        <option>Marquages effac&eacute;s</option>
+        <option>Signalisation erron&eacute;e</option>
+        <option>Sens unique non autoris&eacute; aux cyclistes</option>
+        <option>Sens unique autoris&eacute; aux cyclistes mais mal signal&eacute;</option>
+      </optgroup>
+
+      <optgroup label="Obstacles">
+        <option>De la v&eacute;g&eacute;tation encombre le passage</option>
+        <option>Des d&eacute;chets encombrent la voirie (d&eacute;bris de verre, poubelles&hellip;)</option>
+        <option>Un objet fixe est plac&eacute; sur la voirie (poteau, poubelle&hellip;)</option>
+        <option>Des v&eacute;hicules sont stationn&eacute;s sur la voirie</option>
+      </optgroup>
+
+      <optgroup label="S&eacute;curit&eacute;">
+        <option>&Eacute;clairage insuffisant</option>
+        <option>Pas de s&eacute;paration du trafic motoris&eacute; (voies rapides)</option>
+      </optgroup>
+
+      <optgroup label="Chantiers">
+        <option>Pas de prise en compte des cyclistes pour la dur&eacute;e du chantier (d&eacute;viation&hellip;)</option>
+        <option>Signalisation du chantier insuffisante ou inexistante</option>
+        <option>&Eacute;clairage insuffisant</option>
+        <option>Les am&eacute;nagements cyclables ont &eacute;t&eacute; supprim&eacute;s suite aux travaux</option>
+      </optgroup>
+
+      <optgroup label="Autres">
+        <option>Autres</option>
+      </optgroup>
+      </select>
+
+        <script type="text/javascript">
+          $(".chzn-select").chosen();
+      </script>
+
+
         <div id="div_new_place_form_user_mail">
         <img src="../img/form_rond.jpg" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
            <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" onblur="javascript:update_n_informer_for_form()" />
@@ -85,6 +132,14 @@
         <div id="new_placeFrom_message"></div>
         <input id="new_place_form_submit_button" type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
       </form>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <br />
       <!--
       <p>Pour des petits travaux et des travaux d'entretien, vous pouvez contacter directement la ville via le num&eacute;ro gratuit 0800 92 329 ou via <a href="mailto:travaux.vert@ville.mons.be">travaux.vert@ville.mons.be</a> (<a href="http://www.mons.be/default.aspx?GUID={BF4FA10D-9842-11DA-9742-0002A58CB319}&LNG=FRA" target="_blank">mons.be</a>)</p>
@@ -112,7 +167,7 @@
         <div class="solutions">
             <div class="solution">
                 <span class="SolutionTitle">Solution 1 : Lorem ipsum dolor sit amet</span>
-                <p class="SolutionAuthor">Proposée par <a href="#">Michel</a></p>
+                <p class="SolutionAuthor">Propos&eacute;e par <a href="#">Michel</a></p>
                 <div class="SolutionVote">
                     <span class="SolutionVotingNumber">18</span><br />
                     <a href="#" class="PositiveVote"><img src='../img/PositiveVote.png' /></a>
@@ -123,7 +178,7 @@
 
             <div class="solution">
                 <span class="SolutionTitle">Solution 2 : Mauris at turpis id sapien...</span>
-                <p class="SolutionAuthor">Proposée par <a href="#">Robert</a></p>
+                <p class="SolutionAuthor">Propos&eacute;e par <a href="#">Robert</a></p>
                 <div class="SolutionVote">
                     <span class="SolutionVotingNumber">5</span><br />
                     <a href="#" class="PositiveVote"><img src='../img/PositiveVote.png' /></a>
