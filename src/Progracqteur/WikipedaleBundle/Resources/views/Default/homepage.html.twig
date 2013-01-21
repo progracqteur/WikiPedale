@@ -80,7 +80,7 @@
       <select data-placeholder="Cat&eacute;gorie" style="width:300px;" class="chzn-select" multiple tabindex="6">
       <option></option>
       <optgroup label="Rev&ecirc;tement">
-        <option>Mauvais rev&ecirc;tement (pav&eacute;s&hellip;)</option>
+        <option id="mv">Mauvais rev&ecirc;tement (pav&eacute;s&hellip;)</option>
         <option>Rev&ecirc;tement d&eacute;grad&eacute; (trous&hellip;)</option>
         <option>Accumulation d&rsquo;eau en cas de pluie</option>
       </optgroup>
@@ -120,6 +120,8 @@
 
         <script type="text/javascript">
           $(".chzn-select").chosen();
+          // $('#mv').prop('selected', true);
+          // $(".chzn-select").trigger('liszt:updated'); (pour selectionner mv)
       </script>
 
 
