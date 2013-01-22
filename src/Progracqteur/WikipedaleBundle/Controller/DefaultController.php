@@ -52,7 +52,8 @@ class DefaultController extends Controller
         {
             $em = $this->getDoctrine()->getEntityManager();
 
-            $cities = $em->createQuery("select c from ProgracqteurWikipedaleBundle:Management\\City c order by c.name")
+            $cities = $em->createQuery("select c from 
+                ProgracqteurWikipedaleBundle:Management\\City c order by c.name")
                     ->getResult();            
         } else {
             $cities = array();
@@ -69,9 +70,16 @@ class DefaultController extends Controller
             }
         }
         
+        $categories = $this->getDoctrine()->getEntityManager()
+                ->createQuery('SELECT c from 
+            ProgracqteurWikipedaleBundle:Model\Category c JOIN c.parent p
+            ORDER BY p.label, c.id')
+                ->getResult();
+        
         $paramsToView = array(
                     'mainCities' => $mainCities, 
-                    'cities' => $cities
+                    'cities' => $cities,
+                    'categories' => $categories
                 );
 
         if ($id != null)

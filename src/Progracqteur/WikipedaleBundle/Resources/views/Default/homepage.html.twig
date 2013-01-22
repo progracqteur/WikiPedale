@@ -78,44 +78,22 @@
 
 
       <select data-placeholder="Cat&eacute;gorie" style="width:300px;" class="chzn-select" multiple tabindex="6">
-      <option></option>
-      <optgroup label="Rev&ecirc;tement">
-        <option id="mv">Mauvais rev&ecirc;tement (pav&eacute;s&hellip;)</option>
-        <option>Rev&ecirc;tement d&eacute;grad&eacute; (trous&hellip;)</option>
-        <option>Accumulation d&rsquo;eau en cas de pluie</option>
-      </optgroup>
-
-      <optgroup label="Signalisation">
-        <option>Signalisation manquante ou peu claire</option>
-        <option>Feux en panne</option>
-        <option>Marquages effac&eacute;s</option>
-        <option>Signalisation erron&eacute;e</option>
-        <option>Sens unique non autoris&eacute; aux cyclistes</option>
-        <option>Sens unique autoris&eacute; aux cyclistes mais mal signal&eacute;</option>
-      </optgroup>
-
-      <optgroup label="Obstacles">
-        <option>De la v&eacute;g&eacute;tation encombre le passage</option>
-        <option>Des d&eacute;chets encombrent la voirie (d&eacute;bris de verre, poubelles&hellip;)</option>
-        <option>Un objet fixe est plac&eacute; sur la voirie (poteau, poubelle&hellip;)</option>
-        <option>Des v&eacute;hicules sont stationn&eacute;s sur la voirie</option>
-      </optgroup>
-
-      <optgroup label="S&eacute;curit&eacute;">
-        <option>&Eacute;clairage insuffisant</option>
-        <option>Pas de s&eacute;paration du trafic motoris&eacute; (voies rapides)</option>
-      </optgroup>
-
-      <optgroup label="Chantiers">
-        <option>Pas de prise en compte des cyclistes pour la dur&eacute;e du chantier (d&eacute;viation&hellip;)</option>
-        <option>Signalisation du chantier insuffisante ou inexistante</option>
-        <option>&Eacute;clairage insuffisant</option>
-        <option>Les am&eacute;nagements cyclables ont &eacute;t&eacute; supprim&eacute;s suite aux travaux</option>
-      </optgroup>
-
-      <optgroup label="Autres">
-        <option>Autres</option>
-      </optgroup>
+        {# set a value to detect changes in parent category #}
+        {% set parentId = null %}
+        {% for category in categories %}
+              {% if parentId != category.parent.id %}
+                 {% if parentId is not null %}
+                    </optgroup>
+                 {% endif %}
+                 
+                 <optgroup label="{{category.parent.label}}">
+                 {% set parentId = category.parent.id %}
+              {% endif %}
+              
+              <option value="{{category.id}}">{{category.label}}</option>
+                       
+        {% endfor %}      
+      
       </select>
 
         <script type="text/javascript">
