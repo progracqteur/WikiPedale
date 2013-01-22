@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
@@ -131,7 +132,7 @@ class PlaceNormalizer implements NormalizerInterface {
             $arrayCategories = array();
             foreach($data['categories'] as $cat)
             {
-                if ($this->service->getCategoryNormalizer()->supportsDenormalization($cat, $type, $format))
+                if ($this->service->getCategoryNormalizer()->supportsDenormalization($cat, $class, $format))
                 {
                     $arrayCategories[] = $this->service->getCategoryNormalizer()->denormalize($cat, null);
                 } else {
@@ -139,9 +140,31 @@ class PlaceNormalizer implements NormalizerInterface {
                 }
             }
             
-            foreach ($arrayCategories as $cat)
+            
+            //at first, check if recorded categories match with a one existing 
+            // in the json request. If yes, delete from the request's categories's array
+            // if the category is not in the json's request, remove the category
+            // from the place.
+            foreach ($p->getCategory() as $recordedCat)
             {
-                //TODO
+                $categoryIsAssociatedWithPlace = false;
+                foreach ($arrayCategories as $key => $newCat)
+                {
+                    if ($newCat->getId() == $recordedCat->getId()) {
+                        $categoryIsAssociatedWithPlace = true;
+                        unset($arrayCategories[$key]);
+                        break;  
+                    }
+                }
+                if ($categoryIsAssociatedWithPlace == false)
+                {
+                    $p->removeCategory($recordedCat);
+                } 
+            }
+            //add category remaining in json's request: those are new categories
+            foreach ($arrayCategories as $newCat)
+            {
+                $p->addCategory($newCat);
             }
             
         }

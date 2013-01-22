@@ -24,6 +24,8 @@ class CategoryNormalizer implements NormalizerInterface {
     const ID = 'id';
     const LABEL = 'label';
     const PARENT = 'parent';
+    const ENTITY = 'entity';
+    const ENTITY_TYPE = 'category';
     
     public function __construct(NormalizerSerializerService $service) {
         $this->service = $service;
@@ -40,7 +42,7 @@ class CategoryNormalizer implements NormalizerInterface {
      */
     public function denormalize($data, $class, $format = null) {
         $cat = $this->service->getManager()
-                ->getEntityRepository('ProgracqteurWikipedaleBundle:Model/Category')
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\Category')
                 ->find($data['id']);
         
         if ($cat === null)
@@ -59,8 +61,9 @@ class CategoryNormalizer implements NormalizerInterface {
      */
     public function normalize($object, $format = null) {
         $a = array();
-        $a[self::LABEL] = $object->getId();
+        $a[self::ID] = $object->getId();
         $a[self::LABEL] = $object->getLabel();
+        $a[self::ENTITY] = self::ENTITY_TYPE;
         if ($object->hasParent())
         {
             $a[self::PARENT] = $this->normalize($object->getParent(), $format);
@@ -70,7 +73,13 @@ class CategoryNormalizer implements NormalizerInterface {
     }
 
     public function supportsDenormalization($data, $type, $format = null) {
-        return ($data instanceof Category);
+        if (isset($data[self::ENTITY]))
+        {
+            if ($data[self::ENTITY] == self::ENTITY_TYPE
+                    && isset($data[self::ID]))
+                return true;
+        }
+        return false;
     }
 
     public function supportsNormalization($data, $format = null) {
