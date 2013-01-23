@@ -34,6 +34,8 @@ class ChangeService {
     const PLACE_STATUS_CITY = 150;
     const PLACE_CREATOR = 160;
     const PLACE_ACCEPTED = 170;
+    const PLACE_ADD_CATEGORY = 180;
+    const PLACE_REMOVE_CATEGORY = 181;
     
     
     /**
@@ -192,76 +194,6 @@ class ChangeService {
                      {
                          throw ChangeException::param('Status '.$change->getnewValue()->getType().' no rights ');
                      }
-                      
-                     /* old implementation
-                     
-                     $groups = $author->getGroups();
-                     
-                     //filter by role
-                     $groups_notation = array();
-                     foreach($groups as $group)
-                     {
-                         if ($group->hasRole('ROLE_NOTATION'))
-                         {
-                             $groups_notation[] = $group;
-                         }
-                     }
-                     
-                     //filter by notation
-                     $groups_matched_notation = array();
-                     foreach($groups_notation as $group)
-                     {
-                         if ($change->getNewValue()->getType() === $group->getNotation()->getId())
-                         {
-                             $groups_matched_notation[] = $group;
-                         }
-                     }
-                     
-                     //if there isn't any group any more, we may stop here:
-                     if (count($groups_matched_notation) === 0)
-                     {
-                         throw ChangeException::param('Status '.$change->getnewValue()->getType());
-                     }
-                     
-                     //filter by geography
-                     if ($object instanceof Place)
-                     {
-                         $q = $this->em->createQuery();
-                         
-                         $geomString = $this->geoService->toString($object->getGeom());
-                         
-                         $dql = "SELECT count(g.id) from ProgracqteurWikipedaleBundle:Management\Group g
-                                JOIN g.city c
-                             WHERE COVERS(c.polygon, :placegeom) = true and (";
-                         $q->setParameter('placegeom', $geomString);
-                         
-                         $i = 0;
-                         foreach ($groups_matched_notation as $group)
-                         {
-                             if ($i > 0) 
-                             {
-                                 $dql .= ' OR ';
-                             }
-                             $dql .= "g = :group_$i";
-                             $q->setParameter("group_$i", $group);
-                         }
-                         
-                         $dql .= ")";
-                         
-                         $q->setDQL($dql);
-                         
-                         
-                         $r = $q->getScalarResult();
-                         
-                         
-                         if ($r[0] > 0)
-                         {
-                             continue;
-                         } else {
-                             throw ChangeException::param('Status '.$a['type'].' no rights ');
-                         }
-                     }*/
-                     
                      break;
                  case self::PLACE_ADD_PHOTO:
                      //l'ajout de photo est réglé dans le controleur PhotoController
@@ -271,6 +203,30 @@ class ChangeService {
                      //la modification des photos est réglé dans le controleur PhotoController
                      continue;
                      break;
+                 case self::PLACE_ADD_CATEGORY:
+                     //allowed for everybody on creation, only for group 
+                     //"ROLE_CATEGORY" later
+                     if ($object->getChangeset()->isCreation())
+                     {
+                         continue;
+                     }
+                     
+                     if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
+                     {
+                         continue;
+                     } else {
+                         var_dump($author->getRoles());
+                         throw ChangeException::param('add category ');
+                     }
+                 case self::PLACE_REMOVE_CATEGORY:
+                     //allowed only for ROLE_CATEGORY
+                     if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('remove category');
+                     }
+                     
                  default:
                      throw ChangeException::param('inconnu');
             

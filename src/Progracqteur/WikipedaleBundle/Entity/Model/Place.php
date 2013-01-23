@@ -794,7 +794,11 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     }
    
     
-    
+    /**
+     *
+     * @var \Doctrine\Common\Collections\ArrayCollection 
+     */
+    private $proxyAddCategory = null;
 
     /**
      * Add category
@@ -805,6 +809,15 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     public function addCategory(\Progracqteur\WikipedaleBundle\Entity\Model\Category $category)
     {
         $this->category[] = $category;
+        if ($this->proxyAddCategory === null)
+        {
+            $this->proxyAddCategory = new \Doctrine\Common\Collections\ArrayCollection();
+        }
+        
+        $this->proxyAddCategory->add($category);
+        
+        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_CATEGORY, $this->proxyAddCategory);
+        
         return $this;
     }
 
@@ -818,6 +831,9 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         return $this->category;
     }
     
+    
+    private $proxyRemoveCagory = null;
+    
     /**
      * 
      * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category $category
@@ -830,6 +846,15 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
             if ($categoryRecorded->getId() === $category->getId())
             {
                 $this->category->remove($key);
+                if ($this->proxyRemoveCagory === null)
+                {
+                    $this->proxyRemoveCagory = new \Doctrine\Common\Collections\ArrayCollection();
+                }
+                $this->proxyRemoveCagory->add($category);
+                
+                $this->getChangeset()
+                        ->addChange(ChangeService::PLACE_REMOVE_CATEGORY, 
+                                $this->proxyRemoveCagory);
             }
         }
         
