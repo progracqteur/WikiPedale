@@ -16,6 +16,7 @@ use Doctrine\Common\PropertyChangedListener;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
 use Symfony\Component\Validator\ExecutionContext;
+use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
@@ -806,7 +807,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * @param Progracqteur\WikipedaleBundle\Entity\Model\Category $category
      * @return Place
      */
-    public function addCategory(\Progracqteur\WikipedaleBundle\Entity\Model\Category $category)
+    public function addCategory(Category $category)
     {
         $this->category[] = $category;
         if ($this->proxyAddCategory === null)
@@ -839,7 +840,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category $category
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
      */
-    public function removeCategory(\Progracqteur\WikipedaleBundle\Entity\Model\Category $category)
+    public function removeCategory(Category $category)
     {
         foreach ($this->category as $key => $categoryRecorded)
         {
@@ -866,7 +867,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category\Progracqteur\WikipedaleBundle\Entity\Model\Category $category
      * @return boolean
      */
-    public function hasCategory(Category\Progracqteur\WikipedaleBundle\Entity\Model\Category $category)
+    public function hasCategory(Category $category)
     {
         foreach($this->category as $cat)
         {

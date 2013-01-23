@@ -24,6 +24,7 @@ change:
      description: "la description"
      address: "l'adresse"
      geom: "la position géographique"
+     category: la catégorie
      
 
      

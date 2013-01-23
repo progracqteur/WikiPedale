@@ -37,13 +37,15 @@ class PlaceTrackingToTextService {
      */
     public function toText(PlaceTracking $placeTracking)
     {
+        //domain of the messages :
+        $domain = 'changes';
         
         //prepare common arguments for translator
         try {
             $authorLabel = $placeTracking->getAuthor()->getUsername();
             //FIXME: this should not throw an error !
         }
-        catch (\Exception $e) {$authorLabel = "Sans nom"; }
+        catch (\Exception $e) {$authorLabel = $this->t->trans('user.unknow', array(), $domain); }
         
         $placeName = $placeTracking->getPlace()->getLabel();
         
@@ -52,8 +54,6 @@ class PlaceTrackingToTextService {
                 '%place%' => $placeName
             );
         
-        //domain of the messages :
-        $domain = 'changes';
         
         //check if the place Tracking is a creation, return string if true
         if ($placeTracking->isCreation())
@@ -156,6 +156,10 @@ class PlaceTrackingToTextService {
                 break;
             case ChangeService::PLACE_GEOM:
                 return $this->t->trans('change.place.geom', array(), $d);
+                break;
+            case ChangeService::PLACE_ADD_CATEGORY:
+            case ChangeService::PLACE_REMOVE_CATEGORY:
+                return $this->t->trans('change.place.category', array(), $d);
                 break;
             default:
                 throw new \Exception('type inconnu dans le translator');
