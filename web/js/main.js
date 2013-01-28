@@ -100,7 +100,7 @@ function PointInJson(lon,lat){
     return parser.write(p, false);
 }
 
-function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email) {
+function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, categories) {
     /**
     * Returns a json string used for adding a new place.
     * @param {string} description the description of the new place.
@@ -111,6 +111,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     * @param {string} coulor The color of the place (only for existing place)
     * @param {string} user_label The label given by the user : if the user is register and logged this field is not considered
     * @param {string} user_email The email given by the user : if the user is register and logged this field is not considered
+    * @param {array of string} caterogies The ids of categories selected
     */
     ret = '{"entity":"place"'
 
@@ -128,9 +129,19 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     if( !userIsRegister() && (user_label != undefined || user_email != undefined))
         { ret = ret + ',"creator":' + unregisterUserInJson(user_label, user_email); }
 
-    return ret + ',"description":' + JSON.stringify(description)
+    ret = ret + ',"description":' + JSON.stringify(description)
         + ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}'
-        + '}';
+
+    ret = ret + ',"categories":[';
+    for (var i = 0; i < categories.length; i++) {
+        ret = ret + '{"entity":"category","id":' + categories[i] + '}';
+        if (i < (categories.length - 1))
+        {
+            ret = ret + ',';
+        }
+    }
+    ret = ret + ']';
+    return ret + '}';
 }
 
 function updatePageWhenLogged(){
@@ -194,8 +205,16 @@ function catchForm(formName) {
     editForm = formName == '#editForm';
 
     var place_data = {};
+    place_data['categories'] = Array();
     $.map($(formName).serializeArray(), function(n, i){
-        place_data[n['name']] = n['value'];
+        if (n['name'] == 'categories')
+        { 
+            place_data['categories'].push(n['value']);
+        }
+        else
+        {
+            place_data[n['name']] = n['value'];
+        }
     });
 
     error_messages = "";
@@ -252,7 +271,7 @@ function catchForm(formName) {
             else {
                 entity_string = PlaceInJson(place_data['description'], place_data['lon'],
                     place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
-                    place_data['user_label'], place_data['email']);
+                    place_data['user_label'], place_data['email'], place_data['categories']);
                 url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
                 $.ajax({
                     type: "POST",

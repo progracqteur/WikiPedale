@@ -40,9 +40,9 @@
     $(document).ready(function(){
           homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},null);
     });
+  {% endif %}
   // -->
 </script>
- {% endif %}
 
 <script>
     $(document).ready(function(){
@@ -77,7 +77,7 @@
            <textarea name="description" id="d" maxlength="150" placeholder="{{ 'add_black_points.description'|trans({}, 'changes') }}" onblur="javascript:update_d_informer_for_form()"></textarea><br />
 
 
-      <select data-placeholder="Cat&eacute;gorie" style="width:300px;" class="chzn-select" multiple tabindex="6">
+      <select name="categories" data-placeholder="Cat&eacute;gorie" style="width:300px;" class="chzn-select" multiple tabindex="6">
         {# set a value to detect changes in parent category #}
         {% set parentId = null %}
         {% for category in categories %}
@@ -107,7 +107,8 @@
         <img src="../img/form_rond.jpg" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
            <input name="user_label" id="n" placeholder="{{ 'add_black_points.name'|trans({}, 'changes') }}" onblur="javascript:update_n_informer_for_form()" />
         <img src="../img/form_rond.jpg" id="form_informer_email" alt="is the field ok" height="15" width="15">
-           <input name="email" id="e" placeholder="{{ 'add_black_points.mail'|trans({}, 'changes') }}" onblur="javascript:update_e_informer_for_form()" />
+           <input name="email" id="e" placeholder="{{ 'add_black_poi
+           nts.mail'|trans({}, 'changes') }}" onblur="javascript:update_e_informer_for_form()" />
         </div>
         <div id="new_placeFrom_message"></div>
         <input id="new_place_form_submit_button" type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
