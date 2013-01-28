@@ -618,6 +618,15 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         document.getElementById("f_lieu").value = placeData.addressParts.road;
         document.getElementById("f_description").value = placeData.description;
         document.getElementById("div_placeEdit").style.display = "block";
+        document.getElementById("f_couleur").value="0"; 
+        for (i = 0; i < placeData.statuses.length; i++)
+        {  
+            if (placeData.statuses[i].t == 'cem')
+            {
+                document.getElementById("f_couleur").value=placeData.statuses[i].v; 
+            }   
+            
+        }
     }
     else {
         document.getElementById("span_lieu").innerHTML = placeData.addressParts.road;
