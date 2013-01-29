@@ -1,0 +1,127 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+
+{# 
+    parameter for the view : 
+
+- form : the form
+- place : the place 
+
+#}
+
+{% block javascript %}
+
+<!-- javascript ici -->
+
+{% endblock %}
+
+
+{% block css %}
+
+<!-- css ici --> 
+
+{% endblock %}
+
+{% block title %}TROUVER UN TITRE{% endblock %}
+
+{% block body %}
+
+<h1>Formulaire pour manager</h1>
+
+<form method="post" action="#" {{ form_enctype(form)}} >
+    
+    <ul>
+        <li>{{ form_label(form.description) }} {{ form_widget(form.description) }}</li>
+        <li>{{ form_label(form.address) }} {{ form_widget(form.address.road, { 'attr' : {'placeholder':'Rue'} }) }} {{ form_widget(form.address.city, { 'attr' : {'placeholder':'Localité'} }) }}</li>
+        <li>{{ form_label(form.category) }} {{ form_widget(form.category) }} </li>
+        <li>
+            <label for="status">Statut sur la carte</label> : 
+                <select name="status">
+                    <option selected>Non pris en compte (blanc)</option>
+                    <option>Pris en compte (rouge)</option>
+                    <option>En cours de résolution (orange)</option>
+                    <option>Résolu (vert)</option>
+                </select>
+        </li>
+        
+        <li><label for="gdv">Gestionnaire de voirie</label> :
+            <select name="gdv">
+                <option>Commune de Liège</option>
+                <option>Commune de Mons</option>
+                <option>District SPW xxyyzz</option>
+            </select>
+        </li>
+        
+        <li>
+            <label for="managerComment">Commentaire du gestionnaire :</label>
+            <textarea name="managerComment"></textarea>
+        </li>
+        
+        
+    </ul>
+
+
+    
+    <input type="hidden" name="point" value="{{ place.geom.toGeoJson}}" />
+    
+   <button type="submit">Modifier</button>
+    
+  {# do not delete this !! #}  
+    {{ form_rest(form) }}
+
+</form>
+
+<div id="comments">
+    <div class="comment">
+        <dl>
+            <dt>De :
+            <dd>Conseiller en Mobilité Mons
+            <dt>Date
+            <dd>Jeudi 28 janvier 2013 10:30
+            <dt>Commentaire :
+            <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat posuere nibh, non eleifend diam consectetur ac. Vestibulum et consequat sem. Phasellus vehicula est ut elit faucibus ac fringilla justo commodo. Mauris eu lectus ac purus cursus hendrerit in vel urna. Fusce arcu nulla, tristique vel lacinia in, tempor vitae orci. Duis quam lacus, pulvinar vel vulputate volutpat, interdum et purus. Nunc quis pharetra urna. Fusce malesuada magna ac tortor convallis tincidunt. Quisque erat massa, convallis ac venenatis vel, congue a nisl. Maecenas gravida tellus non arcu dictum eget vulputate elit ullamcorper. Aliquam nec ipsum velit, eget scelerisque metus. Maecenas et sapien et mi porttitor placerat eget at massa. Nulla eu lorem eget dolor consequat bibendum ac non orci. Integer ut lacinia elit. Maecenas pellentesque gravida consectetur. 
+        </dl>
+    
+    
+    
+    </div>
+        
+     <div class="comment">
+        <dl>
+            <dt>De :
+            <dd>Gestionnaire de voirie xxxyyy
+            <dt>Date
+            <dd>Jeudi 28 janvier 2013 10:30
+            <dt>Commentaire :
+            <dd>J'ai fini ! 
+        </dl>
+    
+    
+    
+    </div>
+        
+    <div class="comment">
+        <dl>
+            <dt>De :
+            <dd>Conseiller en Mobilité Mons
+            <dt>Date
+            <dd>Jeudi 28 janvier 2013 10:30
+            <dt>Commentaire :
+            <dd>Super ! 
+        </dl>
+
+    </div>
+
+
+</div>
+
+
+<form method="post" action="#" {{ form_enctype(form)}} >
+    <textarea placeholder="Votre commentaire ici..."></textarea>
+    <button type="submit">Envoi</button>
+
+
+</form>
+
+
+{% endblock %}

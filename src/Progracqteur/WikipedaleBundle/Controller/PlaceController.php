@@ -17,6 +17,7 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
+use Progracqteur\WikipedaleBundle\Form\Model\PlaceType;
 
 /**
  * Description of PlaceController
@@ -309,5 +310,38 @@ class PlaceController extends Controller {
                         )
                 );
     }
+    
+    public function placeManagerFormAction($id, Request $request)
+    {
+        if (!$this->get('security.context')->isGranted(User::ROLE_ADMIN))
+        {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException(); 
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $place = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\Place p where p.id = :id')
+                ->setParameter('id', $id)
+                ->getSingleResult();
+        
+        if ($place === null)
+        {
+            throw $this->createNotFoundException(
+                    $this->get('translator')->trans('errors.404.place.not_found')
+                    );
+        }
+        
+        $form = $this->createForm(new PlaceType(), $place);
+        
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Place:manager_view.html.twig',
+                array(
+                    'form' => $form->createView(), 
+                    'place'=> $place
+                    )
+                );
+        
+        
+    }
+    
 }
 

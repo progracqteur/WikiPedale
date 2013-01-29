@@ -51,6 +51,12 @@ wikipedale_place_change:
   options:
     expose: true
     
+wikipedale_place_manager_view:
+  pattern: /place/manager/view/{id}.html
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:placeManagerForm }
+  requirements:
+    id: \d+
+    
     
 wikipedale_photo_list_by_place:
   pattern: /photo/list/byplace/{placeId}.{_format}
