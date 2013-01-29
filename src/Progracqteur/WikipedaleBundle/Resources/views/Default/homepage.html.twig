@@ -1,18 +1,53 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
-{% block body %}
 
-<script>
-    jQuery('a.connexion').colorbox({
+{% block javascript %}
+
+<script language="javascript"> 
+ <!--
+    // color box for connexion
+    $(document).ready(function(){
+        jQuery('a.connexion').colorbox({
         inline:true,
         width:"300px",
         height:"300px",
         onComplete: function(){ $("#i_username").focus(); }
-      });
-      
-      {% render "ProgracqteurWikipedaleBundle:Token:insertTokens" with {'number':15} %}
-</script>
+        });
 
+
+    {% if (app.session.get('city') ) %}
+
+      {% if goToPlaceId is defined %}
+        // map and display place with id
+        homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},{{goToPlaceId}});
+      {% else %}
+        // map and explore
+        homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},null);
+      {% endif %}
+
+
+      // chosen (for categories)
+      $(".chzn-select").chosen();
+        /* $('#mv').prop('selected', true);
+        // $(".chzn-select").trigger('liszt:updated'); (pour selectionner mv) */
+    {% else %}
+
+
+    var z = dhtmlXComboFromSelect("Cities_dhtmlx");
+    z.enableFilteringMode(true);
+
+    {% endif %}
+
+    });
+      
+    // security
+    {% render "ProgracqteurWikipedaleBundle:Token:insertTokens" with {'number':15} %}
+// -->
+</script>
+{% endblock %}
+
+
+{% block body %}
 <!-- Écran de connexion -->
 <div style='display:none'>
   <div id='login_user_form_div'>
@@ -30,27 +65,6 @@
 </div>
 
 {% if (app.session.get('city') ) %}
-<script language="javascript"> 
- <!--
-  {% if goToPlaceId is defined %}
-  $(document).ready(function(){
-          homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},{{goToPlaceId}});
-    });
-  {% else %}
-    $(document).ready(function(){
-          homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},null);
-    });
-  {% endif %}
-  // -->
-</script>
-
-<script>
-    $(document).ready(function(){
-        $(".AjoutPoint").colorbox({inline:true, width:"50%"});
-        $(".About").colorbox({inline:true, width:"50%"});
-    });
-</script>
-
 <div id="MapAndEditorContener">
   <div id="map"  class="smallmap"></div>
 
@@ -95,13 +109,6 @@
         {% endfor %}      
                      </optgroup>
       </select>
-
-        <script type="text/javascript">
-          $(".chzn-select").chosen();
-          // $('#mv').prop('selected', true);
-          // $(".chzn-select").trigger('liszt:updated'); (pour selectionner mv)
-      </script>
-
 
         <div id="div_new_place_form_user_mail">
         <img src="../img/form_rond.jpg" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
@@ -229,11 +236,6 @@
             <option value="{{city.slug}}">{{city.name}}</option>
     {% endfor %}
     </select>
-    
-    <script>
-        var z = dhtmlXComboFromSelect("Cities_dhtmlx");
-        z.enableFilteringMode(true);
-    </script>
 
     <ul id="VillesSelection">
     {% for city in mainCities %}
