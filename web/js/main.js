@@ -15,6 +15,7 @@ for (i = 0; i < (baseUrlsplit.length - 1); i++)
 } 
 var marker_img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
 
+var colors_in_marker = 1;
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
 var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
@@ -53,7 +54,7 @@ function marker_img_name(statuses, numberOfWatcher)
     {
         return c1;
     }
-    else if (numberOfWatcher == 1 )
+    else if (numberOfWatcher == 2)
     {
         return c1 + c2;
     }
@@ -349,7 +350,7 @@ function changingModeFunction() {
             if (marker_data != undefined) {
                 marker = marker_data[0];
                 marker.events.remove("mousedown");
-                marker.setUrl(marker_img_url + 'm_' + marker_img_name(marker_data[1].statuses,3) + '_no_active.png')
+                marker.setUrl(marker_img_url + 'm_' + marker_img_name(marker_data[1].statuses,colors_in_marker) + '_no_active.png')
             }
         });
 
@@ -368,7 +369,7 @@ function changingModeFunction() {
                 {
                     var size = new OpenLayers.Size(19,25);
                     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-                    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([],3) + '_selected.png', size, offset); 
+                    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([],colors_in_marker) + '_selected.png', size, offset); 
                     new_placeMarker = new OpenLayers.Marker(position,icon);
                     placesLayer.addMarker(new_placeMarker);
                 }
@@ -420,7 +421,7 @@ function changingModeFunction() {
                     ) (data.id);
 
                     marker.events.register("mousedown", marker, markerMouseDownFunction);
-                    marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,3) + '.png');
+                    marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,colors_in_marker) + '.png');
                 }
             });
 
@@ -540,7 +541,7 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     ));
     var size = new OpenLayers.Size(19,25);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(someData.statuses,3) + '.png', size, offset); 
+    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(someData.statuses,colors_in_marker) + '.png', size, offset); 
     feature.data.icon = icon;
     
     var marker = feature.createMarker();
@@ -598,11 +599,11 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      */
     if (last_place_selected != null) {
         markers_and_associated_data[last_place_selected][0].setUrl(
-            marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses,3) + '.png'
+            marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses,colors_in_marker) + '.png'
             );
     }
 
-    placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses,3) + '_selected.png');
+    placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses,colors_in_marker) + '_selected.png');
     console.log("place info:" + JSON.stringify(placeData));
     last_place_selected = placeData.id;
     $('.span_id').each(function() { this.innerHTML = placeData.id; });
