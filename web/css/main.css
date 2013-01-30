@@ -30,43 +30,38 @@ body {
 }
 
 input#l, textarea#d, input#n, input#e { width:90%; }
-#div_signaler .send { float:right; margin:0.1em 8% 1em 0; }
+.send { float:right; }
 
-#div_placeDetails {
-    margin: 1em 0.5em 0 0.5em;
-    border: 5px solid #2D2D2D;
-}
+#div_placeDetails, #div_placeEdit { margin: 1em 0.5em 0 0.5em; border: 5px solid #2D2D2D; }
 
-#div_placeDetails p.PointTitle {
-    background: #2D2D2D;
-    color: #FFFFFF;
-    margin:0;
-    padding-left: 0.2em;
-}
-#div_placeDetails p.PointTitle .span_id { font-size:1.2em; font-weight:bold; }
+img.SupprimerPoint { width:32px; height:32px; float:right; }
 
-#div_placeDetails div.PointDescription { padding:1em 0.5em 1em 1em; }
+p.PointTitle { background: #2D2D2D; color: #FFFFFF; margin:0; padding-left: 0.2em; }
+p.PointTitle .span_id { font-size:1.2em; font-weight:bold; }
 
-#div_placeDetails .QuotationBegin { background: url('../img/QuotationMark.png') no-repeat top left; float:left; width:32px; height:32px; }
-#div_placeDetails .p_description { background: url('../img/QuotationMark-end.png') no-repeat bottom right; padding:0 35px 0 40px; margin:0 0 1em 0; }
+div.PointDescription { padding:1em 0.5em 1em 1em; }
+div.PointDescription label { font-size: 0.9em; color:#2D2D2D; display:block; }
+
+#f_lieu, #f_description { width:95%; }
+
+.QuotationBegin { background: url('../img/QuotationMark.png') no-repeat top left; float:left; width:32px; height:32px; }
+.p_description { background: url('../img/QuotationMark-end.png') no-repeat bottom right; padding:0 35px 0 40px; margin:0 0 1em 0; }
 #span_description { font-style: italic; }
-#div_placeDetails a.link_add_photo { margin-left:4px; }
+a.link_add_photo { margin-left:4px; }
 
-div.PointDescription p.creator, div.solutions p.SolutionAuthor {
+div.PointDescription p.creator {
     font-size: 0.8em;
     color: #2D2D2D;
     margin:0;
 }
 
-.solution { margin-top:1em; }
+.status-1, .status0 { border-left: 1em solid #ffffff; }
+.status1 { border-left: 1em solid #a80000; }
+.status2 { border-left: 1em solid #ff3300; }
+.status3 { border-left: 1em solid #00a800; }
+.status4 { border-left: 1em solid #000000; }
 
-.SolutionTitle { font-size: 1.2em; }
 
-.SolutionVote { text-align: center; width: 40px; float:left; margin-right:1em; }
-.SolutionVote a { text-decoration: none; }
-.SolutionVote .SolutionVotingNumber { font-size:1.5em; font-weight:bold; }
-
-.SolutionDescription { font-size: 0.9em; }
 
 .instructions { font-weight: bold; color:#6B6B6B; text-transform: uppercase; display:block; margin:0 0 1em 0; }
 

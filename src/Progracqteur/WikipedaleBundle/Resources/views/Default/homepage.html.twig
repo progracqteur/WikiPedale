@@ -119,24 +119,7 @@
         </div>
         <div id="new_placeFrom_message"></div>
         <input id="new_place_form_submit_button" type="submit" class="send" value="{{ 'add_black_points.submit'|trans({}, 'changes') }}">
-      </form>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <!--
-      <p>Pour des petits travaux et des travaux d'entretien, vous pouvez contacter directement la ville via le num&eacute;ro gratuit 0800 92 329 ou via <a href="mailto:travaux.vert@ville.mons.be">travaux.vert@ville.mons.be</a> (<a href="http://www.mons.be/default.aspx?GUID={BF4FA10D-9842-11DA-9742-0002A58CB319}&LNG=FRA" target="_blank">mons.be</a>)</p>
-      <b>Aide :</b>
-      <ul>
-        <li>Un point noir est quelque chose qui pose probl&egrave;me &agrave; la pratique id&eacute;ale du v&eacute;lo ;  
-            ça peut &ecirc;tre une bordure non abaiss&eacute;e, une piste cyclable mal entretenue, un feu mal synchronis&eacute;, ...
-        <li>Pour nous signaler un point noir, indiquez sur la carte o&ugrave; se trouve ce point noir, remplissez le formulaire et cliquez sur "soumettre". Merci.
-      </ul> -->                   
+      </form>                
     </div>
 
     <div id="div_placeDetails" style="display:none;">
@@ -151,74 +134,46 @@
 
         <!-- <span class='span_nbVote'></span> votes      
         <span class="span_nbComm"></span> {{ 'display_black_points.comments'|trans({}, 'changes') }} -->
-        
-        <div class="solutions">
-            <div class="solution">
-                <span class="SolutionTitle">Solution 1 : Lorem ipsum dolor sit amet</span>
-                <p class="SolutionAuthor">Propos&eacute;e par <a href="#">Michel</a></p>
-                <div class="SolutionVote">
-                    <span class="SolutionVotingNumber">18</span><br />
-                    <a href="#" class="PositiveVote"><img src='../img/PositiveVote.png' /></a>
-                    <a href="#" class="NegativeVote"><img src='../img/NegativeVote.png' /></a>
-                </div>
-                <p class="SolutionDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Afficher la suite</a></p>
-            </div>
-
-            <div class="solution">
-                <span class="SolutionTitle">Solution 2 : Mauris at turpis id sapien...</span>
-                <p class="SolutionAuthor">Propos&eacute;e par <a href="#">Robert</a></p>
-                <div class="SolutionVote">
-                    <span class="SolutionVotingNumber">5</span><br />
-                    <a href="#" class="PositiveVote"><img src='../img/PositiveVote.png' /></a>
-                    <a href="#" class="NegativeVote"><img src='../img/NegativeVote.png' /></a>
-                </div>
-                <p class="SolutionDescription">Mauris at turpis id sapien consectetur consequat eu sed elit. Duis ac nulla nibh. Sed adipiscing ullamcorper neque vel tempus. <a href="#">Afficher la suite</a></p>
-            </div>
-            <a href="#">Voir les commentaires ou proposer une autre solution</a>
-        </div>
-        
       </div>
     </div>
 
-    <div id="div_placeEdit" style="margin-left:15px;display:none;background: white;"> 
-      <center><h1>&Eacute;dition - point noir <span class="span_id"></span></h1></center>
-      <strong><a id="link_delete" href="#">Supprimer le point noir</a><strong><br />
-      <strong>Photos (<a href="#" class="link_add_photo">Ajouter</a>)</strong> : <span class="span_photo"></span><br />
-      <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
-      <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span><br />
-      <strong>Cr&eacute;ateur</strong> : <br />
-      <br />
-      <strong>Contact</strong> : <span id="span_user_label"></span><br />
-      <strong>Mail</strong> : <span id="span_email"></span><br />
-      <br />
+    <div id="div_placeEdit" style="display:none;">
+        <p class="PointTitle">#<span class="span_id"></span> <span id="span_lieu"></span></p>
+        
+        <div class="PointDescription">
+            <a id="link_delete" href="#"><img class="SupprimerPoint" src="../img/corbeille.png" alt="Supprimer le signalement" title="Supprimer le signalement" /></a>   
+        <p>Constat effectué par: <span id="span_user_label"></span> (<a href="mailto:<span id='span_email'></span>"><span id="span_email"></span></a>)</p>
+
       <form method="post" action="javascript:catchForm('#editForm')" name="f" id="editForm">
         <input type ="hidden" value="" id="f_id" name="id" />
-        <p class="p_form">
-          <label for="f_lieu" class="label_aligne"><strong>Lieu</strong> : </label> 
-          <input name="lieu"  id="f_lieu" size=42 />
-        </p>
-        <p class="p_form">
-          <label for="f_description" class="label_aligne"><strong>Description</strong> :</label>
+
+          <label for="f_lieu" class="label_aligne">Localisation exacte du problème</label> 
+          <input name="lieu"  id="f_lieu" />
+
+          <label for="f_description" class="label_aligne">Description détaillée</label>
           <textarea name="description" id="f_description" cols=35 rows=5></textarea>
-        </p>
-        <p class="p_form">
-          <label for="c" class="label_aligne"><strong>Couleur</strong> :</label>
+          
+          <p><span class="span_photo"></span><a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}"><img src='../img/AddPicture.png' /></a></p>
+
+          <label for="c" class="label_aligne" style="display:inline;">Status</label>
           <select id="f_couleur">
-              <option value="-1">rejeté</option>
-              <option value="0">blanc</option>
-              <option value="1">rouge</option>
-              <option value="2">orange</option>
-              <option value="3">vert</option>
-              <option value="4">noir</option>
+              <option class="status-1" value="-1">rejeté</option>
+              <option class="status0" value="0">blanc</option>
+              <option class="status1" value="1">rouge</option>
+              <option class="status2" value="2">orange</option>
+              <option class="status3" value="3">vert</option>
+              <option class="status4" value="4">noir</option>
           </select>
-        </p>
+          
+      <!-- <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
+      <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span> -->
+          
         <p class="p_form" id="message_erreur" style="display:none">
           <span style="margin-left:100px; background-color:red;">Veuillez vous <a href="#login_user_form_div" target="_blank">connecter</a> pour enregistrer la modification.</span>
         </p>
-        <p class="p_form">
-          <span style="padding-left:100px;"><input type="submit" value="&Eacute;diter"></span>
-        </p>
+          <p><input class="send" type="submit" value="Sauvegarder les modifications"><br /></p>
       </form>
+      </div>
     </div>
 
   </div>
