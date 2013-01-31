@@ -1,3 +1,7 @@
+accueil:
+  assoc: Le GRACQ
+  accroche: vous invite à signaler vos besoins d'aménagements cyclables
+
 groups:
   list:
     title: Liste des groupes d'utilisateurs

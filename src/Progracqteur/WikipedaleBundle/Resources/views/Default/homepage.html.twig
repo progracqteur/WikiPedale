@@ -128,7 +128,7 @@
       <div class="PointDescription">
           <p class="creator">{{ 'display_black_points.author'|trans({}, 'changes') }} <a href="#"><span class="span_creator"></span></a> :</p>
         <div class="clearboth"></div>
-        <span class="QuotationBegin"></span><p class="p_description"><span id="span_description"></span> <a href="#">Modifier</a></p>
+        <span class="QuotationBegin"></span><p class="p_description"><span id="span_description"></span></p>
 
         <span class="span_photo"></span><a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}"><img src='../img/AddPicture.png' /></a>
 
@@ -180,6 +180,22 @@
 </div>
 {% else %}
 
+<div id="accueil">
+    <div id="accueil-texte">
+    <img src="../img/logos/logo_uello_300.png" />
+    <h1>
+        <span style="color:#008000;">{{ 'accueil.assoc'|trans({}, 'messages') }}</span>
+        {{ 'accueil.accroche'|trans({}, 'messages') }}
+    </h1>
+    <ul>
+        {% for city in mainCities %}
+        <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
+
+<!--
 <div id="About">
     {{ 'summary'|trans({}, 'about')|raw }}
 </div>
@@ -202,6 +218,7 @@
     </ul>
         
 </div>
+-->
 
 {% endif %}
 
