@@ -38,15 +38,22 @@ body {
 
 #ToolsPanel { margin: 1em 0 0 0; width:30%; float:right; overflow:auto; }
 
+label { font-size: 0.9em; color:#2D2D2D; display:block; }
+
 #ToolsPanel #div_signaler {
     display:none;
     margin:0;
     border:5px solid #D14836;
     margin: 0 0.5em 1em 0.5em;
-    padding:1em 0.5em 1em 1em;
+    padding:1em 1em 1em 1em;
 }
 
-input#l, textarea#d, input#n, input#e { width:90%; }
+#div_signaler img.verif { float:right; }
+
+#div_signaler textarea, #div_signaler input, #div_signaler form#new_placeForm 
+    { width:100%; }
+
+
 .send { float:right; }
 
 #div_placeDetails, #div_placeEdit { margin: 1em 0.5em 0 0.5em; border: 5px solid #2D2D2D; }
@@ -57,7 +64,7 @@ p.PointTitle { background: #2D2D2D; color: #FFFFFF; margin:0; padding-left: 0.2e
 p.PointTitle .span_id { font-size:1.2em; font-weight:bold; }
 
 div.PointDescription { padding:1em 0.5em 1em 1em; }
-div.PointDescription label { font-size: 0.9em; color:#2D2D2D; display:block; }
+
 
 #f_lieu, #f_description { width:95%; }
 
