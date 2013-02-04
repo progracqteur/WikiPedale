@@ -148,7 +148,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
 function updatePageWhenLogged(){
     document.getElementById("menu_user_name").style.display = 'inline';
     document.getElementById("menu_connexion").style.display = 'none';
-    document.getElementById("menu_profile").style.display = 'inline';
+    //document.getElementById("menu_profile").style.display = 'inline';
     document.getElementById("menu_logout").style.display = 'inline';
     document.getElementById("menu_register").style.display = 'none';
     jQuery('a.connexion').colorbox.close('');
