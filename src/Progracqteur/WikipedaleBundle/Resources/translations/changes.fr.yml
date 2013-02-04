@@ -34,10 +34,11 @@ add_black_points:
   last_added : Derniers ajoutés
   last_edited : Derniers modifiés
   location : Localisation exacte du problème
-  description : Description précise du problème et solutions proposées.
+  categories: Type de problème
+  description: Informations complémentaires (facultatif)
   name: Votre nom ou identifiant
   mail: Votre adresse e-mail
-  submit: Envoyer
+  submit: Enregistrer votre signalement
   help1: Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.
   
 display_black_points:

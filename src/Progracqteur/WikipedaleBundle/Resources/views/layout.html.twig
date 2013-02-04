@@ -46,15 +46,12 @@
             
 
             <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
-                | {{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username">{% if app.user %} {{app.user.username}} {% endif %}</span>
+                | <img src="../img/utilisateur.png" />
+                <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.username}} {% endif %}</span></a>
             </span>
 
             <span id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
                 |  <a class ="connexion" href="#login_user_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
-            </span>
-            
-            <span id="menu_profile" {% if not app.user %} style="display:none" {% endif %}>
-                |  <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.profile'|trans({}, 'messages') }}</a>
             </span>
 
             <span id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>

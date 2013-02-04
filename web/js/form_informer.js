@@ -16,38 +16,38 @@ function reset_informer(){
 	error_for_n_field = false;
 	error_for_e_field = false;
 	change_informer_fields = false;
-	document.getElementById('form_informer_map').src="../img/form_rond.jpg";
-	document.getElementById('form_informer_lieu').src="../img/form_rond.jpg";
-	document.getElementById('form_informer_description').src="../img/form_rond.jpg";
-	document.getElementById('form_informer_user_label').src="../img/form_rond.jpg";
-	document.getElementById('form_informer_email').src="../img/form_rond.jpg";
-	document.getElementById('form_informer_general_text').src="../img/form_rond.jpg";
+	document.getElementById('form_informer_map').src="../img/verif_rien.png";
+	document.getElementById('form_informer_lieu').src="../img/verif_rien.png";
+	document.getElementById('form_informer_description').src="../img/verif_rien.png";
+	document.getElementById('form_informer_user_label').src="../img/verif_rien.png";
+	document.getElementById('form_informer_email').src="../img/verif_rien.png";
+	document.getElementById('form_informer_general_text').src="../img/verif_rien.png";
 
 }
 
 function update_l_informer_for_form() {
 	var l_value = jQuery('#l').attr('value');
 	if (l_value) {
-		document.getElementById('form_informer_lieu').src="../img/form_ok.jpg";
+		document.getElementById('form_informer_lieu').src="../img/verif_oui.png";
 		error_for_l_field = false;
 	}
 	else
 	{
-		document.getElementById('form_informer_lieu').src="../img/form_not_ok.jpg";
+		document.getElementById('form_informer_lieu').src="../img/verif_non.png";
 		error_for_l_field = true;
 	}
 	update_informer_fields()
 }
 
 function update_d_informer_for_form() {
-	var l_value = jQuery('#d').attr('value');
+	var l_value = jQuery('#c').attr('value');
 	if (l_value) {
-		document.getElementById('form_informer_description').src="../img/form_ok.jpg";
+		document.getElementById('form_informer_categories').src="../img/verif_oui.png";
 		error_for_d_field = false;
 	}
 	else
 	{
-		document.getElementById('form_informer_description').src="../img/form_not_ok.jpg";
+		document.getElementById('form_informer_categories').src="../img/verif_non.png";
 		error_for_d_field = true;
 	}
 	update_informer_fields()
@@ -56,12 +56,12 @@ function update_d_informer_for_form() {
 function update_n_informer_for_form() {
 	var l_value = jQuery('#n').attr('value');
 	if (l_value) {
-		document.getElementById('form_informer_user_label').src="../img/form_ok.jpg";
+		document.getElementById('form_informer_user_label').src="../img/verif_oui.png";
 		error_for_n_field = false;
 	}
 	else
 	{
-		document.getElementById('form_informer_user_label').src="../img/form_not_ok.jpg";
+		document.getElementById('form_informer_user_label').src="../img/verif_non.png";
 		error_for_n_field = true;
 	}
 	update_informer_fields()
@@ -70,12 +70,12 @@ function update_n_informer_for_form() {
 function update_e_informer_for_form() {
 	var l_value = jQuery('#e').attr('value');
 	if (l_value && is_mail_valid(l_value)) {
-		document.getElementById('form_informer_email').src="../img/form_ok.jpg";
+		document.getElementById('form_informer_email').src="../img/verif_oui.png";
 		error_for_e_field = false;
 	}
 	else
 	{
-		document.getElementById('form_informer_email').src="../img/form_not_ok.jpg";
+		document.getElementById('form_informer_email').src="../img/verif_non.png";
 		error_for_e_field = true;
 	}
 	update_informer_fields()
@@ -83,22 +83,22 @@ function update_e_informer_for_form() {
 
 function update_informer_fields(){
 	if (error_for_l_field || error_for_d_field || error_for_n_field || error_for_e_field) {
-		document.getElementById('form_informer_general_text').src="../img/form_not_ok.jpg";
+		document.getElementById('form_informer_general_text').src="../img/verif_non.png";
 		change_informer_fields = true;
 	}
 	else
 	{
 		if (change_informer_fields)
 		{
-			document.getElementById('form_informer_general_text').src="../img/form_ok.jpg";
+			document.getElementById('form_informer_general_text').src="../img/verif_oui.png";
 		}
 	}
 }
 
 function update_informer_map_not_ok() {
-	document.getElementById('form_informer_map').src="../img/form_not_ok.jpg";
+	document.getElementById('form_informer_map').src="../img/verif_non.png";
 	}
 
 function update_informer_map_ok() {
-	document.getElementById('form_informer_map').src="../img/form_ok.jpg";
+	document.getElementById('form_informer_map').src="../img/verif_oui.png";
 	}

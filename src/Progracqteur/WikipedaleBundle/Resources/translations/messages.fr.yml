@@ -1,3 +1,7 @@
+accueil:
+  assoc: Le GRACQ
+  accroche: vous invite à signaler vos besoins d'aménagements cyclables
+
 groups:
   list:
     title: Liste des groupes d'utilisateurs
@@ -42,7 +46,7 @@ layout:
     logout: Déconnexion
     login: Connexion
     register: Créer un compte
-    logged_in_as: Bonjour %username%
+    logged_in_as: %username%
     profile: Votre profil
     
 errors:
