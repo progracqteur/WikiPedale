@@ -54,7 +54,7 @@ class User extends BaseUser
     /**
      * @deprecated
      */
-    const ROLE_STATUS_CITY = 'ROLE_CITY';
+    const ROLE_STATUS_Zone = 'ROLE_Zone';
     /**
      *@deprecated tous les utilisateurs sont enregistrés... 
      */

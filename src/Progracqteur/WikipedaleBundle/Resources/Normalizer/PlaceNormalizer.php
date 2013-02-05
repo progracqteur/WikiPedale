@@ -100,9 +100,9 @@ class PlaceNormalizer implements NormalizerInterface {
             $p->setStatusBicycle($data['statusBicycle']);
         }
         
-        if (isset($data['statusCity']))
+        if (isset($data['statusZone']))
         {
-            $p->setStatusCity($data['statusCity']);
+            $p->setStatusZone($data['statusZone']);
         }
         
         if (isset($data['accepted']))
@@ -214,7 +214,7 @@ class PlaceNormalizer implements NormalizerInterface {
             'lastUpdate' => $this->service->getDateNormalizer()->normalize($object->getLastUpdate(), $format),
             'nbPhotos' => $object->getNbPhoto(),
             //'statusBicycle' => $object->getStatusBicycle(),
-            //'statusCity' => $object->getStatusCity(),
+            //'statusZone' => $object->getStatusZone(),
             'accepted' => $object->isAccepted(),
             'statuses' => $s,
             'categories' => $c

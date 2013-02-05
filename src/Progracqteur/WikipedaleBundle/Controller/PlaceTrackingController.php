@@ -25,7 +25,7 @@ class PlaceTrackingController extends Controller {
             throw new \Exception('Renseigner une ville dans une variable \'city\' ');
         }
         
-         $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\City')
+         $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\Zone')
                 ->findOneBy(array('slug' => $citySlug));
         
         if ($city === null)

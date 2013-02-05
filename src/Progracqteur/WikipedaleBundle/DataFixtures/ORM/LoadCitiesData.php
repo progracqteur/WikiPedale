@@ -34,7 +34,7 @@ class LoadCitiesData extends AbstractFixture implements ContainerAwareInterface,
         $em = $this->container->get('doctrine.orm.entity_manager');
         
         $nbCities = $em->createQuery("SELECT count(c.id) from 
-            ProgracqteurWikipedaleBundle:Management\City c")
+            ProgracqteurWikipedaleBundle:Management\Zone c")
                 ->getSingleScalarResult();
         
         if ($nbCities == 0) {

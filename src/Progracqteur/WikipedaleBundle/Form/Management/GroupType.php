@@ -6,7 +6,7 @@ use FOS\UserBundle\Form\Type\GroupFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Doctrine\Common\Persistence\ObjectManager;
-use Progracqteur\WikipedaleBundle\Form\Management\GroupType\CityToPolygonTransformer;
+use Progracqteur\WikipedaleBundle\Form\Management\GroupType\ZoneToPolygonTransformer;
 
 class GroupType extends GroupFormType
 {
@@ -22,24 +22,24 @@ class GroupType extends GroupFormType
     
     public function buildForm(FormBuilder $builder, array $options)
     {
-        //$cityToPolygonTransformer = new CityToPolygonTransformer($this->om);
+        //$ZoneToPolygonTransformer = new ZoneToPolygonTransformer($this->om);
         
         parent::buildForm($builder, $options);
         
         $builder
-            ->add( $builder->create('city', 'entity', array(
-                "class" => 'ProgracqteurWikipedaleBundle:Management\City',
+            ->add( $builder->create('Zone', 'entity', array(
+                "class" => 'ProgracqteurWikipedaleBundle:Management\Zone',
                 'query_builder' => function(\Doctrine\ORM\EntityRepository $er)
                         {
                             return $er->createQueryBuilder('v')
                                     ->orderBy('v.name', 'ASC');
             
                         },
-                'empty_value' => 'city.choose.value'
+                'empty_value' => 'Zone.choose.value'
                 )
                  
             )
-               //    ->prependNormTransformer($cityToPolygonTransformer)
+               //    ->prependNormTransformer($ZoneToPolygonTransformer)
             )
             ->add('notation', 'entity', array(
                 'class' => 'ProgracqteurWikipedaleBundle:Management\Notation',

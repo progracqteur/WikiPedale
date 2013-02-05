@@ -6,14 +6,14 @@ namespace Progracqteur\WikipedaleBundle\Form\Management\GroupType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
-use Progracqteur\WikipedaleBundle\Entity\Management\City;
+use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
 
 /**
- * Description of CityToPolygonTransformer
+ * Description of ZoneToPolygonTransformer
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class CityToPolygonTransformer implements DataTransformerInterface {
+class ZoneToPolygonTransformer implements DataTransformerInterface {
     
     /**
      *
@@ -31,15 +31,15 @@ class CityToPolygonTransformer implements DataTransformerInterface {
      * @param type $value
      */
     public function reverseTransform($id) {
-        $city = $this->om->getRepository('ProgracqteurWikipedaleBundle:Management\City')
+        $Zone = $this->om->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->find($id);
-        return $city->getPolygon();
+        return $Zone->getPolygon();
     }
     
     /**
      * This function does nothing... 
      * 
-     * @param type $city
+     * @param type $Zone
      * @return string
      */
     public function transform($polygonString) {
@@ -49,9 +49,9 @@ class CityToPolygonTransformer implements DataTransformerInterface {
             return null;
         }
         
-        $city = $this->om->getRepository('ProgracqteurWikipedaleBundle:Management\City')
+        $Zone = $this->om->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->findOneByPolygon($polygonString);
-        return $city;
+        return $Zone;
     }
 }
 

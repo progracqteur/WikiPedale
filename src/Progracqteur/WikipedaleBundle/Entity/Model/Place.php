@@ -84,7 +84,7 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     
     private $nbPhoto = 0;
     
-    private $statusCity = 0;
+    private $statusZone = 0;
     
     private $statusBicycle = 0;
     
@@ -677,9 +677,9 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         return $this->description;
     }
     
-    public function getStatusCity() 
+    public function getStatusZone() 
     {
-        return $this->statusCity;
+        return $this->statusZone;
     }
     
     public function getStatusBicycle()
@@ -712,13 +712,13 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         }
     }
     
-    public function setStatusCity($status)
+    public function setStatusZone($status)
     {
-        if ($this->statusCity != $status)
+        if ($this->statusZone != $status)
         {
-            $this->change('statusCity', $this->statusCity, $status);
-            $this->statusCity = $status;
-            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_CITY, $status);
+            $this->change('statusZone', $this->statusZone, $status);
+            $this->statusZone = $status;
+            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_Zone, $status);
         }
     }
     

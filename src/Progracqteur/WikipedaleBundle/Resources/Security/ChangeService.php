@@ -31,7 +31,7 @@ class ChangeService {
     const PLACE_REMOVE_PHOTO = 135;
     const PLACE_STATUS = 141;
     const PLACE_STATUS_BICYCLE = 140;
-    const PLACE_STATUS_CITY = 150;
+    const PLACE_STATUS_Zone = 150;
     const PLACE_CREATOR = 160;
     const PLACE_ACCEPTED = 170;
     const PLACE_ADD_CATEGORY = 180;
@@ -120,13 +120,13 @@ class ChangeService {
                     }
                     break;
                 // this case is deprecated
-                case self::PLACE_STATUS_CITY :
-                    if ( $this->securityContext->isGranted(User::ROLE_STATUS_CITY)
+                case self::PLACE_STATUS_Zone :
+                    if ( $this->securityContext->isGranted(User::ROLE_STATUS_Zone)
                             )
                     {
                         continue;
                     } else {
-                        throw ChangeException::param('statusCity');
+                        throw ChangeException::param('statusZone');
                     }
                     break;
                  case self::PLACE_ACCEPTED:
@@ -152,7 +152,7 @@ class ChangeService {
                      }
                      
                      $dql = "select g from ProgracqteurWikipedaleBundle:Management\Group g 
-                         JOIN g.city c JOIN g.notation n 
+                         JOIN g.Zone c JOIN g.notation n 
                          WHERE 
                                 EXISTS (select h from ProgracqteurWikipedaleBundle:Management\User u
                                            JOIN u.groups h

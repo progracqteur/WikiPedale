@@ -4,7 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\Group as BaseGroup;
-use Progracqteur\WikipedaleBundle\Entity\Management\City;
+use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\Group
@@ -13,9 +13,9 @@ class Group extends BaseGroup
 {
 
     /**
-     * @var Progracqteur\WikipedaleBundle\Management\City $polygon
+     * @var Progracqteur\WikipedaleBundle\Management\Zone $polygon
      */
-    private $city;
+    private $Zone;
 
     /**
      * @var Progracqteur\WikipedaleBundle\Management\Notation
@@ -32,20 +32,20 @@ class Group extends BaseGroup
     }
     
     /**
-     * Set City
+     * Set Zone
      *
-     * @param Progracqteur\WikipedaleBundle\Entity\Management\City $city
+     * @param Progracqteur\WikipedaleBundle\Entity\Management\Zone $Zone
      * @return Group
      */
-    public function setCity(City $city = null)
+    public function setZone(Zone $Zone = null)
     {
-        $this->city = $city;
+        $this->Zone = $Zone;
         return $this;
     }
     
-    public function getCity()
+    public function getZone()
     {
-        return $this->city;
+        return $this->Zone;
     }
 
     
@@ -74,6 +74,6 @@ class Group extends BaseGroup
     }
     
     public function __toString() {
-        return $this->getName().' ("'.$this->getNotation().'" à '.$this->getCity().')';
+        return $this->getName().' ("'.$this->getNotation().'" à '.$this->getZone().')';
     }
 }

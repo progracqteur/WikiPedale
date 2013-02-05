@@ -83,11 +83,11 @@ class PlaceControllerTest extends WebTestCase {
         $this->assertEquals(1, $errors->count());
     }
     
-    public function testValidationStatusCityOnCreation()
+    public function testValidationStatusZoneOnCreation()
     {
         $p = $this->getPlace();
         
-        $p->setStatusCity(1);
+        $p->setStatusZone(1);
         
         $validator = $this->getValidator();
         

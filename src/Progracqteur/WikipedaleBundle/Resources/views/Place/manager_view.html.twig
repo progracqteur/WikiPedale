@@ -32,7 +32,7 @@
     
     <ul>
         <li>{{ form_label(form.description) }} {{ form_widget(form.description) }}</li>
-        <li>{{ form_label(form.address) }} {{ form_widget(form.address.road, { 'attr' : {'placeholder':'Rue'} }) }} {{ form_widget(form.address.city, { 'attr' : {'placeholder':'Localité'} }) }}</li>
+        <li>{{ form_label(form.address) }} {{ form_widget(form.address.road, { 'attr' : {'placeholder':'Rue'} }) }} {{ form_widget(form.address.Zone, { 'attr' : {'placeholder':'Localité'} }) }}</li>
         <li>{{ form_label(form.category) }} {{ form_widget(form.category) }} </li>
         <li>
             <label for="status">Statut sur la carte</label> : 

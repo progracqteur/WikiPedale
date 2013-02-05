@@ -79,7 +79,7 @@ class UserNormalizer implements NormalizerInterface
         if (
                 $this->service->getSecurityContext()->isGranted(User::ROLE_STATUS_BICYCLE)
               OR
-                $this->service->getSecurityContext()->isGranted(User::ROLE_STATUS_CITY)
+                $this->service->getSecurityContext()->isGranted(User::ROLE_STATUS_Zone)
               OR
                 $this->service->getSecurityContext()->isGranted(User::ROLE_ADMIN)
                 )

@@ -13,6 +13,6 @@ Progracqteur\WikipedaleBundle\Entity\Management\Group:
     notation:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Notation
       nullable: true
-    city:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\City
+    Zone:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Zone
       nullable: true

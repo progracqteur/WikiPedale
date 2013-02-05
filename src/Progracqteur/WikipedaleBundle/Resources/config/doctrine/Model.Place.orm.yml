@@ -29,7 +29,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       type: integer
     address:
       type: address
-    statusCity:
+    statusZone:
       type: integer
     statusBicycle:
       type: integer
