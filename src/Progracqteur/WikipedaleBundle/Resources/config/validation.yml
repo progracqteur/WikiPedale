@@ -75,4 +75,13 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
           message: user.validation.email.not_valid_or_domain_not_exist
           checkMX: true
       
-    
+Progracqteur\WikipedaleBundle\Entity\Model\Category:
+  constraints:
+    - Callback:
+        methods: [isParentAChild]
+  getters:
+    label:
+      - NotBlank: ~
+      - MinLength: {limit: 3, message: admin.category.form.label.min_length}
+      - MaxLength: {limit: 240, message: admin.category.form.label.max_length}
+      
