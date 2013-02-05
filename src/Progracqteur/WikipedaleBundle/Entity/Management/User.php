@@ -67,6 +67,14 @@ class User extends BaseUser
      * @var string
      */
     const ROLE_NOTATION = 'ROLE_NOTATION';
+    /**
+     * @var string
+     */
+    const ROLE_MANAGER = 'ROLE_MANAGER';
+    /**
+     * @var string
+     */
+    const ROLE_MODERATOR = 'ROLE_MODERATOR';
     
     
     

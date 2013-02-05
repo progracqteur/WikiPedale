@@ -15,20 +15,35 @@ class Group extends BaseGroup
     /**
      * @var Progracqteur\WikipedaleBundle\Management\Zone $polygon
      */
-    private $Zone;
+    private $zone;
 
     /**
      * @var Progracqteur\WikipedaleBundle\Management\Notation
      */
     private $notation;
     
-
- //   private ;
+    /**
+     *
+     * @var string 
+     */
+    private $type;
+    
+    /**
+     * @var string
+     */
+    const TYPE_NOTATION = 'NOTATION';
+    /**
+     * @var string
+     */
+    const TYPE_MANAGER = 'MANAGER';
+    /**
+     * @var string
+     */
+    const TYPE_MODERATOR = 'MODERATOR';
     
 
     public function __construct($name = '', $roles = array()) {
         parent::__construct($name, $roles);
-        $this->addRole('ROLE_NOTATION');
     }
     
     /**
@@ -37,17 +52,28 @@ class Group extends BaseGroup
      * @param Progracqteur\WikipedaleBundle\Entity\Management\Zone $Zone
      * @return Group
      */
-    public function setZone(Zone $Zone = null)
+    public function setZone(Zone $zone = null)
     {
-        $this->Zone = $Zone;
+        $this->zone = $zone;
         return $this;
     }
     
     public function getZone()
     {
-        return $this->Zone;
+        return $this->zone;
     }
 
+    public function setType($type) 
+    {
+        $this->type = $type;
+        return $this;
+    }
+    
+    public function getType()
+    {
+        return $this->type;
+    }
+    
     
     
 

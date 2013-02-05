@@ -12,6 +12,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
  * Description of ZoneToPolygonTransformer
  *
  * @author Julien Fastré <julien arobase fastre point info>
+ * @deprecated since 1.1DEV
  */
 class ZoneToPolygonTransformer implements DataTransformerInterface {
     

@@ -6,13 +6,14 @@ Progracqteur\WikipedaleBundle\Entity\Management\Group:
       type: integer
       generator: {strategy: AUTO}
   fields:
-#polygon:
-#      type: string
-#      nullable: true
+    type:
+      type: string
+      column: gtype
+      length: 6
   manyToOne:
     notation:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Notation
       nullable: true
-    Zone:
+    zone:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Zone
       nullable: true
