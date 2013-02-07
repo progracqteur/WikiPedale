@@ -476,26 +476,12 @@ function homepageMap(townId, townLon, townLat, marker_id_to_display) {
         trigger: changingModeFunction,
         title: 'Button is to be clicked'});
 
-    var button_lately_added = new OpenLayers.Control.Button({ 
-        id : 'buttonLatelyAdded',
-        displayClass: 'olControlButtonLatelyAdded',
-        trigger: blopFunction,
-        title: 'Button is to be clicked'});
-
-    var button_lately_updated = new OpenLayers.Control.Button({ 
-        id : 'buttonLatelyUpdated',
-        displayClass: 'olControlButtonLatelyUpdated',
-        trigger: blopFunction,
-        title: 'Button is to be clicked'});
-
     var control_panel = new OpenLayers.Control.Panel({
         div: document.getElementById('olPanelUL')});
     map.addControl(control_panel);
-    control_panel.addControls([button_add_place, button_lately_added, button_lately_updated ]);
+    control_panel.addControls([button_add_place]);
     
     button_add_place.activate();
-    button_lately_added.activate();
-    button_lately_updated .activate();
 
     $(document).ready(function(){
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
