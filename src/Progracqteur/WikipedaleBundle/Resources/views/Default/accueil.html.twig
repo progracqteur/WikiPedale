@@ -1,0 +1,14 @@
+<div id="accueil">
+    <div id="accueil-texte">
+    <img src="../img/logos/logo_uello_300.png" />
+    <h1>
+        <span style="color:#008000;">{{ 'accueil.assoc'|trans({}, 'messages') }}</span>
+        {{ 'accueil.accroche'|trans({}, 'messages') }}
+    </h1>
+    <ul>
+        {% for city in mainCities %}
+        <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
