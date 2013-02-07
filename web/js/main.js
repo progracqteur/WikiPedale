@@ -421,7 +421,13 @@ function changingModeFunction() {
                     ) (data.id);
 
                     marker.events.register("mousedown", marker, markerMouseDownFunction);
-                    marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,colors_in_marker) + '.png');
+
+                    if(last_place_selected != null  && last_place_selected == data.id) {
+                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,colors_in_marker) + '_selected.png');
+                        }
+                    else {
+                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,colors_in_marker) + '.png');
+                    }
                 }
             });
 
