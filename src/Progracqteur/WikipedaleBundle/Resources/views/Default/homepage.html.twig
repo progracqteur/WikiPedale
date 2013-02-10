@@ -5,13 +5,17 @@
 
 <script language="javascript"> 
  <!--
+    web_dir2 = "{{ asset('js') }}"; // pour remplacer web_dir mais faudrait asset('js') qui ne marche pas
+    console.log(web_dir);
+    console.log(web_dir2);
+
     // color box for connexion
     $(document).ready(function(){
         jQuery('a.connexion').colorbox({
         inline:true,
         width:"300px",
         height:"300px",
-        onComplete: function(){ $("#i_username").focus(); }
+        onComplete: function(){ $("#login_input_username").focus(); }
         });
 
 
@@ -52,16 +56,16 @@
 {% block body %}
   <!-- Écran de connexion -->
   <div style='display:none'>
-    <div id='login_user_form_div'>
+    <div id='login_form_div'>
       <b><font color="red"><span id='login_message'></span></font></b><br />
       <form method="post" action="javascript:catchLoginForm()" id="loginForm">
-        <label for="i_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
-        <input type="text" id="i_username" name="username" value="" />
+        <label for="login_input_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
+        <input type="text" id="login_input_username" name="username"/>
         <br/><br/>
-        <label for="i_password">{{ 'security.login.password'|trans({}, 'userMessages') }}</label>
-        <input type="password" id="i_password" name="password" />
+        <label for="login_input_password">{{ 'security.login.password'|trans({}, 'userMessages') }}</label>
+        <input type="password" id="login_input_password" name="password"/>
         <br/><br/>
-        <input type="submit" id="i_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
+        <input type="submit" id="login_input_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
       </form>
     </div>
   </div>

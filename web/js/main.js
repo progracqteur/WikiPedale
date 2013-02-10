@@ -15,7 +15,7 @@ for (i = 0; i < (baseUrlsplit.length - 1); i++)
 } 
 var marker_img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
 
-var colors_in_marker = 1;
+var colors_in_marker = 1; //number of color in a marker
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
 var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
@@ -64,11 +64,6 @@ function marker_img_name(statuses, numberOfWatcher)
     }
 }
 
-
-
-
-$.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
-
 function blopFunction() {
     /**
     * Testing function
@@ -109,7 +104,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     * @param {string} lat The latitude of the new place.
     * @param {string} address The address of the new place.
     * @param {string} id The id of the new place, this parameter is optionnal : if it isn't given or null it means tha the place is a new placa.
-    * @param {string} coulor The color of the place (only for existing place)
+    * @param {string} color The color of the place (only for existing place)
     * @param {string} user_label The label given by the user : if the user is register and logged this field is not considered
     * @param {string} user_email The email given by the user : if the user is register and logged this field is not considered
     * @param {array of string} caterogies The ids of categories selected
@@ -146,9 +141,13 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
 }
 
 function updatePageWhenLogged(){
+    /**
+    * Updates the menu when the user is logged :
+    * - connexion link and register link : disappear
+    * - user name and logout link : appear
+    */
     document.getElementById("menu_user_name").style.display = 'inline';
     document.getElementById("menu_connexion").style.display = 'none';
-    //document.getElementById("menu_profile").style.display = 'inline';
     document.getElementById("menu_logout").style.display = 'inline';
     document.getElementById("menu_register").style.display = 'none';
     jQuery('a.connexion').colorbox.close('');
@@ -156,6 +155,10 @@ function updatePageWhenLogged(){
 }
 
 function catchLoginForm(){
+    /**
+    * When the login form is throwed.
+    * Asks to the db if couple username/password is correct
+    */
     var user_data = {};
     $.map($('#loginForm').serializeArray(), function(n, i){
         user_data[n['name']] = n['value'];
@@ -180,20 +183,11 @@ function catchLoginForm(){
             else { 
                 $('#login_message').text(output_json[0].message);
                 $('#login_message').addClass('errorMessage');
-                //document.getElementById("login_message").
                 }
         },
         error: function(output_json) {
             $('#login_message').text(output_json.responseText);
             $('#login_message').addClass('errorMessage');
-            /*
-            alert(JSON.stringify(output_json));
-            alert(output_json.responseText);
-            alert(JSON.parse(output_json.responseText)[0]);
-            alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
-            alert((output_json.responseText[0]).message);
-            alert('ERREUR'); 
-            */
         }
     });
 }
@@ -260,7 +254,7 @@ function catchForm(formName) {
         if(!userInAccordWithServer)
             {
                 $('#login_message').text("Veuillez vous reconnecter.")
-                $.colorbox({inline:true, href:"#login_user_form_div"});
+                $.colorbox({inline:true, href:"#login_form_div"});
             }
         else {
             if(editForm && userIsAdminServer())
