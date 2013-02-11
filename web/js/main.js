@@ -557,6 +557,22 @@ function pop_up_add_photo(i) {
     window.open(Routing.generate('wikipedale_photo_new', {_format: 'html', placeId: i}));
 }
 
+
+display_options = false;
+
+function action_buttonOptionsAffichage() {
+    if(display_options) {
+        document.getElementById("div_options_affichage").style.display = "none";
+        document.getElementById("buttonOptionsAffichage").innerHTML = "Options d'affichage";
+        
+    }
+    else {
+        document.getElementById("div_options_affichage").style.display = "block";
+        document.getElementById("buttonOptionsAffichage").innerHTML = 'Annuler';
+    }
+    display_options = ! display_options;
+}
+
 function refresh_span_photo(id) {
     url_photo_list = Routing.generate('wikipedale_photo_list_by_place', {_format: 'json', placeId: id});
     $.getJSON(url_photo_list, function(raw_data) {

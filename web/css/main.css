@@ -40,7 +40,7 @@ body {
 
 label { font-size: 0.9em; color:#2D2D2D; display:block; }
 
-#ToolsPanel #div_signaler {
+#ToolsPanel #div_signaler, #div_options_affichage {
     display:none;
     margin:0;
     border:5px solid #D14836;
@@ -96,9 +96,9 @@ div.PointDescription p.creator {
 }
 
 /* Menu actions Signalement */
-.olControlButtonAddPlaceItemActive {
+.olControlButtonAddPlaceItemActive, #buttonOptionsAffichage {
     height: 20px;
-    margin: 0 0.5em 0 0.5em;
+    margin: 10px 0.5em 0 0.5em;
     padding : 0.2em 0.5em 0.2em 35px;
     background: #D14836 url('../img/plus.png') no-repeat 0.5em;
     border: 1px solid transparent;
@@ -107,7 +107,7 @@ div.PointDescription p.creator {
     text-transform: uppercase;
 }
 
-.olControlButtonAddPlaceItemActive:hover {
+.olControlButtonAddPlaceItemActive:hover, .buttonOptionAffichage:hover {
     background: #E23D27 url('../img/plusblanc.png') no-repeat 0.5em;
 }
 
