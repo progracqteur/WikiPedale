@@ -19,7 +19,7 @@ The variable injected by controllers are :
 
 <form method="post" {{ form_enctype(form) }} path="#">
 
-
+    <p>{{form_errors(form)}}</p>
     
     {# please do not delete this : #} {{form_rest(form)}}
     

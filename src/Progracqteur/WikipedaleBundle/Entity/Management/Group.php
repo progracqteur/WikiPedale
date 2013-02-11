@@ -42,10 +42,16 @@ class Group extends BaseGroup
      */
     const TYPE_MODERATOR = 'MODERATOR';
     
-    public static function getArrayTypes()
+    /**
+     * return an array of each valid types
+     * 
+     * @return array
+     */
+    public static function getExistingTypes()
     {
         return array(self::TYPE_MANAGER, self::TYPE_MODERATOR, self::TYPE_NOTATION);
     }
+    
     
 
     public function __construct($name = '', $roles = array()) {
@@ -128,13 +134,39 @@ class Group extends BaseGroup
     
     
     public function isValidType(ExecutionContext $context) {
-        $a = self::getArrayTypes();
+        $a = self::getExistingTypes();
         
-        if ( ! in_array($this->getType()))
+        if ( ! in_array($this->getType(), $a))
         {
-            $propertyPath = $context->getPropertyPath().'type';
+            $propertyPath = $context->getPropertyPath().'Type';
             $context->setPropertyPath($propertyPath);
             $context->addViolation('group.type.invalid', array(), $this->getType());
+        }
+        
+        
+    }
+    
+    public function isValidNotation(ExecutionContext $context)
+    {
+        $propertyPath = $context->getPropertyPath().'Notation';
+        $context->setPropertyPath($propertyPath);
+        
+        if ($this->hasRole(User::ROLE_NOTATION))
+        {
+            if ($this->getNotation() === null)
+            {
+                $context->addViolation('group.notation.not_null', array(), '');
+                return;
+            }
+        }
+        
+        if ($this->getType() === self::TYPE_MODERATOR)
+        {
+            if ($this->getNotation()->getId() !== 'cem')
+            {
+                $context->addViolation('group.notation.must_be_cem', array(), $this->getNotation()->getId());
+                return;
+            }
         }
     }
 }

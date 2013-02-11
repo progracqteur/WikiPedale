@@ -22,7 +22,7 @@
             <tr>
                 <td>{{group.name}}</td>
                 <td>{{group.zone}}</td>
-                <td>{{group.notation.name}} ({{group.notation.id}})</td>
+                <td>{% if group.notation is not null %}{{group.notation.name}} ({{group.notation.id}}){% else %}&nbsp;{% endif %}</td>
                 <td>{{group.type}}</td>
                 <td>
                     <ul>
