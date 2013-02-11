@@ -46,6 +46,13 @@ class Zone
      * @var string
      */
     private $type;
+    
+    /**
+     * Type of zone "city"
+     * 
+     * @var string
+     */
+    const TYPE_CITY = 'city';
 
 
     /**

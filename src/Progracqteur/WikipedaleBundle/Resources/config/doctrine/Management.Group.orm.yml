@@ -9,7 +9,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\Group:
     type:
       type: string
       column: gtype
-      length: 6
+      length: 12
   manyToOne:
     notation:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Notation

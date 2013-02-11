@@ -16,11 +16,11 @@ class LoadNotationData extends AbstractFixture implements OrderedFixtureInterfac
     
     
     public function getOrder() {
-        return 4;
+        return 2;
     }
 
     public function load(ObjectManager $manager) {
-        $notations = array('gracq', "spw", "villedemons");
+        $notations = array('gracq', "spw", "villedemons", 'cem');
         
         foreach ($notations as $name)
         {
@@ -35,9 +35,14 @@ class LoadNotationData extends AbstractFixture implements OrderedFixtureInterfac
                 case 'villedemons' :
                     $l = "Ville de Mons";
                     break;
+                case 'cem':
+                    $l = "Conseiller en mobilité local";
+                    
             }
             $n->setName($l);
             $manager->persist($n);
+            $this->addReference('notation_'.$n->getId(), $n);
+            echo "ajout de la catégorie notation_".$n->getId()."\n";
             
         }
         

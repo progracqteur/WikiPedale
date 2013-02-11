@@ -20,7 +20,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     private $container;
     
 public function getOrder() {
-        return 2;
+        return 3;
     }
     
 public function load(ObjectManager $manager) {
@@ -45,13 +45,11 @@ public function load(ObjectManager $manager) {
         }
         
         
-        $notation = new Notation('gracqmons');
-        $notation->setName("Gracq Mons");
         
-        $manager->persist($notation);
         
         $g = new Group('GRACq Mons', array('ROLE_NOTATION'));
-        $g->setNotation($notation);
+        $g->setNotation($this->getReference('notation_cem'))
+                ->setType(Group::TYPE_NOTATION);
         $city = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->findOneBySlug('mons');
         $g->setZone($city);
