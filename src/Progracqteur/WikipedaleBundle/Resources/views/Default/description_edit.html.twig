@@ -1,0 +1,58 @@
+<div id="div_placeEdit" style="display:none;">
+  <p class="PointTitle">#<span class="span_id"></span> 
+    <span id="span_lieu"></span>
+  </p>
+        
+  <div class="PointDescription">
+    <a id="link_delete" href="#"><img class="SupprimerPoint" src="../img/corbeille.png" alt="Supprimer le signalement" title="Supprimer le signalement" /></a>   
+    <p>
+      Constat effectué par: <span id="span_user_label"></span> 
+      (<a href="mailto:<span id='span_email'></span>">
+        <span id="span_email"></span>
+      </a>)
+    </p>
+
+    <form method="post" action="javascript:catchForm('#editForm')" name="f" id="editForm">
+      <input type ="hidden" value="" id="f_id" name="id" />
+
+      <label for="f_lieu" class="label_aligne">Localisation exacte du problème</label> 
+      <input name="lieu"  id="f_lieu" />
+
+      <label for="f_description" class="label_aligne">Description détaillée</label>
+      <textarea name="description" id="f_description" cols=35 rows=5></textarea>
+          
+      <p>
+        <span class="span_photo"></span>
+        <a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}">
+          <img src='../img/AddPicture.png' />
+        </a>
+      </p>
+
+      <label for="c" class="label_aligne" style="display:inline;">Status</label>
+      <select id="f_couleur">
+        <option class="status-1" value="-1">rejeté</option>
+        <option class="status0" value="0">blanc</option>
+        <option class="status1" value="1">rouge</option>
+        <option class="status2" value="2">orange</option>
+        <option class="status3" value="3">vert</option>
+        <option class="status4" value="4">noir</option>
+      </select>
+          
+      <!-- <strong>Nbr. de commentaires</strong> : <span class="span_nbComm"></span><br />
+      <strong>Nbr. de votes</strong> : <span class="span_nbVote"></span> -->
+          
+      <p class="p_form" id="message_erreur" style="display:none">
+        <span style="margin-left:100px; background-color:red;">
+          Veuillez vous 
+          <a href="#login_user_form_div" target="_blank">
+            connecter
+          </a> pour enregistrer la modification.
+        </span>
+      </p>
+          
+      <p>
+        <input class="send" type="submit" value="Sauvegarder les modifications"><br />
+      </p>
+    </form>
+  </div>
+</div>

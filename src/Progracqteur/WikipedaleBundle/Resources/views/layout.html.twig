@@ -21,7 +21,13 @@
 
         <script  src="{{ asset('js/dhtmlxcommon.js') }}" type="text/javascript"></script>
         <script  src="{{ asset('js/dhtmlxcombo.js') }}" type="text/javascript"></script>
-        
+
+        <script language="javascript"> 
+            <!--
+            $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
+            -->
+        </script>
+
         {% block javascript %}
             <!-- Aucun fichier javascript ajouté par le template -->
         {% endblock %}
@@ -51,7 +57,7 @@
             </span>
 
             <span id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
-                |  <a class ="connexion" href="#login_user_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
+                |  <a class ="connexion" href="#login_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
             </span>
 
             <span id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>

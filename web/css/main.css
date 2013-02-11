@@ -236,6 +236,17 @@ span#VilleActuelle {
 }
 
 
+#legend{
+    position:absolute; 
+    right:10px; 
+    top:10px; 
+    z-index:10000; 
+    width:350px; 
+    height:25px; 
+    background-color:#FFFFFF;
+    text-align: center;
+}
+
 /* OpenLayers */
         .olControlAttribution {
             position: absolute;
