@@ -24,7 +24,7 @@ class ManagerController extends Controller {
         
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
         
-        $cities = $em->createQuery("SELECT  c from ProgracqteurWikipedaleBundle:Management\\City c 
+        $cities = $em->createQuery("SELECT  c from ProgracqteurWikipedaleBundle:Management\\Zone c 
                  where c.slug = :slug")
                 ->setParameter('slug', $citySlug)
                 ->getResult();

@@ -39,10 +39,11 @@ class DefaultController extends Controller
             $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($place->getGeom());
             
             $city = $em->createQuery('select c 
-                    from ProgracqteurWikipedaleBundle:Management\City c
-                    where COVERS(c.polygon, :geom) = true
+                    from ProgracqteurWikipedaleBundle:Management\Zone c
+                    where and COVERS(c.polygon, :geom) = true
                 ')
                     ->setParameter('geom', $stringGeo)
+                    ->setParameter('type', 'city')
                     ->getSingleResult();
             
             $this->getRequest()->getSession()->set('city', $city);
@@ -53,7 +54,8 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
 
             $cities = $em->createQuery("select c from 
-                ProgracqteurWikipedaleBundle:Management\\City c order by c.name")
+                ProgracqteurWikipedaleBundle:Management\\Zone c  order by c.name")
+                    
                     ->getResult();            
         } else {
             $cities = array();

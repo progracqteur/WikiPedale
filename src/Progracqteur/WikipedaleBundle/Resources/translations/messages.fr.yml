@@ -12,6 +12,7 @@ groups:
 form:
   button:
     submit: Envoi
+
 admin:
   you_are_in_admin_zone: Zone administrateur
   menu:
@@ -21,6 +22,7 @@ admin:
     notations_list: Liste des notations
     notation_create: Créer une notation
     users_groups_list: Gestion des utilisateurs/groupes
+    categories_list: Gestion des catégories
   total_of_results: "{0} La requête ne renvoie aucun résultat | {1} La requête ne renvoie qu'un seul résultat | [2, Inf] La requête renvoie %nb% résultats"
   number_of_results_per_page : Nombre de résultats par page
   usergroup:
@@ -32,6 +34,10 @@ admin:
     form: 
       parent: 
         empty_value: Sans parent, catégorie racine
+        parent_has_parent: Une catégorie fille ne peut pas être parente d'une autre catégorie
+      label:
+        min_length: Le label doit contenir au minimum {{ limit }} caractères
+        max_length: Le label doit contenir {{limit}} caractères au maximum
     show:
       parent:
         empty: Catégorie racine

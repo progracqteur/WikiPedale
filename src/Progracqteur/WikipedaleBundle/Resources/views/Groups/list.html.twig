@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>Nom</th>
-            <th>Ville</th>
+            <th>Zone</th>
             <th>Notation</th>
             <th>&nbsp;</th>
         </tr>
@@ -21,8 +21,9 @@
        {% for group in groups %}
             <tr>
                 <td>{{group.name}}</td>
-                <td>{{group.city.name}}</td>
-                <td>{{group.notation.name}} ({{group.notation.id}})</td>
+                <td>{{group.zone}}</td>
+                <td>{% if group.notation is not null %}{{group.notation.name}} ({{group.notation.id}}){% else %}&nbsp;{% endif %}</td>
+                <td>{{group.type}}</td>
                 <td>
                     <ul>
                         <li><a href="{{ path('wikipedale_groups_update', {id : group.id}) }}">Modifier</a></li>

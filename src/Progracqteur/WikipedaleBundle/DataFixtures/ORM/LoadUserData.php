@@ -20,7 +20,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     private $container;
     
 public function getOrder() {
-        return 2;
+        return 3;
     }
     
 public function load(ObjectManager $manager) {
@@ -45,16 +45,14 @@ public function load(ObjectManager $manager) {
         }
         
         
-        $notation = new Notation('gracqmons');
-        $notation->setName("Gracq Mons");
         
-        $manager->persist($notation);
         
         $g = new Group('GRACq Mons', array('ROLE_NOTATION'));
-        $g->setNotation($notation);
-        $city = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\City')
+        $g->setNotation($this->getReference('notation_cem'))
+                ->setType(Group::TYPE_NOTATION);
+        $city = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->findOneBySlug('mons');
-        $g->setCity($city);
+        $g->setZone($city);
         
         $manager->persist($g);
         
@@ -72,10 +70,10 @@ public function load(ObjectManager $manager) {
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();
-        $u->setEmail("city.$str@fastre.info");
-        $u->setLabel("city $str");
+        $u->setEmail("Zone.$str@fastre.info");
+        $u->setLabel("Zone $str");
         $u->setPassword("admin");
-        $u->addRole(User::ROLE_STATUS_CITY);
+        $u->addRole(User::ROLE_STATUS_Zone);
         
         $userManager->updateUser($u);
         

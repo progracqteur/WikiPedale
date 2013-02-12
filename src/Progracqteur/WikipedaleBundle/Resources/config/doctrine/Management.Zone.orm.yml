@@ -1,6 +1,7 @@
-Progracqteur\WikipedaleBundle\Entity\Management\City:
+Progracqteur\WikipedaleBundle\Entity\Management\Zone:
   type: entity
-  table: cities
+  readOnly: ~
+  table: zones
   id:
     id:
       type: integer
@@ -22,4 +23,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\City:
       type: polygon
     center:
       type: point
+    type:
+      type: string
+      length: 5
       

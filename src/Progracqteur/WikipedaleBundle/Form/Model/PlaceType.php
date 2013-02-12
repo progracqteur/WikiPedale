@@ -16,7 +16,7 @@ class PlaceType extends AbstractType
             ->add(
                     $builder->create('address', 'form', array('by_reference' => true))
                         ->add('road', 'text')
-                        ->add('city', 'text')
+                        ->add('Zone', 'text')
                     )
             ->add('category', 'entity', array(
                 'class' => 'ProgracqteurWikipedaleBundle:Model\Category',

@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
 
 /**
  * Description of LoadCitiesData
@@ -34,19 +35,19 @@ class LoadCitiesData extends AbstractFixture implements ContainerAwareInterface,
         $em = $this->container->get('doctrine.orm.entity_manager');
         
         $nbCities = $em->createQuery("SELECT count(c.id) from 
-            ProgracqteurWikipedaleBundle:Management\City c")
+            ProgracqteurWikipedaleBundle:Management\Zone c")
                 ->getSingleScalarResult();
         
         if ($nbCities == 0) {
             
             $conn = $em->getConnection();
-            $r = $conn->executeUpdate("insert into cities 
-                (id, name, codeprovince, polygon, slug, center)  
-                select gid, nom, nurgcdl2, geog, '', 
+            $r = $conn->executeUpdate("insert into zones 
+                (id, name, codeprovince, polygon, slug, type, center)  
+                select gid, nom, nurgcdl2, geog, '', '".Zone::TYPE_CITY."', 
                         ST_Centroid(ST_geomFromText(ST_AsText(geog))) 
                         from limites where nom is not null;");
             echo "$r cities added to the database \n";
-            $r = $conn->executeUpdate("update cities set slug = getslug(name);");
+            $r = $conn->executeUpdate("update zones set slug = getslug(name);");
             echo "$r slug updated in the database \n";
             
         } else {

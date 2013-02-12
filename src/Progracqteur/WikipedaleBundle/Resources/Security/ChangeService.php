@@ -31,7 +31,7 @@ class ChangeService {
     const PLACE_REMOVE_PHOTO = 135;
     const PLACE_STATUS = 141;
     const PLACE_STATUS_BICYCLE = 140;
-    const PLACE_STATUS_CITY = 150;
+    const PLACE_STATUS_Zone = 150;
     const PLACE_CREATOR = 160;
     const PLACE_ACCEPTED = 170;
     const PLACE_ADD_CATEGORY = 180;
@@ -109,50 +109,81 @@ class ChangeService {
                 case self::PLACE_CREATOR : 
                     throw ChangeException::param('creator');
                     break;
-                //This case is deprecated
-                case self::PLACE_STATUS_BICYCLE :
-                    if ( $this->securityContext->isGranted(User::ROLE_STATUS_BICYCLE)
-                            )
-                    {
-                        continue;
-                    } else {
-                        throw ChangeException::param('statusBicycle');
-                    }
-                    break;
-                // this case is deprecated
-                case self::PLACE_STATUS_CITY :
-                    if ( $this->securityContext->isGranted(User::ROLE_STATUS_CITY)
-                            )
-                    {
-                        continue;
-                    } else {
-                        throw ChangeException::param('statusCity');
-                    }
-                    break;
                  case self::PLACE_ACCEPTED:
-                     if ($this->securityContext->isGranted(User::ROLE_ADMIN))
+                     if ($this->securityContext->isGranted(User::ROLE_PUBLISHED))
                      {
                          continue;
                      } else {
                          throw ChangeException::param('accepted');
                      }
                  case self::PLACE_ADDRESS : 
+                     if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
+                             OR 
+                             $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('accepted');
+                     }
                  case self::PLACE_DESCRIPTION :
+                     if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
+                             OR 
+                             $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('accepted');
+                     }
                  case self::PLACE_GEOM:
+                     if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
+                             OR 
+                             $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('accepted');
+                     }
                  case self::PLACE_STATUS:
                      
                      
-                     if ($object instanceof Place)
-                     {
-                        $geomString = $this->geoService->toString($object->getGeom());
-                     } else 
+                     if (!($object instanceof Place))
                      {
                          throw new \Exception('Unexpected object : expecting Place, receiving '
                                  .get_class($object));
                      }
                      
+                     $groups = $this->securityContext->getToken()->getUser()->getGroups();
+                     
+                     $hasRight = false;
+                     
+                     foreach ($groups as $group)
+                     {
+                         if ($group->hasRole(User::ROLE_NOTATION) 
+                                 && 
+                                 $group->getNotation()->getId() === $change->getNewValue()->getType())
+                         {
+                             
+                             if ($this->geoService->covers(
+                                     $group->getZone()->getPolygon(), 
+                                     $object->getGeom())
+                                     )
+                             {
+                                 $hasRight = true;
+                                 break;
+                             }
+                         } else {
+                             throw ChangeException::param('status');
+                         }
+                     }
+                     
+                     if ($hasRight == true)
+                     {
+                         continue;
+                     }
+                     
+                     /**
                      $dql = "select g from ProgracqteurWikipedaleBundle:Management\Group g 
-                         JOIN g.city c JOIN g.notation n 
+                         JOIN g.Zone c JOIN g.notation n 
                          WHERE 
                                 EXISTS (select h from ProgracqteurWikipedaleBundle:Management\User u
                                            JOIN u.groups h
@@ -193,7 +224,7 @@ class ChangeService {
                      } else 
                      {
                          throw ChangeException::param('Status '.$change->getnewValue()->getType().' no rights ');
-                     }
+                     }*/
                      break;
                  case self::PLACE_ADD_PHOTO:
                      //l'ajout de photo est réglé dans le controleur PhotoController
@@ -215,7 +246,6 @@ class ChangeService {
                      {
                          continue;
                      } else {
-                         var_dump($author->getRoles());
                          throw ChangeException::param('add category ');
                      }
                  case self::PLACE_REMOVE_CATEGORY:

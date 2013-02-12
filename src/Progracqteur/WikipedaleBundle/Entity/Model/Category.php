@@ -2,7 +2,7 @@
 
 namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Category
@@ -106,5 +106,18 @@ class Category
     public function hasParent()
     {
         return (!($this->parent === null));
+    }
+    
+    public function isParentAChild(ExecutionContext $context)
+    {
+        if ($this->hasParent())
+        {
+            if ($this->getParent()->hasParent())
+            {
+                $propertyPath = $context->getPropertyPath().'.parent';
+                $context->setPropertyPath($propertyPath);
+                $context->addViolation('admin.category.form.parent.parent_has_parent', array(), $this->getParent());
+            }
+        }
     }
 }

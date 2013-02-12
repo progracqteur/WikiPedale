@@ -96,7 +96,7 @@ class DebugController extends Controller {
             $place->setGeom($point);
             
             $add = new Address();
-            $add->setCity('mons');
+            $add->setZone('mons');
             $add->setCountry('Belgium');
             $add->setCountryCode('BE');
             
@@ -107,7 +107,7 @@ class DebugController extends Controller {
             $manager->flush();
            /* 
             $add = new Address();
-            $add->setCity('mons');
+            $add->setZone('mons');
             $add->setCountry('Belgium');
             $add->setCountryCode('BE');
             /*
@@ -146,7 +146,7 @@ class DebugController extends Controller {
         
         $a = $p->getAddress();
         
-        return new Response($a->getCity());*/
+        return new Response($a->getZone());*/
         /*
         
          $point = $this->getRandomPoint();

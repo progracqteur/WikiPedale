@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 
 /**
- * Progracqteur\WikipedaleBundle\Entity\Management\City
+ * Progracqteur\WikipedaleBundle\Entity\Management\Zone
  */
-class City
+class Zone
 {
     /**
      * @var integer $id
@@ -40,13 +40,26 @@ class City
      * @var Progracqteur\WikipedaleBundle\Resources\Geo\Point 
      */
     private $center;
+    
+    /**
+     *
+     * @var string
+     */
+    private $type;
+    
+    /**
+     * Type of zone "city"
+     * 
+     * @var string
+     */
+    const TYPE_CITY = 'city';
 
 
     /**
      * Set id
      *
      * @param integer $id
-     * @return City
+     * @return Zone
      */
     public function setId($id)
     {
@@ -68,7 +81,7 @@ class City
      * Set name
      *
      * @param string $name
-     * @return City
+     * @return Zone
      */
     public function setName($name)
     {
@@ -90,7 +103,7 @@ class City
      * Set slug
      *
      * @param string $slug
-     * @return City
+     * @return Zone
      */
     public function setSlug($slug)
     {
@@ -112,7 +125,7 @@ class City
      * Set codeProvince
      *
      * @param string $codeProvince
-     * @return City
+     * @return Zone
      */
     public function setCodeProvince($codeProvince)
     {
@@ -134,7 +147,7 @@ class City
      * Set polygon
      *
      * @param polygon $polygon
-     * @return City
+     * @return Zone
      */
     public function setPolygon($polygon)
     {
@@ -162,6 +175,31 @@ class City
     }
     
     public function __toString() {
-        return $this->getName();
+        return $this->getName().' ('.$this->getType().')';
+    }
+    
+    /**
+     * Type may be : 
+     * 
+     * - city
+     * 
+     * 
+     * 
+     * @return type The type of the zone
+     */
+    public function getType() {
+        return $this->type;
+    }
+    
+    /**
+     * Set the type of the Zone.
+     * 
+     * 
+     * @param type $type
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Zone
+     */
+    public function setType($type) {
+        $this->type = $type;
+        return $this;
     }
 }

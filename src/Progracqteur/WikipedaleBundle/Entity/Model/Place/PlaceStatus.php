@@ -57,7 +57,7 @@ class PlaceStatus {
      * PLACE_REMOVE_PHOTO = not implemented;
      * PLACE_STATUS = Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
      * PLACE_STATUS_BICYCLE = deprecated;
-     * PLACE_STATUS_CITY = deprecated;
+     * PLACE_STATUS_Zone = deprecated;
      * PLACE_CREATOR = ;
      * PLACE_ACCEPTED = boolean;
      * PLACE_ADD_CATEGORY = array of id of categories;

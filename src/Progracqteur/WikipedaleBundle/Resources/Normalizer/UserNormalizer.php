@@ -77,11 +77,7 @@ class UserNormalizer implements NormalizerInterface
         );
         
         if (
-                $this->service->getSecurityContext()->isGranted(User::ROLE_STATUS_BICYCLE)
-              OR
-                $this->service->getSecurityContext()->isGranted(User::ROLE_STATUS_CITY)
-              OR
-                $this->service->getSecurityContext()->isGranted(User::ROLE_ADMIN)
+                $this->service->getSecurityContext()->isGranted(User::ROLE_SEE_USER_DETAILS)
                 )
         {
             $a['email'] = $object->getEmail();
