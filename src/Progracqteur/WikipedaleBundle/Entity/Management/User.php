@@ -48,33 +48,59 @@ class User extends BaseUser
     const ROLE_ADMIN = 'ROLE_ADMIN';
     
     /**
-     * @deprecated
-     */
-    const ROLE_STATUS_BICYCLE = 'ROLE_BICYCLE';
-    /**
-     * @deprecated
-     */
-    const ROLE_STATUS_Zone = 'ROLE_Zone';
-    /**
-     *@deprecated tous les utilisateurs sont enregistrés... 
-     */
-    const ROLE_REGISTERED = 'REGISTERED';
-    /**
+     * indicate if the user may create or alter categories
+     * 
      * @var string
      */
-    const ROLE_CATEGORY = 'ROLE_NOTATION'; //TODO: change when modified in groups
+    const ROLE_CATEGORY = 'ROLE_CATEGORY'; 
+    
     /**
+     * indicate if the user may create or alter notation. 
+     * The group which use it must be associated with a particular notation
+     * 
      * @var string
      */
     const ROLE_NOTATION = 'ROLE_NOTATION';
+    
     /**
      * @var string
      */
     const ROLE_MANAGER = 'ROLE_MANAGER';
+    
     /**
      * @var string
      */
     const ROLE_MODERATOR = 'ROLE_MODERATOR';
+    
+    /**
+     * indicate if the user may alter details of a little point
+     * 
+     * @var string
+     */
+    const ROLE_DETAILS_LITTLE = 'ROLE_DETAILS_LITTLE';
+    
+    /**
+     * indicate if the user may alter details of a BIG point
+     * 
+     * @var string
+     */
+    const ROLE_DETAILS_BIG = 'ROLE_DETAILS_BIG';
+    
+    /**
+     * 
+     * indicate if the user may publish/unpublish a place
+     * 
+     * @var string 
+     */
+    const ROLE_PUBLISHED = 'ROLE_PUBLISHED';
+    
+    /**
+     * indicate if the user may see email and personal
+     * details of other users
+     * 
+     * @var string
+     */
+    const ROLE_SEE_USER_DETAILS = 'ROLE_SEE_USER_DETAILS';
     
     
     

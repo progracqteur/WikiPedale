@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Notation
 {
     /**
-     * @var integer $id
+     * @var string $id
      */
     private $id;
 
@@ -28,7 +28,7 @@ class Notation
     /**
      * Set id
      *
-     * @param integer $id
+     * @param string $id
      * @return Notation
      */
     public function setId($id)
@@ -40,7 +40,7 @@ class Notation
     /**
      * Get id
      *
-     * @return integer 
+     * @return string 
      */
     public function getId()
     {

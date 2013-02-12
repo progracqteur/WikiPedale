@@ -84,13 +84,20 @@ class Group extends BaseGroup
         switch ($type) {
             case self::TYPE_MODERATOR :
                 $this->addRole(User::ROLE_NOTATION)
-                    ->addRole(User::ROLE_CATEGORY);
+                    ->addRole(User::ROLE_CATEGORY)
+                    ->addRole(User::ROLE_DETAILS_LITTLE)
+                    ->addRole(User::ROLE_PUBLISHED)
+                    ->addRole(User::ROLE_SEE_USER_DETAILS)
+                        ;
                 break;
             case self::TYPE_MANAGER :
                 break;
             case self::TYPE_NOTATION:
                 $this->addRole(User::ROLE_NOTATION)
-                    ->addRole(User::ROLE_CATEGORY);
+                    ->addRole(User::ROLE_CATEGORY)
+                    ->addRole(User::ROLE_DETAILS_LITTLE)
+                    ->addRole(User::ROLE_SEE_USER_DETAILS)
+                    ;
                 break;
         }
         

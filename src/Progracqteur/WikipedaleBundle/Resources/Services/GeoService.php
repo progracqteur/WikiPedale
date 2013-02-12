@@ -53,5 +53,25 @@ class GeoService {
         }
     }
     
+    /**
+     * return whether the point is covered be (= inside a) polygon
+     * 
+     * @param string $polygon the postgis representation of the polygon
+     * @param \Progracqteur\WikipedaleBundle\Resources\Geo\Point $point the postgis representation of the point
+     * @return boolean
+     */
+    public function covers($polygon, Point $point)
+    {
+        $rsm = new ResultSetMapping;
+        $rsm->addScalarResult('covered', 'covered', 'boolean');
+        
+        $r = $this->em->createNativeQuery('SELECT ST_COVERS(:polygon, ST_GeographyFromText(:point)) as covered;', $rsm)
+                ->setParameter('polygon', $polygon)
+                ->setParameter('point', $point->toWKT())
+                ->getSingleScalarResult();
+        
+        return $r['covered'];
+    }
+    
 }
 

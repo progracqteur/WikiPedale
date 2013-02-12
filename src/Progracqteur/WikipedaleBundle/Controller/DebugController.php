@@ -270,7 +270,7 @@ class DebugController extends Controller {
                 
                 switch ($node->nodeName) {
                     case Address::CITY_DECLARATION :
-                        $a->setZone($v);
+                        $a->setCity($v);
                         break;
                     case Address::ADMINISTRATIVE_DECLARATION :
                         $a->setAdministrative($v);
