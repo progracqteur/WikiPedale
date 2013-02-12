@@ -73,7 +73,6 @@ public function load(ObjectManager $manager) {
         $u->setEmail("Zone.$str@fastre.info");
         $u->setLabel("Zone $str");
         $u->setPassword("admin");
-        $u->addRole(User::ROLE_STATUS_Zone);
         
         $userManager->updateUser($u);
         
