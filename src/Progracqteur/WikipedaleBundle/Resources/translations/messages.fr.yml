@@ -45,6 +45,12 @@ user:
   username: Nom d'utilisateur
   email: Adresse de courriel
   groups: Groupes
+  form:
+    registration:
+      errors:
+        invalid_repeated_password: Les deux mots de passe ne correspondent pas. Veuillez les réintroduire.
+      fields:
+        password: Mot de passe
 paginations:
   pages: Pages
 

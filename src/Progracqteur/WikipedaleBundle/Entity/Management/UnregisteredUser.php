@@ -58,6 +58,7 @@ class UnregisteredUser extends User{
         $u->setIp($hash->ip);
         $u->setEmail($hash->email);
         $u->setLabel($hash->label);
+        $u->setPhonenumber($hash->phonenumber);
         
         $d = new \DateTime($hash->createdate);
         $u->setCreationDate($d);
@@ -72,6 +73,7 @@ class UnregisteredUser extends User{
         $h->label = $this->getLabel();
         $h->email = $this->getEmail();
         $h->createdate = $this->getCreationDate();
+        $h->phonenumber = $this->getPhonenumber();
         
         return $h;
     }

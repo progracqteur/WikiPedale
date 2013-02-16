@@ -18,10 +18,18 @@ class User extends BaseUser
     protected $email = '';
 
     /**
-     * @deprecated
+     * the way the user want to be publicly known
+     * 
      * @var string $label
      */
     protected $label = '';
+    
+    /**
+     *
+     * @var string 
+     */
+    protected $phonenumber = "";
+    
 
 
     /**
@@ -134,7 +142,7 @@ class User extends BaseUser
      */
     public function setLabel($label)
     {
-        $this->setUsername($label);
+        $this->label;
     }
 
     /**
@@ -144,7 +152,7 @@ class User extends BaseUser
      */
     public function getLabel()
     {
-        return $this->getUsername();
+        return $this->label;
     }
 
     /**
@@ -203,6 +211,27 @@ class User extends BaseUser
     {
         return $this->confirmed;
     }
+    
+    /**
+     * 
+     * @param string $phonenumber
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\User
+     */
+    public function setPhonenumber($phonenumber)
+    {
+        $this->phonenumber = $phonenumber;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getPhonenumber()
+    {
+        return $this->phonenumber;
+    }
+    
 
     /**
      * Set infos

@@ -81,6 +81,7 @@ class UserNormalizer implements NormalizerInterface
                 )
         {
             $a['email'] = $object->getEmail();
+            $a['phonenumber'] = $object->getPhonenumber();
         }
         
 
