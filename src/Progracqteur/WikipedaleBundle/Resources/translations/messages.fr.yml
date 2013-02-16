@@ -38,6 +38,10 @@ admin:
       label:
         min_length: Le label doit contenir au minimum {{ limit }} caractères
         max_length: Le label doit contenir {{limit}} caractères au maximum
+      field:
+        used:
+          in_use: Utilisé
+          not_in_use: Déprécié
     show:
       parent:
         empty: Catégorie racine

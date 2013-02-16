@@ -24,6 +24,14 @@ class CategoryType extends AbstractType
                 'empty_value' => 'admin.category.form.parent.empty_value',
                 'required' => false
             ))
+            ->add('used', 'choice', array(
+                'choices' => array(
+                    true => 'admin.category.form.field.used.in_use',
+                    false => 'admin.category.form.field.used.not_in_use'
+                    ),
+                'multiple' => false,
+                'expanded' => true
+            ))
         ;
     }
 

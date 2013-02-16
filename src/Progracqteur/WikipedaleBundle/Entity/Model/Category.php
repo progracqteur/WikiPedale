@@ -28,6 +28,12 @@ class Category
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Category
      */
     private $parent;
+    
+    /**
+     *
+     * @var boolean
+     */
+    private $used;
 
     public function __construct()
     {
@@ -106,6 +112,25 @@ class Category
     public function hasParent()
     {
         return (!($this->parent === null));
+    }
+    
+    /**
+     * return true if a category is still in use
+     * 
+     * @return boolean
+     */
+    public function isUsed(){
+        return $this->used;
+    }
+    
+    /**
+     * set if a category may be in used or not
+     * 
+     * @param boolean $used
+     */
+    public function setUsed($used)
+    {
+        $this->used = $used;
     }
     
     public function isParentAChild(ExecutionContext $context)
