@@ -40,7 +40,7 @@ class DefaultController extends Controller
             
             $city = $em->createQuery('select c 
                     from ProgracqteurWikipedaleBundle:Management\Zone c
-                    where and COVERS(c.polygon, :geom) = true
+                    where COVERS(c.polygon, :geom) = true and c.type = :type
                 ')
                     ->setParameter('geom', $stringGeo)
                     ->setParameter('type', 'city')
