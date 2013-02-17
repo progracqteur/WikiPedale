@@ -5,22 +5,49 @@ namespace Progracqteur\WikipedaleBundle\Form\Model;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\Extension\Core\ChoiceList\ArrayChoiceList;
+use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 
 class CategoryType extends AbstractType
 {
+    /**
+     *
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+    
+    public function __construct(EntityManager $em) {
+        $this->em = $em;
+    }
+    
     public function buildForm(FormBuilder $builder, array $options)
     {
+        //create a choice list for categories
+        $c = $this->em->createQuery('SELECT c 
+            FROM ProgracqteurWikipedaleBundle:Model\Category c JOIN c.parent p 
+            WHERE p.parent is null OR c.parent is null
+            ')
+                ->getResult();
+        
+        
+        $choiceList = new ArrayChoiceList(function() use ($c) 
+            {
+                $a = array();
+                
+                foreach ($c as $category)
+                {
+                    $a[$category->getId()] = CategoryType::printLabel($category);
+                }
+                
+                return $a;
+            }
+        );
+        
         $builder
             ->add('label')
-            ->add('parent', 'entity', array(
-                'class' => 'ProgracqteurWikipedaleBundle:Model\Category',
-                'query_builder' => function(\Doctrine\ORM\EntityRepository $er)
-                {
-                    $qb = $er->createQueryBuilder('c');
-                    return  $qb->add('where', $qb->expr()->isNull('c.parent') )
-                                ->orderBy('c.label', 'ASC')
-                            ;
-                },
+            ->add('parent', 'choice', array(
+                'choice_list' => $choiceList,
                 'empty_value' => 'admin.category.form.parent.empty_value',
                 'required' => false
             ))
@@ -38,5 +65,18 @@ class CategoryType extends AbstractType
     public function getName()
     {
         return 'progracqteur_wikipedalebundle_model_categorytype';
+    }
+    
+    public static function printLabel(Category $category) 
+    {
+        $str = '';
+        if ($category->hasParent())
+        {
+            $str .= $category->getParent()->getLabel()." > ";
+        }
+
+        $str .= $category->getLabel();
+
+        return $str;
     }
 }
