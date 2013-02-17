@@ -38,6 +38,7 @@ add_black_points:
   description: Informations complémentaires (facultatif)
   name: Votre nom ou identifiant
   mail: Votre adresse e-mail
+  phone: Votre numéro de téléphone
   submit: Enregistrer votre signalement
   help1: Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.
   

@@ -44,6 +44,7 @@ admin:
 user:
   username: Nom d'utilisateur
   email: Adresse de courriel
+  phone: Numéro de téléphone
   groups: Groupes
 paginations:
   pages: Pages

@@ -3,6 +3,7 @@ var error_for_d_field = false;
 var error_for_n_field = false;
 var error_for_e_field = false;
 var error_for_c_field = false;
+var error_for_p_field = false;
 var change_informer_fields = false;
 
 function is_mail_valid(anEmail)
@@ -17,6 +18,7 @@ function reset_informer(){
 	error_for_n_field = false;
 	error_for_e_field = false;
 	error_for_c_field = false;
+	error_for_p_field = false;
 	change_informer_fields = false;
 	document.getElementById('form_informer_map').src="../img/verif_rien.png";
 	document.getElementById('form_informer_lieu').src="../img/verif_rien.png";
@@ -24,7 +26,22 @@ function reset_informer(){
 	document.getElementById('form_informer_user_label').src="../img/verif_rien.png";
 	document.getElementById('form_informer_email').src="../img/verif_rien.png";
 	document.getElementById('form_informer_general_text').src="../img/verif_rien.png";
+	document.getElementById('form_informer_phone').src="../img/verif_rien.png";
 
+}
+
+function update_p_informer_for_form() {
+	var l_value = jQuery('#p').attr('value');
+	if (l_value) {
+		document.getElementById('form_informer_phone').src="../img/verif_oui.png";
+		error_for_l_field = false;
+	}
+	else
+	{
+		document.getElementById('form_informer_phone').src="../img/verif_non.png";
+		error_for_l_field = true;
+	}
+	update_informer_fields()
 }
 
 function update_l_informer_for_form() {
@@ -98,7 +115,7 @@ function update_e_informer_for_form() {
 }
 
 function update_informer_fields(){
-	if (error_for_l_field || error_for_d_field || error_for_n_field || error_for_e_field || error_for_c_field) {
+	if (error_for_l_field || error_for_d_field || error_for_n_field || error_for_e_field || error_for_c_field || error_for_p_field) {
 		document.getElementById('form_informer_general_text').src="../img/verif_non.png";
 		change_informer_fields = true;
 	}
