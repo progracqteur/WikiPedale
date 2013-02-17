@@ -876,4 +876,25 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         }
         return false;
     }
+    
+    /**
+     * check if the categories added to the place are valid. 
+     * 
+     * Until now: no categories with children are accepted !
+     * 
+     * @param \Symfony\Component\Validator\ExecutionContext $context
+     */
+    public function isCategoriesValid(ExecutionContext $context)
+    {
+        foreach($this->getCategory() as $cat)
+        {
+            if ($cat->hasChildren())
+            {
+                $propertypath = $context->getPropertyPath().'.category';
+                $context->setPropertyPath($propertypath);
+                $context->addViolation('validation.place.category.have_children', array(), null);
+                return;
+            }
+        }
+    }
 }

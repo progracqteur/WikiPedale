@@ -145,4 +145,12 @@ class Category
             }
         }
     }
+    
+    public function hasChildren()
+    {
+        if ($this->getChildren()->count() === 0)
+            return false;
+        else
+            return true;
+    }
 }

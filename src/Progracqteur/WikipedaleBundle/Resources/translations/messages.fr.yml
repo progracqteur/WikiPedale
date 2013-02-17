@@ -89,3 +89,9 @@ fos_user_resetting_form_new_second: "Vérification"
 fos_user_change_password_form_new_first:    "Nouveau mot de passe"
 fos_user_change_password_form_new_second:   "Vérification"
 fos_user_change_password_form_current:  "Mot de passe actuel"
+
+#message lié à la validation des données
+validation:
+  place:
+    category:
+      have_children: Les catégories indiquées sont parentes d'autres catégories. Seules des catégories filles peuvent être indiquées.
