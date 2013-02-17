@@ -67,6 +67,10 @@
         <br/><br/>
         <input type="submit" id="login_input_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
       </form>
+
+      <a href="{{ path('fos_user_registration_register') }}">{{ 'security.login.go_to_registration'|trans({}, 'userMessages') }}</a><br />
+      <a href="{{path('fos_user_resetting_request') }}">{{ 'security.login.go_to_password_resetting'|trans({}, 'userMessages') }}</a>
+
     </div>
   </div>
 
