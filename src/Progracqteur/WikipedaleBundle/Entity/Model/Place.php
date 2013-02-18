@@ -763,7 +763,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         if ($this->getManager() === null)
         {
             $this->change('manager', null, $manager);
-            $this->getChangeset()->addChange(ChangeService::PLACE_ADD_MANAGER, $manager);
+            $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ADD, $manager);
             
         } elseif ($this->getManager()->getId() !== $manager->getId())
         {
