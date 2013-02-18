@@ -92,9 +92,16 @@ class Group extends BaseGroup
                     ->addRole(User::ROLE_DETAILS_LITTLE)
                     ->addRole(User::ROLE_PUBLISHED)
                     ->addRole(User::ROLE_SEE_USER_DETAILS)
+                    ->addRole(User::ROLE_MANAGER_ALTER)
                         ;
                 break;
             case self::TYPE_MANAGER :
+                $this->addRole(User::ROLE_NOTATION)
+                    ->addRole(User::ROLE_CATEGORY)
+                    ->addRole(User::ROLE_DETAILS_LITTLE)
+                    ->addRole(User::ROLE_SEE_USER_DETAILS)
+                    ->addRole(User::ROLE_MANAGER_ALTER)
+                        ;
                 break;
             case self::TYPE_NOTATION:
                 $this->addRole(User::ROLE_NOTATION)
