@@ -106,6 +106,12 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $category;
+    
+    /**
+     *
+     * @var \Progracqteur\WikipedaleBundle\Entity\Management\Group
+     */
+    private $manager;
             
     
     private $_listeners = array();
@@ -746,32 +752,6 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
         return $this->lastUpdate;
     }
 
-    /**
-     * @deprecated
-     * @param SerializerInterface $serializer
-     * @param type $data
-     * @param type $format 
-     */
-    public function denormalize(SerializerInterface $serializer, $data, $format = null) {
-        
-    }
-    
-    /**
-     * @deprecated
-     */
-    public function normalize(SerializerInterface $serializer, $format = null) {
-        $creator = $this->getCreator();
-        return array(
-            'description' => $this->getDescription(),
-            'geom' => $this->getGeom()->toArrayGeoJson(),
-            'id' => $this->getId(),
-            'nbComm' => $this->getNbComm(),
-            'nbVote' => $this->getNbVote(),
-            'creator' => $creator->normalize($serializer, $format)
-            //TODO: ajouter les autres paramètres
-        );
-        
-    }
 
     /**
      * return the changeset made since the entity was created or 
