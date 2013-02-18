@@ -61,7 +61,7 @@ class Group extends BaseGroup
     /**
      * Set Zone
      *
-     * @param Progracqteur\WikipedaleBundle\Entity\Management\Zone $Zone
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\Zone $Zone
      * @return Group
      */
     public function setZone(Zone $zone = null)
@@ -72,7 +72,7 @@ class Group extends BaseGroup
     
     /**
      * 
-     * @return Progracqteur\WikipedaleBundle\Entity\Management\Zone
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Zone
      */
     public function getZone()
     {
@@ -120,7 +120,7 @@ class Group extends BaseGroup
     /**
      * Set notation
      *
-     * @param Progracqteur\WikipedaleBundle\Management\Notation $notation
+     * @param \Progracqteur\WikipedaleBundle\Management\Notation $notation
      * @return Group
      */
     public function setNotation(\Progracqteur\WikipedaleBundle\Entity\Management\Notation $notation = null)
@@ -132,7 +132,7 @@ class Group extends BaseGroup
     /**
      * Get notation
      *
-     * @return Progracqteur\WikipedaleBundle\Management\Notation 
+     * @return \Progracqteur\WikipedaleBundle\Management\Notation 
      */
     public function getNotation()
     {
