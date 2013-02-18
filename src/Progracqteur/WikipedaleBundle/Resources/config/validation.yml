@@ -10,7 +10,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - NotNull: {message: Indiquez un emplacement géographique}
   constraints:
     - Callback:
-        methods: [isStatusesValid, hasOnlyOneChange, isCategoriesValid]
+        methods: [isStatusesValid, hasOnlyOneChange, isCategoriesValid, isManagerValid]
 
 Progracqteur\WikipedaleBundle\Entity\Model\Photo:
   getters:
