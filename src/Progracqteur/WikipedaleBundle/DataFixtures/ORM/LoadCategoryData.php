@@ -69,12 +69,12 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
         
         $carrefour = new Category();
         $carrefour->setLabel("Carrefours dangereux")
-                ->addParent($gros);
+                ->setParent($gros);
         $manager->persist($carrefour);
         
         $cycl = new Category();
         $cycl->setLabel("Pas de place au cycliste")
-                ->addParentLabel($carrefour);
+                ->setParent($carrefour);
         $manager->persist($cycl);
         
         $manager->flush();

@@ -36,6 +36,9 @@ class ChangeService {
     const PLACE_ACCEPTED = 170;
     const PLACE_ADD_CATEGORY = 180;
     const PLACE_REMOVE_CATEGORY = 181;
+    const PLACE_MANAGER_ADD = 190;
+    const PLACE_MANAGER_ALTER = 193;
+    const PLACE_MANAGER_REMOVE = 198;
     
     
     /**
