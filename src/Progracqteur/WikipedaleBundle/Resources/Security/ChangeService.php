@@ -251,6 +251,7 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('add category ');
                      }
+                     break;
                  case self::PLACE_REMOVE_CATEGORY:
                      //allowed only for ROLE_CATEGORY
                      if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
@@ -259,7 +260,16 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('remove category');
                      }
-                     
+                     break;
+                 case self::PLACE_MANAGER_ADD:
+                 case self::PLACE_MANAGER_ALTER:
+                 case self::PLACE_MANAGER_REMOVE:
+                     if ($this->securityContext->isGranted(User::ROLE_MANAGER_ALTER))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('manager');
+                     }
                  default:
                      throw ChangeException::param('inconnu');
             

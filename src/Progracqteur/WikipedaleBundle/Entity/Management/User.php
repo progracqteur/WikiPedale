@@ -56,7 +56,7 @@ class User extends BaseUser
     const ROLE_ADMIN = 'ROLE_ADMIN';
     
     /**
-     * indicate if the user may create or alter categories
+     * indicate if the user may create or alter categories on a place
      * 
      * @var string
      */
@@ -109,6 +109,14 @@ class User extends BaseUser
      * @var string
      */
     const ROLE_SEE_USER_DETAILS = 'ROLE_SEE_USER_DETAILS';
+    
+    /**
+     * indicate if the user may alter or modify the manager
+     * of a place
+     * 
+     * @var string
+     */
+    const ROLE_MANAGER_ALTER = 'ROLE_MANAGER_ALTER';
     
     
     
