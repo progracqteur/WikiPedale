@@ -171,7 +171,7 @@ class PlaceNormalizer implements NormalizerInterface {
         
         if (isset($data['manager']))
         {
-            if ($this->service->getGroupNormalizer()->supportsDenormalization($data['manager'], $type))
+            if ($this->service->getGroupNormalizer()->supportsDenormalization($data['manager'], $class))
             {
                 $group = $this->service->getGroupNormalizer()->denormalize($data['manager'], $class);
                 $p->setManager($group);
@@ -214,6 +214,13 @@ class PlaceNormalizer implements NormalizerInterface {
             $c[] = $this->service->getCategoryNormalizer()->normalize($cat, $format);
         }
         
+        if ($object->getManager() !== null)
+        {
+            $manager = $this->service->getGroupNormalizer()->normalize($object->getManager());
+        } else {
+            $manager = null;
+        }
+        
         return  array(
             'entity' => 'place',
             'description' => $object->getDescription(),
@@ -231,7 +238,7 @@ class PlaceNormalizer implements NormalizerInterface {
             'accepted' => $object->isAccepted(),
             'statuses' => $s,
             'categories' => $c,
-            'manager' => $this->service->getGroupNormalizer()->normalize($object->getManager())
+            'manager' => $manager,
         );
     }
     

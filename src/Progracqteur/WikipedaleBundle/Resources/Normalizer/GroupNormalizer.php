@@ -72,7 +72,8 @@ class GroupNormalizer implements NormalizerInterface {
                      'type' => $object->getType(),
                      'label' => $object->getName(),
                      'zone' => $this->normalizerService->getZoneNormalizer()->normalize($object->getZone(), $format),
-                     'notation' => $notation
+                     'notation' => $notation,
+                     'id' => $object->getId(),
                 );
     }
 
