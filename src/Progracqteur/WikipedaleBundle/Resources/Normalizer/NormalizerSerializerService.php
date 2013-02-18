@@ -16,7 +16,6 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTrackingNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
@@ -210,6 +209,10 @@ class NormalizerSerializerService {
         return $this->normalizedResponseExceptionNormalizer;
     }
     
+    /**
+     * 
+     * @return \Doctrine\ORM\EntityManager
+     */
     public function getManager()
     {
         //return $this->em;

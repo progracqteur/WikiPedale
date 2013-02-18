@@ -169,6 +169,19 @@ class PlaceNormalizer implements NormalizerInterface {
             
         }
         
+        if (isset($data['manager']))
+        {
+            if ($this->service->getGroupNormalizer()->supportsDenormalization($data['manager'], $type))
+            {
+                $group = $this->service->getGroupNormalizer()->denormalize($data['manager'], $class);
+                $p->setManager($group);
+            } else 
+            {
+                throw new NormalizingException('could not denormalize manager '.$data['manager']);
+            }
+                
+        }
+        
         return $p;
     }
     

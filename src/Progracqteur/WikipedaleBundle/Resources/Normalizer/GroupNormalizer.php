@@ -26,9 +26,30 @@ class GroupNormalizer implements NormalizerInterface {
         $this->normalizerService = $service;
     }
     
-    
+    /**
+     * return null if group id not found on the database
+     * 
+     * care only on the group's id
+     * 
+     * @param type $data
+     * @param type $class
+     * @param type $format
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Group
+     */
     public function denormalize($data, $class, $format = null) {
-        return '';
+        $id = $data['id'];
+        
+        $group = $this->normalizerService
+                ->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+                ->find($id);
+        
+        if ($group == null) 
+        {
+            return null;
+        }
+        
+        return $group;
     }
 
     /**
@@ -56,7 +77,13 @@ class GroupNormalizer implements NormalizerInterface {
     }
 
     public function supportsDenormalization($data, $type, $format = null) {
-        return false;
+        if (isset($data['entity']) && $data['entity'] === 'group' && isset($data['id']))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 
     public function supportsNormalization($data, $format = null) {
