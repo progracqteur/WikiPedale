@@ -33,7 +33,7 @@ class Category
      *
      * @var boolean
      */
-    private $used;
+    private $used = true;
 
     public function __construct()
     {
