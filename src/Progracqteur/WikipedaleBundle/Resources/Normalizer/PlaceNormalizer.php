@@ -174,7 +174,7 @@ class PlaceNormalizer implements NormalizerInterface {
     
     /**
      * 
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Place $object
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $object
      * @param string $format
      * @return array
      */
@@ -217,8 +217,8 @@ class PlaceNormalizer implements NormalizerInterface {
             //'statusZone' => $object->getStatusZone(),
             'accepted' => $object->isAccepted(),
             'statuses' => $s,
-            'categories' => $c
-            
+            'categories' => $c,
+            'manager' => $this->service->getGroupNormalizer()->normalize($object->getManager())
         );
     }
     
