@@ -70,6 +70,10 @@ class Group extends BaseGroup
         return $this;
     }
     
+    /**
+     * 
+     * @return Progracqteur\WikipedaleBundle\Entity\Management\Zone
+     */
     public function getZone()
     {
         return $this->zone;
