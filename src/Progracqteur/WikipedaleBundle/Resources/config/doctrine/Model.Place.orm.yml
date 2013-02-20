@@ -9,9 +9,6 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     id:
       type: integer
       generator: {strategy: AUTO}
-  indexes:
-    geom:
-      columns: [geom]
   fields:
     geom:
       type: point
