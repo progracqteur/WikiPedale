@@ -22,7 +22,29 @@ function userIsAdmin() {
     /**
     * Returns True if the user is admin.
     */
-    return user.roles != undefined && user.roles.indexOf('ROLE_ADMIN') != -1;
+    return user.roles != undefined && user.roles[0] != undefined && user.roles[0] == ("ROLE_ADMIN");
+}
+
+function userCanModifyCategories(){
+    /**
+    * True if the user can create or alter categories on a place.
+    */
+    return user.roles != undefined && user.roles[2] != undefined && user.roles[2] == ("ROLE_CATEGORY");
+}
+
+function userCanModifyLittleDetails()){
+    /**
+    * True if the user can alter details of a little point
+    */
+    return user.roles != undefined && user.roles[3] != undefined && user.roles[3] == ("ROLE_DETAILS_LITTLE");
+}
+
+function userCanVieuwUsersDetails(){
+    /**
+    * True if the user can see email and personal details of other users
+    */
+    return user.roles != undefined && user.roles[4] != undefined && user.roles[4] == ("ROLE_SEE_USER_DETAILS");
+
 }
 
 function userIsRegister(){
