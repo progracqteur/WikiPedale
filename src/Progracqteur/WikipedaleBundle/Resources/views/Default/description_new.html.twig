@@ -22,7 +22,7 @@
     <p>
       <img src="../img/verif_rien.png" class="verif" id="form_informer_categories" alt="is the field ok">
       <label>{{ 'add_black_points.categories'|trans({}, 'changes') }}</label>
-      <select name="categories" id="c" style="width:200px;" data-placeholder="" class="chzn-select" multiple tabindex="6">
+      <select name="categories" id="c" style="width:200px;" data-placeholder="" class="chzn-select" multiple>
         {# set a value to detect changes in parent category #}
         {% set parentId = null %}
         {% for category in categories %}
