@@ -71,7 +71,7 @@ function blopFunction() {
         alert('blop');
     }
 
-function unregisterUserInJson(label,email){
+function unregisterUserInJson(label,email,phonenumber){
     /**
     * Returns a json string describing an unregister user.
     * @param{string} label The label/pseudo of the user.
@@ -81,6 +81,7 @@ function unregisterUserInJson(label,email){
         + ',"id":null'
         + ',"label":' + JSON.stringify(label)
         + ',"email":' + JSON.stringify(email)
+        + ',"phonenumber":' + JSON.stringify(phonenumber)
         + '}';
 }
 
@@ -96,7 +97,7 @@ function PointInJson(lon,lat){
     return parser.write(p, false);
 }
 
-function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, categories) {
+function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
     /**
     * Returns a json string used for adding a new place.
     * @param {string} description the description of the new place.
@@ -107,6 +108,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     * @param {string} color The color of the place (only for existing place)
     * @param {string} user_label The label given by the user : if the user is register and logged this field is not considered
     * @param {string} user_email The email given by the user : if the user is register and logged this field is not considered
+    * @param {string} user_phonenumber The phonenumber given by the user : if the user is register and logged this field is not considered
     * @param {array of string} caterogies The ids of categories selected
     */
     ret = '{"entity":"place"'
@@ -123,7 +125,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
         ret = ret + ',"geom":'+ PointInJson(lon,lat);
     }
     if( !userIsRegister() && (user_label != undefined || user_email != undefined))
-        { ret = ret + ',"creator":' + unregisterUserInJson(user_label, user_email); }
+        { ret = ret + ',"creator":' + unregisterUserInJson(user_label, user_email, user_phonenumber); }
 
     ret = ret + ',"description":' + JSON.stringify(description)
         + ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}'
@@ -266,7 +268,8 @@ function catchForm(formName) {
             else {
                 entity_string = PlaceInJson(place_data['description'], place_data['lon'],
                     place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
-                    place_data['user_label'], place_data['email'], place_data['categories']);
+                    place_data['user_label'], place_data['email'], place_data['user_phonenumber'],place_data['categories']);
+                console.log(entity_string);
                 url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
                 $.ajax({
                     type: "POST",
@@ -318,6 +321,7 @@ function clearNewPlaceForm() {
     /** 
     * Clear the data entered in the form with id 'new_placeForm'
     */
+    document.getElementById("new_placeForm").user_phonenumber.value = "";
     document.getElementById("new_placeForm").user_label.value = "";
     document.getElementById("new_placeForm").user_label.readOnly=false;
     document.getElementById("new_placeForm").email.value = "";

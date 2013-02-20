@@ -32,7 +32,7 @@ function userCanModifyCategories(){
     return user.roles != undefined && user.roles[2] != undefined && user.roles[2] == ("ROLE_CATEGORY");
 }
 
-function userCanModifyLittleDetails()){
+function userCanModifyLittleDetails(){
     /**
     * True if the user can alter details of a little point
     */
@@ -44,7 +44,6 @@ function userCanVieuwUsersDetails(){
     * True if the user can see email and personal details of other users
     */
     return user.roles != undefined && user.roles[4] != undefined && user.roles[4] == ("ROLE_SEE_USER_DETAILS");
-
 }
 
 function userIsRegister(){
