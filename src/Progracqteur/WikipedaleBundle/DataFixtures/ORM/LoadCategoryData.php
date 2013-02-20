@@ -26,8 +26,15 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
     private $container;
     
     public function load(ObjectManager $manager) {
+        
+        $petit = new Category();
+        $petit->setLabel("Petits problèmes");
+        $manager->persist($petit);
+        
+        
         $revetement = new Category();
         $revetement->setLabel("Revêtement");
+        $revetement->setParent($petit);
         $manager->persist($revetement);
         
         $mv = new Category();
@@ -46,6 +53,7 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
         
         $signal = new Category();
         $signal->setLabel("Signalisation");
+        $signal->setParent($petit);
         $manager->persist($signal);
         
         $feu = new Category();
@@ -54,6 +62,20 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
         $manager->persist($feu);
         
         $this->addReference('cat3', $feu);
+        
+        $gros = new Category();
+        $gros->setLabel('Point noir');
+        $manager->persist($gros);
+        
+        $carrefour = new Category();
+        $carrefour->setLabel("Carrefours dangereux")
+                ->setParent($gros);
+        $manager->persist($carrefour);
+        
+        $cycl = new Category();
+        $cycl->setLabel("Pas de place au cycliste")
+                ->setParent($carrefour);
+        $manager->persist($cycl);
         
         $manager->flush();
         

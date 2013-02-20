@@ -10,7 +10,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - NotNull: {message: Indiquez un emplacement géographique}
   constraints:
     - Callback:
-        methods: [isStatusesValid, hasOnlyOneChange]
+        methods: [isStatusesValid, hasOnlyOneChange, isCategoriesValid, isManagerValid]
 
 Progracqteur\WikipedaleBundle\Entity\Model\Photo:
   getters:
@@ -77,6 +77,14 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
       - Email: 
           message: user.validation.email.not_valid_or_domain_not_exist
           checkMX: true
+    phonenumber:
+      - NotBlank: {message: user.validation.phonenumber.not_blank}
+      - MinLength:
+          limit: 10
+          message: user.validation.phonenumber.more_than_ten_letters
+      - MaxLength:
+          limit: 15
+          message: user.validation.phonenumber.maximum_15_letters
       
 Progracqteur\WikipedaleBundle\Entity\Model\Category:
   constraints:

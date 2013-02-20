@@ -7,6 +7,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
@@ -15,7 +16,6 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTrackingNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
@@ -48,6 +48,8 @@ class NormalizerSerializerService {
     private $normalizedResponseExceptionNormalizer = null;
     private $placeTrackingNormalizer = null;
     private $dateNormalizer = null;
+    private $groupNormalizer = null;
+    private $zoneNormalizer = null;
     
     /**
      *
@@ -68,7 +70,7 @@ class NormalizerSerializerService {
     
     /**
      *
-     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer 
      */
     public function getAddressNormalizer()
     {
@@ -82,7 +84,7 @@ class NormalizerSerializerService {
     
     /**
      * 
-     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer
      */
     public function getDateNormalizer()
     {
@@ -96,7 +98,7 @@ class NormalizerSerializerService {
     
     /**
      *
-     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer 
      */
     public function getPlaceNormalizer()
     {
@@ -110,7 +112,7 @@ class NormalizerSerializerService {
     
     /**
      *
-     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer 
      */
     public function getUserNormalizer()
     {
@@ -143,7 +145,7 @@ class NormalizerSerializerService {
     }
     
     /**
-     * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer category normalizer
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer category normalizer
      */
     public function getCategoryNormalizer()
     {
@@ -154,6 +156,33 @@ class NormalizerSerializerService {
         
         return $this->categoryNormalizer;
         
+    }
+    
+    /**
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer
+     */
+    public function getGroupNormalizer()
+    {
+        if ($this->groupNormalizer === null)
+        {
+            $this->groupNormalizer = new GroupNormalizer($this);
+        }
+        
+        return $this->groupNormalizer;
+    }
+    
+    /**
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ZoneNormalizer
+     */
+    public function getZoneNormalizer()
+    {
+        if ($this->zoneNormalizer === null)
+        {
+            $this->zoneNormalizer = new ZoneNormalizer($this);
+        }
+        
+        return $this->zoneNormalizer;
     }
     
     /**
@@ -180,6 +209,10 @@ class NormalizerSerializerService {
         return $this->normalizedResponseExceptionNormalizer;
     }
     
+    /**
+     * 
+     * @return \Doctrine\ORM\EntityManager
+     */
     public function getManager()
     {
         //return $this->em;

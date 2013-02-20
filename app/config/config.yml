@@ -84,6 +84,8 @@ fos_user:
     registration:
       confirmation:
         enabled: true
+      form:
+        type: wikipedale_user_registration
     from_email:
       address: admin-wikipedale@fastre.info
       sender_name: admin-wikipedale

@@ -9,6 +9,8 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
     label:
       type: string
       length: 255
+    used:
+      type: boolean
   oneToMany:
     children:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

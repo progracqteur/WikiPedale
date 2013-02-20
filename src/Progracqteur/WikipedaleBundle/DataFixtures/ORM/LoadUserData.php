@@ -38,6 +38,8 @@ public function load(ObjectManager $manager) {
             $admin->setEmail('admin@wikipedale.org');
             $admin->addRole(User::ROLE_ADMIN);
             $admin->setEnabled(true);
+            $admin->setPhonenumber('+32486564');
+            $admin->setLabel('Robert Delieu');
             
             $userManager->updateUser($admin);
         } else {
@@ -62,9 +64,11 @@ public function load(ObjectManager $manager) {
         $u = $this->container->get('fos_user.user_manager')->createUser();
         $str = $this->createId();
         $u->setEmail("bicycle@fastre.info");
-        $u->setLabel("bicycle");
+        $u->setLabel("Homme à bicyclette");
+        $u->setUsername('bicycle');
         $u->setPassword("bicycle");
         $u->addGroup($g);
+        $u->setPhonenumber('0123456789');
         
         $userManager->updateUser($u);
         
@@ -72,7 +76,9 @@ public function load(ObjectManager $manager) {
         $str = $this->createId();
         $u->setEmail("Zone.$str@fastre.info");
         $u->setLabel("Zone $str");
+        $u->setUsername('zone'.$str);
         $u->setPassword("admin");
+        $u->setPhonenumber('9876543210');
         
         $userManager->updateUser($u);
         
@@ -80,7 +86,9 @@ public function load(ObjectManager $manager) {
         $str = $this->createId();
         $u->setEmail("$str@fastre.info");
         $u->setLabel("label $str");
+        $u->setUsername('label'.$str);
         $u->setPassword($str);
+        $u->setPhonenumber('5647893210');
         
         $userManager->updateUser($u);
         $manager->flush();

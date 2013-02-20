@@ -16,7 +16,7 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('admin_category_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.label }}</td>
+            <td>{{ entity.getHierarchicalLabel() }}</td>
             <td>
                 <ul>
                     <li>

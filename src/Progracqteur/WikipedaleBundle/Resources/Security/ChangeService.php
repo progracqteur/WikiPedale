@@ -36,6 +36,9 @@ class ChangeService {
     const PLACE_ACCEPTED = 170;
     const PLACE_ADD_CATEGORY = 180;
     const PLACE_REMOVE_CATEGORY = 181;
+    const PLACE_MANAGER_ADD = 190;
+    const PLACE_MANAGER_ALTER = 193;
+    const PLACE_MANAGER_REMOVE = 198;
     
     
     /**
@@ -248,6 +251,7 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('add category ');
                      }
+                     break;
                  case self::PLACE_REMOVE_CATEGORY:
                      //allowed only for ROLE_CATEGORY
                      if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
@@ -256,7 +260,16 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('remove category');
                      }
-                     
+                     break;
+                 case self::PLACE_MANAGER_ADD:
+                 case self::PLACE_MANAGER_ALTER:
+                 case self::PLACE_MANAGER_REMOVE:
+                     if ($this->securityContext->isGranted(User::ROLE_MANAGER_ALTER))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('manager');
+                     }
                  default:
                      throw ChangeException::param('inconnu');
             

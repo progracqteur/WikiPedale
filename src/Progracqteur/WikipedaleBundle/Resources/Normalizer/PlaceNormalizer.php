@@ -169,12 +169,25 @@ class PlaceNormalizer implements NormalizerInterface {
             
         }
         
+        if (isset($data['manager']))
+        {
+            if ($this->service->getGroupNormalizer()->supportsDenormalization($data['manager'], $class))
+            {
+                $group = $this->service->getGroupNormalizer()->denormalize($data['manager'], $class);
+                $p->setManager($group);
+            } else 
+            {
+                throw new NormalizingException('could not denormalize manager '.$data['manager']);
+            }
+                
+        }
+        
         return $p;
     }
     
     /**
      * 
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Place $object
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $object
      * @param string $format
      * @return array
      */
@@ -201,6 +214,13 @@ class PlaceNormalizer implements NormalizerInterface {
             $c[] = $this->service->getCategoryNormalizer()->normalize($cat, $format);
         }
         
+        if ($object->getManager() !== null)
+        {
+            $manager = $this->service->getGroupNormalizer()->normalize($object->getManager());
+        } else {
+            $manager = null;
+        }
+        
         return  array(
             'entity' => 'place',
             'description' => $object->getDescription(),
@@ -217,8 +237,8 @@ class PlaceNormalizer implements NormalizerInterface {
             //'statusZone' => $object->getStatusZone(),
             'accepted' => $object->isAccepted(),
             'statuses' => $s,
-            'categories' => $c
-            
+            'categories' => $c,
+            'manager' => $manager,
         );
     }
     

@@ -17,11 +17,11 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
 use Symfony\Component\Validator\ExecutionContext;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
-
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
  */
-class Place implements NormalizableInterface, ChangeableInterface, NotifyPropertyChanged
+class Place implements ChangeableInterface, NotifyPropertyChanged
 {
     /**
      * @var integer $id
@@ -106,6 +106,12 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $category;
+    
+    /**
+     *
+     * @var \Progracqteur\WikipedaleBundle\Entity\Management\Group
+     */
+    private $manager;
             
     
     private $_listeners = array();
@@ -745,33 +751,50 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
     {
         return $this->lastUpdate;
     }
-
-    /**
-     * @deprecated
-     * @param SerializerInterface $serializer
-     * @param type $data
-     * @param type $format 
-     */
-    public function denormalize(SerializerInterface $serializer, $data, $format = null) {
+    
+    public function setManager(Group $manager = null)
+    {
         
+        if ($manager === null)
+        {
+            return $this->removeManager();
+        }
+        
+        if ($this->getManager() === null)
+        {
+            $this->change('manager', null, $manager);
+            $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ADD, $manager);
+            
+        } elseif ($this->getManager()->getId() !== $manager->getId())
+        {
+            $this->change('manager', $this->manager, $manager);
+            $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ALTER, $manager);
+        }
+        
+        return $this;
+    }
+    
+    public function removeManager()
+    {
+        if ($this->getManager() !== null)
+        {
+            $this->change('manager', $this->manager, $manager);
+            $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_REMOVE, null);
+        }
+        
+        return $this;
     }
     
     /**
-     * @deprecated
+     * 
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Group
      */
-    public function normalize(SerializerInterface $serializer, $format = null) {
-        $creator = $this->getCreator();
-        return array(
-            'description' => $this->getDescription(),
-            'geom' => $this->getGeom()->toArrayGeoJson(),
-            'id' => $this->getId(),
-            'nbComm' => $this->getNbComm(),
-            'nbVote' => $this->getNbVote(),
-            'creator' => $creator->normalize($serializer, $format)
-            //TODO: ajouter les autres paramètres
-        );
-        
+    public function getManager()
+    {
+        return $this->manager;
     }
+
 
     /**
      * return the changeset made since the entity was created or 
@@ -875,5 +898,39 @@ class Place implements NormalizableInterface, ChangeableInterface, NotifyPropert
                 return true;
         }
         return false;
+    }
+    
+    /**
+     * check if the categories added to the place are valid. 
+     * 
+     * Until now: no categories with children are accepted !
+     * 
+     * @param \Symfony\Component\Validator\ExecutionContext $context
+     */
+    public function isCategoriesValid(ExecutionContext $context)
+    {
+        foreach($this->getCategory() as $cat)
+        {
+            if ($cat->hasChildren())
+            {
+                $propertypath = $context->getPropertyPath().'.category';
+                $context->setPropertyPath($propertypath);
+                $context->addViolation('validation.place.category.have_children', array(), null);
+                return;
+            }
+        }
+    }
+    
+    public function isManagerValid(ExecutionContext $context)
+    {
+        if ($this->getManager() !== null 
+                && $this->getManager()->getType() !== Group::TYPE_MANAGER )
+        {
+            $context->setPropertyPath(
+                    $context->getPropertyPath().'.manager'
+                    );
+            $context->addViolation('validation.place.manager.group_is_not_type_manager', 
+                    array(), $this->getManager());
+        }
     }
 }

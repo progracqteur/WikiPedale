@@ -61,7 +61,7 @@ class Group extends BaseGroup
     /**
      * Set Zone
      *
-     * @param Progracqteur\WikipedaleBundle\Entity\Management\Zone $Zone
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\Zone $Zone
      * @return Group
      */
     public function setZone(Zone $zone = null)
@@ -70,6 +70,10 @@ class Group extends BaseGroup
         return $this;
     }
     
+    /**
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Zone
+     */
     public function getZone()
     {
         return $this->zone;
@@ -88,9 +92,16 @@ class Group extends BaseGroup
                     ->addRole(User::ROLE_DETAILS_LITTLE)
                     ->addRole(User::ROLE_PUBLISHED)
                     ->addRole(User::ROLE_SEE_USER_DETAILS)
+                    ->addRole(User::ROLE_MANAGER_ALTER)
                         ;
                 break;
             case self::TYPE_MANAGER :
+                $this->addRole(User::ROLE_NOTATION)
+                    ->addRole(User::ROLE_CATEGORY)
+                    ->addRole(User::ROLE_DETAILS_LITTLE)
+                    ->addRole(User::ROLE_SEE_USER_DETAILS)
+                    ->addRole(User::ROLE_MANAGER_ALTER)
+                        ;
                 break;
             case self::TYPE_NOTATION:
                 $this->addRole(User::ROLE_NOTATION)
@@ -116,7 +127,7 @@ class Group extends BaseGroup
     /**
      * Set notation
      *
-     * @param Progracqteur\WikipedaleBundle\Management\Notation $notation
+     * @param \Progracqteur\WikipedaleBundle\Management\Notation $notation
      * @return Group
      */
     public function setNotation(\Progracqteur\WikipedaleBundle\Entity\Management\Notation $notation = null)
@@ -128,7 +139,7 @@ class Group extends BaseGroup
     /**
      * Get notation
      *
-     * @return Progracqteur\WikipedaleBundle\Management\Notation 
+     * @return \Progracqteur\WikipedaleBundle\Management\Notation 
      */
     public function getNotation()
     {

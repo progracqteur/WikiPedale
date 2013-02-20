@@ -58,7 +58,8 @@ class CategoryController extends Controller
     public function newAction()
     {
         $entity = new Category();
-        $form   = $this->createForm(new CategoryType(), $entity);
+        $form   = $this->createForm(
+                new CategoryType($this->getDoctrine()->getEntityManager()), $entity);
 
         return $this->render('ProgracqteurWikipedaleBundle:Model/Category:new.html.twig', array(
             'entity' => $entity,
@@ -74,7 +75,8 @@ class CategoryController extends Controller
     {
         $entity  = new Category();
         $request = $this->getRequest();
-        $form    = $this->createForm(new CategoryType(), $entity);
+        $form    = $this->createForm(
+                new CategoryType($this->getDoctrine()->getEntityManager()), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -106,7 +108,8 @@ class CategoryController extends Controller
             throw $this->createNotFoundException('Unable to find Model\Category entity.');
         }
 
-        $editForm = $this->createForm(new CategoryType(), $entity);
+        $editForm = $this->createForm(new CategoryType(
+                $this->getDoctrine()->getEntityManager()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ProgracqteurWikipedaleBundle:Model/Category:edit.html.twig', array(
@@ -130,7 +133,8 @@ class CategoryController extends Controller
             throw $this->createNotFoundException('Unable to find Model\Category entity.');
         }
 
-        $editForm   = $this->createForm(new CategoryType(), $entity);
+        $editForm   = $this->createForm(new CategoryType(
+                $this->getDoctrine()->getEntityManager()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();

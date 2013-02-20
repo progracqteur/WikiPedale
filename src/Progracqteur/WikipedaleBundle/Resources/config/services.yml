@@ -52,6 +52,12 @@ services:
       csrf_provider: "@session"
       salt: framework.secret
   
+  progracqteur.wikipedale.registration.form.type:
+    class: Progracqteur\WikipedaleBundle\Form\Management\UserType
+    arguments: [%fos_user.modeL.user.class%]
+    tags: 
+      - { name: form.type, alias: wikipedale_user_registration }
+  
 
 #    progracqteur_wikipedale.example:
 #        class: %progracqteur_wikipedale.example.class%
