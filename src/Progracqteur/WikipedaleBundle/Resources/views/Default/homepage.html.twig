@@ -32,6 +32,9 @@
 
       // chosen (for categories)
       $(".chzn-select").chosen().change(update_c_informer_for_form);
+
+      $("#optionsAffichageCategories").select2();
+      $('#optionsAffichageCategories').select2("disable");
         /* $('#mv').prop('selected', true);
         // $(".chzn-select").trigger('liszt:updated'); (pour selectionner mv) */
     {% else %}

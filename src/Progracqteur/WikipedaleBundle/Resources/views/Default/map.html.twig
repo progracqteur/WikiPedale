@@ -14,7 +14,13 @@
  					<input type="checkbox" name="option2" value="Butter"> Gros signalements
  				</form>
 
- 				<select style="width:200px;" data-placeholder="" class="chzn-select" multiple tabindex="6">
+        <br />
+
+        <input type="radio" name="affichage_tous_ou_filtre" value="tous" onClick="javascript:action_buttonNoFilter();" checked>tous les signalements, 
+        <input type="radio" name="affichage_tous_ou_filtre" value="filtre" onClick="javascript:action_buttonFilter();">filtrer par<br>
+
+        <div id="">
+ 		  	  <select style="width:100%" data-placeholder="" id="optionsAffichageCategories" multiple>
         			{# set a value to detect changes in parent category #}
         			{% set parentId = null %}
         			{% for category in categories %}
@@ -29,11 +35,12 @@
               			<option value="{{category.id}}">{{category.label}}</option>             
         			{% endfor %}      
        				</optgroup>
-      			</select>
-      		</div>
- 		</div>
+      		</select>
+        </div>
+ 		  </div>
+  </div>
 
-    	<div id="olPanelUL"></div>
+  <div id="olPanelUL"></div>
 
     	{% include "ProgracqteurWikipedaleBundle:Default:description_new.html.twig" %}
 

@@ -20,6 +20,8 @@ var colors_in_marker = 1; //number of color in a marker
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
 var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
 
+var categories_and_id_markekrs = Array();
+
 var new_placeMarker;
 
 var last_place_selected = null;
@@ -539,6 +541,12 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     //alert(someData.id);
 
     markers_and_associated_data[someData.id] = ([marker,someData]);
+    $.each(someData.categories, function(index, categories_data) {
+        if (categories_and_id_markekrs[categories_data.id] == undefined) {
+            categories_and_id_markekrs[categories_data.id] = Array();
+        }
+        categories_and_id_markekrs[categories_data.id].push(someData.id);
+    });
 
 
     var markerMouseDownFunction = function(evt) {
@@ -559,22 +567,6 @@ display_placeEdit_vars = [
 // PHOTO
 function pop_up_add_photo(i) {
     window.open(Routing.generate('wikipedale_photo_new', {_format: 'html', placeId: i}));
-}
-
-
-display_options = false;
-
-function action_buttonOptionsAffichage() {
-    if(display_options) {
-        document.getElementById("div_options_affichage").style.display = "none";
-        document.getElementById("buttonOptionsAffichage").innerHTML = "Options d'affichage";
-        
-    }
-    else {
-        document.getElementById("div_options_affichage").style.display = "block";
-        document.getElementById("buttonOptionsAffichage").innerHTML = 'Annuler';
-    }
-    display_options = ! display_options;
 }
 
 function refresh_span_photo(id) {
