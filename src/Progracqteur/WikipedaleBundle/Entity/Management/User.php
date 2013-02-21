@@ -145,12 +145,11 @@ class User extends BaseUser
 
     /**
      * Set label
-     * @deprecated
      * @param string $label
      */
     public function setLabel($label)
     {
-        $this->label;
+        $this->label = $label;
     }
 
     /**

@@ -70,6 +70,8 @@ public function load(ObjectManager $manager) {
         $u->addGroup($g);
         $u->setPhonenumber('0123456789');
         
+        echo "Création de l'utilisateur ".$u->getLabel()."\n";
+        
         $userManager->updateUser($u);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
@@ -79,6 +81,8 @@ public function load(ObjectManager $manager) {
         $u->setUsername('zone'.$str);
         $u->setPassword("admin");
         $u->setPhonenumber('9876543210');
+        
+        echo "Création de l'utilisateur ".$u->getLabel()."\n";
         
         $userManager->updateUser($u);
         
@@ -90,10 +94,69 @@ public function load(ObjectManager $manager) {
         $u->setPassword($str);
         $u->setPhonenumber('5647893210');
         
+        echo "Création de l'utilisateur ".$u->getLabel()."\n";
+        
         $userManager->updateUser($u);
-        $manager->flush();
+        
         
         $this->addReference('user', $u);
+        
+        
+        $cemGroup = new Group('Conseiller en mobilité', array());
+        $cemGroup->setType(Group::TYPE_MODERATOR)
+                ->setNotation(
+                        $manager->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
+                            ->find('cem')
+                        )
+                ->setZone($city);
+        
+        $manager->persist($cemGroup);
+        
+        $u = $this->container->get('fos_user.user_manager')->createUser();
+        $u->setEmail('cem@test.com');
+        $u->setLabel('Monsieur Vélo Mons');
+        $u->setUsername('cem');
+        $u->setPassword('cem');
+        $u->setPhonenumber('1256');
+        
+        $u->setEnabled(true);
+        
+        echo "Création de l'utilisateur ".$u->getLabel()."\n";
+        
+        $u->addGroup($cemGroup);
+        
+        $userManager->updateUser($u);
+        
+        $this->addReference('cem', $u);
+        $this->addReference('cemgroup', $cemGroup);
+        
+        $manGroup = new Group('Gestionnaire de voirie communal Mons', array());
+        $manGroup->setType(Group::TYPE_MANAGER)
+                ->setNotation(
+                        $manager->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
+                            ->find('cem')
+                        )
+                ->setZone($city);
+        
+        $manager->persist($manGroup);
+        
+        $this->addReference('manager_mons', $manGroup);
+        
+        $u = $this->container->get('fos_user.user_manager')->createUser();
+        $u->setEmail('gdv@test.com');
+        $u->setLabel('Monsieur Travaux Mons');
+        $u->setUsername('gdv');
+        $u->setPassword('gdv');
+        $u->setPhonenumber('1256');
+        
+        echo "Création de l'utilisateur ".$u->getLabel()."\n";
+        
+        $u->addGroup($manGroup);
+        
+        $userManager->updateUser($u);
+        
+        $manager->flush();
+        
     }
     
     

@@ -79,6 +79,12 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
                 }
             }
             
+            //ajout d'un manager de voirie responsable à une place sur deux
+            if ((($i+2) % 2) === 0)
+            {
+                $place->setManager($this->getReference('manager_mons'));
+            }
+            
             $place->getChangeset()->setAuthor($this->getReference('user'));
             
             $manager->persist($place);

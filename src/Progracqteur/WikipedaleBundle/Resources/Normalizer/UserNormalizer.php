@@ -42,6 +42,9 @@ class UserNormalizer implements NormalizerInterface
 
                     if (isset($data['email']))
                         $u->setEmail($data['email']);
+                    
+                    if (isset($data['phonenumber']))
+                        $u->setPhonenumber ($data['phonenumber']);
 
                     $u->setIp($this->service->getRequest()->getClientIp());
                 }

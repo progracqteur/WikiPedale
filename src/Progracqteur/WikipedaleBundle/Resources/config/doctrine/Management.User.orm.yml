@@ -20,6 +20,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\User:
     label:
       type: string
       length: 150
+      column: fullLabel
   manyToMany:
     groups:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
