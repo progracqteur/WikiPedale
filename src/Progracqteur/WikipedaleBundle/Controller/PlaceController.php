@@ -133,15 +133,9 @@ class PlaceController extends Controller {
         
         $p = $em->createQuery('SELECT p 
             from ProgracqteurWikipedaleBundle:Model\\Place p 
-
-            where covers(:polygon, p.geom) = true and p.accepted = true');
                 
-        $eager = \Doctrine\ORM\Mapping\ClassMetadata::FETCH_EAGER;
-        $p->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place', 'creator', $eager);
-        $p->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place', 'manager', $eager);
-        $p->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place', 'category', $eager);
-        $p->setFetchMode('ProgracqteurWikipedaleBundle:Management\User', 'groups', $eager);
-        $p->setParameter('polygon', $city->getPolygon());
+            where covers(:polygon, p.geom) = true and p.accepted = true')
+                ->setParameter('polygon', $city->getPolygon());
         
         $r = $p->getResult();
         
