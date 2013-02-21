@@ -62,7 +62,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
           version: all
       - NotBlank: {message: user.ip.not_blank}
       - NotNull: {message: user.ip.not_null}
-    username:
+    label:
       - NotNull: {message: user.validation.label.not_null}
       - NotBlank: {message: user.validation.label.not_blank}
       - MinLength:
