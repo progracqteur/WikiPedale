@@ -99,6 +99,35 @@ function PointInJson(lon,lat){
     return parser.write(p, false);
 }
 
+function EditDescriptionDescInJson(id,description){
+    ret = '{"entity":"place"';
+    ret = ret + ',"id":' + JSON.stringify(id);
+    ret = ret + ',"description":' + JSON.stringify(description);
+    return ret + '}';
+}
+
+function EditDescriptionLocInJson(id,loc){
+    ret = '{"entity":"place"';
+    ret = ret + ',"id":' + JSON.stringify(id);
+    ret = ret + ',"addressParts":{"entity":"address","road":' + JSON.stringify(loc) + '}';
+    return ret + '}';
+}
+
+function EditDescriptionCatInJson(id,cat){
+    ret = '{"entity":"place"';
+    ret = ret + ',"id":' + JSON.stringify(id);
+    ret = ret + ',"categories":[';
+    for (var i = 0; i < cat.length; i++) {
+        ret = ret + '{"entity":"category","id":' + cat[i] + '}';
+        if (i < (cat.length - 1))
+        {
+            ret = ret + ',';
+        }
+    }
+    ret = ret + ']';
+    return ret + '}';
+}
+
 function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
     /**
     * Returns a json string used for adding a new place.
@@ -113,7 +142,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     * @param {string} user_phonenumber The phonenumber given by the user : if the user is register and logged this field is not considered
     * @param {array of string} caterogies The ids of categories selected
     */
-    ret = '{"entity":"place"'
+    ret = '{"entity":"place"';
 
     if(id==undefined || id==null)
         { ret = ret + ',"id":null'; }
@@ -195,6 +224,75 @@ function catchLoginForm(){
         }
     });
 }
+
+function descriptionEdit(name_elem){
+    id_element = "#span_place_description_" + name_elem;
+    id = $('#input_place_description_id').val();
+
+    if (name_elem == 'cat'){
+        console.log(id);
+        categories_selected = Array();
+        $.each(markers_and_associated_data[id][1].categories, function(i,c) { categories_selected.push(c.id); });
+        $(id_element + '_edit').select2("val", categories_selected);
+    }
+    else {
+        $(id_element + '_edit').val($(id_element).text());
+    }
+    $(id_element).hide();
+    $(id_element + '_edit').show();
+    $(id_element + '_button').text("Sauver");
+    $(id_element + '_button').attr("onClick","descriptionSaveEdit('" + name_elem + "')");
+};
+
+function descriptionSaveEdit(name_elem){
+    id_element = "#span_place_description_" + name_elem;
+
+    id = $('#input_place_description_id').val();
+
+    if(name_elem == "desc") {
+        json_request = EditDescriptionDescInJson(id,$(id_element + '_edit').val());
+    }
+    else if (name_elem == "loc") {
+        json_request = EditDescriptionLocInJson(id,$(id_element + '_edit').val());
+    }
+    else if (name_elem == "cat") {
+        json_request = EditDescriptionCatInJson(id,$(id_element + '_edit').select2("val"));
+    }
+    console.log(json_request);
+    url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+    $.ajax({
+        type: "POST",
+        data: {entity: json_request},
+        url: url_edit,
+        cache: false,
+        success: function(output_json) { 
+            if(! output_json.query.error) { 
+                alert('mettre a jour markers_and_associated_data');
+                if(name_elem == 'cat'){
+                    categories_list = "";
+                    $.each(markers_and_associated_data[id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
+                    $(id_element).text(categories_list);    
+                } 
+                else {
+                    
+                    $(id_element).text($(id_element + '_edit').val());
+                }
+                $(id_element + '_edit').hide();
+                $(id_element).show();
+                $(id_element + '_button').text("Editer");
+                $(id_element + '_button').attr("onClick","descriptionEdit('" + name_elem + "')");
+            }
+            else { 
+                console.log('Error else');
+                console.log(JSON.stringify(output_json));
+            }
+        },
+        error: function(output_json) {
+            console.log('Error error');
+            console.log(output_json.responseText);
+        }
+    });
+};
 
 function catchForm(formName) {
     /**
@@ -387,8 +485,10 @@ function changingModeFunction() {
                 document.getElementById("div_new_place_form_user_mail").style.display = 'block';
             }
             document.getElementById("div_signaler").style.display = "block";
-            document.getElementById("div_placeDetails").style.display = "none";
-            document.getElementById("div_placeEdit").style.display = "none";
+            //document.getElementById("div_placeDetails").style.display = "none";
+            //document.getElementById("div_placeEdit").style.display = "none";
+            document.getElementById("div_placeDescription").style.display = "none";
+
             add_new_place_mode = true;
         }
         else {
@@ -434,8 +534,9 @@ function changingModeFunction() {
             document.getElementById("div_signaler").style.display = "none";
 
             if(last_place_selected != null ) {
-                if(userIsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
-                else { document.getElementById("div_placeDetails").style.display = "block"; }
+                document.getElementById("div_placeDescription").style.display = "block";
+                //if(userIsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
+                //else { document.getElementById("div_placeDetails").style.display = "block"; }
             }
             add_new_place_mode = false; 
         }
@@ -586,6 +687,7 @@ function refresh_span_photo(id) {
     });
 }
 
+
 function displayPlaceDataFunction(placeMarker, placeData) {
     /**
      * Function which display some data of the place on the webpage.
@@ -612,11 +714,25 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     url_add_photo = "javascript:pop_up_add_photo(" + placeData.id + ")";
     $('a.link_add_photo').each(function() { $(this).attr("href", url_add_photo)});
 
+    categories_list = "";
+    $.each(placeData.categories, function(i,c) { categories_list = categories_list + c.label; + " "});
+
+    $('.class_span_place_description_id').each(function() { this.innerHTML = placeData.id; });
+    $('.class_span_place_description_loc').each(function() { this.innerHTML = placeData.addressParts.road; });
+    $('#input_place_description_id').val(placeData.id);
+    $('#span_place_description_signaleur').text(placeData.creator.label);
+    $('#span_place_description_loc').text(placeData.addressParts.road);
+    $('#span_place_description_desc').text(placeData.description);
+    $('#span_place_description_cat').text(categories_list);
+    $('#span_place_description_statuses').text("statuses");
+    $('#span_place_description_gestion').text("gestion");
+
     if (userIsAdmin()) {
         document.getElementById("f_id").value = placeData.id;
         document.getElementById("f_lieu").value = placeData.addressParts.road;
         document.getElementById("f_description").value = placeData.description;
-        document.getElementById("div_placeEdit").style.display = "block";
+        //document.getElementById("div_placeEdit").style.display = "block";
+        document.getElementById("div_placeDescription").style.display = "block";
         document.getElementById("f_couleur").value="0"; 
         for (i = 0; i < placeData.statuses.length; i++)
         {  
@@ -630,7 +746,8 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     else {
         document.getElementById("span_lieu").innerHTML = placeData.addressParts.road;
         document.getElementById("span_description").innerHTML = placeData.description;
-        document.getElementById("div_placeDetails").style.display = "block";
+        //document.getElementById("div_placeDetails").style.display = "block";
+        document.getElementById("div_placeDescription").style.display = "block";
     }
 }
 

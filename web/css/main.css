@@ -56,7 +56,7 @@ label { font-size: 0.9em; color:#2D2D2D; display:block; }
 
 .send { float:right; }
 
-#div_placeDetails, #div_placeEdit { margin: 1em 0.5em 0 0.5em; border: 5px solid #2D2D2D; }
+#div_placeDetails, #div_placeDescription, #div_placeEdit { margin: 1em 0.5em 0 0.5em; border: 5px solid #2D2D2D; }
 
 img.SupprimerPoint { width:32px; height:32px; float:right; }
 
