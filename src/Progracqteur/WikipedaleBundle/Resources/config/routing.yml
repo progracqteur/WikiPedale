@@ -160,7 +160,7 @@ ProgracqteurWikipedaleBundle_admin_category:
         prefix:   /admin/category
         
 wikipedale_group_covers_zone:
-   pattern: /groups/bycovering/{type}/{slugZone}.{_format}
+   pattern: /groups/bytype/bycovering/{type}.{slugZone}.{_format}
    defaults: {_controller: ProgracqteurWikipedaleBundle:GroupFrontend:getGroupCoveringZone }
    requirements:
      _format: json
