@@ -47,6 +47,10 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
       nullable: true
       mappedBy: place
+    type:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+      nullable: true
+      #mappedBy: places
   oneToMany:
     photos:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Photo

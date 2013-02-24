@@ -112,6 +112,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * @var \Progracqteur\WikipedaleBundle\Entity\Management\Group
      */
     private $manager;
+    
+    /**
+     *
+     * @var \Progracqteur\WikipedaleBundle\Entity\Place\PlaceType 
+     */
+    private $type;
             
     
     private $_listeners = array();
@@ -793,6 +799,17 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function getManager()
     {
         return $this->manager;
+    }
+    
+    /**
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType $type
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     */
+    public function setType(Place\PlaceType $type)
+    {
+        $this->type = $type;
+        return $this;
     }
 
 

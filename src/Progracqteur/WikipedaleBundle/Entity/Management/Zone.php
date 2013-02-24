@@ -53,6 +53,7 @@ class Zone
      * @var string
      */
     const TYPE_CITY = 'city';
+    const TYPE_SPW = "spw";
 
 
     /**

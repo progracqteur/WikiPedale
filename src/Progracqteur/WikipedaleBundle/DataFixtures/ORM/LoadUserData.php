@@ -155,6 +155,37 @@ public function load(ObjectManager $manager) {
         
         $userManager->updateUser($u);
         
+        
+        //création gestionnaire de v oirie régional
+        
+        $monsspw = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
+                ->findOneBySlug('mons-spw');
+        
+        $manGroup = new Group('Gestionnaire de voirie régional', array());
+        $manGroup->setType(Group::TYPE_MANAGER)
+                ->setNotation(
+                        $manager->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
+                            ->find('cem')
+                        )
+                ->setZone($city);
+        
+        $manager->persist($manGroup);
+        
+        $this->addReference('manager_mons_spw', $manGroup);
+        
+        $u = $this->container->get('fos_user.user_manager')->createUser();
+        $u->setEmail('gdvspw@test.com');
+        $u->setLabel('Monsieur Travaux région mons');
+        $u->setUsername('gdv_spw');
+        $u->setPassword('gdv_spw');
+        $u->setPhonenumber('1256');
+        
+        echo "Création de l'utilisateur ".$u->getLabel()."\n";
+        
+        $u->addGroup($manGroup);
+        
+        $userManager->updateUser($u);
+        
         $manager->flush();
         
     }
