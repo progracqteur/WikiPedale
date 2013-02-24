@@ -26,10 +26,6 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       type: integer
     address:
       type: address
-    statusZone:
-      type: integer
-    statusBicycle:
-      type: integer
     lastUpdate:
       type: datetime
     accepted:
@@ -47,6 +43,10 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
       nullable: true
       mappedBy: place
+    type:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+      nullable: true
+      mappedBy: places
   oneToMany:
     photos:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Photo

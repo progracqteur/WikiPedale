@@ -39,6 +39,7 @@ class ChangeService {
     const PLACE_MANAGER_ADD = 190;
     const PLACE_MANAGER_ALTER = 193;
     const PLACE_MANAGER_REMOVE = 198;
+    const PLACE_PLACETYPE_ALTER = 200;
     
     
     /**

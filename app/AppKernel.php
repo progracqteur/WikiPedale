@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Progracqteur\UserBundle\ProgracqteurUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            //new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -25,7 +25,7 @@ class LoadCitiesData extends AbstractFixture implements ContainerAwareInterface,
     private $container;
     
     public function getOrder() {
-        return 1;
+        return 100;
     }
 
     public function load(ObjectManager $manager) {
@@ -47,6 +47,14 @@ class LoadCitiesData extends AbstractFixture implements ContainerAwareInterface,
                         ST_Centroid(ST_geomFromText(ST_AsText(geog))) 
                         from limites where nom is not null;");
             echo "$r cities added to the database \n";
+            
+            echo "ajout données du SPW \n";
+            $r = $conn->executeUpdate("insert into zones 
+                (id, name, codeprovince, polygon, slug, type, center)  
+                select gid+1000, nom, '', geog, '', '".Zone::TYPE_SPW."', 
+                        ST_Centroid(ST_geomFromText(ST_AsText(geog))) 
+                        from limites_spw where nom is not null;");
+            echo "$r zones spw added to the database \n";
             $r = $conn->executeUpdate("update zones set slug = getslug(name);");
             echo "$r slug updated in the database \n";
             

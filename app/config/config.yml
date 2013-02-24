@@ -62,6 +62,7 @@ doctrine:
         dql:
           string_functions:
             covers: Progracqteur\WikipedaleBundle\Resources\Doctrine\Functions\Covers
+            crosses: Progracqteur\WikipedaleBundle\Resources\Doctrine\Functions\Crosses
 
 # Swiftmailer Configuration
 swiftmailer:

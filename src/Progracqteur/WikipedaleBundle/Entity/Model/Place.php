@@ -112,6 +112,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * @var \Progracqteur\WikipedaleBundle\Entity\Management\Group
      */
     private $manager;
+    
+    /**
+     *
+     * @var \Progracqteur\WikipedaleBundle\Entity\Place\PlaceType 
+     */
+    private $type;
             
     
     private $_listeners = array();
@@ -762,7 +768,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         
         if ($this->getManager() === null)
         {
-            $this->change('manager', null, $manager);
+            $this->manager = $manager;
             $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ADD, $manager);
             
         } elseif ($this->getManager()->getId() !== $manager->getId())
@@ -793,6 +799,35 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function getManager()
     {
         return $this->manager;
+    }
+    
+    /**
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType $type
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     */
+    public function setType(Place\PlaceType $type)
+    {
+        if ($this->getType() === null)
+        {
+            $this->type = $type;
+            
+        } elseif ($this->getType()->getId() !== $type->getId())
+        {
+            $this->change('type', $this->type, $type);
+        }
+        
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
 

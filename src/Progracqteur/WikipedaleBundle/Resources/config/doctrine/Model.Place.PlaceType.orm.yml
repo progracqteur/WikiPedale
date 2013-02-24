@@ -1,0 +1,11 @@
+Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType:
+  type: entity
+  table: placetype
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    label:
+      type: string
+      length: 255

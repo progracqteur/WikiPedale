@@ -16,7 +16,7 @@ class LoadNotationData extends AbstractFixture implements OrderedFixtureInterfac
     
     
     public function getOrder() {
-        return 2;
+        return 200;
     }
 
     public function load(ObjectManager $manager) {
