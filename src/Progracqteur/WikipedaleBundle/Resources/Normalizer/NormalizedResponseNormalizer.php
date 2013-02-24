@@ -11,6 +11,8 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
+use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
 
 /**
  * Description of NormalizedResponseNormalizer
@@ -82,6 +84,11 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         
     }
     
+    /**
+     * 
+     * @param mixed $object the object to normalize
+     * @return array
+     */
     private function getNormalizedForm($object)
     {
         if ($object instanceof Place)
@@ -99,6 +106,12 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         } elseif  ($object instanceof Category) 
         {
             return $this->service->getCategoryNormalizer()->normalize($object);
+        } elseif ($object instanceof Group)
+        {
+            return $this->service->getGroupNormalizer()->normalize($object);
+        } elseif ($object instanceof Zone)
+        {
+            return $this->service->getZoneNormalizer()->normalize($object);
         }
     }
 
