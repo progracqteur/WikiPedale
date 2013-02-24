@@ -118,6 +118,11 @@ class User extends BaseUser
      */
     const ROLE_MANAGER_ALTER = 'ROLE_MANAGER_ALTER';
     
+    /**
+     * indicate if the user may alter the place type
+     */
+    const ROLE_PLACETYPE_ALTER = 'ROLE_PLACETYPE_ALTER';
+    
     
     
     public function __construct()

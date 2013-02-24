@@ -808,7 +808,11 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      */
     public function setType(Place\PlaceType $type)
     {
-        $this->type = $type;
+        if ($this->type->getId() !== $type->getId())
+        {
+            $this->change('type', $this->type, $type);
+        }
+        
         return $this;
     }
     
