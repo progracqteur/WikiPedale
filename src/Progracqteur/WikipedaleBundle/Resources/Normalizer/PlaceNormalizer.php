@@ -34,6 +34,9 @@ class PlaceNormalizer implements NormalizerInterface {
      */
     private $currentPlace;
     
+    
+    const PLACE_TYPE = 'placetype';
+    
     public function __construct(NormalizerSerializerService $service)
     {
         $this->service = $service;
@@ -171,7 +174,8 @@ class PlaceNormalizer implements NormalizerInterface {
         
         if (isset($data['manager']))
         {
-            if ($this->service->getGroupNormalizer()->supportsDenormalization($data['manager'], $class))
+            if ($this->service->getGroupNormalizer()
+                    ->supportsDenormalization($data['manager'], $class))
             {
                 $group = $this->service->getGroupNormalizer()->denormalize($data['manager'], $class);
                 $p->setManager($group);
@@ -180,6 +184,21 @@ class PlaceNormalizer implements NormalizerInterface {
                 throw new NormalizingException('could not denormalize manager '.$data['manager']);
             }
                 
+        }
+        
+        if (isset($data[self::PLACE_TYPE]))
+        {
+            if ($this->service
+                    ->getPlaceTypeNormalizer()
+                    ->supportsDenormalization($data[self::PLACE_TYPE], $class))
+            {
+                $type = $this->service
+                        ->getPlaceTypeNormalizer()
+                        ->denormalize($data[self::PLACE_TYPE], $class);
+                $p->setType($type);
+            } else {
+                throw new NormalizingException('could not denormalize placeType');
+            }
         }
         
         return $p;
@@ -221,6 +240,16 @@ class PlaceNormalizer implements NormalizerInterface {
             $manager = null;
         }
         
+        if ($object->getType() !== null)
+        {
+            $placeType = $this->service
+                    ->getPlaceTypeNormalizer()
+                    ->normalize($object->getType());
+        } else
+        {
+            $placeType = null;
+        }
+        
         return  array(
             'entity' => 'place',
             'description' => $object->getDescription(),
@@ -239,6 +268,7 @@ class PlaceNormalizer implements NormalizerInterface {
             'statuses' => $s,
             'categories' => $c,
             'manager' => $manager,
+            self::PLACE_TYPE => $placeType,            
         );
     }
     

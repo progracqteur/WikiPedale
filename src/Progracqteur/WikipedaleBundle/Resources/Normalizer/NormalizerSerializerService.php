@@ -8,6 +8,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTypeNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
@@ -50,6 +51,7 @@ class NormalizerSerializerService {
     private $dateNormalizer = null;
     private $groupNormalizer = null;
     private $zoneNormalizer = null;
+    private $placeTypeNormalizer = null;
     
     /**
      *
@@ -183,6 +185,20 @@ class NormalizerSerializerService {
         }
         
         return $this->zoneNormalizer;
+    }
+    
+    /**
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ZoneNormalizer
+     */
+    public function getPlaceTypeNormalizer()
+    {
+        if ($this->placeTypeNormalizer === null)
+        {
+            $this->placeTypeNormalizer = new PlaceTypeNormalizer($this);
+        }
+        
+        return $this->placeTypeNormalizer;
     }
     
     /**
