@@ -1,6 +1,6 @@
 Progracqteur\WikipedaleBundle\Entity\Model\Comment:
   type: entity
-  table: comment
+  table: comments
   id:
     id:
       type: integer

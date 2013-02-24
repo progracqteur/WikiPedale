@@ -811,6 +811,15 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         $this->type = $type;
         return $this;
     }
+    
+    /**
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
 
     /**
