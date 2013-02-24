@@ -92,6 +92,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $rand = array_rand($type_array);
             $placeType = $this->getReference('type_'.$type_array[$rand]);
             $place->setType($placeType);
+
+            echo "type de la place est ".$place->getType()->getLabel()." \n";
             
             $manager->persist($place);
             

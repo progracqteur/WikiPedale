@@ -768,7 +768,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         
         if ($this->getManager() === null)
         {
-            $this->change('manager', null, $manager);
+            $this->manager = $manager;
             $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ADD, $manager);
             
         } elseif ($this->getManager()->getId() !== $manager->getId())
@@ -808,18 +808,15 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      */
     public function setType(Place\PlaceType $type)
     {
-        if ($this->type === null)
+        if ($this->getType() === null)
         {
-            $this->change('type', null, $type);
+            $this->type = $type;
             
-        } else {
-            
-        
-            if ($this->type->getId() !== $type->getId())
-            {
-                $this->change('type', $this->type, $type);
-            }
+        } elseif ($this->getType()->getId() !== $type->getId())
+        {
+            $this->change('type', $this->type, $type);
         }
+        
         
         return $this;
     }
