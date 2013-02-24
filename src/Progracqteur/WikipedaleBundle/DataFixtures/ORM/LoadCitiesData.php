@@ -25,7 +25,7 @@ class LoadCitiesData extends AbstractFixture implements ContainerAwareInterface,
     private $container;
     
     public function getOrder() {
-        return 1;
+        return 100;
     }
 
     public function load(ObjectManager $manager) {

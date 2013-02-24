@@ -20,7 +20,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
 
 
     public function getOrder() {
-        return 5;
+        return 500;
     }
     
     /**
@@ -87,6 +87,12 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             
             $place->getChangeset()->setAuthor($this->getReference('user'));
             
+            //add a type (little 4 more frequently)
+            $type_array = array('big', 'little', 'middle', 'little', 'little', 'little');
+            $rand = array_rand($type_array);
+            $placeType = $this->getReference('type_'.$type_array[$rand]);
+            $place->setType($placeType);
+            
             $manager->persist($place);
             
             $this->addReference("PLACE_FOR_REGISTERED_USER".$i, $place);
@@ -139,6 +145,12 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
                 echo "add $cat_string_ref \n";
                 $place->addCategory($this->getReference('cat'.$cat_array[$rand]));
             }
+            
+            //add a type (little 4 more frequently)
+            $type_array = array('big', 'little', 'middle', 'little', 'little', 'little');
+            $rand = array_rand($type_array);
+            $placeType = $this->getReference('type_'.$type_array[$rand]);
+            $place->setType($placeType);
 
             $manager->persist($place);
             
