@@ -16,6 +16,8 @@ class GroupFrontendController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         
+        $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($slugZone);
+        
         $zoneA = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->findOneBy(array('slug' => $slugZone));
         
