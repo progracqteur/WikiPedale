@@ -151,6 +151,11 @@ function EditDescriptionStatusInJson(id,status_type,status_value){
     return ret + '}';
 }
 
+function EditDescriptionGestionaireInJson(id,gestionaire){
+    alert('todo');
+    return "";
+}
+
 function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
     /**
     * Returns a json string used for adding a new place.
@@ -310,6 +315,9 @@ function descriptionSaveEdit(element_type){
     else if (element_type == "status") {
         json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
     }
+    else if (element_type == "gestionaire") {
+        json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').val());
+    }
     console.log(json_request);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
     $.ajax({
@@ -329,7 +337,6 @@ function descriptionSaveEdit(element_type){
                     $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
                 }
                 else {
-                    
                     $(element_id).text($(element_id + '_edit').val());
                 }
                 $("#div_place_description_" + element_type + '_edit').hide();
@@ -770,8 +777,13 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('#span_place_description_loc').text(placeData.addressParts.road);
     $('#span_place_description_desc').text(placeData.description);
     $('#span_place_description_cat').text(categories_list);
-    $('#span_place_description_statuses').text("statuses");
-    $('#span_place_description_gestion').text("gestion");
+    if (placeData.manager == null) {
+        $('#span_place_description_gestionaire').text("pas encore de gestionaire assigné");
+    }
+    else{
+        $('#span_place_description_gestionaire').text(placeData.manager.label);
+    }
+    
 
     $('#span_place_description_status').text(color_trad_text[0]);
     for (i = 0; i < placeData.statuses.length; i++)

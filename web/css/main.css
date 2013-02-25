@@ -247,6 +247,10 @@ span#VilleActuelle {
     text-align: center;
 }
 
+.description_element{
+    margin-bottom: 10px;
+}
+
 /* OpenLayers */
         .olControlAttribution {
             position: absolute;

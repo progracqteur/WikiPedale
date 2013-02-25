@@ -1,37 +1,34 @@
 <div id="div_placeDescription" style="display:none;">
   <p class="PointTitle">#<span class="class_span_place_description_id"></span> <span class="class_span_place_description_loc"></span>
-  </p>
-        
+  </p>  
   <div class="PointDescription">
     <input type ="hidden" value="" id="input_place_description_id" />
 
-    <a id="link_place_description_delete" href="#"><img class="SupprimerPoint" src="../img/corbeille.png" alt="Supprimer le signalement" title="Supprimer le signalement" /></a>   
-
-    <p>
+    <div class="description_element">
       Constat effectué par: <span id="span_place_description_signaleur"></span> 
       <span id="span_place_description_signaleur_email"></span>
-    </p>
+    </div>
 
-    <p>
-      Localisation :<br />
+    <div class="description_element">
+      Localisation :
       <span id="span_place_description_loc"></span>
       <div id="div_place_description_loc_edit" style="display: none;">
         <input type="text" id="span_place_description_loc_edit"> 
       </div>
       <button id="span_place_description_loc_button" type="button" onclick="javascript:descriptionEdit('loc');">Editer</button> 
-    </p>
+    </div>
 
-    <p>
-      Description détaillée :<br />
+    <div class="description_element">
+      Description détaillée :
       <span id="span_place_description_desc"></span>
       <div id="div_place_description_desc_edit" style="display: none;">
         <textarea id="span_place_description_desc_edit"></textarea>
       </div>
       <button id="span_place_description_desc_button" type="button" onclick="javascript:descriptionEdit('desc');">Editer</button> 
-    </p>
+    </div>
 
-    <p>
-      Categories :<br />
+    <div class="description_element">
+      Categories :
       <span id="span_place_description_cat"></span>
       <div id="div_place_description_cat_edit" style="display: none;">
         <select id="span_place_description_cat_edit" style="width:100%;" multiple>
@@ -53,10 +50,10 @@
         </select>
       </div>
       <button id="span_place_description_cat_button" type="button" onclick="javascript:descriptionEdit('cat');">Editer</button> 
-    </p>
+    </div>
 
-    <p>
-      Note du CEM :<br />
+    <div class="description_element">
+      Note du CEM :
       <span id="span_place_description_status"></span>
       <div id="div_place_description_status_edit" style="display: none;">
         <select id="span_place_description_status_edit">
@@ -68,7 +65,7 @@
         </select>
       </div>
       <button id="span_place_description_status_button" type="button" onclick="javascript:descriptionEdit('status');">Editer</button> 
-    </p>
+    </div>
 
     <!-- 
     <p>
@@ -77,17 +74,25 @@
     </p>
     -->
 
-    <p>
-      Gestionaire de voirie :<br />
-      <span id="span_place_description_status"></span>
-    </p>
+    <div class="description_element">
+      Gestionaire de voirie :
+      <span id="span_place_description_gestionaire"></span>
+      <div id="div_place_description_gestionaire_edit" style="display: none;">
+        <input type="text" id="span_place_description_gestionaire_edit"> 
+      </div>
+      <button id="span_place_description_gestionaire_button" type="button" onclick="javascript:descriptionEdit('gestionaire');">Editer</button> 
+    </div>
 
-    <p>
+    <div class="description_element">
+      <button id="span_place_description_gestionaire_button" type="button" onclick="javascript:descriptionDelete();">Ne plus afficher le signalement</button> 
+    </div>
+
+    <div>
       <span class="span_photo"></span>
       <a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}">
         <img src='../img/AddPicture.png' />
       </a>
-    </p>
+    </div>
 
   </div>
 </div>
