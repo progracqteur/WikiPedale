@@ -271,6 +271,7 @@ function descriptionEdit(element_type){
     $(element_id + '_button').attr("onClick","descriptionSaveEdit('" + element_type + "')");
 };
 
+/*
 function updateMarkers_data(id_description, next){
     url_get_description = Routing.generate('wikipedale_place_view', {"id": id_description, "_format": 'json'});
     $.ajax({
@@ -291,6 +292,7 @@ function updateMarkers_data(id_description, next){
             }
         });
 };
+*/
 
 function descriptionSaveEdit(element_type){
     element_id = "#span_place_description_" + element_type;
@@ -317,14 +319,13 @@ function descriptionSaveEdit(element_type){
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                alert('mettre a jour ')
-                //updateMarkers_data(signalement_id, function(is_markes_data_updated)  
-                //{
+                markers_and_associated_data[signalement_id][1] = output_json.results[0];
                 if(element_type == 'cat'){
                     categories_list = "";
                     $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
                     $(element_id).text(categories_list);    
                 } else if (element_type == 'status'){
+                    markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
                     $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
                 }
                 else {
