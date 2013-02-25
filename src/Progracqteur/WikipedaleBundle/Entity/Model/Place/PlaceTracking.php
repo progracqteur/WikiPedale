@@ -110,6 +110,9 @@ class PlaceTracking implements ChangesetInterface {
                         'value' => $newValue->getValue());
                     $newValue = json_encode($a);
                     break;
+                case ChangeService::PLACE_PLACETYPE_ALTER:
+                    $newValue = $newValue->getId();
+                    break;
                 case ChangeService::PLACE_ADD_CATEGORY:
                 case ChangeService::PLACE_REMOVE_CATEGORY:
                     $ids = array();
@@ -267,6 +270,9 @@ class PlaceTracking implements ChangesetInterface {
                     $status = new PlaceStatus();
                     $status->setType($a->type)->setValue($a->value);
                     $newValue = $status;
+                    break;
+                case ChangeService::PLACE_PLACETYPE_ALTER:
+                    $newValue = $value;
                     break;
                 case ChangeService::PLACE_ADD_CATEGORY:
                 case ChangeService::PLACE_REMOVE_CATEGORY: 

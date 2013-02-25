@@ -811,10 +811,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         if ($this->getType() === null)
         {
             $this->type = $type;
+            $this->getChangeset()->addChange(ChangeService::PLACE_PLACETYPE_ALTER, $type);
             
         } elseif ($this->getType()->getId() !== $type->getId())
         {
             $this->change('type', $this->type, $type);
+            $this->getChangeset()->addChange(ChangeService::PLACE_PLACETYPE_ALTER, $type);
         }
         
         
@@ -835,7 +837,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * return the changeset made since the entity was created or 
      * retrieved from the database.
      * 
-     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
      */
     public function getChangeset() {
         

@@ -271,6 +271,13 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('manager');
                      }
+                 case self::PLACE_PLACETYPE_ALTER:
+                     if ($this->securityContext->isGranted(User::ROLE_PLACETYPE_ALTER))
+                     {
+                         continue;
+                     } else {
+                         throw ChangeException::param('place_type');
+                     }
                  default:
                      throw ChangeException::param('inconnu');
             

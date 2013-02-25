@@ -25,6 +25,8 @@ change:
      address: "l'adresse"
      geom: "la position géographique"
      category: la catégorie
+     place_type: le type
+     other: un autre élément
      
 
      
