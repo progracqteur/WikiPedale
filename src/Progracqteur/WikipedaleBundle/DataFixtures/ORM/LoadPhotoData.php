@@ -41,15 +41,20 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
             } catch (\Exception $exc) {
                 echo "Ce fichier est passé \n";
                 echo $exc->getMessage()."\n";
+                $i++;
                 continue;
             }
+            
+            try {
 
             $file = new File($path.'/'.$entry, true);
             $photo = $this->container
                     ->get('progracqteurWikipedalePhotoService')
                     ->createPhoto();
-            $photo->setFile($file);
-            $photo->setLegend("Légende de test");
+            
+                $photo->setFile($file);
+                $photo->setLegend("Légende de test");
+            
             
             if ($i%2 == 0)
             {
@@ -66,9 +71,25 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
                 $photo->setCreator($this->getReference('user'));
                 $photo->getPlace()->getChangeset()->setAuthor($photo->getCreator());
                 $manager->persist($photo);
+                
+                $manager->flush();
+            }
+            
+            } catch (\Exception $exc) {
+                echo "Fichier passé: $entry \n";
+                echo $exc->getMessage()."\n";
+                $i++;
+                continue;
+            } catch (\ErrorException $exc)
+            {
+                echo "Fichier passé (error exception): $entry \n";
+                echo $exc->getMessage()."\n";
+                $i++;
+                continue;
             }
             
             $i++;
+            
             
         }
 

@@ -111,8 +111,9 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
 
             $u = new UnregisteredUser();
             $u->setLabel('non enregistré '.$this->createId());
-            $u->setEmail('test@email');
+            $u->setEmail('test@fastre.info');
             $u->setIp('192.168.1.89');
+            $u->setPhonenumber("012345678901");
 
             $place->setCreator($u);
 

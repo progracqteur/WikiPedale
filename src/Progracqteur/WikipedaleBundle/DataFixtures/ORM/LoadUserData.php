@@ -35,7 +35,7 @@ public function load(ObjectManager $manager) {
             $admin = $this->container->get('fos_user.user_manager')->createUser();
             $admin->setUsername('admin');
             $admin->setPassword('admin');
-            $admin->setEmail('admin@wikipedale.org');
+            $admin->setEmail('admin@fastre.info');
             $admin->addRole(User::ROLE_ADMIN);
             $admin->setEnabled(true);
             $admin->setPhonenumber('+32486564');
@@ -113,7 +113,7 @@ public function load(ObjectManager $manager) {
         $manager->persist($cemGroup);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
-        $u->setEmail('cem@test.com');
+        $u->setEmail('cem@fastre.info');
         $u->setLabel('Monsieur Vélo Mons');
         $u->setUsername('cem');
         $u->setPassword('cem');
@@ -143,7 +143,7 @@ public function load(ObjectManager $manager) {
         $this->addReference('manager_mons', $manGroup);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
-        $u->setEmail('gdv@test.com');
+        $u->setEmail('gdv@fastre.info');
         $u->setLabel('Monsieur Travaux Mons');
         $u->setUsername('gdv');
         $u->setPassword('gdv');
@@ -174,7 +174,7 @@ public function load(ObjectManager $manager) {
         $this->addReference('manager_mons_spw', $manGroup);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
-        $u->setEmail('gdvspw@test.com');
+        $u->setEmail('gdvspw@fastre.info');
         $u->setLabel('Monsieur Travaux région mons');
         $u->setUsername('gdv_spw');
         $u->setPassword('gdv_spw');

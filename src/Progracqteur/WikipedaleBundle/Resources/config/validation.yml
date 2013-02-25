@@ -76,7 +76,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
       - NotBlank: {message: user.validation.email.not_blank}
       - Email: 
           message: user.validation.email.not_valid_or_domain_not_exist
-          checkMX: true
+          #checkMX: true
     phonenumber:
       - NotBlank: {message: user.validation.phonenumber.not_blank}
       - MinLength:
