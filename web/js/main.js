@@ -225,38 +225,36 @@ function catchLoginForm(){
     });
 }
 
-function descriptionEdit(name_elem){
-    id_element = "#span_place_description_" + name_elem;
-    id = $('#input_place_description_id').val();
+function descriptionEdit(element_type){
+    element_id = "#span_place_description_" + element_type;
+    signalement_id = $('#input_place_description_id').val();
 
-    if (name_elem == 'cat'){
-        console.log(id);
+    if (element_type == 'cat'){
         categories_selected = Array();
-        $.each(markers_and_associated_data[id][1].categories, function(i,c) { categories_selected.push(c.id); });
-        $(id_element + '_edit').select2("val", categories_selected);
+        $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
+        $(element_id + '_edit').select2("val", categories_selected);
     }
     else {
-        $(id_element + '_edit').val($(id_element).text());
+        $(element_id + '_edit').val($(element_id).text());
     }
-    $(id_element).hide();
-    $(id_element + '_edit').show();
-    $(id_element + '_button').text("Sauver");
-    $(id_element + '_button').attr("onClick","descriptionSaveEdit('" + name_elem + "')");
+    $(element_id).hide();
+    $("#div_place_description_" + element_type + '_edit').show();
+    $(element_id + '_button').text("Sauver");
+    $(element_id + '_button').attr("onClick","descriptionSaveEdit('" + element_type + "')");
 };
 
-function descriptionSaveEdit(name_elem){
-    id_element = "#span_place_description_" + name_elem;
+function descriptionSaveEdit(element_type){
+    element_id = "#span_place_description_" + element_type;
+    signalement_id = $('#input_place_description_id').val();
 
-    id = $('#input_place_description_id').val();
-
-    if(name_elem == "desc") {
-        json_request = EditDescriptionDescInJson(id,$(id_element + '_edit').val());
+    if(element_type == "desc") {
+        json_request = EditDescriptionDescInJson(signalement_id,$(element_id + '_edit').val());
     }
-    else if (name_elem == "loc") {
-        json_request = EditDescriptionLocInJson(id,$(id_element + '_edit').val());
+    else if (element_type == "loc") {
+        json_request = EditDescriptionLocInJson(signalement_id,$(element_id + '_edit').val());
     }
-    else if (name_elem == "cat") {
-        json_request = EditDescriptionCatInJson(id,$(id_element + '_edit').select2("val"));
+    else if (element_type == "cat") {
+        json_request = EditDescriptionCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
     }
     console.log(json_request);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
@@ -268,19 +266,19 @@ function descriptionSaveEdit(name_elem){
         success: function(output_json) { 
             if(! output_json.query.error) { 
                 alert('mettre a jour markers_and_associated_data');
-                if(name_elem == 'cat'){
+                if(element_type == 'cat'){
                     categories_list = "";
-                    $.each(markers_and_associated_data[id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
-                    $(id_element).text(categories_list);    
+                    $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
+                    $(element_id).text(categories_list);    
                 } 
                 else {
                     
-                    $(id_element).text($(id_element + '_edit').val());
+                    $(element_id).text($(element_id + '_edit').val());
                 }
-                $(id_element + '_edit').hide();
-                $(id_element).show();
-                $(id_element + '_button').text("Editer");
-                $(id_element + '_button').attr("onClick","descriptionEdit('" + name_elem + "')");
+                $("#div_place_description_" + element_type + '_edit').hide();
+                $(element_id).show();
+                $(element_id + '_button').text("Editer");
+                $(element_id + '_button').attr("onClick","descriptionEdit('" + element_type + "')");
             }
             else { 
                 console.log('Error else');
