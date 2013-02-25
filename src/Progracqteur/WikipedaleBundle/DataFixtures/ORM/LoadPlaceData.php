@@ -95,9 +95,18 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
 
             echo "type de la place est ".$place->getType()->getLabel()." \n";
             
-            if (! $this->container->get('validator')->isValid($place))
+            $errors = $this->container->get('validator')->validate($place);
+            if (count($errors) > 0)
             {
-                throw new \Exception("place invalide");
+                $m = "";
+                foreach ($errors as $error)
+                {
+                    $m .= $error->getMessage();
+                }
+                
+                //ignore some errors
+                if (!($m === "place.validation.message.onlyOneStatusAtATime"))
+                    throw new \Exception("place invalide $m");
             }
             
             $manager->persist($place);
@@ -159,6 +168,20 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
             $rand = array_rand($type_array);
             $placeType = $this->getReference('type_'.$type_array[$rand]);
             $place->setType($placeType);
+            
+            $errors = $this->container->get('validator')->validate($place);
+            if (count($errors) > 0)
+            {
+                $m = "";
+                foreach ($errors as $error)
+                {
+                    $m .= $error->getMessage();
+                }
+                
+                //ignore some errors
+                if (!($m === "place.validation.message.onlyOneStatusAtATime"))
+                    throw new \Exception("place invalide $m");
+            }
 
             $manager->persist($place);
             
