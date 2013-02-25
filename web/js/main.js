@@ -15,7 +15,11 @@ for (i = 0; i < (baseUrlsplit.length - 1); i++)
 } 
 var marker_img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
 
-var colors_in_marker = 1; //number of color in a marker
+//var colors_in_marker = 1; //number of color in a marker
+var c1_label = "cem";
+var c2_label = undefined;
+var c3_label = undefined;
+
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
 var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
@@ -35,28 +39,39 @@ color_trad['1'] = 'r';
 color_trad['2'] = 'o';
 color_trad['3'] = 'g';
 
-function marker_img_name(statuses, numberOfWatcher)
+var color_trad_text = new Array();
+color_trad_text['0'] = 'blanc';
+color_trad_text['-1'] = 'rejeté';
+color_trad_text['1'] = 'rouge';
+color_trad_text['2'] = 'orange';
+color_trad_text['3'] = 'vert';
+
+function marker_img_name(statuses)
 {
-    /**
-    returns the name of the image used for the marker
-    @statuses is the data "statuses" from the data associated to the point
-    @numberOfWatcher is the number of colors in the marker
-    */
     c1 = 'w';
     c2 = 'w';
     c3 = 'w';
-
-
-    for (i = 0; i < (statuses.length - 1); i++)
+    for (i = 0; i < (statuses.length); i++)
     {
-        c1 = color_trad[statuses[i].v]
+        if (statuses[i].t == c1_label) {
+            console.log(statuses[i].v);
+            c1 = color_trad[statuses[i].v];
+        }
+
+        if (c2_label != undefined && statuses[i].t == c2_label) {
+            c2 = color_trad[statuses[i].v];
+        }
+
+        if (c3_label != undefined && statuses[i].t == c3_label) {
+            c3 = color_trad[statuses[i].v];
+        }
     }
 
-    if (numberOfWatcher == 1 )
+    if (c2_label == undefined)
     {
         return c1;
     }
-    else if (numberOfWatcher == 2)
+    else if (c3_label == undefined)
     {
         return c1 + c2;
     }
@@ -124,6 +139,14 @@ function EditDescriptionCatInJson(id,cat){
             ret = ret + ',';
         }
     }
+    ret = ret + ']';
+    return ret + '}';
+}
+
+function EditDescriptionStatusInJson(id,status_type,status_value){
+    ret = '{"entity":"place"';
+    ret = ret + ',"id":' + JSON.stringify(id);
+    ret = ret + ',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}'
     ret = ret + ']';
     return ret + '}';
 }
@@ -233,14 +256,40 @@ function descriptionEdit(element_type){
         categories_selected = Array();
         $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
         $(element_id + '_edit').select2("val", categories_selected);
+    } else if (element_type == 'status') {
+        color_selected = 0;
+        $.each(markers_and_associated_data[signalement_id][1].statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
+        console.log(color_selected);
+        $(element_id + '_edit').select2("val", color_selected);
     }
     else {
         $(element_id + '_edit').val($(element_id).text());
-    }
+    };
     $(element_id).hide();
     $("#div_place_description_" + element_type + '_edit').show();
     $(element_id + '_button').text("Sauver");
     $(element_id + '_button').attr("onClick","descriptionSaveEdit('" + element_type + "')");
+};
+
+function updateMarkers_data(id_description, next){
+    url_get_description = Routing.generate('wikipedale_place_view', {"id": id_description, "_format": 'json'});
+    $.ajax({
+        type: "POST",
+        url: url_get_description,
+        cache: false,
+        success: function(output_json) { 
+            if(! output_json.query.error) { 
+                markers_and_associated_data[signalement_id][1] = output_json.results[0];
+                next(true);
+            }
+            else{
+                next(false);
+            }
+        },
+        error: function(output_json) {
+                next(false);
+            }
+        });
 };
 
 function descriptionSaveEdit(element_type){
@@ -255,6 +304,9 @@ function descriptionSaveEdit(element_type){
     }
     else if (element_type == "cat") {
         json_request = EditDescriptionCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
+    } 
+    else if (element_type == "status") {
+        json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
     }
     console.log(json_request);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
@@ -265,12 +317,16 @@ function descriptionSaveEdit(element_type){
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                alert('mettre a jour markers_and_associated_data');
+                alert('mettre a jour ')
+                //updateMarkers_data(signalement_id, function(is_markes_data_updated)  
+                //{
                 if(element_type == 'cat'){
                     categories_list = "";
                     $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
                     $(element_id).text(categories_list);    
-                } 
+                } else if (element_type == 'status'){
+                    $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
+                }
                 else {
                     
                     $(element_id).text($(element_id + '_edit').val());
@@ -279,6 +335,7 @@ function descriptionSaveEdit(element_type){
                 $(element_id).show();
                 $(element_id + '_button').text("Editer");
                 $(element_id + '_button').attr("onClick","descriptionEdit('" + element_type + "')");
+                //});
             }
             else { 
                 console.log('Error else');
@@ -446,7 +503,7 @@ function changingModeFunction() {
             if (marker_data != undefined) {
                 marker = marker_data[0];
                 marker.events.remove("mousedown");
-                marker.setUrl(marker_img_url + 'm_' + marker_img_name(marker_data[1].statuses,colors_in_marker) + '_no_active.png')
+                marker.setUrl(marker_img_url + 'm_' + marker_img_name(marker_data[1].statuses) + '_no_active.png')
             }
         });
 
@@ -465,7 +522,7 @@ function changingModeFunction() {
                 {
                     var size = new OpenLayers.Size(19,25);
                     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-                    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([],colors_in_marker) + '_selected.png', size, offset); 
+                    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
                     new_placeMarker = new OpenLayers.Marker(position,icon);
                     placesLayer.addMarker(new_placeMarker);
                 }
@@ -521,10 +578,10 @@ function changingModeFunction() {
                     marker.events.register("mousedown", marker, markerMouseDownFunction);
 
                     if(last_place_selected != null  && last_place_selected == data.id) {
-                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,colors_in_marker) + '_selected.png');
+                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses) + '_selected.png');
                         }
                     else {
-                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses,colors_in_marker) + '.png');
+                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses) + '.png');
                     }
                 }
             });
@@ -587,16 +644,6 @@ function homepageMap(townId, townLon, townLat, marker_id_to_display) {
             value.innerHTML = 'Ajouter un point';
         });
     });
-    /* $(document).ready(function(){
-        $('.olControlButtonLatelyAddedItemActive').each(function(index, value){
-            value.innerHTML = 'Derniers ajoutés';
-        });
-    });
-    $(document).ready(function(){
-        $('.olControlButtonLatelyUpdatedItemActive').each(function(index, value){
-            value.innerHTML = 'Derniers modifiés';
-        });
-    }); */
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
@@ -632,7 +679,7 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     ));
     var size = new OpenLayers.Size(19,25);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(someData.statuses,colors_in_marker) + '.png', size, offset); 
+    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(someData.statuses) + '.png', size, offset); 
     feature.data.icon = icon;
     
     var marker = feature.createMarker();
@@ -697,11 +744,11 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      */
     if (last_place_selected != null) {
         markers_and_associated_data[last_place_selected][0].setUrl(
-            marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses,colors_in_marker) + '.png'
+            marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses) + '.png'
             );
     }
 
-    placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses,colors_in_marker) + '_selected.png');
+    placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses) + '_selected.png');
     console.log("place info:" + JSON.stringify(placeData));
     last_place_selected = placeData.id;
     $('.span_id').each(function() { this.innerHTML = placeData.id; });
@@ -724,6 +771,17 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('#span_place_description_cat').text(categories_list);
     $('#span_place_description_statuses').text("statuses");
     $('#span_place_description_gestion').text("gestion");
+
+    $('#span_place_description_status').text(color_trad_text[0]);
+    for (i = 0; i < placeData.statuses.length; i++)
+        {  
+            if (placeData.statuses[i].t == 'cem')
+            {
+                $('#span_place_description_status').text(color_trad_text[placeData.statuses[i].v]); 
+            }
+        }
+
+    $('#span_place_description_status').text()
 
     if (userIsAdmin()) {
         document.getElementById("f_id").value = placeData.id;
