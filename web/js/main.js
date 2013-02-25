@@ -54,7 +54,6 @@ function marker_img_name(statuses)
     for (i = 0; i < (statuses.length); i++)
     {
         if (statuses[i].t == c1_label) {
-            console.log(statuses[i].v);
             c1 = color_trad[statuses[i].v];
         }
 
@@ -154,6 +153,12 @@ function EditDescriptionStatusInJson(id,status_type,status_value){
 function EditDescriptionGestionaireInJson(id,gestionaire){
     alert('todo');
     return "";
+}
+
+function DeleteDescriptionInJson(id){
+    ret = '{"entity":"place"';
+    ret = ret + ',"id":' + JSON.stringify(id);
+    return ret + ',"accepted":false}';
 }
 
 function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
@@ -299,6 +304,35 @@ function updateMarkers_data(id_description, next){
 };
 */
 
+function descriptionDelete(){
+    signalement_id = $('#input_place_description_id').val();
+    json_request = DeleteDescriptionInJson(signalement_id);
+    url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+    $.ajax({
+        type: "POST",
+        data: {entity: json_request},
+        url: url_edit,
+        cache: false,
+        success: function(output_json) { 
+            if(! output_json.query.error) { 
+                markers_and_associated_data[signalement_id][0].erase();
+                markers_and_associated_data[signalement_id] = null;
+                $('#div_placeDescription"').hide();
+            }
+            else { 
+                $('#span_place_description_delete_error').show();
+                console.log('Error else');
+                console.log(JSON.stringify(output_json));
+            }
+        },
+        error: function(output_json) {
+            $('#span_place_description_delete_error').show();
+            console.log('Error error');
+            console.log(output_json.responseText);
+        }
+    });
+}
+
 function descriptionSaveEdit(element_type){
     element_id = "#span_place_description_" + element_type;
     signalement_id = $('#input_place_description_id').val();
@@ -339,18 +373,20 @@ function descriptionSaveEdit(element_type){
                 else {
                     $(element_id).text($(element_id + '_edit').val());
                 }
+                $(element_id +  '_error').hide();
                 $("#div_place_description_" + element_type + '_edit').hide();
                 $(element_id).show();
                 $(element_id + '_button').text("Editer");
                 $(element_id + '_button').attr("onClick","descriptionEdit('" + element_type + "')");
-                //});
             }
             else { 
+                $(element_id +  '_error').show();
                 console.log('Error else');
                 console.log(JSON.stringify(output_json));
             }
         },
         error: function(output_json) {
+            $(element_id +  '_error').show();
             console.log('Error error');
             console.log(output_json.responseText);
         }

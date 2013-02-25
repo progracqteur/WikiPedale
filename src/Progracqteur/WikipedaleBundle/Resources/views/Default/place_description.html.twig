@@ -15,6 +15,7 @@
       <div id="div_place_description_loc_edit" style="display: none;">
         <input type="text" id="span_place_description_loc_edit"> 
       </div>
+      <span id="span_place_description_loc_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
       <button id="span_place_description_loc_button" type="button" onclick="javascript:descriptionEdit('loc');">Editer</button> 
     </div>
 
@@ -24,6 +25,7 @@
       <div id="div_place_description_desc_edit" style="display: none;">
         <textarea id="span_place_description_desc_edit"></textarea>
       </div>
+      <span id="span_place_description_desc_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
       <button id="span_place_description_desc_button" type="button" onclick="javascript:descriptionEdit('desc');">Editer</button> 
     </div>
 
@@ -49,6 +51,7 @@
           </optgroup>
         </select>
       </div>
+      <span id="span_place_description_cat_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
       <button id="span_place_description_cat_button" type="button" onclick="javascript:descriptionEdit('cat');">Editer</button> 
     </div>
 
@@ -64,6 +67,7 @@
           <option class="status3" value="3">vert</option>
         </select>
       </div>
+      <span id="span_place_description_status_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
       <button id="span_place_description_status_button" type="button" onclick="javascript:descriptionEdit('status');">Editer</button> 
     </div>
 
@@ -80,11 +84,13 @@
       <div id="div_place_description_gestionaire_edit" style="display: none;">
         <input type="text" id="span_place_description_gestionaire_edit"> 
       </div>
+      <span id="span_place_description_gestionnaire_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
       <button id="span_place_description_gestionaire_button" type="button" onclick="javascript:descriptionEdit('gestionaire');">Editer</button> 
     </div>
 
     <div class="description_element">
-      <button id="span_place_description_gestionaire_button" type="button" onclick="javascript:descriptionDelete();">Ne plus afficher le signalement</button> 
+      <span id="span_place_description_delete_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
+      <button id="span_place_description_delete_button" type="button" onclick="javascript:descriptionDelete();">Ne plus afficher le signalement</button> 
     </div>
 
     <div>
