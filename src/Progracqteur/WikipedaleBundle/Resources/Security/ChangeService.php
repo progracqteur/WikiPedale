@@ -127,7 +127,7 @@ class ChangeService {
                      {
                          continue;
                      } else {
-                         throw ChangeException::param('accepted');
+                         throw ChangeException::param('address');
                      }
                  case self::PLACE_DESCRIPTION :
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
@@ -136,7 +136,7 @@ class ChangeService {
                      {
                          continue;
                      } else {
-                         throw ChangeException::param('accepted');
+                         throw ChangeException::param('description');
                      }
                  case self::PLACE_GEOM:
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
@@ -145,7 +145,7 @@ class ChangeService {
                      {
                          continue;
                      } else {
-                         throw ChangeException::param('accepted');
+                         throw ChangeException::param('geom');
                      }
                  case self::PLACE_STATUS:
                      
