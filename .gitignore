@@ -13,3 +13,4 @@
 /src/Progracqteur/WikipedaleBundle/DataFixtures/ORM/Files/*
 .gitignore~
 *~
+/nbproject/private/
