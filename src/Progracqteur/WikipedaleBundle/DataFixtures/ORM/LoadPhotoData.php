@@ -70,9 +70,18 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
                 $photo->setPlace($this->getReference($strRef));
                 $photo->setCreator($this->getReference('user'));
                 $photo->getPlace()->getChangeset()->setAuthor($photo->getCreator());
-                $manager->persist($photo);
                 
-                $manager->flush();
+                if ($this->container->get('validator')->isValid($photo))
+                {
+                    $manager->persist($photo);
+                
+                    $manager->flush();
+                } else {
+                    throw new \Exception("Photo non valide");
+                }
+                
+                
+                
             }
             
             } catch (\Exception $exc) {

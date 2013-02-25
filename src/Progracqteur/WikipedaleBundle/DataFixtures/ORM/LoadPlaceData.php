@@ -13,7 +13,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
-class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
+class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface
 {
 
 
@@ -94,6 +94,11 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $place->setType($placeType);
 
             echo "type de la place est ".$place->getType()->getLabel()." \n";
+            
+            if (! $this->container->get('validator')->isValid($place))
+            {
+                throw new \Exception("place invalide");
+            }
             
             $manager->persist($place);
             
@@ -270,5 +275,15 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         
         return $a;
   }
+
+    /**
+     *
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface 
+     */
+    private $container;
+    
+    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null) {
+        $this->container = $container;
+    }
 }
 
