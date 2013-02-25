@@ -17,3 +17,5 @@ doctrine-fixtures 689bc2ae2a41dff1107d9d50e2daa4c349222869
 DoctrineFixturesBundle 479f10d068bd0b01e055aa2f555946893322b79c
 FOSUserBundle 1.2.0
 FOSJsRoutingBundle 1.1.2
+doctrine-migrations e1f6efcd94993b493de5c6a413cbc327ea9c0caa
+DoctrineMigrationsBundle bd69825665bf3cb4c36b608fa79f364cece371c5
