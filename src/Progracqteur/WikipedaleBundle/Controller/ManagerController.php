@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 
 /**
  * Description of PlaceController
@@ -93,6 +94,8 @@ class ManagerController extends Controller {
          $r->setResults(array($u));
          
          $serializer = $this->get('progracqteurWikipedaleSerializer');
+         
+         $serializer->getUserNormalizer()->addGroupsToNormalization(true);
          
          $t = $serializer->serialize($r, NormalizerSerializerService::JSON_FORMAT);
          

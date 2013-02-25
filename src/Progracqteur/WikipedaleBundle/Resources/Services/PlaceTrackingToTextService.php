@@ -88,7 +88,7 @@ class PlaceTrackingToTextService {
                     return $this->t->trans('place.status.rejected', $args, $domain);
                     break;
                 case 0 :
-                    return $this->t->trans('place.status.notReviewed', $args, $domains);
+                    return $this->t->trans('place.status.notReviewed', $args, $domain);
                     break;
                 case 1 :
                     return $this->t->trans('place.status.takenIntoAccount', $args, $domain);
@@ -161,8 +161,10 @@ class PlaceTrackingToTextService {
             case ChangeService::PLACE_REMOVE_CATEGORY:
                 return $this->t->trans('change.place.category', array(), $d);
                 break;
+            case ChangeService::PLACE_PLACETYPE_ALTER:
+                return $this->t->trans('change.place.place_type', array(), $d);
             default:
-                throw new \Exception('type inconnu dans le translator');
+                return $this->t->trans('change.place.other', array(), $d);
         }
     }
     
