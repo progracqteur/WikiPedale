@@ -21,6 +21,11 @@ class UserNormalizer implements NormalizerInterface
     
     private $service;
     
+    private $addGroupsToNormalization = false;
+    
+    
+    const GROUPS = 'groups';
+    
     public function __construct(NormalizerSerializerService $service)
     {
         $this->service = $service;
@@ -67,6 +72,12 @@ class UserNormalizer implements NormalizerInterface
         return $u;
     }
     
+    /**
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\User $object peut aussi être \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser
+     * @param string $format
+     * @return type
+     */
     public function normalize($object, $format = null) {
         
         $a =  array(
@@ -87,10 +98,35 @@ class UserNormalizer implements NormalizerInterface
             $a['phonenumber'] = $object->getPhonenumber();
         }
         
+        if ($this->addGroupsToNormalization)
+        {
+            $a[self::GROUPS] = array();
+            foreach ($object->getGroups() as $group)
+            {
+                $a[self::GROUPS][] = $this->service->getGroupNormalizer()
+                        ->normalize($group);
+            }
+        }
+        
 
         return $a;
         
     }
+    
+    /**
+     * add groups to normalization
+     * 
+     * permanent until the class is recreated
+     * 
+     * @param boolean $enable
+     */
+    public function addGroupsToNormalization($enable)
+    {
+        $this->addGroupsToNormalization = $enable;
+    }
+    
+    
+    
     public function supportsDenormalization($data, $type, $format = null) {
         if ($data['entity'] == 'user')
         {
