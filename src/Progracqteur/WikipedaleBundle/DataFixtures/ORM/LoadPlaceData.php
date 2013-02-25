@@ -13,7 +13,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
-class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
+class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface
 {
 
 
@@ -95,6 +95,20 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
 
             echo "type de la place est ".$place->getType()->getLabel()." \n";
             
+            $errors = $this->container->get('validator')->validate($place);
+            if (count($errors) > 0)
+            {
+                $m = "";
+                foreach ($errors as $error)
+                {
+                    $m .= $error->getMessage();
+                }
+                
+                //ignore some errors
+                if (!($m === "place.validation.message.onlyOneStatusAtATime"))
+                    throw new \Exception("place invalide $m");
+            }
+            
             $manager->persist($place);
             
             $this->addReference("PLACE_FOR_REGISTERED_USER".$i, $place);
@@ -154,6 +168,20 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
             $rand = array_rand($type_array);
             $placeType = $this->getReference('type_'.$type_array[$rand]);
             $place->setType($placeType);
+            
+            $errors = $this->container->get('validator')->validate($place);
+            if (count($errors) > 0)
+            {
+                $m = "";
+                foreach ($errors as $error)
+                {
+                    $m .= $error->getMessage();
+                }
+                
+                //ignore some errors
+                if (!($m === "place.validation.message.onlyOneStatusAtATime"))
+                    throw new \Exception("place invalide $m");
+            }
 
             $manager->persist($place);
             
@@ -270,5 +298,15 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface
         
         return $a;
   }
+
+    /**
+     *
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface 
+     */
+    private $container;
+    
+    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null) {
+        $this->container = $container;
+    }
 }
 
