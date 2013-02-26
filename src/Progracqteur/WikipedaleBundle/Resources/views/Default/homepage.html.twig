@@ -1,6 +1,22 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
 
+
+{# 
+
+Params passed by the controller to this template :
+
+ 'mainCities' => $mainCities (empty if the user has chosen a city) 
+         array of Progracqteur\WikipedaleBundle\Entity\Management\Zone
+ 'cities' => $cities (empty if the user has chosen a city) 
+         array of Progracqteur\WikipedaleBundle\Entity\Management\Zone
+ 'categories' => $categories 
+         array of Progracqteur\WikipedaleBundle\Entity\Model\Category
+ 'placeTypes' => $placeTypes
+         array of Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+
+#}
+
 {% block javascript %}
 
 <script language="javascript"> 

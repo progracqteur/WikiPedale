@@ -76,13 +76,21 @@ class DefaultController extends Controller
                 ->createQuery('SELECT c from 
             ProgracqteurWikipedaleBundle:Model\Category c JOIN c.parent p
             WHERE p.parent is not null
+            and c.used = true
             ORDER BY p.label, c.id')
                 ->getResult();
+        //Todo: cachable query
+        
+        $placeTypes = $this->getDoctrine()->getEntityManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
+                ->findAll();
+        //TODO : cachable query
         
         $paramsToView = array(
                     'mainCities' => $mainCities, 
                     'cities' => $cities,
-                    'categories' => $categories
+                    'categories' => $categories,
+                    'placeTypes' => $placeTypes
                 );
 
         if ($id != null)
