@@ -834,7 +834,8 @@ function displayPlaceDataFunction(placeMarker, placeData) {
             }
         }
 
-    $('#span_place_description_status').text()
+    $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
+        placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
 
     if (userIsAdmin()) {
         document.getElementById("f_id").value = placeData.id;
