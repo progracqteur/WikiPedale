@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 /**
  * 
@@ -86,11 +87,22 @@ class DefaultController extends Controller
                 ->findAll();
         //TODO : cachable query
         
+        if ($this->getRequest()->getSession()->get('city') !== null)
+        {
+            $z = $this->getRequest()->getSession()->get('city');
+            $managers = $this->getDoctrine()
+                    ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+                    ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $z->getPolygon());
+        } else {
+            $managers = array();
+        }
+        
         $paramsToView = array(
                     'mainCities' => $mainCities, 
                     'cities' => $cities,
                     'categories' => $categories,
-                    'placeTypes' => $placeTypes
+                    'placeTypes' => $placeTypes,
+                    'managers' => $managers
                 );
 
         if ($id != null)

@@ -26,14 +26,8 @@ class GroupFrontendController extends Controller
             throw $this->createNotFoundException('slugZone does not match any zone');
         }
         
-        $dql = 'SELECT g from ProgracqteurWikipedaleBundle:Management\Group g 
-             JOIN g.zone z
-            WHERE Crosses(z.polygon, :zoneB) = true
-            AND g.type like :type';
-        $groups = $em->createQuery($dql)
-                ->setParameter('zoneB', $zoneA->getPolygon())
-                ->setParameter('type', strtoupper($type))
-                ->getResult();
+        $groups = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+                ->getGroupsByTypeByCoverage($type, $zoneA->getPolygon());
         
         switch ($_format) 
         {

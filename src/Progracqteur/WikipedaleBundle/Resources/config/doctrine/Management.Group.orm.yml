@@ -1,6 +1,7 @@
 Progracqteur\WikipedaleBundle\Entity\Management\Group:
   type: entity
   table: group_table
+  repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Management\GroupRepository
   id:
     id:
       type: integer
