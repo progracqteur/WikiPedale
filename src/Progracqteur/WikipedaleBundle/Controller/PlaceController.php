@@ -33,9 +33,15 @@ class PlaceController extends Controller {
         
         $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')->find($id);
         
-        if ($place === null OR $place->isAccepted() == false)
+        if ($place === null)
         {
             throw $this->createNotFoundException("L'endroit n'a pas été trouvé dans la base de donnée");
+        }
+        
+        if ($place->isAccepted() === false 
+                && ! $this->get('security.context')->isGranted(User::ROLE_SEE_UNACCEPTED))
+        {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
         switch ($_format){

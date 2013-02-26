@@ -123,6 +123,12 @@ class User extends BaseUser
      */
     const ROLE_PLACETYPE_ALTER = 'ROLE_PLACETYPE_ALTER';
     
+    /**
+     * indicate if the user may see unaccepted entities (like places,
+     *  photos, comments, etc.)
+     */
+    const ROLE_SEE_UNACCEPTED = 'ROLE_SEE_UNACCEPTED';
+    
     
     
     public function __construct()
