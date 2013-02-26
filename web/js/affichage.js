@@ -20,9 +20,9 @@ function only_display_marker_with_selected_categories(){
         }
     });
     $.each($('#optionsAffichageCategories').select2("val"), function(index, id_cat) {
-        if (categories_and_id_markekrs[parseInt(id_cat)] != undefined)
+        if (categories_and_id_markers[parseInt(id_cat)] != undefined)
         {
-            $.each(categories_and_id_markekrs[parseInt(id_cat)], function(index, id_marker_to_display) {
+            $.each(categories_and_id_markers[parseInt(id_cat)], function(index, id_marker_to_display) {
                 markers_and_associated_data[id_marker_to_display][0].display(true);
             });
         }

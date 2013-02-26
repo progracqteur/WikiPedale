@@ -24,7 +24,8 @@ var c3_label = undefined;
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
 var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
 
-var categories_and_id_markekrs = Array();
+var categories_and_id_markers = Array();
+var types_and_id_markers = Array();
 
 var new_placeMarker;
 
@@ -732,12 +733,15 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
 
     markers_and_associated_data[someData.id] = ([marker,someData]);
     $.each(someData.categories, function(index, categories_data) {
-        if (categories_and_id_markekrs[categories_data.id] == undefined) {
-            categories_and_id_markekrs[categories_data.id] = Array();
+        if (categories_and_id_markers[categories_data.id] == undefined) {
+            categories_and_id_markers[categories_data.id] = Array();
         }
-        categories_and_id_markekrs[categories_data.id].push(someData.id);
+        categories_and_id_markers[categories_data.id].push(someData.id);
     });
-
+    if(types_and_id_markers[someData.placetype.id] == undefined) {
+        types_and_id_markers[someData.placetype.id] = Array();
+    }
+    types_and_id_markers[someData.placetype.id].push(someData.id);
 
     var markerMouseDownFunction = function(evt) {
 	anEventFunction(marker,someData); 
