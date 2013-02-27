@@ -318,7 +318,8 @@ function descriptionDelete(){
             if(! output_json.query.error) { 
                 markers_and_associated_data[signalement_id][0].erase();
                 markers_and_associated_data[signalement_id] = null;
-                $('#div_placeDescription"').hide();
+                $('#div_placeDescription').hide();
+                last_place_selected = null;
             }
             else { 
                 $('#span_place_description_delete_error').show();
