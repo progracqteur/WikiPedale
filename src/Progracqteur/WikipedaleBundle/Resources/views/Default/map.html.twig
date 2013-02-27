@@ -5,14 +5,16 @@
  	<div id="ToolsPanel">
 
  		<div id="param_carte">
+
  			<div id="buttonOptionsAffichage" title="Button is to be clicked" onclick="javascript:action_buttonOptionsAffichage();">Options d'affichage</div>
 
  			<div id="div_options_affichage">
 
- 				<form method="post" action="#" id="form_small_big">
- 					<input type="checkbox" name="option1" value="Milk" checked> Petits signalements<br />
- 					<input type="checkbox" name="option2" value="Butter"> Gros signalements
- 				</form>
+        <select style="width:100%" data-placeholder="" id="optionsAffichagePlacetype" multiple>
+        {% for placetype in placeTypes %}
+          <option value="{{placetype.id}}">{{placetype.label}}</option>
+        {% endfor %}
+        </select>
 
         <br />
 
