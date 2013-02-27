@@ -78,13 +78,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
           message: user.validation.email.not_valid_or_domain_not_exist
           #checkMX: true
     phonenumber:
-      - NotBlank: {message: user.validation.phonenumber.not_blank}
-      - MinLength:
-          limit: 10
-          message: user.validation.phonenumber.more_than_ten_letters
-      - MaxLength:
-          limit: 15
-          message: user.validation.phonenumber.maximum_15_letters
+      - NotNull: {message: user.validation.phonenumber.not_null}
       
 Progracqteur\WikipedaleBundle\Entity\Model\Category:
   constraints:
