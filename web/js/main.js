@@ -738,10 +738,12 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
         }
         categories_and_id_markers[categories_data.id].push(someData.id);
     });
-    if(types_and_id_markers[someData.placetype.id] == undefined) {
-        types_and_id_markers[someData.placetype.id] = Array();
+    if (someData.placetype != null) {
+        if(types_and_id_markers[someData.placetype.id] == undefined) {
+            types_and_id_markers[someData.placetype.id] = Array(); 
+        }
+        types_and_id_markers[someData.placetype.id].push(someData.id);  
     }
-    types_and_id_markers[someData.placetype.id].push(someData.id);
 
     var markerMouseDownFunction = function(evt) {
 	anEventFunction(marker,someData); 
