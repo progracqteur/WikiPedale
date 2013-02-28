@@ -79,10 +79,28 @@
     -->
 
     <div class="description_element">
+      Type du signalement :
+      <span id="span_place_description_type"></span>
+      <div id="div_place_description_type_edit" style="display: none;">
+        <select style="width:100%" data-placeholder="" id="span_place_description_type_edit" multiple>
+        {% for placetype in placeTypes %}
+          <option value="{{placetype.id}}">{{placetype.label}}</option>
+        {% endfor %}
+        </select>
+      </div>
+      <span id="span_place_description_type_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
+      <button id="span_place_description_type_button" type="button" onclick="javascript:descriptionEdit('type');">Editer</button> 
+    </div>
+
+    <div class="description_element">
       Gestionaire de voirie :
       <span id="span_place_description_gestionaire"></span>
       <div id="div_place_description_gestionaire_edit" style="display: none;">
-        <input type="text" id="span_place_description_gestionaire_edit"> 
+        <select style="width:100%" data-placeholder="" id="span_place_description_gestionaire_edit">
+        {% for mng in managers %}
+          <option value="{{mng.id}}">{{mng.name}}</option>
+        {% endfor %}
+        </select>
       </div>
       <span id="span_place_description_gestionnaire_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
       <button id="span_place_description_gestionaire_button" type="button" onclick="javascript:descriptionEdit('gestionaire');">Editer</button> 
