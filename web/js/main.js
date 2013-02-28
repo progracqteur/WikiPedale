@@ -798,14 +798,9 @@ function displayPlaceDataFunction(placeMarker, placeData) {
             marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses) + '.png'
             );
     }
-
     placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses) + '_selected.png');
     console.log("place info:" + JSON.stringify(placeData));
     last_place_selected = placeData.id;
-    $('.span_id').each(function() { this.innerHTML = placeData.id; });
-    $('.span_nbComm').each(function() { this.innerHTML = placeData.nbComm; });
-    $('.span_nbVote').each(function() { this.innerHTML = placeData.nbVote; });
-    $('.span_creator').each(function() { this.innerHTML = placeData.creator.label; });
     refresh_span_photo(placeData.id);
     url_add_photo = "javascript:pop_up_add_photo(" + placeData.id + ")";
     $('a.link_add_photo').each(function() { $(this).attr("href", url_add_photo)});
