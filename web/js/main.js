@@ -22,10 +22,11 @@ var c3_label = undefined;
 
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
-var markers_and_associated_data = Array(); // all the markers drawed on the map and the associated data
+var markers_and_associated_data = new Array(); // all the markers drawed on the map and the associated data
 
-var categories_and_id_markers = Array();
-var types_and_id_markers = Array();
+var id_markers_for = new Array();
+id_markers_for['Categories'] = new Array();
+id_markers_for['PlaceTypes'] = new Array();
 
 var new_placeMarker;
 
@@ -734,16 +735,16 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
 
     markers_and_associated_data[someData.id] = ([marker,someData]);
     $.each(someData.categories, function(index, categories_data) {
-        if (categories_and_id_markers[categories_data.id] == undefined) {
-            categories_and_id_markers[categories_data.id] = Array();
+        if (id_markers_for['Categories'][categories_data.id] == undefined){
+            id_markers_for['Categories'][categories_data.id] = new Array();
         }
-        categories_and_id_markers[categories_data.id].push(someData.id);
+        id_markers_for['Categories'][categories_data.id].push(someData.id);
     });
     if (someData.placetype != null) {
-        if(types_and_id_markers[someData.placetype.id] == undefined) {
-            types_and_id_markers[someData.placetype.id] = Array(); 
+        if(id_markers_for['PlaceTypes'][someData.placetype.id] == undefined) {
+            id_markers_for['PlaceTypes'][someData.placetype.id] = new Array();
         }
-        types_and_id_markers[someData.placetype.id].push(someData.id);  
+        id_markers_for['PlaceTypes'][someData.placetype.id].push(someData.id);  
     }
 
     var markerMouseDownFunction = function(evt) {
@@ -815,6 +816,13 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('#span_place_description_loc').text(placeData.addressParts.road);
     $('#span_place_description_desc').text(placeData.description);
     $('#span_place_description_cat').text(categories_list);
+
+    if (placeData.placetype == null){
+        $('#span_place_description_type').text("pas encore de type assigné");
+    }
+    else {
+        $('#span_place_description_type').text(placeData.placetype.label);
+    }
     if (placeData.manager == null) {
         $('#span_place_description_gestionaire').text("pas encore de gestionaire assigné");
     }

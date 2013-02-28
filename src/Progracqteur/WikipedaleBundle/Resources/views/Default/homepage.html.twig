@@ -54,10 +54,14 @@ Params passed by the controller to this template :
       $("#optionsAffichageCategories").select2();
       $('#optionsAffichageCategories').select2("disable");
 
+      $("#optionsAffichagePlaceTypes").select2();
+      $('#optionsAffichagePlaceTypes').select2("disable");
+
       $('#span_place_description_cat_edit').select2();
       $('#span_place_description_status_edit').select2();
 
-      $('#optionsAffichageCategories').on("change", function(e) { only_display_marker_with_selected_categories(); });
+      $('#optionsAffichageCategories').on("change", function(e) { display_only_markers_with_selected_categories(); });
+      $('#optionsAffichagePlaceTypes').on("change", function(e) { display_only_markers_with_selected_categories(); });
         /* $('#mv').prop('selected', true);
         // $(".chzn-select").trigger('liszt:updated'); (pour selectionner mv) */
     {% else %}
