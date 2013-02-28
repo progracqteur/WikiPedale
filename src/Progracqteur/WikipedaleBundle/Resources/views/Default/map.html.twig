@@ -18,10 +18,9 @@
         {% endfor %}
         </select>
 
-        <br />
 
-        <input type="radio" name="affichage_tous_ou_filtre" value="tous" onClick="javascript:action_buttonFilter()" checked>tous les signalements, 
-        <input type="radio" name="affichage_tous_ou_filtre" value="filtre" onClick="javascript:action_buttonFilter();">filtrer par<br>
+        <input type="checkbox" name="affichage_tous_ou_filtre_categorie" onClick="javascript:filterByCategories();" >
+        Filtrer par categorie :
 
         <div id="">
  		  	  <select style="width:100%" data-placeholder="" id="optionsAffichageCategories" multiple>

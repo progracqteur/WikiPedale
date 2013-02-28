@@ -36,7 +36,7 @@ function only_display_marker_with_selected_categories(){
     });
 };
 
-function action_buttonFilter(){
+function filterByCategories(){
     if(filter_categories_selected){
         $('#optionsAffichageCategories').select2("disable");
         $.each(markers_and_associated_data, function(index, marker_data) {
