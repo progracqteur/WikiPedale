@@ -32,6 +32,8 @@ var new_placeMarker;
 
 var last_place_selected = null;
 
+var townId = null;
+
 
 // marker with color
 var color_trad = new Array();
@@ -208,6 +210,46 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     return ret + '}';
 }
 
+function update_markers_and_associated_data(){
+    // removing the information
+    $.each(markers_and_associated_data, function(index, marker_and_data) { 
+        if (marker_and_data != undefined) { 
+            delete marker_and_data[1]; 
+        }
+    });
+
+    jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
+    $.ajax({
+        dataType: "json",
+        url: jsonUrlData,
+        success: function(data) {
+            $.each(data.results, function(index, aPlaceData) {
+                if (markers_and_associated_data[aPlaceData.id] == undefined) {
+                    addMarkerWithClickAction(false,
+                        aPlaceData.geom.coordinates[0],
+                        aPlaceData.geom.coordinates[1],
+                        displayPlaceDataFunction,
+                        aPlaceData);
+                }
+                else {
+                    markers_and_associated_data[aPlaceData.id][1] = aPlaceData;
+                }
+            });
+        },
+        complete: function(data) {
+            $.each(markers_and_associated_data, function(index, marker_and_data) {
+                if (marker_and_data != undefined) { 
+                    if (marker_and_data[1] == undefined) {
+                        marker_and_data[0].erase();
+                        marker_and_data = undefined;
+                    }
+                }
+            });
+        }
+    });
+};
+
+
 function updatePageWhenLogged(){
     /**
     * Updates the menu when the user is logged :
@@ -283,29 +325,6 @@ function descriptionEdit(element_type){
     $(element_id + '_button').attr("onClick","descriptionSaveEdit('" + element_type + "')");
 };
 
-/*
-function updateMarkers_data(id_description, next){
-    url_get_description = Routing.generate('wikipedale_place_view', {"id": id_description, "_format": 'json'});
-    $.ajax({
-        type: "POST",
-        url: url_get_description,
-        cache: false,
-        success: function(output_json) { 
-            if(! output_json.query.error) { 
-                markers_and_associated_data[signalement_id][1] = output_json.results[0];
-                next(true);
-            }
-            else{
-                next(false);
-            }
-        },
-        error: function(output_json) {
-                next(false);
-            }
-        });
-};
-*/
-
 function descriptionDelete(){
     signalement_id = $('#input_place_description_id').val();
     json_request = DeleteDescriptionInJson(signalement_id);
@@ -318,7 +337,7 @@ function descriptionDelete(){
         success: function(output_json) { 
             if(! output_json.query.error) { 
                 markers_and_associated_data[signalement_id][0].erase();
-                markers_and_associated_data[signalement_id] = null;
+                markers_and_associated_data[signalement_id] = undefined;
                 $('#div_placeDescription').hide();
                 last_place_selected = null;
             }
@@ -612,11 +631,6 @@ function changingModeFunction() {
 
                     var markerMouseDownFunction = (function(iid)       {
                         return function(evt) {
-                            /*
-                            alert('blop');
-                            alert(markers_and_associated_data[iid][1]);
-                            alert(markers_and_associated_data[iid][0]);
-                            */
                             displayPlaceDataFunction(markers_and_associated_data[iid][0],markers_and_associated_data[iid][1]);
                             OpenLayers.Event.stop(evt);
                         } }
@@ -644,8 +658,7 @@ function changingModeFunction() {
         }
     };
 
-
-function homepageMap(townId, townLon, townLat, marker_id_to_display) {
+function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
     /**
      * TODO -> changer le nom et voir pour la gestion ce qui peut etre reutiliser
      * @param {townId} id of the town
@@ -653,8 +666,8 @@ function homepageMap(townId, townLon, townLat, marker_id_to_display) {
      * @param {townLat} latitude of the town
      * @param {marker_id_to_display} id of the marker to display (direct acces) // none if no marker to display
      */
-
-    jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId, addUserInfo: true});
+    townId = townId_param;
+    jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
     map = new OpenLayers.Map('map');
     osm = new OpenLayers.Layer.OSM("OSM MAP");
@@ -694,8 +707,6 @@ function homepageMap(townId, townLon, townLat, marker_id_to_display) {
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
-        //console.log(JSON.stringify(aPlaceData));
-        //console.log(aPlaceData.id);
 	    addMarkerWithClickAction(false,
 				     aPlaceData.geom.coordinates[0],
 				     aPlaceData.geom.coordinates[1],
@@ -730,9 +741,6 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     feature.data.icon = icon;
     
     var marker = feature.createMarker();
-
-    //alert(someData.id);
-
     markers_and_associated_data[someData.id] = ([marker,someData]);
     $.each(someData.categories, function(index, categories_data) {
         if (id_markers_for['Categories'][categories_data.id] == undefined){
