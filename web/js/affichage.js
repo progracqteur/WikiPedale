@@ -1,16 +1,23 @@
-display_options = false;
+display_option_affichage = false; // display or not the div div_options_affichage
+
+filter_categories_selected = false;
+filter_types_selected = false;
+
+function changingFilterCategoriesMode() { }
 
 function action_buttonOptionsAffichage() {
-    if(display_options) {
+    /**
+    *
+    */
+    if(display_option_affichage) {
         document.getElementById("div_options_affichage").style.display = "none";
-        document.getElementById("buttonOptionsAffichage").innerHTML = "Options d'affichage";
-        
+        document.getElementById("buttonOptionsAffichage").innerHTML = "Options d'affichage";  
     }
     else {
         document.getElementById("div_options_affichage").style.display = "block";
         document.getElementById("buttonOptionsAffichage").innerHTML = 'Annuler';
     }
-    display_options = ! display_options;
+    display_option_affichage = ! display_option_affichage;
 };
 
 function only_display_marker_with_selected_categories(){
@@ -30,15 +37,18 @@ function only_display_marker_with_selected_categories(){
 };
 
 function action_buttonFilter(){
-	$('#optionsAffichageCategories').select2("enable");
-    only_display_marker_with_selected_categories();
-};
+    if(filter_categories_selected){
+        $('#optionsAffichageCategories').select2("disable");
+        $.each(markers_and_associated_data, function(index, marker_data) {
+            if (marker_data != undefined) {
+                marker_data[0].display(true);
+            }
+        });
+    }
+	else {
+        $('#optionsAffichageCategories').select2("enable");
+        only_display_marker_with_selected_categories();
+    }
 
-function action_buttonNoFilter(){
-	$('#optionsAffichageCategories').select2("disable");
-	$.each(markers_and_associated_data, function(index, marker_data) {
-        if (marker_data != undefined) {
-            marker_data[0].display(true);
-        }
-    });
+    filter_categories_selected  = ! filter_categories_selected;
 };
