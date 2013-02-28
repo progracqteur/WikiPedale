@@ -837,27 +837,6 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
-    if (userIsAdmin()) {
-        document.getElementById("f_id").value = placeData.id;
-        document.getElementById("f_lieu").value = placeData.addressParts.road;
-        document.getElementById("f_description").value = placeData.description;
-        //document.getElementById("div_placeEdit").style.display = "block";
-        document.getElementById("div_placeDescription").style.display = "block";
-        document.getElementById("f_couleur").value="0"; 
-        for (i = 0; i < placeData.statuses.length; i++)
-        {  
-            if (placeData.statuses[i].t == 'cem')
-            {
-                document.getElementById("f_couleur").value=placeData.statuses[i].v; 
-            }   
-            
-        }
-    }
-    else {
-        document.getElementById("span_lieu").innerHTML = placeData.addressParts.road;
-        document.getElementById("span_description").innerHTML = placeData.description;
-        //document.getElementById("div_placeDetails").style.display = "block";
-        document.getElementById("div_placeDescription").style.display = "block";
-    }
+    $('#div_placeDescription').show();
 }
 
