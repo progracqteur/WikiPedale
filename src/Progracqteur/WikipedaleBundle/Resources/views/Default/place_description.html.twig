@@ -82,7 +82,7 @@
       Type du signalement :
       <span id="span_place_description_type"></span>
       <div id="div_place_description_type_edit" style="display: none;">
-        <select style="width:100%" data-placeholder="" id="span_place_description_type_edit" multiple>
+        <select style="width:100%" data-placeholder="" id="span_place_description_type_edit">
         {% for placetype in placeTypes %}
           <option value="{{placetype.id}}">{{placetype.label}}</option>
         {% endfor %}
