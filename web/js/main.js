@@ -149,14 +149,16 @@ function EditDescriptionCatInJson(id,cat){
 function EditDescriptionStatusInJson(id,status_type,status_value){
     ret = '{"entity":"place"';
     ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}'
+    ret = ret + ',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}';
     ret = ret + ']';
     return ret + '}';
 }
 
-function EditDescriptionGestionaireInJson(id,gestionaire){
-    alert('todo');
-    return "";
+function EditDescriptionGestionaireInJson(id,gestionaire_id){
+    ret = '{"entity":"place"';
+    ret = ret + ',"id":' + JSON.stringify(id);
+    ret = ret + ',"manager": {"entity":"group","type":"MANAGER","id":' + JSON.stringify(gestionaire_id)  + '}';
+    return ret + '}';
 }
 
 function DeleteDescriptionInJson(id){
@@ -372,7 +374,7 @@ function descriptionSaveEdit(element_type){
         json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
     }
     else if (element_type == "gestionaire") {
-        json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').val());
+        json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
     }
     console.log(json_request);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
