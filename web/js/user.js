@@ -64,6 +64,18 @@ function userCanUnpublish(){
     return user.roles != undefined && user.roles.indexOf("ROLE_PUBLISHED") != -1;
 }
 
+function userCanModifyCEMColor(){
+    ret = false;
+    if (user.roles != undefined && user.roles.indexOf("ROLE_NOTATION") && user.notation ==  "cem") {
+        $.each(user.groups, function(id, data) {
+            if (data.type == "MODERATOR" && data.notation == "cem") {
+                ret = true;
+            }
+        });
+    }
+    return ret;
+}
+
 function userIsRegister(){
     /**
     * Returns True if the user is register.
