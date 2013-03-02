@@ -22,28 +22,46 @@ function userIsAdmin() {
     /**
     * Returns True if the user is admin.
     */
-    return user.roles != undefined && user.roles[0] != undefined && user.roles[0] == ("ROLE_ADMIN");
+    return user.roles != undefined && user.roles.indexOf("ROLE_ADMIN") != -1;
 }
 
 function userCanModifyCategories(){
     /**
     * True if the user can create or alter categories on a place.
     */
-    return user.roles != undefined && user.roles[2] != undefined && user.roles[2] == ("ROLE_CATEGORY");
+    return user.roles != undefined && user.roles.indexOf("ROLE_CATEGORY") != -1;
 }
 
 function userCanModifyLittleDetails(){
     /**
     * True if the user can alter details of a little point
     */
-    return user.roles != undefined && user.roles[3] != undefined && user.roles[3] == ("ROLE_DETAILS_LITTLE");
+    return user.roles != undefined && user.roles.indexOf("ROLE_DETAILS_LITTLE") != -1;
 }
 
 function userCanVieuwUsersDetails(){
     /**
     * True if the user can see email and personal details of other users
     */
-    return user.roles != undefined && user.roles[4] != undefined && user.roles[4] == ("ROLE_SEE_USER_DETAILS");
+    return user.roles != undefined && user.roles.indexOf("ROLE_SEE_USER_DETAILS") != -1;
+}
+
+function userCanModifyPlacetype(){
+    /**
+    * True if the user can the place type of a point
+    */
+    return user.roles != undefined && user.roles.indexOf("ROLE_PLACETYPE_ALTER") != -1;
+}
+
+function userCanModifyManager(){
+    /**
+    * True if the user can the place type of a point
+    */
+    return user.roles != undefined && user.roles.indexOf("ROLE_MANAGER_ALTER") != -1;
+}
+
+function userCanUnpublish(){
+    return user.roles != undefined && user.roles.indexOf("ROLE_PUBLISHED") != -1;
 }
 
 function userIsRegister(){

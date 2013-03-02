@@ -271,6 +271,8 @@ function updatePageWhenLogged(){
     document.getElementById("menu_register").style.display = 'none';
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
+
+    displayRegardingToUserRole();
 }
 
 function catchLoginForm(){
@@ -297,7 +299,7 @@ function catchLoginForm(){
             if(! output_json.query.error) { 
                 console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
                 updateUserInfo(output_json.results[0]);
-                updatePageWhenLogged()
+                updatePageWhenLogged();
             }
             else { 
                 $('#login_message').text(output_json[0].message);
@@ -806,6 +808,45 @@ function refresh_span_photo(id) {
     });
 }
 
+function displayRegardingToUserRole() {
+    if(userCanModifyCategories() || userIsAdmin()) {
+        $('#span_place_description_cat_button').show();
+    }
+    else {
+        $('#span_place_description_cat_button').hide();
+    }
+
+    if(userCanModifyLittleDetails() || userIsAdmin()) {
+        $('#span_place_description_loc_button').show();
+        $('#span_place_description_desc_button').show();
+    }
+    else {
+        $('#span_place_description_loc_button').hide();
+        $('#span_place_description_desc_button').hide();
+    }
+
+    if(userCanModifyPlacetype() || userIsAdmin()) {
+        $('#span_place_description_type_button').show();
+    }
+    else {
+        $('#span_place_description_type_button').hide();
+    }
+
+    if(userCanModifyManager() || userIsAdmin()) {
+        $('#span_place_description_gestionaire_button').show();
+    }
+    else {
+        $('#span_place_description_gestionaire_button').hide();
+    }
+
+    if(userCanUnpublish() || userIsAdmin()){
+        $('#span_place_description_delete_button').show();
+    }
+    else {
+        $('#span_place_description_delete_button').hide();
+    }
+}
+
 
 function displayPlaceDataFunction(placeMarker, placeData) {
     /**
@@ -867,7 +908,8 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
-    $('#div_placeDescription').show();
+    displayRegardingToUserRole();
 
+    $('#div_placeDescription').show();
 }
 
