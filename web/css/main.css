@@ -1,6 +1,6 @@
 #html, body { padding:0; margin: 0; width:100%; }
 
-body {
+body, textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
@@ -191,8 +191,12 @@ ul#VillesSelection li a:hover {
 
 path { fill:green; }
 
-span#VilleActuelle {
+span.VilleActuelle {
     color:#FFFFFF;
+}
+
+img#VilleActuelleRSSIcon {
+    height: 14px;
 }
 
 #About { 

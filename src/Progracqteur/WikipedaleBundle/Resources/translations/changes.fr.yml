@@ -36,11 +36,17 @@ add_black_points:
   last_added : Derniers ajoutés
   last_edited : Derniers modifiés
   location : Localisation exacte du problème
+  location_placeholder: Rue, avenue, etc.
   categories: Type de problème
-  description: Informations complémentaires (facultatif)
-  name: Votre nom ou identifiant
+  categories_placeholder: Sélectionner une ou plusieurs catégories
+  description: Informations complémentaires
+  description_placeholder: Description du problème
+  name: Votre nom
+  name_placeholder: Votre nom et prénom
   mail: Votre adresse e-mail
+  mail_placeholder: adresse de courriel
   phone: Votre numéro de téléphone
+  phone_placeholder: Numéro de téléphone
   submit: Enregistrer votre signalement
   help1: Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.
   
