@@ -28,6 +28,8 @@ var id_markers_for = new Array();
 id_markers_for['Categories'] = new Array();
 id_markers_for['PlaceTypes'] = new Array();
 
+var mode_edit = new Array();
+
 var new_placeMarker;
 
 var last_place_selected = null;
@@ -84,13 +86,6 @@ function marker_img_name(statuses)
     }
 }
 
-function blopFunction() {
-    /**
-    * Testing function
-    */
-        alert('blop');
-    }
-
 function unregisterUserInJson(label,email,phonenumber){
     /**
     * Returns a json string describing an unregister user.
@@ -117,61 +112,49 @@ function PointInJson(lon,lat){
     return parser.write(p, false);
 }
 
-function EditDescriptionDescInJson(id,description){
+function PlaceInJSonWithOtherNameValue(id, otherNameValue){
     ret = '{"entity":"place"';
     ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"description":' + JSON.stringify(description);
-    return ret + '}';
+    ret = ret + otherNameValue;
+    return ret + '}';   
+}
+
+function EditDescriptionDescInJson(id,description){
+    return PlaceInJSonWithOtherNameValue(id,',"description":' + JSON.stringify(description));
 }
 
 function EditDescriptionLocInJson(id,loc){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"addressParts":{"entity":"address","road":' + JSON.stringify(loc) + '}';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"addressParts":{"entity":"address","road":' + JSON.stringify(loc) + '}');
 }
 
 function EditDescriptionCatInJson(id,cat){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"categories":[';
+    categories_desc = ',"categories":[';
     for (var i = 0; i < cat.length; i++) {
-        ret = ret + '{"entity":"category","id":' + cat[i] + '}';
+        categories_desc = categories_desc + '{"entity":"category","id":' + cat[i] + '}';
         if (i < (cat.length - 1))
         {
-            ret = ret + ',';
+            categories_desc = categories_desc + ',';
         }
     }
-    ret = ret + ']';
-    return ret + '}';
+    categories_desc = categories_desc + ']';
+    return PlaceInJSonWithOtherNameValue(id,categories_desc);
 }
 
 function EditDescriptionStatusInJson(id,status_type,status_value){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}';
-    ret = ret + ']';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}]');
 }
 
 function EditDescriptionGestionaireInJson(id,gestionaire_id){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"manager": {"entity":"group","type":"MANAGER","id":' + JSON.stringify(gestionaire_id)  + '}';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"manager": {"entity":"group","type":"MANAGER","id":' 
+        + JSON.stringify(gestionaire_id)  + '}');
 }
 
 function EditDescriptionPlacetypeInJson(id,placetype_id){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret +  ',"placetype":{"id":' +  JSON.stringify(placetype_id) + ',"entity":"placetype"}';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"placetype":{"id":' +  JSON.stringify(placetype_id) + ',"entity":"placetype"}');
 }
 
 function DeleteDescriptionInJson(id){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    return ret + ',"accepted":false}';
+    return PlaceInJSonWithOtherNameValue(id,',"accepted":false');
 }
 
 function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
@@ -254,10 +237,15 @@ function update_markers_and_associated_data(){
                     }
                 }
             });
+            displayEmailAndPhoneNumberRegardingToRole();
         }
     });
 };
 
+
+function save_info(div_id,id_for_fcts){
+    $.data($("#div_id")[0], "id_for_fcts",id_for_fcts);
+};
 
 function updatePageWhenLogged(){
     /**
@@ -271,6 +259,8 @@ function updatePageWhenLogged(){
     document.getElementById("menu_register").style.display = 'none';
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
+
+    update_markers_and_associated_data();
 
     displayRegardingToUserRole();
 }
@@ -313,30 +303,42 @@ function catchLoginForm(){
     });
 }
 
-function descriptionEdit(element_type){
-    element_id = "#span_place_description_" + element_type;
-    signalement_id = $('#input_place_description_id').val();
+function descriptionHideEdit(){
+    /**
+    * dans le div "div_placeDescription", l'utilisateur peut afficher un formulaire pour éditer
+    * certaines données.
+    * si il change de point, il faut afficher le nouveau point dans un mode de non-édition
+    * -> se fait en appeleant cette fonction
+    */
+    $("#div_placeDescription div").each(function(i,e) {
+        id_e = $(e).attr("id");
+        if(id_e != undefined && id_e.indexOf('_edit') != -1 &&  id_e.indexOf('div_') != -1) {
+            $(e).hide();
+        }
+    });
 
-    if (element_type == 'cat'){
-        categories_selected = Array();
-        $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
-        $(element_id + '_edit').select2("val", categories_selected);
-    } else if (element_type == 'status') {
-        color_selected = 0;
-        $.each(markers_and_associated_data[signalement_id][1].statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
-        console.log(color_selected);
-        $(element_id + '_edit').select2("val", color_selected);
-    }
-    else {
-        $(element_id + '_edit').val($(element_id).text());
-    };
-    $(element_id).hide();
-    $("#div_place_description_" + element_type + '_edit').show();
-    $(element_id + '_button').text("Sauver");
-    $(element_id + '_button').attr("onClick","descriptionSaveEdit('" + element_type + "')");
+    $("#div_placeDescription button").each(function(i,e) {
+        if( $(e).text() == 'Sauver') {
+            $(e).text('Editer');
+        }
+    });
+
+    mode_edit = new Array();
+       
+
+    $("#div_placeDescription span").each(function(i,e) {
+        id_e = $(e).attr("id");
+        if(id_e != undefined 
+            && id_e.indexOf('_error') == -1) {
+            $(e).show();
+        }
+    });
 };
 
 function descriptionDelete(){
+    /**
+    * to delete a description
+    */
     signalement_id = $('#input_place_description_id').val();
     json_request = DeleteDescriptionInJson(signalement_id);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
@@ -366,69 +368,93 @@ function descriptionDelete(){
     });
 }
 
-function descriptionSaveEdit(element_type){
+
+function descriptionEditOrSave(element_type){
     element_id = "#span_place_description_" + element_type;
     signalement_id = $('#input_place_description_id').val();
 
-    if(element_type == "desc") {
-        json_request = EditDescriptionDescInJson(signalement_id,$(element_id + '_edit').val());
-    }
-    else if (element_type == "loc") {
-        json_request = EditDescriptionLocInJson(signalement_id,$(element_id + '_edit').val());
-    }
-    else if (element_type == "cat") {
-        json_request = EditDescriptionCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
-    } 
-    else if (element_type == "status") {
-        json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
-    }
-    else if (element_type == "gestionaire") {
-        json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
-    }
-    else if (element_type == "type"){
-        json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
-    }
-    console.log(json_request);
-    url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
-    $.ajax({
-        type: "POST",
-        data: {entity: json_request},
-        url: url_edit,
-        cache: false,
-        success: function(output_json) { 
-            if(! output_json.query.error) { 
-                markers_and_associated_data[signalement_id][1] = output_json.results[0];
-                if(element_type == 'cat'){
-                    categories_list = "";
-                    $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
-                    $(element_id).text(categories_list);    
-                } else if (element_type == 'status'){
-                    markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
-                    $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
-                } else if (element_type == 'gestionaire' || element_type == 'type'){
-                    $(element_id).text($(element_id + '_edit').select2('data').text);
-                }
-                else {
-                    $(element_id).text($(element_id + '_edit').val());
-                }
-                $(element_id +  '_error').hide();
-                $("#div_place_description_" + element_type + '_edit').hide();
-                $(element_id).show();
-                $(element_id + '_button').text("Editer");
-                $(element_id + '_button').attr("onClick","descriptionEdit('" + element_type + "')");
-            }
-            else { 
-                $(element_id +  '_error').show();
-                console.log('Error else');
-                console.log(JSON.stringify(output_json));
-            }
-        },
-        error: function(output_json) {
-            $(element_id +  '_error').show();
-            console.log('Error error');
-            console.log(output_json.responseText);
+    if (mode_edit[element_type] == undefined || ! mode_edit[element_type]) {
+        if (element_type == 'cat'){
+            categories_selected = Array();
+            $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
+            $(element_id + '_edit').select2("val", categories_selected);
+        } else if (element_type == 'status') {
+            color_selected = 0;
+            $.each(markers_and_associated_data[signalement_id][1].statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
+            console.log(color_selected);
+            $(element_id + '_edit').select2("val", color_selected);
         }
-    });
+        else {
+            $(element_id + '_edit').val($(element_id).text());
+        };
+        $(element_id).hide();
+        $("#div_place_description_" + element_type + '_edit').show();
+        $(element_id + '_button').text("Sauver");
+        mode_edit[element_type] = true;
+    }
+    else 
+    {
+        if(element_type == "desc") {
+            json_request = EditDescriptionDescInJson(signalement_id,$(element_id + '_edit').val());
+        }
+        else if (element_type == "loc") {
+            json_request = EditDescriptionLocInJson(signalement_id,$(element_id + '_edit').val());
+        }
+        else if (element_type == "cat") {
+            json_request = EditDescriptionCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
+        } 
+        else if (element_type == "status") {
+            json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
+        }
+        else if (element_type == "gestionaire") {
+            json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
+        }
+        else if (element_type == "type"){
+            json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
+        }
+        console.log(json_request);
+        url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+        $.ajax({
+            type: "POST",
+            data: {entity: json_request},
+            url: url_edit,
+            cache: false,
+            success: function(output_json) { 
+                if(! output_json.query.error) { 
+                    markers_and_associated_data[signalement_id][1] = output_json.results[0];
+                    if(element_type == 'cat'){
+                        categories_list = "";
+                        $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
+                        $(element_id).text(categories_list);    
+                    } else if (element_type == 'status'){
+                        markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
+                        $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
+                    } else if (element_type == 'gestionaire' || element_type == 'type'){
+                        $(element_id).text($(element_id + '_edit').select2('data').text);
+                    }
+                    else {
+                        $(element_id).text($(element_id + '_edit').val());
+                    }
+                    $(element_id +  '_error').hide();
+                    $("#div_place_description_" + element_type + '_edit').hide();
+                    $(element_id).show();
+                    $(element_id + '_button').text("Editer");
+                    mode_edit[element_type] = false;
+                }
+                else { 
+                    $(element_id +  '_error').show();
+                    console.log('Error else');
+                    console.log(JSON.stringify(output_json));
+                }
+            },
+            error: function(output_json) {
+                $(element_id +  '_error').show();
+                console.log('Error error');
+                console.log(output_json.responseText);
+            }
+        });
+    };
+    
 };
 
 function catchForm(formName) {
@@ -808,7 +834,28 @@ function refresh_span_photo(id) {
     });
 }
 
+function displayEmailAndPhoneNumberRegardingToRole() {
+    signalement_id = $('#input_place_description_id').val();
+
+    if (signalement_id != undefined) {
+        placeData = markers_and_associated_data[signalement_id][1]
+
+        if (userCanVieuwUsersDetails() || userIsAdmin()) {
+            $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
+        placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
+        }
+        else {
+            $('#span_place_description_signaleur_contact').text('');
+        }
+    }
+}
+
 function displayRegardingToUserRole() {
+    /**
+    * if the user has certain role, he can edit certain information
+    * this function display or not the button with which we can edit the 
+    * information
+    */
     if(userCanModifyCategories() || userIsAdmin()) {
         $('#span_place_description_cat_button').show();
     }
@@ -845,6 +892,14 @@ function displayRegardingToUserRole() {
     else {
         $('#span_place_description_delete_button').hide();
     }
+
+    if(userCanModifyCEMColor() || userIsAdmin()){
+        $('#span_place_description_status_button').show();
+    }
+    else {
+        $('#span_place_description_status_button').hide();
+    }
+
 }
 
 
@@ -908,6 +963,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
+    descriptionHideEdit(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     displayRegardingToUserRole();
 
     $('#div_placeDescription').show();
