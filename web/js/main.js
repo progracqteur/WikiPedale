@@ -301,11 +301,43 @@ function catchLoginForm(){
 }
 
 function descriptionHideEdit(){
-    $("#div_placeDescription input").each(function(i,e) { $(e).hide(); });
-    $("#div_placeDescription textarea").each(function(i,e) { $(e).hide(); });
+    /**
+    * dans le div "div_placeDescription", l'utilisateur peut afficher un formulaire pour éditer
+    * certaines données.
+    * si il change de point, il faut afficher le nouveau point dans un mode de non-édition
+    * -> se fait en appeleant cette fonction
+    */
+    $("#div_placeDescription div").each(function(i,e) {
+        id_e = $(e).attr("id");
+        if(id_e != undefined && id_e.indexOf('_edit') != -1 &&  id_e.indexOf('div_') != -1) {
+            $(e).hide();
+        }
+    });
+
+    $("#div_placeDescription button").each(function(i,e) {
+        if( $(e).text() == 'Sauver') {
+            $(e).text('Editer');
+        }
+    });
+
+    mode_edit = new Array();
+       
+
+    $("#div_placeDescription span").each(function(i,e) {
+        id_e = $(e).attr("id");
+        console.log(e);
+        console.log(id_e);
+        if(id_e != undefined 
+            && id_e.indexOf('_error') == -1) {
+            $(e).show();
+        }
+    });
 };
 
 function descriptionDelete(){
+    /**
+    * to delete a description
+    */
     signalement_id = $('#input_place_description_id').val();
     json_request = DeleteDescriptionInJson(signalement_id);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
@@ -340,7 +372,7 @@ function descriptionEditOrSave(element_type){
     element_id = "#span_place_description_" + element_type;
     signalement_id = $('#input_place_description_id').val();
 
-    if (mode_edit['element_type'] == undefined || ! mode_edit['element_type']) {
+    if (mode_edit[element_type] == undefined || ! mode_edit[element_type]) {
         if (element_type == 'cat'){
             categories_selected = Array();
             $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
@@ -357,7 +389,7 @@ function descriptionEditOrSave(element_type){
         $(element_id).hide();
         $("#div_place_description_" + element_type + '_edit').show();
         $(element_id + '_button').text("Sauver");
-        mode_edit['element_type'] = true;
+        mode_edit[element_type] = true;
     }
     else 
     {
@@ -406,7 +438,7 @@ function descriptionEditOrSave(element_type){
                     $("#div_place_description_" + element_type + '_edit').hide();
                     $(element_id).show();
                     $(element_id + '_button').text("Editer");
-                    mode_edit['element_type'] = false;
+                    mode_edit[element_type] = false;
                 }
                 else { 
                     $(element_id +  '_error').show();
@@ -909,6 +941,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
+    descriptionHideEdit(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     displayRegardingToUserRole();
 
     $('#div_placeDescription').show();
