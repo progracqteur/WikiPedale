@@ -50,7 +50,11 @@
 
         <div id="connexion">
             {% if app.session.get('city') %}
-                <span id="VilleActuelle">{{app.session.get('city').name}} <a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a> </span>
+                <span class="VilleActuelle">{{app.session.get('city').name}}</span> 
+                <span id="VilleActuelleRSS"><a href="{{ path('wikipedale_history_place_by_city',
+                        {'citySlug': app.session.get('city').slug, _format: 'atom'})}}">
+                               <img id="VilleActuelleRSSIcon" src="{{ asset('img/rss_w_b.png') }}"></span>
+               <span class="VilleActuelle"><a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a> </span>
             {% endif %}
             
 

@@ -191,8 +191,12 @@ ul#VillesSelection li a:hover {
 
 path { fill:green; }
 
-span#VilleActuelle {
+span.VilleActuelle {
     color:#FFFFFF;
+}
+
+img#VilleActuelleRSSIcon {
+    height: 14px;
 }
 
 #About { 
