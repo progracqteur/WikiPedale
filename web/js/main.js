@@ -801,7 +801,7 @@ function refresh_span_photo(id) {
     else {
         span_photo_inner = '<br />';
         $.each(data, function(i,row) {
-        span_photo_inner +=  ' <a target="_blank" href="' + web_dir + row.webPath + '"><image height="' + row.height  + '"width="' + row.width  + '" src="' + web_dir + row.webPath + '"></image></a>';
+        span_photo_inner +=  ' <a target="_blank" href="' + web_dir + row.webPath + '"><image src="' + web_dir + row.webPath + '"></image></a>';
         $('.span_photo').each(function() { this.innerHTML = span_photo_inner; });
         })
         }
