@@ -43,7 +43,7 @@
 
     <label>{{ 'add_black_points.description'|trans({}, 'changes') }}</label> 
     <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_description" alt="is the field ok" height="15" width="15">
-    <textarea id="d" name="description" maxlength="150" onblur="javascript:update_d_informer_for_form()" placeholder="{{ 'add_black_points.description_placeholder'|trans({}, 'changes') }}"></textarea><br />
+    <textarea id="d" name="description" rows="5" maxlength="999" onblur="javascript:update_d_informer_for_form()" placeholder="{{ 'add_black_points.description_placeholder'|trans({}, 'changes') }}"></textarea><br />
         
     <div id="div_new_place_form_user_mail">
       <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
