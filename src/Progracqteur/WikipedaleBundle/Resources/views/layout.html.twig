@@ -39,7 +39,7 @@
         <link rel="stylesheet"  href="{{ asset('css/dhtmlxcombo.css') }}" type="text/css"/>
         <link rel="stylesheet"  href="{{ asset('css/main.css') }}" type="text/css"/>
         
-        <link rel="shortcut icon" type="image/png" href="../img/favicon.png" />
+        <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
 
         {% block css %}
             <!-- Aucune instruction css ajouté par le template -->
@@ -55,7 +55,7 @@
             
 
             <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
-                | <img src="../img/utilisateur.png" />
+                | <img src="{{asset('img/utilisateur.png')}}" />
                 <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span></a>
             </span>
 

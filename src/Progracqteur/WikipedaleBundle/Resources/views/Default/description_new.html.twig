@@ -1,11 +1,11 @@
 <div id="div_signaler">
   <span class="instructions">
-    <img src="../img/verif_rien.png" class="verif" id="form_informer_map" alt="is the field ok">
+    <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_map" alt="is the field ok">
       {{ 'instructions.add_point1'|trans({}, 'changes') }}
   </span>
 
   <span class="instructions">
-    <img src="../img/verif_rien.png" class="verif" id="form_informer_general_text" alt="is the field ok">
+    <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_general_text" alt="is the field ok">
       {{ 'instructions.add_point2'|trans({}, 'changes') }}
   </span>
       
@@ -14,13 +14,13 @@
     <input  type="hidden" name="lat" readonly="true" />
 
     <p>
-      <img src="../img/verif_rien.png" class="verif" id="form_informer_lieu" alt="is the field ok">
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_lieu" alt="is the field ok">
       <label for="f_lieu" class="label_aligne">{{ 'add_black_points.location'|trans({}, 'changes') }}</label> 
       <input name="lieu" id="l" maxlength="35" onblur="javascript:update_l_informer_for_form()" />
     </p>
 
     <p>
-      <img src="../img/verif_rien.png" class="verif" id="form_informer_categories" alt="is the field ok">
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_categories" alt="is the field ok">
       <label>{{ 'add_black_points.categories'|trans({}, 'changes') }}</label>
       <select name="categories" id="c" style="width:200px;" data-placeholder="" class="chzn-select" multiple>
         {# set a value to detect changes in parent category #}
@@ -42,19 +42,19 @@
     </p>
 
     <label>{{ 'add_black_points.description'|trans({}, 'changes') }}</label> 
-    <img src="../img/verif_rien.png" class="verif" id="form_informer_description" alt="is the field ok" height="15" width="15">
+    <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_description" alt="is the field ok" height="15" width="15">
     <textarea id="d" name="description" maxlength="150" onblur="javascript:update_d_informer_for_form()"></textarea><br />
         
     <div id="div_new_place_form_user_mail">
-      <img src="../img/verif_rien.png" class="verif" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
+      <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="form_informer_user_label" alt="is the field ok" height="15" width="15">
       <label>{{ 'add_black_points.name'|trans({}, 'changes') }}</label>
       <input name="user_label" id="n" onblur="javascript:update_n_informer_for_form()" />
         
-      <img src="../img/verif_rien.png" class="verif" id="form_informer_email" alt="is the field ok" height="15" width="15">
+      <img src="{{ asset('img/verif_rien.png')}}" class="verif" id="form_informer_email" alt="is the field ok" height="15" width="15">
       <label>{{ 'add_black_points.mail'|trans({}, 'changes') }}</label>
       <input name="email" id="e" onblur="javascript:update_e_informer_for_form()" />
 
-      <img src="../img/verif_rien.png" class="verif" id="form_informer_phone" alt="is the field ok" height="15" width="15">
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_phone" alt="is the field ok" height="15" width="15">
       <label>{{ 'add_black_points.phone'|trans({}, 'changes') }}</label>
       <input name="user_phonenumber" id="p" onblur="javascript:update_p_informer_for_form()" />
     </div>
