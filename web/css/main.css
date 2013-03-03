@@ -1,6 +1,6 @@
 #html, body { padding:0; margin: 0; width:100%; }
 
-body {
+body, textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
