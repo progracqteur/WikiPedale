@@ -28,6 +28,8 @@ var id_markers_for = new Array();
 id_markers_for['Categories'] = new Array();
 id_markers_for['PlaceTypes'] = new Array();
 
+var mode_edit = new Array();
+
 var new_placeMarker;
 
 var last_place_selected = null;
@@ -126,7 +128,7 @@ function EditDescriptionLocInJson(id,loc){
 }
 
 function EditDescriptionCatInJson(id,cat){
-    categories_desc = categories_desc + ',"categories":[';
+    categories_desc = ',"categories":[';
     for (var i = 0; i < cat.length; i++) {
         categories_desc = categories_desc + '{"entity":"category","id":' + cat[i] + '}';
         if (i < (cat.length - 1))
@@ -240,6 +242,10 @@ function update_markers_and_associated_data(){
 };
 
 
+function save_info(div_id,id_for_fcts){
+    $.data($("#div_id")[0], "id_for_fcts",id_for_fcts);
+};
+
 function updatePageWhenLogged(){
     /**
     * Updates the menu when the user is logged :
@@ -294,27 +300,9 @@ function catchLoginForm(){
     });
 }
 
-function descriptionEdit(element_type){
-    element_id = "#span_place_description_" + element_type;
-    signalement_id = $('#input_place_description_id').val();
-
-    if (element_type == 'cat'){
-        categories_selected = Array();
-        $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
-        $(element_id + '_edit').select2("val", categories_selected);
-    } else if (element_type == 'status') {
-        color_selected = 0;
-        $.each(markers_and_associated_data[signalement_id][1].statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
-        console.log(color_selected);
-        $(element_id + '_edit').select2("val", color_selected);
-    }
-    else {
-        $(element_id + '_edit').val($(element_id).text());
-    };
-    $(element_id).hide();
-    $("#div_place_description_" + element_type + '_edit').show();
-    $(element_id + '_button').text("Sauver");
-    $(element_id + '_button').attr("onClick","descriptionSaveEdit('" + element_type + "')");
+function descriptionHideEdit(){
+    $("#div_placeDescription input").each(function(i,e) { $(e).hide(); });
+    $("#div_placeDescription textarea").each(function(i,e) { $(e).hide(); });
 };
 
 function descriptionDelete(){
@@ -347,69 +335,93 @@ function descriptionDelete(){
     });
 }
 
-function descriptionSaveEdit(element_type){
+
+function descriptionEditOrSave(element_type){
     element_id = "#span_place_description_" + element_type;
     signalement_id = $('#input_place_description_id').val();
 
-    if(element_type == "desc") {
-        json_request = EditDescriptionDescInJson(signalement_id,$(element_id + '_edit').val());
-    }
-    else if (element_type == "loc") {
-        json_request = EditDescriptionLocInJson(signalement_id,$(element_id + '_edit').val());
-    }
-    else if (element_type == "cat") {
-        json_request = EditDescriptionCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
-    } 
-    else if (element_type == "status") {
-        json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
-    }
-    else if (element_type == "gestionaire") {
-        json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
-    }
-    else if (element_type == "type"){
-        json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
-    }
-    console.log(json_request);
-    url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
-    $.ajax({
-        type: "POST",
-        data: {entity: json_request},
-        url: url_edit,
-        cache: false,
-        success: function(output_json) { 
-            if(! output_json.query.error) { 
-                markers_and_associated_data[signalement_id][1] = output_json.results[0];
-                if(element_type == 'cat'){
-                    categories_list = "";
-                    $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
-                    $(element_id).text(categories_list);    
-                } else if (element_type == 'status'){
-                    markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
-                    $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
-                } else if (element_type == 'gestionaire' || element_type == 'type'){
-                    $(element_id).text($(element_id + '_edit').select2('data').text);
-                }
-                else {
-                    $(element_id).text($(element_id + '_edit').val());
-                }
-                $(element_id +  '_error').hide();
-                $("#div_place_description_" + element_type + '_edit').hide();
-                $(element_id).show();
-                $(element_id + '_button').text("Editer");
-                $(element_id + '_button').attr("onClick","descriptionEdit('" + element_type + "')");
-            }
-            else { 
-                $(element_id +  '_error').show();
-                console.log('Error else');
-                console.log(JSON.stringify(output_json));
-            }
-        },
-        error: function(output_json) {
-            $(element_id +  '_error').show();
-            console.log('Error error');
-            console.log(output_json.responseText);
+    if (mode_edit['element_type'] == undefined || ! mode_edit['element_type']) {
+        if (element_type == 'cat'){
+            categories_selected = Array();
+            $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
+            $(element_id + '_edit').select2("val", categories_selected);
+        } else if (element_type == 'status') {
+            color_selected = 0;
+            $.each(markers_and_associated_data[signalement_id][1].statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
+            console.log(color_selected);
+            $(element_id + '_edit').select2("val", color_selected);
         }
-    });
+        else {
+            $(element_id + '_edit').val($(element_id).text());
+        };
+        $(element_id).hide();
+        $("#div_place_description_" + element_type + '_edit').show();
+        $(element_id + '_button').text("Sauver");
+        mode_edit['element_type'] = true;
+    }
+    else 
+    {
+        if(element_type == "desc") {
+            json_request = EditDescriptionDescInJson(signalement_id,$(element_id + '_edit').val());
+        }
+        else if (element_type == "loc") {
+            json_request = EditDescriptionLocInJson(signalement_id,$(element_id + '_edit').val());
+        }
+        else if (element_type == "cat") {
+            json_request = EditDescriptionCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
+        } 
+        else if (element_type == "status") {
+            json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
+        }
+        else if (element_type == "gestionaire") {
+            json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
+        }
+        else if (element_type == "type"){
+            json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
+        }
+        console.log(json_request);
+        url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+        $.ajax({
+            type: "POST",
+            data: {entity: json_request},
+            url: url_edit,
+            cache: false,
+            success: function(output_json) { 
+                if(! output_json.query.error) { 
+                    markers_and_associated_data[signalement_id][1] = output_json.results[0];
+                    if(element_type == 'cat'){
+                        categories_list = "";
+                        $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
+                        $(element_id).text(categories_list);    
+                    } else if (element_type == 'status'){
+                        markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
+                        $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
+                    } else if (element_type == 'gestionaire' || element_type == 'type'){
+                        $(element_id).text($(element_id + '_edit').select2('data').text);
+                    }
+                    else {
+                        $(element_id).text($(element_id + '_edit').val());
+                    }
+                    $(element_id +  '_error').hide();
+                    $("#div_place_description_" + element_type + '_edit').hide();
+                    $(element_id).show();
+                    $(element_id + '_button').text("Editer");
+                    mode_edit['element_type'] = false;
+                }
+                else { 
+                    $(element_id +  '_error').show();
+                    console.log('Error else');
+                    console.log(JSON.stringify(output_json));
+                }
+            },
+            error: function(output_json) {
+                $(element_id +  '_error').show();
+                console.log('Error error');
+                console.log(output_json.responseText);
+            }
+        });
+    };
+    
 };
 
 function catchForm(formName) {
