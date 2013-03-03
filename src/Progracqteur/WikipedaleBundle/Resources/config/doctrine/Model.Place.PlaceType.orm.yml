@@ -1,6 +1,7 @@
 Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType:
   type: entity
   table: placetype
+  readOnly: ~
   id:
     id:
       type: integer
