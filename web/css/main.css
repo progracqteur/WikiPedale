@@ -251,6 +251,11 @@ span#VilleActuelle {
     margin-bottom: 10px;
 }
 
+/* photos à la taille de la colonne */
+.PointDescription .span_photo img {
+    width: 100%;
+}
+
 /* OpenLayers */
         .olControlAttribution {
             position: absolute;
