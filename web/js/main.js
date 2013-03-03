@@ -84,13 +84,6 @@ function marker_img_name(statuses)
     }
 }
 
-function blopFunction() {
-    /**
-    * Testing function
-    */
-        alert('blop');
-    }
-
 function unregisterUserInJson(label,email,phonenumber){
     /**
     * Returns a json string describing an unregister user.
@@ -117,61 +110,49 @@ function PointInJson(lon,lat){
     return parser.write(p, false);
 }
 
-function EditDescriptionDescInJson(id,description){
+function PlaceInJSonWithOtherNameValue(id, otherNameValue){
     ret = '{"entity":"place"';
     ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"description":' + JSON.stringify(description);
-    return ret + '}';
+    ret = ret + otherNameValue;
+    return ret + '}';   
+}
+
+function EditDescriptionDescInJson(id,description){
+    return PlaceInJSonWithOtherNameValue(id,',"description":' + JSON.stringify(description));
 }
 
 function EditDescriptionLocInJson(id,loc){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"addressParts":{"entity":"address","road":' + JSON.stringify(loc) + '}';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"addressParts":{"entity":"address","road":' + JSON.stringify(loc) + '}');
 }
 
 function EditDescriptionCatInJson(id,cat){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"categories":[';
+    categories_desc = categories_desc + ',"categories":[';
     for (var i = 0; i < cat.length; i++) {
-        ret = ret + '{"entity":"category","id":' + cat[i] + '}';
+        categories_desc = categories_desc + '{"entity":"category","id":' + cat[i] + '}';
         if (i < (cat.length - 1))
         {
-            ret = ret + ',';
+            categories_desc = categories_desc + ',';
         }
     }
-    ret = ret + ']';
-    return ret + '}';
+    categories_desc = categories_desc + ']';
+    return PlaceInJSonWithOtherNameValue(id,categories_desc);
 }
 
 function EditDescriptionStatusInJson(id,status_type,status_value){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}';
-    ret = ret + ']';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}]');
 }
 
 function EditDescriptionGestionaireInJson(id,gestionaire_id){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + ',"manager": {"entity":"group","type":"MANAGER","id":' + JSON.stringify(gestionaire_id)  + '}';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"manager": {"entity":"group","type":"MANAGER","id":' 
+        + JSON.stringify(gestionaire_id)  + '}');
 }
 
 function EditDescriptionPlacetypeInJson(id,placetype_id){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret +  ',"placetype":{"id":' +  JSON.stringify(placetype_id) + ',"entity":"placetype"}';
-    return ret + '}';
+    return PlaceInJSonWithOtherNameValue(id,',"placetype":{"id":' +  JSON.stringify(placetype_id) + ',"entity":"placetype"}');
 }
 
 function DeleteDescriptionInJson(id){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    return ret + ',"accepted":false}';
+    return PlaceInJSonWithOtherNameValue(id,',"accepted":false');
 }
 
 function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
@@ -845,6 +826,14 @@ function displayRegardingToUserRole() {
     else {
         $('#span_place_description_delete_button').hide();
     }
+
+    if(userCanModifyCEMColor() || userIsAdmin()){
+        $('#span_place_description_status_button').show();
+    }
+    else {
+        $('#span_place_description_status_button').hide();
+    }
+
 }
 
 
