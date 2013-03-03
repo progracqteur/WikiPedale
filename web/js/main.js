@@ -237,6 +237,7 @@ function update_markers_and_associated_data(){
                     }
                 }
             });
+            displayEmailAndPhoneNumberRegardingToRole();
         }
     });
 };
@@ -258,6 +259,8 @@ function updatePageWhenLogged(){
     document.getElementById("menu_register").style.display = 'none';
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
+
+    update_markers_and_associated_data();
 
     displayRegardingToUserRole();
 }
@@ -325,8 +328,6 @@ function descriptionHideEdit(){
 
     $("#div_placeDescription span").each(function(i,e) {
         id_e = $(e).attr("id");
-        console.log(e);
-        console.log(id_e);
         if(id_e != undefined 
             && id_e.indexOf('_error') == -1) {
             $(e).show();
@@ -833,7 +834,28 @@ function refresh_span_photo(id) {
     });
 }
 
+function displayEmailAndPhoneNumberRegardingToRole() {
+    signalement_id = $('#input_place_description_id').val();
+
+    if (signalement_id != undefined) {
+        placeData = markers_and_associated_data[signalement_id][1]
+
+        if (userCanVieuwUsersDetails() || userIsAdmin()) {
+            $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
+        placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
+        }
+        else {
+            $('#span_place_description_signaleur_contact').text('');
+        }
+    }
+}
+
 function displayRegardingToUserRole() {
+    /**
+    * if the user has certain role, he can edit certain information
+    * this function display or not the button with which we can edit the 
+    * information
+    */
     if(userCanModifyCategories() || userIsAdmin()) {
         $('#span_place_description_cat_button').show();
     }
