@@ -30,7 +30,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
     public function load(ObjectManager $manager) {
         
         
-        $notations = array('gracq', "spw", "villedemons");
+        $notations = array('gracq', "spw", "villedemons", 'cem', 'cem', 'cem', 'cem');
         $valuesNotations = array(-1,0,1,2,3);
         
         
