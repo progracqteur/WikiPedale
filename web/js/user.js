@@ -66,7 +66,7 @@ function userCanUnpublish(){
 
 function userCanModifyCEMColor(){
     ret = false;
-    if (user.roles != undefined && user.roles.indexOf("ROLE_NOTATION") && user.notation ==  "cem") {
+    if (user.roles != undefined && user.roles.indexOf("ROLE_NOTATION")) {
         $.each(user.groups, function(id, data) {
             if (data.type == "MODERATOR" && data.notation == "cem") {
                 ret = true;
