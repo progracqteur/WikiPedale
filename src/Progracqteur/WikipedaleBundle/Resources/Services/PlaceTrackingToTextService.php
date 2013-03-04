@@ -41,11 +41,11 @@ class PlaceTrackingToTextService {
         $domain = 'changes';
         
         //prepare common arguments for translator
-        try {
-            $authorLabel = $placeTracking->getAuthor()->getUsername();
+        //try {
+            $authorLabel = $placeTracking->getAuthor()->getLabel();
             //FIXME: this should not throw an error !
-        }
-        catch (\Exception $e) {$authorLabel = $this->t->trans('user.unknow', array(), $domain); }
+        //}
+        //catch (\Exception $e) {$authorLabel = $this->t->trans('user.unknow', array(), $domain); }
         
         $placeName = $placeTracking->getPlace()->getLabel();
         
