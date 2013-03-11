@@ -604,9 +604,9 @@ function changingModeFunction() {
     * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
     */
     if(!add_new_place_mode) {
-        $('.olControlButtonAddPlaceItemActive').each(function(index, value){
+        /* $('.olControlButtonAddPlaceItemActive').each(function(index, value){
             value.innerHTML = 'Annuler';
-        });
+        }); */
         $.each(markers_and_associated_data, function(index, marker_data) {
             if (marker_data != undefined) {
                 marker = marker_data[0];

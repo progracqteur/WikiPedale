@@ -65,6 +65,7 @@ layout:
     register: Créer un compte
     logged_in_as: %username%
     profile: Votre profil
+    home: Accueil
     
 errors:
   404:
