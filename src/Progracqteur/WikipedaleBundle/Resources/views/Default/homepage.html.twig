@@ -32,7 +32,7 @@ Params passed by the controller to this template :
         jQuery('a.connexion').colorbox({
         inline:true,
         width:"300px",
-        height:"300px",
+        height:"350px",
         onComplete: function(){ $("#login_input_username").focus(); }
         });
 
@@ -97,7 +97,7 @@ Params passed by the controller to this template :
         <label for="login_input_password">{{ 'security.login.password'|trans({}, 'userMessages') }}</label>
         <input type="password" id="login_input_password" name="password"/>
         <br/><br/>
-        <input type="submit" id="login_input_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
+        <input class="envoi" type="submit" id="login_input_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
       </form>
 
       <a href="{{ path('fos_user_registration_register') }}">{{ 'security.login.go_to_registration'|trans({}, 'userMessages') }}</a><br />
