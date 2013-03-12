@@ -93,10 +93,11 @@ fos_user_profile_form_plainPassword_first:  "Mot de passe"
 fos_user_profile_form_plainPassword_second: "Vérification mot de passe"
 
 fos_user_registration_form_title:                "Création d'un nouveau compte"
-fos_user_registration_form_username:             "Nom d'utilisateur"
+fos_user_registration_form_username:             "Nom et prénom"
 fos_user_registration_form_email:                "Adresse e-mail"
 fos_user_registration_form_plainPassword_first:  "Mot de passe"
 fos_user_registration_form_plainPassword_second: "Vérification"
+fos_user_registration_form_label:                "Nom d'utilisateur"
 fos_user_registration_form_phonenumber:          "Téléphone"
 
 fos_user_resetting_form_new_first:  "Nouveau mot de passe"

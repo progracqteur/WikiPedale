@@ -4,6 +4,8 @@ body, textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
+body p {padding: 0 1em 0 1em;}
+
 .clearboth { clear:both; }
 
 #accueil {
@@ -249,96 +251,6 @@ img#VilleActuelleRSSIcon {
 .PointDescription .span_photo img {
     width: 100%;
 }
-
-/* Formulaires */
-
-form {
-    background: #9cbc2c;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    padding: 1em;
-    width: 400px;
-    margin: 2em auto;
-}
-
-form fieldset {
-    border: none;
-    margin-bottom: 10px;
-}
-
-form legend {
-    color: #384313;
-    font-size: 16px;
-    font-weight: bold;
-    padding-bottom: 10px;
-    text-shadow: 0 1px 1px #c0d576;
-}
-
-form label {
-    float: left;
-    width: 120px;
-}
-
-form input.envoi {
-    background: #3E3E3E;
-    border: none;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
-    color: #ffffff;
-    display: block;
-    letter-spacing: 1px;
-    margin: 0.5em auto;
-    padding: 7px 25px;
-    text-shadow: 0 1px 1px #000000;
-    width:50%;
-}
-form input.envoi:hover {
-    background: #2D2D2D;
-    cursor: pointer;
-}
-
-/* Boîte Connexion */
-#loginForm, #new_placeForm {
-    background: none;
-    margin:0;
-    padding:0;
-    border:none;
-    width:100%;
-}
-#loginForm label, #new_placeForm label {
-    width: 80%;
-}
-#c_chzn.chzn-container.chzn-container-multi {
-    width:200px;
-}
-
-/* Formulaire ajout point */
-#div_signaler {
-    display:none;
-    background: #9CBC2C;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    margin: 0 0.5em 1em 0.5em;
-    padding:1em 1em 1em 1em;
-}
-
-.instructions {
-    font-weight: bold;
-    color:#FFFFFF;
-    text-transform: uppercase;
-    display:block;
-    margin:0 0 1em 0;
-}
-
-#div_signaler img.verif { float:right; }
-
-#div_signaler textarea, #div_signaler input, #div_signaler form#new_placeForm 
-    { width:100%; }
-
 
 
 /* OpenLayers */
