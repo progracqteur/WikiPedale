@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.48.3.1 r9886"
+   version="1.0"
+   sodipodi:docname="plus.svg"
+   inkscape:export-filename="/home/ben/Serveur/www/wikipedale/WikiPedale/web/img/plus.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="21.123273"
+     inkscape:cx="-1.8486848"
+     inkscape:cy="9.9159556"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="20px"
+     height="20px"
+     showgrid="true"
+     inkscape:grid-points="true"
+     gridtolerance="10000"
+     guidetolerance="10000"
+     inkscape:window-width="1391"
+     inkscape:window-height="876"
+     inkscape:window-x="49"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-4)">
+    <path
+       style="opacity:0.5;fill:#000000;fill-opacity:1;stroke:none"
+       d="m -5,95 30.950102,0"
+       id="path1872"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0.5;fill:#000000;fill-opacity:1;stroke:none"
+       d="M -5.4181532,95 25,95"
+       id="path1874"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:20.44560814000000093px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#9cbc2c;fill-opacity:1;stroke:#9cbc2c;stroke-width:2.04456067000000008;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;font-family:Arial"
+       x="-0.37894574"
+       y="21.560127"
+       id="text2794"
+       sodipodi:linespacing="125%"
+       transform="scale(1.0035114,0.99650088)"
+       inkscape:export-filename="/home/ben/public_html/wikipedale/web/img/plusActive.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan2796"
+         x="-0.37894574"
+         y="21.560127"
+         style="font-size:28.62385177999999897px;text-align:start;text-anchor:start;stroke-width:2.04456067000000008;fill:#9cbc2c;stroke:#9cbc2c;stroke-opacity:1;fill-opacity:1">+</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20.44560814000000093px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#2d2d2d;fill-opacity:1;stroke:#2d2d2d;stroke-width:2.04456067000000008;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;font-family:Arial"
+       x="-22.031847"
+       y="21.560127"
+       id="text2794-7"
+       sodipodi:linespacing="125%"
+       transform="scale(1.0035114,0.99650088)"
+       inkscape:export-filename="/home/ben/public_html/wikipedale/web/img/plus.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan2796-1"
+         x="-22.031847"
+         y="21.560127"
+         style="font-size:28.62385177999999897px;text-align:start;text-anchor:start;fill:#2d2d2d;fill-opacity:1;stroke:#2d2d2d;stroke-width:2.04456067000000008;stroke-opacity:1">+</tspan></text>
+  </g>
+</svg>

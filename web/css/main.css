@@ -4,6 +4,8 @@ body, textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
+body p {padding: 0 1em 0 1em;}
+
 .clearboth { clear:both; }
 
 #accueil {
@@ -40,21 +42,13 @@ body, textarea {
 
 label { font-size: 0.9em; color:#2D2D2D; display:block; }
 
-#ToolsPanel #div_signaler, #div_options_affichage {
+#div_options_affichage {
     display:none;
     margin:0;
     border:5px solid #D14836;
     margin: 0 0.5em 1em 0.5em;
     padding:1em 1em 1em 1em;
 }
-
-#div_signaler img.verif { float:right; }
-
-#div_signaler textarea, #div_signaler input, #div_signaler form#new_placeForm 
-    { width:100%; }
-
-
-.send { float:right; }
 
 #div_placeDetails, #div_placeDescription, #div_placeEdit { margin: 1em 0.5em 0 0.5em; border: 5px solid #2D2D2D; }
 
@@ -87,7 +81,6 @@ div.PointDescription p.creator {
 
 
 
-.instructions { font-weight: bold; color:#6B6B6B; text-transform: uppercase; display:block; margin:0 0 1em 0; }
 
 /* Panel */
 /**** Panel haut-gauche ****/
@@ -98,17 +91,16 @@ div.PointDescription p.creator {
 /* Menu actions Signalement */
 .olControlButtonAddPlaceItemActive, #buttonOptionsAffichage {
     height: 20px;
-    margin: 10px 0.5em 0 0.5em;
+    margin: 1em 0.5em 0 0.5em;
     padding : 0.2em 0.5em 0.2em 35px;
-    background: #D14836 url('../img/plus.png') no-repeat 0.5em;
+    background: url('../img/plus.png') no-repeat 0.5em;
     border: 1px solid transparent;
-    color: #FFFFFF;
     text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
     text-transform: uppercase;
 }
 
 .olControlButtonAddPlaceItemActive:hover, .buttonOptionAffichage:hover {
-    background: #E23D27 url('../img/plusblanc.png') no-repeat 0.5em;
+    background: url('../img/plusActive.png') no-repeat 0.5em;
 }
 
 .olControlButtonLatelyUpdatedItemActive, .olControlButtonLatelyAddedItemActive {
@@ -120,7 +112,7 @@ div.PointDescription p.creator {
 }
 
 .olControlButtonLatelyUpdatedItemActive:hover, .olControlButtonLatelyAddedItemActive:hover {
-    color: #800000;
+    color: #9CBC2C;
     text-decoration:underline;
 }
 
@@ -259,6 +251,7 @@ img#VilleActuelleRSSIcon {
 .PointDescription .span_photo img {
     width: 100%;
 }
+
 
 /* OpenLayers */
         .olControlAttribution {

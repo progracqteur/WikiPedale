@@ -38,6 +38,7 @@
             
         <link rel="stylesheet"  href="{{ asset('css/dhtmlxcombo.css') }}" type="text/css"/>
         <link rel="stylesheet"  href="{{ asset('css/main.css') }}" type="text/css"/>
+        <link rel="stylesheet"  href="{{ asset('css/forms.css') }}" type="text/css"/>
         
         <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
 
@@ -56,8 +57,7 @@
                                <img id="VilleActuelleRSSIcon" src="{{ asset('img/rss_w_b.png') }}"></span>
                <span class="VilleActuelle"><a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a> </span>
             {% endif %}
-            
-
+               
             <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
                 | <img src="{{asset('img/utilisateur.png')}}" />
                 <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span></a>
@@ -74,6 +74,7 @@
             <span id="menu_register" {% if app.user %} style="display:none" {% endif %}>
                 |  <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
             </span>
+                |  <a href="{{path('wikipedale_homepage')}}">{{ 'layout.home'|trans({}, 'messages') }}</a>
         </div>
 
         
