@@ -1,6 +1,8 @@
 // override sha1.js default setting.
 b64pad  = "=";
 
+
+var displaying_tiny_map = false;
 var map;
 var osmLayer; // OSM layer
 var placesLayer; // layer where existing places are drawing
@@ -72,18 +74,65 @@ function marker_img_name(statuses)
         }
     }
 
-    if (c2_label == undefined)
-    {
+    if (c2_label == undefined) {
         return c1;
     }
-    else if (c3_label == undefined)
-    {
+    else if (c3_label == undefined) {
         return c1 + c2;
     }
-    else
-    {
+    else {
         return c1 + c2 + c3;
     }
+}
+
+function map_resizing(){
+    if(!displaying_tiny_map) {
+        $("#map")
+            .width("30%")
+            .height("300px");
+        $("#ToolsPanel")
+            .width("70%");
+    }
+    else {
+        $("#map")
+            .width("50%")
+            .height("500px");
+        $("#ToolsPanel")
+            .width("50%");
+    }
+    displaying_tiny_map = ! displaying_tiny_map;
+    map.updateSize();
+}
+
+function generate_edition_form(){
+    var unique = 'blop';
+
+    var span = $(document.createElement('span'))
+        .attr("id", "span_" + unique)
+        .before("Message :");
+    $("#test").append(span);
+
+    var textarea = $(document.createElement('textarea'))
+        .attr("id", "span_" + unique);
+    $("#test").append(textarea);
+    
+    var input = $(document.createElement('input'))
+        .attr("id", "input_" + unique);
+    $("#test").append(input);
+
+    var select = $(document.createElement('select'))
+        .attr("id", "select_" + unique);
+    $("#test").append(select);
+
+    var butt_save = $(document.createElement('button'))
+        .attr("id", "button_save_" + unique);
+    $("#button_save_" + unique).text('Save');
+    $("#test").append(butt_save);
+
+    var butt_undo = $(document.createElement('button'))
+        .attr("id", "button_undo_" + unique);
+    $("#button_undo_" + unique).text('Undo');
+    $("#test").append(butt_undo);
 }
 
 function unregisterUserInJson(label,email,phonenumber){
@@ -711,7 +760,7 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
     townId = townId_param;
     jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
-    map = new OpenLayers.Map('map');
+    map = new OpenLayers.Map('map', {maxResolution: 1000});
     osm = new OpenLayers.Layer.OSM("OSM MAP");
     map.addLayer(osm);
 
@@ -892,14 +941,14 @@ function displayRegardingToUserRole() {
     else {
         $('#span_place_description_delete_button').hide();
     }
-
     if(userCanModifyCEMColor() || userIsAdmin()){
-        $('#span_place_description_status_button').show();
+        //$('#span_place_description_status_button').show();
+        console.log("kjjjj");
     }
     else {
-        $('#span_place_description_status_button').hide();
+        //$('#span_place_description_status_button').hide();
+        console.log("kjjddkdjj");
     }
-
 }
 
 
@@ -912,6 +961,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
+
     if (last_place_selected != null) {
         markers_and_associated_data[last_place_selected][0].setUrl(
             marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses) + '.png'
@@ -950,6 +1000,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     
 
     $('#span_place_description_status').text(color_trad_text[0]);
+
     for (i = 0; i < placeData.statuses.length; i++)
         {  
             if (placeData.statuses[i].t == 'cem')
@@ -963,8 +1014,10 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
+
     descriptionHideEdit(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     displayRegardingToUserRole();
+    
 
     $('#div_placeDescription').show();
 }

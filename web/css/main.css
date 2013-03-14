@@ -1,6 +1,17 @@
-#html, body { padding:0; margin: 0; width:100%; }
+html {
+    height:100%;
+    width: 100%;
+}
 
-body, textarea {
+body {
+    padding:0;
+    margin: 0; 
+    height:100%; 
+    width: 100%;
+    font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
+}
+
+textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
@@ -28,17 +39,26 @@ body p {padding: 0 1em 0 1em;}
 /* #form_AjoutPoint { display: none; } */
 
 /* Carte */
-#MapAndEditorContener {
-}
-
-#MapAndEditorContener #map {
-    position: absolute;
-    width: 70%;
+#map{
+    width: 50%;
+    height: 500px;
+    float: left;
     top:27px;
     bottom:36px;
 }
 
-#ToolsPanel { margin: 1em 0 0 0; width:30%; float:right; overflow:auto; }
+#MapAndEditorContener {
+    width: 100%;
+    height: 100%;
+    background-color: red;
+}
+
+#ToolsPanel { 
+    width: 50%;
+    margin: 1em 0 0 0; 
+    float:left; 
+    overflow:auto; 
+}
 
 label { font-size: 0.9em; color:#2D2D2D; display:block; }
 
