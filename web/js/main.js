@@ -438,7 +438,7 @@ function descriptionEditOrSave(element_type){
         };
         $(element_id).hide();
         $("#div_place_description_" + element_type + '_edit').show();
-        $(element_id + '_button').text("Sauver");
+        $(element_id + '_button').text("<img src='../img/sauver.png'>");
         mode_edit[element_type] = true;
     }
     else 

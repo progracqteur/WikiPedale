@@ -50,6 +50,7 @@
     <body>
 
         <div id="connexion">
+            <a href="{{path('wikipedale_homepage')}}"><span id="LienAccueil"></span></a>
             {% if app.session.get('city') %}
                 <span class="VilleActuelle">{{app.session.get('city').name}}</span> 
                 <span id="VilleActuelleRSS"><a href="{{ path('wikipedale_history_place_by_city',
@@ -100,8 +101,8 @@
                 <a href="#">Contact</a>
             </div>
                 <div id="logos">
-                    <a href="http://www.gracq.be"><img src="../img/logos/logo_gracq.png" /></a>
-                    <a href="http://mobilite.wallonie.be"><img src="../img/logos/logo_WallonieCyclable.jpg" /></a>
+                    <a href="http://www.gracq.be"><img src="{{ asset('img/logos/logo_gracq.png') }}" /></a>
+                    <a href="http://mobilite.wallonie.be"><img src="{{ asset('img/logos/logo_WallonieCyclable.jpg') }}" /></a>
                 </div>
 
     </body>

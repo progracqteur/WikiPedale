@@ -11,6 +11,14 @@ body {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
+#LienAccueil {
+    width: 150px;
+    position:absolute;
+    top:0;
+    left:0;
+    height:2em;
+}
+
 textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
@@ -269,8 +277,11 @@ img#VilleActuelleRSSIcon {
 
 /* photos à la taille de la colonne */
 .PointDescription .span_photo img {
-    width: 100%;
+    height:48px;
 }
+
+.ButtonEdit a { background: url('../img/edit.png') no-repeat; }
+.ButtonEdit a:hover { background: url('../img/edit-hover.png') no-repeat; }
 
 
 /* OpenLayers */

@@ -73,6 +73,11 @@ form input.CancelButton:hover {
     border:none;
 }
 
+form#loginForm {
+    width: 275px;
+    margin:0;
+}
+
 #loginForm label {
     width:80%;
 }
