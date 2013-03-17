@@ -49,33 +49,41 @@
     </head>
     <body>
 
-        <div id="connexion">
+        <div id="ConnectionBar">
             <a href="{{path('wikipedale_homepage')}}"><span id="LienAccueil"></span></a>
+            
+            <select id="CitiesSelection" onchange="location = this.options[this.selectedIndex].value;">
             {% if app.session.get('city') %}
-                <span class="VilleActuelle">{{app.session.get('city').name}}</span> 
-                <span id="VilleActuelleRSS"><a href="{{ path('wikipedale_history_place_by_city',
-                        {'citySlug': app.session.get('city').slug, _format: 'atom'})}}">
-                               <img id="VilleActuelleRSSIcon" src="{{ asset('img/rss_w_b.png') }}"></span>
-               <span class="VilleActuelle"><a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a> </span>
+                <option><span style="color:red;">{{app.session.get('city').name}}</span></option>
+            {% else %}
+                <option>Sélectionner une ville</option>
             {% endif %}
+                {% for city in mainCities %}
+                <option value="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</option>
+                {% endfor %}
+            </select>
                
             <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
-                | <img src="{{asset('img/utilisateur.png')}}" />
+                <img src="{{asset('img/icons/user.png')}}" />
                 <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span></a>
             </span>
 
             <span id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
-                |  <a class ="connexion" href="#login_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
+                <img src="{{asset('img/icons/login.png')}}" />
+                <a class ="connexion" href="#login_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
             </span>
 
             <span id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>
-                |  <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'messages') }}</a>
+                <img src="{{asset('img/icons/logout.png')}}" />
+                <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'messages') }}</a>
             </span>
 
             <span id="menu_register" {% if app.user %} style="display:none" {% endif %}>
-                |  <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
+                <img src="{{asset('img/icons/user.png')}}" />
+                <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
             </span>
-                |  <a href="{{path('wikipedale_homepage')}}">{{ 'layout.home'|trans({}, 'messages') }}</a>
+                <img src="{{asset('img/icons/home.png')}}" />
+                <a href="{{path('wikipedale_homepage')}}">{{ 'layout.home'|trans({}, 'messages') }}</a>
         </div>
 
         

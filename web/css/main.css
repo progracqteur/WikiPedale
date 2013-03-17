@@ -155,18 +155,20 @@ div.PointDescription p.creator {
   text-align:center;
 }
 
-#connexion {
+#ConnectionBar {
     background: #2D2D2D url('../img/logos/logo_uello_blanc.png') no-repeat left;
     text-align: right;
     margin:0;
     border-bottom: 1px solid #AAAAAA;
     padding: 0.5em 1em 0 0;
-    height:18px;
-}
-#connexion a, #connexion a:visited, #connexion { color: #AAAAAA; font-size:0.9em; text-decoration: none;}
-#connexion a:hover { color: #FFFFFF;}
 
-select#Cities_dhmlx { float:left; }
+}
+#ConnectionBar a, #ConnectionBar a:visited, #ConnectionBar { color: #AAAAAA; font-size:0.9em; text-decoration: none;}
+#ConnectionBar a:hover { color: #FFFFFF;}
+
+#ConnectionBar img {
+    margin: 0 0 0 1em;
+}
 
 div#BoiteChoixVille {
     clear:right;
