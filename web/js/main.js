@@ -104,6 +104,17 @@ function map_resizing(){
     map.updateSize();
 }
 
+
+function map_translate(){
+    $("#map").hide();
+    $("#div_placeDescription").show();
+    $("#param_carte").hide();
+    $("#olPanelUL").hide();
+    $("#map_little").show();
+    map.render("map_little");
+    map.updateSize();
+}
+
 function generate_edition_form(){
     var unique = 'blop';
 
