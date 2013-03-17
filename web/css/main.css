@@ -280,7 +280,6 @@ img#VilleActuelleRSSIcon {
     height:48px;
 }
 
-.ButtonEdit a { background: url('../img/edit.png') no-repeat; }
 .ButtonEdit a:hover { background: url('../img/edit-hover.png') no-repeat; }
 
 
