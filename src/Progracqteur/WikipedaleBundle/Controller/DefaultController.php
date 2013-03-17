@@ -50,17 +50,17 @@ class DefaultController extends Controller
             $this->getRequest()->getSession()->set('city', $city);
         }
         
-        if ($this->getRequest()->getSession()->get('city') == null)
-        {
+        /*if ($this->getRequest()->getSession()->get('city') == null)
+        {*/
             $em = $this->getDoctrine()->getEntityManager();
 
             $cities = $em->createQuery("select c from 
                 ProgracqteurWikipedaleBundle:Management\\Zone c  order by c.name")
                     
                     ->getResult();            
-        } else {
+        /*} else {
             $cities = array();
-        }
+        }*/
         
         $mainCitiesSlug = array('mons', 'liege', 'gembloux', 'namur', 'ciney', 'wanze', 'braine-l-alleud');
         $mainCities = array();
