@@ -66,12 +66,16 @@ function userCanUnpublish(){
 
 function userCanModifyCEMColor(){
     ret = false;
-    if (user.roles != undefined && user.roles.indexOf("ROLE_NOTATION") && user.notation ==  "cem") {
-        $.each(user.groups, function(id, data) {
-            if (data.type == "MODERATOR" && data.notation == "cem") {
-                ret = true;
-            }
-        });
+    if (user.roles != undefined && user.roles.indexOf("ROLE_NOTATION") != -1) {
+        console.log(user.groups);
+        if(user.groups != undefined){
+            $.each(user.groups, function(id, data) {
+                console.log(data);
+                if (data.type == "MODERATOR" && data.notation == "cem") {
+                    ret = true;
+                }
+            });
+        }
     }
     return ret;
 }

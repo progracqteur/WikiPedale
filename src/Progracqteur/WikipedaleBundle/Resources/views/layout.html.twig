@@ -38,6 +38,7 @@
             
         <link rel="stylesheet"  href="{{ asset('css/dhtmlxcombo.css') }}" type="text/css"/>
         <link rel="stylesheet"  href="{{ asset('css/main.css') }}" type="text/css"/>
+        <link rel="stylesheet"  href="{{ asset('css/forms.css') }}" type="text/css"/>
         
         <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
 
@@ -49,6 +50,7 @@
     <body>
 
         <div id="connexion">
+            <a href="{{path('wikipedale_homepage')}}"><span id="LienAccueil"></span></a>
             {% if app.session.get('city') %}
                 <span class="VilleActuelle">{{app.session.get('city').name}}</span> 
                 <span id="VilleActuelleRSS"><a href="{{ path('wikipedale_history_place_by_city',
@@ -56,8 +58,7 @@
                                <img id="VilleActuelleRSSIcon" src="{{ asset('img/rss_w_b.png') }}"></span>
                <span class="VilleActuelle"><a href="{{path('wikipedale_reset_city')}}">Sélectionner une autre ville</a> </span>
             {% endif %}
-            
-
+               
             <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
                 | <img src="{{asset('img/utilisateur.png')}}" />
                 <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span></a>
@@ -74,6 +75,7 @@
             <span id="menu_register" {% if app.user %} style="display:none" {% endif %}>
                 |  <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
             </span>
+                |  <a href="{{path('wikipedale_homepage')}}">{{ 'layout.home'|trans({}, 'messages') }}</a>
         </div>
 
         
@@ -99,8 +101,8 @@
                 <a href="#">Contact</a>
             </div>
                 <div id="logos">
-                    <a href="http://www.gracq.be"><img src="../img/logos/logo_gracq.png" /></a>
-                    <a href="http://mobilite.wallonie.be"><img src="../img/logos/logo_WallonieCyclable.jpg" /></a>
+                    <a href="http://www.gracq.be"><img src="{{ asset('img/logos/logo_gracq.png') }}" /></a>
+                    <a href="http://mobilite.wallonie.be"><img src="{{ asset('img/logos/logo_WallonieCyclable.jpg') }}" /></a>
                 </div>
 
     </body>

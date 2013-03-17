@@ -1,0 +1,74 @@
+AddPoint:
+  userdata:
+    legend1: Connectez-vous 
+    legend2: ou entrez vos coordonnées.
+    name: Nom
+    name_placeholder: NOM Prénom
+    mail: Courriel
+    mail_placeholder: exemple@fournisseur.com
+    phone: Téléphone
+    phone_placeholder: 0032 479 01 23 46
+  map:
+    legend: Localisez votre point sur la carte.
+  PointData:
+    legend: Décrivez le problème.
+    location : Localisation
+    location_placeholder: 28 rue du Moulin, devant l'arrêt de bus
+    categories: Type
+    categories_placeholder: Sélectionner une ou plusieurs catégories
+    description: Détails
+    description_placeholder: Description du problème
+  submit: Enregistrer
+  cancel: Effacer
+
+Controls:
+  edit: Éditer
+  save: Sauver
+  delete: Supprimer le signalement
+  
+
+add_black_points:
+  add: Signaler un point noir
+  last_added : Derniers ajoutés
+  last_edited : Derniers modifiés
+  location : Localisation exacte du problème
+  location_placeholder: 28 rue du Moulin, devant l'arrêt de bus
+  categories: Type de problème
+  categories_placeholder: Sélectionner une ou plusieurs catégories
+  description: Informations complémentaires
+  description_placeholder: Description du problème
+
+  submit: Enregistrer votre signalement
+  help1: Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.
+
+    
+  
+display_black_points:
+  blackpoint: Point noir
+  author: Constat effectué par
+  add_picture: Ajouter une photo
+  comments: commentaires
+  
+#help
+instructions:
+  add_point1: 1. Localisez votre point sur la carte ci-contre.
+  add_point2: 2. Completez le formulaire ci-dessous.
+  
+  
+  # Registration
+registration:
+    check_email: Un e-mail a été envoyé à l'adresse %email%. Veuillez suivre les instructions qui vous y sont indiquées.
+    confirmed: Félicitations %username%, votre compte est maintenant activé.
+    back: Retour à la page d'origine.
+    submit: Enregistrer
+    flash:
+        user_created: L'utilisateur a été créé avec succès
+    email:
+        subject: Bienvenue %username% !
+        message: |
+            Bonjour %username% !
+
+            Pour valider votre compte utilisateur, merci de vous rendre sur %confirmationUrl%
+
+            Cordialement,
+            L'équipe.

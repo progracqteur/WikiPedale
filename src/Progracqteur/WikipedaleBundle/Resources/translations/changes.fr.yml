@@ -1,9 +1,4 @@
 # Global strings
-
-    
-about:
-  prout: prout
-
 place:
   is:
     created: "%author% a créé l'emplacement %place%."
@@ -27,28 +22,6 @@ change:
      category: la catégorie
      place_type: le type
      other: un autre élément
-     
-
-     
-# Black points
-add_black_points:
-  add: Signaler un point noir
-  last_added : Derniers ajoutés
-  last_edited : Derniers modifiés
-  location : Localisation exacte du problème
-  location_placeholder: Rue, avenue, etc.
-  categories: Type de problème
-  categories_placeholder: Sélectionner une ou plusieurs catégories
-  description: Informations complémentaires
-  description_placeholder: Description du problème
-  name: Votre nom
-  name_placeholder: Votre nom et prénom
-  mail: Votre adresse e-mail
-  mail_placeholder: adresse de courriel
-  phone: Votre numéro de téléphone
-  phone_placeholder: Numéro de téléphone
-  submit: Enregistrer votre signalement
-  help1: Cliquez sur la carte pour indiquer la position du point noir et remplissez le formulaire suivant.
   
 display_black_points:
   blackpoint: Point noir
@@ -60,3 +33,22 @@ display_black_points:
 instructions:
   add_point1: 1. Localisez votre point sur la carte ci-contre.
   add_point2: 2. Completez le formulaire ci-dessous.
+  
+  
+  # Registration
+registration:
+    check_email: Un e-mail a été envoyé à l'adresse %email%. Veuillez suivre les instructions qui vous y sont indiquées.
+    confirmed: Félicitations %username%, votre compte est maintenant activé.
+    back: Retour à la page d'origine.
+    submit: Enregistrer
+    flash:
+        user_created: L'utilisateur a été créé avec succès
+    email:
+        subject: Bienvenue %username% !
+        message: |
+            Bonjour %username% !
+
+            Pour valider votre compte utilisateur, merci de vous rendre sur %confirmationUrl%
+
+            Cordialement,
+            L'équipe.

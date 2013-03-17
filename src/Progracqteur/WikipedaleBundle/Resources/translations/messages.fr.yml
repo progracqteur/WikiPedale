@@ -65,6 +65,7 @@ layout:
     register: Créer un compte
     logged_in_as: %username%
     profile: Votre profil
+    home: Accueil
     
 errors:
   404:
@@ -90,6 +91,8 @@ fos_user_resetting_form_new_second: "Vérification"
 fos_user_change_password_form_new_first:    "Nouveau mot de passe"
 fos_user_change_password_form_new_second:   "Vérification"
 fos_user_change_password_form_current:  "Mot de passe actuel"
+
+fos_user_registration_form_phonenumber: "Téléphone"
 
 #message lié à la validation des données
 validation:

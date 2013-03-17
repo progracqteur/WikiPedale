@@ -1,0 +1,112 @@
+form {
+    background: #9cbc2c;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 1em 0.2em 0.5em 1em;
+    margin: 1em auto;
+    width:400px;
+}
+
+form fieldset {
+    border: none;
+    padding:0;
+    margin:0 0 1em 0;
+}
+
+form legend {
+    color: #384313;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #c0d576;
+    padding:0 0 0.5em 0;
+}
+
+form legend a {
+    text-decoration: none;
+    color: #1D2207;
+}
+
+form label {
+    float: left;
+    width: 120px;
+}
+
+form input {
+    margin:0;
+}
+
+form input.envoi, form input.CancelButton {
+    background: #3E3E3E;
+    border: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    display: block;
+    letter-spacing: 1px;
+    margin: 0.5em 0.5em 0 0.5em;
+    padding: 0.5em;
+    text-shadow: 0 1px 1px #000000;
+    float:right;
+}
+
+form input.envoi:hover, form input.CancelButton:hover {
+    background: #2D2D2D;
+    cursor: pointer;
+}
+
+form input.CancelButton {
+    background: #724648;
+}
+
+form input.CancelButton:hover {
+    background: #A74B50;
+}
+
+/* Boîte Connexion */
+#loginForm, #new_placeForm {
+    background: none;
+    margin:0;
+    padding:1em 0.2em 0 1em;
+    border:none;
+}
+
+form#loginForm {
+    width: 275px;
+    margin:0;
+}
+
+#loginForm label {
+    width:80%;
+}
+
+/* Formulaire ajout point */
+#div_signaler {
+    display:none;
+    background: #9CBC2C;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    margin: 0 0.5em 1em 0.5em;
+}
+
+#div_signaler img.verif {
+    float: left;
+    width:16px;
+    height:16px;
+    margin-right:0.2em;
+}
+
+#new_placeForm label {
+    width: 20%;
+}
+
+#div_signaler textarea, #div_signaler fieldset input, #c_chzn.chzn-container.chzn-container-multi {
+    width:73%;
+}
+
+li.search-field {
+    width: 100%;
+}

@@ -29,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="21.123273"
-     inkscape:cx="6.5745892"
-     inkscape:cy="10.986852"
+     inkscape:cx="-1.8486848"
+     inkscape:cy="9.9159556"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="20px"
@@ -39,11 +39,11 @@
      inkscape:grid-points="true"
      gridtolerance="10000"
      guidetolerance="10000"
-     inkscape:window-width="925"
-     inkscape:window-height="703"
-     inkscape:window-x="383"
-     inkscape:window-y="124"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1391"
+     inkscape:window-height="876"
+     inkscape:window-x="49"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -52,7 +52,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -73,16 +73,35 @@
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:20.44560814000000093px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#800000;fill-opacity:1;stroke:#800000;stroke-width:2.04456067000000008;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;font-family:Arial"
+       style="font-size:20.44560814000000093px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#9cbc2c;fill-opacity:1;stroke:#9cbc2c;stroke-width:2.04456067000000008;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;font-family:Arial"
        x="-0.37894574"
        y="21.560127"
        id="text2794"
        sodipodi:linespacing="125%"
-       transform="scale(1.0035114,0.99650088)"><tspan
+       transform="scale(1.0035114,0.99650088)"
+       inkscape:export-filename="/home/ben/public_html/wikipedale/web/img/plusActive.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
          sodipodi:role="line"
          id="tspan2796"
          x="-0.37894574"
          y="21.560127"
-         style="font-size:28.62385177999999897px;text-align:start;text-anchor:start;stroke-width:2.04456067000000008;fill:#800000;stroke:#800000;stroke-opacity:1">+</tspan></text>
+         style="font-size:28.62385177999999897px;text-align:start;text-anchor:start;stroke-width:2.04456067000000008;fill:#9cbc2c;stroke:#9cbc2c;stroke-opacity:1;fill-opacity:1">+</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20.44560814000000093px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#2d2d2d;fill-opacity:1;stroke:#2d2d2d;stroke-width:2.04456067000000008;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;font-family:Arial"
+       x="-22.031847"
+       y="21.560127"
+       id="text2794-7"
+       sodipodi:linespacing="125%"
+       transform="scale(1.0035114,0.99650088)"
+       inkscape:export-filename="/home/ben/public_html/wikipedale/web/img/plus.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan2796-1"
+         x="-22.031847"
+         y="21.560127"
+         style="font-size:28.62385177999999897px;text-align:start;text-anchor:start;fill:#2d2d2d;fill-opacity:1;stroke:#2d2d2d;stroke-width:2.04456067000000008;stroke-opacity:1">+</tspan></text>
   </g>
 </svg>
