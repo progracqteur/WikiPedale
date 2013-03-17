@@ -21,6 +21,12 @@ AddPoint:
   submit: Enregistrer
   cancel: Effacer
 
+Controls:
+  edit: Éditer
+  save: Sauver
+  delete: Supprimer le signalement
+  
+
 add_black_points:
   add: Signaler un point noir
   last_added : Derniers ajoutés

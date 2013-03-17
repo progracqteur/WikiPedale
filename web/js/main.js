@@ -446,10 +446,10 @@ function descriptionEditOrSave(element_type){
         }
         else {
             $(element_id + '_edit').val($(element_id).text());
-        };
+        }
         $(element_id).hide();
         $("#div_place_description_" + element_type + '_edit').show();
-        $(element_id + '_button').text("<img src='../img/sauver.png'>");
+        $(element_id + '_button').each(function() { this.innerHTML = '<img src="../img/sauver.png" title="Sauver" />'; });
         mode_edit[element_type] = true;
     }
     else 
