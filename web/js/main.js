@@ -377,11 +377,10 @@ function descriptionHideEdit(){
         }
     });
 
-    $("#div_placeDescription button").each(function(i,e) {
-        if( $(e).text() == 'Sauver') {
-            $(e).text('Editer');
-        }
-    });
+    $(".ButtonEdit img").each(function(i,e) {
+        $(e).attr("src", "../img/edit.png")
+            .attr("title", "Editer");
+        });
 
     mode_edit = new Array();
        
@@ -960,12 +959,10 @@ function displayRegardingToUserRole() {
         $('#span_place_description_delete_button').hide();
     }
     if(userCanModifyCEMColor() || userIsAdmin()){
-        //$('#span_place_description_status_button').show();
-        console.log("kjjjj");
+        $('#span_place_description_status_button').show();
     }
     else {
-        //$('#span_place_description_status_button').hide();
-        console.log("kjjddkdjj");
+        $('#span_place_description_status_button').hide();
     }
 }
 
