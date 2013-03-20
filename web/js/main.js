@@ -452,7 +452,6 @@ function descriptionEditOrSave(element_type){
             $(document.createElement('img'))
                 .attr("src", "../img/sauver.png")
                 .attr("title", "Sauver"));
-        //$(element_id + '_button').append() each(function() { this.innerHTML = '<img src="../img/sauver.png" title="Sauver" />'; });
         mode_edit[element_type] = true;
     }
     else 
