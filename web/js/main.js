@@ -449,7 +449,11 @@ function descriptionEditOrSave(element_type){
         }
         $(element_id).hide();
         $("#div_place_description_" + element_type + '_edit').show();
-        $(element_id + '_button').each(function() { this.innerHTML = '<img src="../img/sauver.png" title="Sauver" />'; });
+        $(element_id + '_button').html(
+            $(document.createElement('img'))
+                .attr("src", "../img/sauver.png")
+                .attr("title", "Sauver"));
+        //$(element_id + '_button').append() each(function() { this.innerHTML = '<img src="../img/sauver.png" title="Sauver" />'; });
         mode_edit[element_type] = true;
     }
     else 
@@ -498,7 +502,10 @@ function descriptionEditOrSave(element_type){
                     $(element_id +  '_error').hide();
                     $("#div_place_description_" + element_type + '_edit').hide();
                     $(element_id).show();
-                    $(element_id + '_button').text("Editer");
+                    $(element_id + '_button').html(
+                        $(document.createElement('img'))
+                            .attr("src", "../img/edit.png")
+                            .attr("title", "Editer"));
                     mode_edit[element_type] = false;
                 }
                 else { 
