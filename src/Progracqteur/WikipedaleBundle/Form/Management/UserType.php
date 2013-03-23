@@ -2,7 +2,7 @@
 
 namespace Progracqteur\WikipedaleBundle\Form\Management;
 
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface as FormBuilder;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 
 class UserType extends BaseType
