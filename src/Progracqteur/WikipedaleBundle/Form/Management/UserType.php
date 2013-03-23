@@ -19,6 +19,6 @@ class UserType extends BaseType
 
     public function getName()
     {
-        return 'progracqteur_wikipedalebundle_management_usertype';
+        return 'wikipedale_user_registration';
     }
 }
