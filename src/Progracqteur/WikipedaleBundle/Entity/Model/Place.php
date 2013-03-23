@@ -529,9 +529,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
             return true;
         else
         {
-            $propertyPath = $context->getPropertyPath() . '.status';
-            $context->setPropertyPath($propertyPath);
-            $context->addViolation('place.validation.message.onlyOneStatusAtATime', array(), null);
+            $context->addViolationAtSubPath('status', 'place.validation.message.onlyOneStatusAtATime', array(), null);
         }
             
     }
