@@ -10,10 +10,7 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_manager
-        in_memory:
-            users:
-                user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+
 
     firewalls:
         dev:
@@ -43,5 +40,4 @@ security:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
         
-    factories:
-        - "%kernel.root_dir%/../src/Progracqteur/WikipedaleBundle/Resources/config/security_factories.yml"
+       
