@@ -180,6 +180,10 @@ function PlaceInJSonWithOtherNameValue(id, otherNameValue){
     return ret + '}';   
 }
 
+function EditDescriptionCommentaireCeMInJson(id,description){
+    return PlaceInJSonWithOtherNameValue(id,',"moderatorComment":' + JSON.stringify(description));
+}
+
 function EditDescriptionDescInJson(id,description){
     return PlaceInJSonWithOtherNameValue(id,',"description":' + JSON.stringify(description));
 }
@@ -457,7 +461,10 @@ function descriptionEditOrSave(element_type){
     }
     else 
     {
-        if(element_type == "desc") {
+        if(element_type == "commentaireCeM") {
+            json_request = EditDescriptionCommentaireCeMInJson(signalement_id,$(element_id + '_edit').val());
+        }
+        else if(element_type == "desc") {
             json_request = EditDescriptionDescInJson(signalement_id,$(element_id + '_edit').val());
         }
         else if (element_type == "loc") {
@@ -977,9 +984,11 @@ function displayRegardingToUserRole() {
         $('#span_place_description_delete_button').hide();
     }
     if(userCanModifyCEMColor() || userIsAdmin()){
+        $('#span_place_description_commentaireCeM_button').show();
         $('#span_place_description_status_button').show();
     }
     else {
+        $('#span_place_description_commentaireCeM_button').hide();
         $('#span_place_description_status_button').hide();
     }
 }
@@ -1016,6 +1025,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('#span_place_description_signaleur').text(placeData.creator.label);
     $('#span_place_description_loc').text(placeData.addressParts.road);
     $('#span_place_description_desc').text(placeData.description);
+    $('#span_place_description_commentaireCeM').text(placeData.moderatorComment);
     $('#span_place_description_cat').text(categories_list);
 
     if (placeData.placetype == null){
