@@ -866,8 +866,9 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     if(id_markers_for['StatusCeM']["0"] == undefined) {
                 id_markers_for['StatusCeM']["0"] = new Array();
     }
+
+    var someDataId_added = false;
     $.each(someData.statuses, function(index, type_value) {
-        var someDataId_added = false;
         if(type_value.t == "cem") {
             if(id_markers_for['StatusCeM'][type_value.v.toString()] == undefined) {
                 id_markers_for['StatusCeM'][type_value.v.toString()] = new Array();
@@ -875,10 +876,10 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
             id_markers_for['StatusCeM'][type_value.v.toString()].push(someData.id)
             someDataId_added = true;
         }
-        if(! someDataId_added) {
-            id_markers_for['StatusCeM']["0"].push(someData.id)
-        }
     });
+    if(! someDataId_added) {
+        id_markers_for['StatusCeM']["0"].push(someData.id)
+    }
 
     var markerMouseDownFunction = function(evt) {
 	anEventFunction(marker,someData); 
