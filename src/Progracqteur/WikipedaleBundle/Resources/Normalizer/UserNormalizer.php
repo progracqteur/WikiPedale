@@ -87,7 +87,8 @@ class UserNormalizer implements NormalizerInterface
             'nbComment' => $object->getNbComment(),
             'nbVote' => $object->getNbVote(),
             'roles' => $object->getRoles(),
-            'registered' => $object->isRegistered()
+            'registered' => $object->isRegistered(),
+            'avatar' => 'http://cdn.libravatar.org/avatar/'. md5(strtolower($object->getEmail())),    
         );
         
         if (
