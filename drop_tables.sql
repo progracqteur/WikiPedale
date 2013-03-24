@@ -1,4 +1,4 @@
-drop table IF EXISTS comment CASCADE;
+drop table IF EXISTS comments CASCADE;
 drop table IF EXISTS photos CASCADE;
 drop table IF EXISTS place CASCADE;
 drop table IF EXISTS users CASCADE;
