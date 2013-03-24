@@ -245,7 +245,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
         $lat = $point->getLat();
         $lon = $point->getLon();
         
-        $ch = curl_init();
+        //$ch = curl_init();
         
          $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
         

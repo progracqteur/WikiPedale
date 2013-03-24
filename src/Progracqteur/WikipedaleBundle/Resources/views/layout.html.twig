@@ -52,16 +52,18 @@
         <div id="ConnectionBar">
             <a href="{{path('wikipedale_homepage')}}"><span id="LienAccueil"></span></a>
             
-            <select id="CitiesSelection" onchange="location = this.options[this.selectedIndex].value;">
-            {% if app.session.get('city') %}
-                <option><span style="color:red;">{{app.session.get('city').name}}</span></option>
-            {% else %}
-                <option>Sélectionner une ville</option>
+            {% if mainCities is defined %}
+                <select id="CitiesSelection" onchange="location = this.options[this.selectedIndex].value;">
+                {% if app.session.get('city') %}
+                    <option><span style="color:red;">{{app.session.get('city').name}}</span></option>
+                {% else %}
+                    <option>Sélectionner une ville</option>
+                {% endif %}
+                    {% for city in mainCities %}
+                    <option value="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</option>
+                    {% endfor %}
+                </select>
             {% endif %}
-                {% for city in mainCities %}
-                <option value="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</option>
-                {% endfor %}
-            </select>
                
             <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
                 <img src="{{asset('img/icons/user.png')}}" />

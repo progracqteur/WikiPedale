@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Security\Csrf;
 
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
-use Symfony\Component\HttpFoundation\Session;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * This class generate tokens for csrf protection. It is intended for using token

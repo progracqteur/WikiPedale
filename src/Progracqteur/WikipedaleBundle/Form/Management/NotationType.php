@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Form\Management;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface as FormBuilder;
 
 class NotationType extends AbstractType
 {
