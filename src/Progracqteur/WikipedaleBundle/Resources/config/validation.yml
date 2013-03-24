@@ -8,6 +8,8 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - MaxLength: {limit: 1000, message: La description ne peut pas être plus longue que 1000 caractères}
     geom:
       - NotNull: {message: Indiquez un emplacement géographique}
+    moderatorComment:
+      - MaxLength: {limit: 1000, message: Le commentaire du modérateur ne peut pas être plus long que 1000 caractères}
   constraints:
     - Callback:
         methods: [isStatusesValid, hasOnlyOneChange, isCategoriesValid, isManagerValid]
