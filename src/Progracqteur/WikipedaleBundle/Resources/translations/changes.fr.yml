@@ -22,6 +22,7 @@ change:
      category: la catégorie
      place_type: le type
      other: un autre élément
+     moderator_comment: le commentaire réservé au conseiller en mobilité
   
 display_black_points:
   blackpoint: Point noir
