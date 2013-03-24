@@ -241,6 +241,15 @@ class NormalizerSerializerService {
     }
     
     /**
+     * 
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+    
+    /**
      *
      * @return null (?)
      * @deprecated 
