@@ -163,6 +163,8 @@ class PlaceTrackingToTextService {
                 break;
             case ChangeService::PLACE_PLACETYPE_ALTER:
                 return $this->t->trans('change.place.place_type', array(), $d);
+            case ChangeService::PLACE_MODERATOR_COMMENT_ALTER:
+                return $this->t->trans('change.place.moderator_comment', array(), $d);
             default:
                 return $this->t->trans('change.place.other', array(), $d);
         }

@@ -121,7 +121,10 @@ class PlaceTracking implements ChangesetInterface {
                         $ids[]['id'] = $category->getId();
                     }
                     $newValue = json_encode($ids);
-                    
+                    break;
+                case ChangeService::PLACE_MODERATOR_COMMENT_ALTER:
+                    $newValue = $newValue;
+                    break;
                 //default:
                     //rien à faire
             }
