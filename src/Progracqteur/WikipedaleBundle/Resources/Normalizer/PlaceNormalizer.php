@@ -202,6 +202,11 @@ class PlaceNormalizer implements NormalizerInterface {
             }
         }
         
+        if (isset($data[self::MODERATOR_COMMENT]))
+        {
+            $p->setModeratorComment($data[self::MODERATOR_COMMENT]);
+        }
+        
         return $p;
     }
     
