@@ -29,13 +29,6 @@ Params passed by the controller to this template :
 
     // color box for connexion
     $(document).ready(function(){
-        jQuery('a.connexion').colorbox({
-        inline:true,
-        width:"400px",
-        height:"400px",
-        onComplete: function(){ $("#login_input_username").focus(); }
-        });
-
 
     {% if (app.session.get('city') ) %}
       // adding last modifs
@@ -92,27 +85,6 @@ Params passed by the controller to this template :
 
 
 {% block body %}
-  <!-- Écran de connexion -->
-  <div style='display:none'>
-    <div id='login_form_div'>
-      <b><font color="red"><span id='login_message'></span></font></b><br />
-      <form method="post" action="javascript:catchLoginForm()" id="loginForm">
-          
-        <p><label for="login_input_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
-        <input type="text" id="login_input_username" name="username"/></p>
-
-        <p><label for="login_input_password">{{ 'security.login.password'|trans({}, 'userMessages') }}</label>
-        <input type="password" id="login_input_password" name="password"/></p>
-
-        <input class="envoi" type="submit" id="login_input_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
-      </form>
-
-      <div style="clear:both;"></div>
-      <p><a href="{{ path('fos_user_registration_register') }}">{{ 'security.login.go_to_registration'|trans({}, 'userMessages') }}</a><br />
-      <a href="{{path('fos_user_resetting_request') }}">{{ 'security.login.go_to_password_resetting'|trans({}, 'userMessages') }}</a></p>
-
-    </div>
-  </div>
 
   {% if (app.session.get('city') ) %}
     {% include "ProgracqteurWikipedaleBundle:Default:map.html.twig" %}
