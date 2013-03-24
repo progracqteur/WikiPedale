@@ -1,0 +1,16 @@
+parameters:
+    database_driver   : pdo_pgsql
+    database_host     : localhost
+    database_port     : 5432
+    database_name     : databasename
+    database_user     : username
+    database_password : password
+
+    mailer_transport  : smtp
+    mailer_host       : 
+    mailer_user       :
+    mailer_password   :
+
+    locale            : fr
+
+    secret            : ThisTokenIsNotSoSecretChangeIt
