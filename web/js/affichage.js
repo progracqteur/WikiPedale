@@ -93,3 +93,22 @@ function changeFilteringMode(typesOrCategoriesOrStatusCeM){
     filter_selected[typesOrCategoriesOrStatusCeM] = ! filter_selected[typesOrCategoriesOrStatusCeM];
     display_only_markers_with_selected_categories();
 };
+
+
+function filling_dernieres_modifs(aCitySlug){
+    jsonUrlData  =  Routing.generate('wikipedale_history_place_by_city', {_format: 'json', citySlug: aCitySlug});
+    $.ajax({
+        dataType: "json",
+        url: jsonUrlData,
+        success: function(data) {
+            $.each(data.results, function(index, aLastModif) {
+                $('#div_content_dernieres_modifs').append(aLastModif.text);
+                var lien_voir = $(document.createElement('a'))
+                    .text('(voir)')
+                    .attr("href", "?id=" + aLastModif.placeId);
+                $('#div_content_dernieres_modifs').append(lien_voir);
+                $('#div_content_dernieres_modifs').append('<br>');
+            });
+        }
+    });
+}
