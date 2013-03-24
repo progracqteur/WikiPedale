@@ -87,6 +87,7 @@ class Group extends BaseGroup
         
         switch ($type) {
             case self::TYPE_MODERATOR :
+                $this->addRole(User::ROLE_MODERATOR_COMMENT_ALTER);
             case self::TYPE_MANAGER :
                 $this->addRole(User::ROLE_NOTATION)
                     ->addRole(User::ROLE_CATEGORY)
