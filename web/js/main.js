@@ -928,7 +928,9 @@ function refresh_span_photo(id) {
 function displayEmailAndPhoneNumberRegardingToRole() {
     signalement_id = $('#input_place_description_id').val();
 
-    if (signalement_id != undefined) {
+    if (signalement_id != "") {
+        console.log(signalement_id);
+        console.log(markers_and_associated_data[signalement_id]);
         placeData = markers_and_associated_data[signalement_id][1]
 
         if (userCanVieuwUsersDetails() || userIsAdmin()) {
