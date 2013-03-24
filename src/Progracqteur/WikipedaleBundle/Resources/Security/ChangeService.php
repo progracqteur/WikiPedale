@@ -40,6 +40,7 @@ class ChangeService {
     const PLACE_MANAGER_ALTER = 193;
     const PLACE_MANAGER_REMOVE = 198;
     const PLACE_PLACETYPE_ALTER = 200;
+    const PLACE_MODERATOR_COMMENT_ALTER = 210;
     
     
     /**
@@ -271,6 +272,7 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('manager');
                      }
+                     break;
                  case self::PLACE_PLACETYPE_ALTER:
                      if ($this->securityContext->isGranted(User::ROLE_PLACETYPE_ALTER))
                      {
@@ -278,6 +280,16 @@ class ChangeService {
                      } else {
                          throw ChangeException::param('place_type');
                      }
+                     break;
+                case self::PLACE_MODERATOR_COMMENT_ALTER:
+                    if ($this->securityContext
+                            ->isGranted(User::ROLE_MODERATOR_COMMENT_ALTER))
+                    {
+                        continue;
+                    } else {
+                        throw ChangeException::param('moderator_comment');
+                    }
+                    break;
                  default:
                      throw ChangeException::param('inconnu');
             
