@@ -67,9 +67,9 @@ function display_only_markers_with_selected_categories(){
 
     $.each(markers_and_associated_data, function(marker_id, marker_data) {
         if (marker_data != undefined) {
-            if((filter_selected['Categories'] && markers_id_to_display_cat.indexOf(marker_id) == -1) || 
-                (filter_selected['PlaceTypes'] && markers_id_to_display_types.indexOf(marker_id) == -1) ||
-                (filter_selected['StatusCeM'] && markers_id_to_display_statusCeM.indexOf(marker_id) == -1)) {
+            if((filter_selected['Categories'] && $.inArray(marker_id, markers_id_to_display_cat) == -1) || 
+                (filter_selected['PlaceTypes'] && $.inArray(marker_id, markers_id_to_display_types) == -1) ||
+                (filter_selected['StatusCeM'] && $.inArray(marker_id,markers_id_to_display_statusCeM) == -1)) {
                 marker_data[0].display(false);
             }
             else {
