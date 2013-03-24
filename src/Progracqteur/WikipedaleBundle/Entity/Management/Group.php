@@ -162,13 +162,12 @@ class Group extends BaseGroup
     public function isValidNotation(ExecutionContext $context)
     {
         $propertyPath = $context->getPropertyPath().'Notation';
-        $context->setPropertyPath($propertyPath);
         
         if ($this->hasRole(User::ROLE_NOTATION))
         {
             if ($this->getNotation() === null)
             {
-                $context->addViolation('group.notation.not_null', array(), '');
+                $context->addViolationAtSubPath('Notation', 'group.notation.not_null', array(), null);
                 return;
             }
         }
@@ -177,7 +176,7 @@ class Group extends BaseGroup
         {
             if ($this->getNotation()->getId() !== 'cem')
             {
-                $context->addViolation('group.notation.must_be_cem', array(), $this->getNotation()->getId());
+                $context->addViolationAtSubPath('Notation', 'group.notation.must_be_cem', array(), $this->getNotation()->getId());
                 return;
             }
         }

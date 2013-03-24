@@ -529,9 +529,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
             return true;
         else
         {
-            $propertyPath = $context->getPropertyPath() . '.status';
-            $context->setPropertyPath($propertyPath);
-            $context->addViolation('place.validation.message.onlyOneStatusAtATime', array(), null);
+            $context->addViolationAtSubPath('status', 'place.validation.message.onlyOneStatusAtATime', array(), null);
         }
             
     }
@@ -956,9 +954,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         {
             if ($cat->hasChildren())
             {
-                $propertypath = $context->getPropertyPath().'.category';
-                $context->setPropertyPath($propertypath);
-                $context->addViolation('validation.place.category.have_children', array(), null);
+                $context->addViolationAtSubPath('category', 'validation.place.category.have_children', array(), null);
                 return;
             }
         }
@@ -969,10 +965,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         if ($this->getManager() !== null 
                 && $this->getManager()->getType() !== Group::TYPE_MANAGER )
         {
-            $context->setPropertyPath(
-                    $context->getPropertyPath().'.manager'
-                    );
-            $context->addViolation('validation.place.manager.group_is_not_type_manager', 
+            $context->addViolationAtSubPath('manager', 'validation.place.manager.group_is_not_type_manager', 
                     array(), $this->getManager());
         }
     }

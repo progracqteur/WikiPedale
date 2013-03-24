@@ -1,5 +1,22 @@
 <?php
 
+    use Doctrine\Common\Annotations\AnnotationRegistry;
+
+    $loader = include __DIR__.'/../vendor/autoload.php';
+
+    // intl
+    if (!function_exists('intl_get_error_code')) {
+        require_once __DIR__.'/../vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs/functions.php';
+
+        $loader->add('', __DIR__.'/../vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs');
+    }
+
+    AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+
+    return $loader;
+    
+    /*<?php
+
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
@@ -48,3 +65,4 @@ AnnotationRegistry::registerFile(__DIR__.'/../vendor/doctrine/lib/Doctrine/ORM/M
 require_once __DIR__.'/../vendor/swiftmailer/lib/classes/Swift.php';
 Swift::registerAutoload(__DIR__.'/../vendor/swiftmailer/lib/swift_init.php');
 
+*/

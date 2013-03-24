@@ -54,7 +54,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     changesets:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
       mappedBy: place
-      cascade: [persist,update]
+      cascade: [persist]
   manyToMany:
     category:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

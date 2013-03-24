@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class GroupUserType extends AbstractType {
     
-    public function buildForm(\Symfony\Component\Form\FormBuilder $builder, array $options) {
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options) {
         
         $builder->add('groups', 'entity', array( 
            'class' => 'ProgracqteurWikipedaleBundle:Management\Group',

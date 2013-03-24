@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Form\Model;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface as FormBuilder;
 use Doctrine\ORM\Query\Expr;
 
 class CategoryType extends AbstractType

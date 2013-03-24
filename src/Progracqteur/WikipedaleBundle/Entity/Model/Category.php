@@ -140,9 +140,7 @@ class Category
             if ($this->getParent()->hasParent())
             {
                 if ($this->getParent()->getParent()->hasParent()) {
-                    $propertyPath = $context->getPropertyPath().'.parent';
-                    $context->setPropertyPath($propertyPath);
-                    $context->addViolation('admin.category.form.parent.parent_has_parent', array(), $this->getParent());
+                    $context->addViolationAtSubPath('parent', 'admin.category.form.parent.parent_has_parent', array(), $this->getParent());
                 }
             }
         }
