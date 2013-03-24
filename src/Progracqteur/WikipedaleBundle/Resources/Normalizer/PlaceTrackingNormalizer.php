@@ -85,6 +85,9 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
         
         
         $a['changes'] = $changes;
+        $a['text'] = $this->service->getContainer()
+                ->get('progracqteur.wikipedale.place.tracking.toText')
+                ->toText($object);
         
         return $a;
     }
