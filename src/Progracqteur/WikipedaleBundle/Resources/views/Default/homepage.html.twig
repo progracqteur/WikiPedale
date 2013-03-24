@@ -38,6 +38,8 @@ Params passed by the controller to this template :
 
 
     {% if (app.session.get('city') ) %}
+      // adding last modifs
+      filling_dernieres_modifs('{{ app.session.get('city').name }}');
 
       {% if goToPlaceId is defined %}
         // map and display place with id
