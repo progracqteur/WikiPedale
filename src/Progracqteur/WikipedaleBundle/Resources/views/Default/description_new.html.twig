@@ -37,7 +37,7 @@
 
       <img src="{{asset('img/verif_rien.png')}}" class="verif" id="form_informer_categories" alt="is the field ok">
       <label>{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
-      <select name="categories" id="c" style="width:100%;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}" class="chzn-select" multiple>
+      <select name="categories" id="c" style="width:100%;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}" class="chzn-select">
         {# set a value to detect changes in parent category #}
         {% set parentId = null %}
         {% for category in categories %}
