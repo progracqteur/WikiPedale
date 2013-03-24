@@ -31,6 +31,8 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     accepted:
       type: boolean
       default: true
+    moderatorComment:
+      type: text
   manyToOne:
 #    category:
 #      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

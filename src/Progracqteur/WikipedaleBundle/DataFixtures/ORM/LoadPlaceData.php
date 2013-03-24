@@ -44,7 +44,9 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
 
             $place = new Place();
             $place->setCreator($this->getReference('user'));
-            $place->setDescription('Description '.$str);
+            $place->setDescription($this->getLipsum(rand(10,60)));
+            if (rand(0,5) > 3) //add randomly a moderator comment, or not
+                $place->setModeratorComment($this->getLipsum(rand(10,90)));
             $place->setGeom($point);
             
             $add = $this->geolocate($point);
@@ -128,6 +130,9 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
             $u->setEmail('test@fastre.info');
             $u->setIp('192.168.1.89');
             $u->setPhonenumber("012345678901");
+            $place->setDescription($this->getLipsum(rand(10,60)));
+            if (rand(0,5) > 3) //add randomly a moderator comment, or not
+                $place->setModeratorComment($this->getLipsum(rand(10,90)));
 
             $place->setCreator($u);
 
@@ -297,6 +302,18 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
         }
         
         return $a;
+  }
+  
+  /**
+   * Source: http://blog.ergatides.com/2011/08/16/simple-php-one-liner-to-generate-random-lorem-ipsum-lipsum-text/#ixzz2OSncsP22
+   * 
+   * @param type $amount
+   * @param type $what
+   * @param type $start
+   */
+  private function getLipsum($amount = 1, $what = 'words', $start = 0)
+  {
+    return simplexml_load_file("http://www.lipsum.com/feed/xml?amount=$amount&what=$what&start=$start")->lipsum;
   }
 
     /**
