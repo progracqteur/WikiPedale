@@ -118,6 +118,13 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * @var \Progracqteur\WikipedaleBundle\Entity\Place\PlaceType 
      */
     private $type;
+    
+    /**
+     * comment for moderators of the system
+     * 
+     * @var string
+     */
+    private $moderatorComment = '';
             
     
     private $_listeners = array();
@@ -697,13 +704,34 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         return $this->statusBicycle;
     }
     
+    public function setModeratorComment($comment) 
+    {
+        if ($this->moderatorComment !== $comment)
+        {
+            $this->change('moderatorComment', $this->moderatorComment, $comment);
+            $this->moderatorComment = $comment;
+            $this->getChangeset()->addChange(
+                    ChangeService::PLACE_MODERATOR_COMMENT_ALTER, 
+                    $comment);
+        }
+        
+        return $this;
+    }
+    
+    public function getModeratorComment()
+    {
+        return $this->moderatorComment;
+    }
+    
     public function setAccepted($accepted)
     {
         if ($this->accepted != $accepted)
         {
             $this->change('accepted', $this->accepted, $accepted);
             $this->accepted = $accepted;
-            $this->getChangeset()->addChange(ChangeService::PLACE_ACCEPTED, $accepted);
+            $this->getChangeset()->addChange(
+                    ChangeService::PLACE_ACCEPTED, 
+                    $accepted);
         }
     }
     

@@ -129,6 +129,11 @@ class User extends BaseUser
      */
     const ROLE_SEE_UNACCEPTED = 'ROLE_SEE_UNACCEPTED';
     
+    /**
+     * indicate if the user may alter the moderator's comment
+     */
+    const ROLE_MODERATOR_COMMENT_ALTER = 'ROLE_MODERATOR_COMMENT_ALTER';
+    
     
     
     public function __construct()
@@ -320,7 +325,7 @@ class User extends BaseUser
         if ($user instanceof UnregisteredUser)
             return false;
         else {
-            return parent::equals($user);
+            return $user->getId() === $this->getId();
         }
     }
 }
