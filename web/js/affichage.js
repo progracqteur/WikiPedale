@@ -3,6 +3,7 @@ var display_option_affichage = false; // true iff  displaying the div "div_optio
 var filter_selected = new Array();
 filter_selected['Categories'] = false; // true iff  filtering categories
 filter_selected['PlaceTypes'] = false;  // true iff filtering types
+filter_selected['StatusCeM']=false;
 
 function action_buttonOptionsAffichage() {
     /**
@@ -54,10 +55,21 @@ function display_only_markers_with_selected_categories(){
         });
     };
 
+    markers_id_to_display_statusCeM = new Array();
+    if(filter_selected['StatusCeM']) {
+        $.each($('#optionsAffichageStatusCeM').select2("val"), function(index, id_type) {
+            console.log(id_type);
+            if (id_markers_for['StatusCeM'][parseInt(id_type)] != undefined) {
+                markers_id_to_display_statusCeM = markers_id_to_display_statusCeM.concat(id_markers_for['StatusCeM'][parseInt(id_type)]);
+            }
+        });
+    };
+
     $.each(markers_and_associated_data, function(marker_id, marker_data) {
         if (marker_data != undefined) {
             if((filter_selected['Categories'] && markers_id_to_display_cat.indexOf(marker_id) == -1) || 
-                (filter_selected['PlaceTypes'] && markers_id_to_display_types.indexOf(marker_id) == -1)) {
+                (filter_selected['PlaceTypes'] && markers_id_to_display_types.indexOf(marker_id) == -1) ||
+                (filter_selected['StatusCeM'] && markers_id_to_display_statusCeM.indexOf(marker_id) == -1)) {
                 marker_data[0].display(false);
             }
             else {
@@ -67,17 +79,17 @@ function display_only_markers_with_selected_categories(){
     });
 };
 
-function changeFilteringMode(typesOrCategories){
+function changeFilteringMode(typesOrCategoriesOrStatusCeM){
     /**
     * to be used when the user activate of the the filtering for categories and for types
     * @param {string }typesOrCategories either 'Placetypes' either 'Categories'
     */
-    if(filter_selected[typesOrCategories]){
-        $('#optionsAffichage' + typesOrCategories).select2("disable");
+    if(filter_selected[typesOrCategoriesOrStatusCeM]){
+        $('#optionsAffichage' + typesOrCategoriesOrStatusCeM).select2("disable");
     }
 	else {
-        $('#optionsAffichage' + typesOrCategories).select2("enable");
+        $('#optionsAffichage' + typesOrCategoriesOrStatusCeM).select2("enable");
     }
-    filter_selected[typesOrCategories] = ! filter_selected[typesOrCategories];
+    filter_selected[typesOrCategoriesOrStatusCeM] = ! filter_selected[typesOrCategoriesOrStatusCeM];
     display_only_markers_with_selected_categories();
 };

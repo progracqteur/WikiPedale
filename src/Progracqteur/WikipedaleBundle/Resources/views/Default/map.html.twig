@@ -14,6 +14,15 @@
       les signalements</div>
 
  			<div id="div_options_affichage">
+        <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM" onClick="javascript:changeFilteringMode('StatusCeM');">
+        Filtrer par type :
+        <select style="width:100%" data-placeholder="" id="optionsAffichageStatusCeM" multiple>
+          <option class="status-1" value="-1">rejeté</option>
+          <option class="status0" value="0">blanc</option>
+          <option class="status1" value="1">rouge</option>
+          <option class="status2" value="2">orange</option>
+          <option class="status3" value="3">vert</option>
+        </select>
 
         <input type="checkbox" name="affichage_tous_ou_filtre_type" onClick="javascript:changeFilteringMode('PlaceTypes');">
         Filtrer par type :
