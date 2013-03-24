@@ -58,7 +58,6 @@ function display_only_markers_with_selected_categories(){
     markers_id_to_display_statusCeM = new Array();
     if(filter_selected['StatusCeM']) {
         $.each($('#optionsAffichageStatusCeM').select2("val"), function(index, id_type) {
-            console.log(id_type);
             if (id_markers_for['StatusCeM'][parseInt(id_type)] != undefined) {
                 markers_id_to_display_statusCeM = markers_id_to_display_statusCeM.concat(id_markers_for['StatusCeM'][parseInt(id_type)]);
             }
