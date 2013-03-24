@@ -95,8 +95,8 @@ function changeFilteringMode(typesOrCategoriesOrStatusCeM){
 };
 
 
-function filling_dernieres_modifs(aCitySlug){
-    jsonUrlData  =  Routing.generate('wikipedale_history_place_by_city', {_format: 'json', citySlug: aCitySlug});
+function filling_dernieres_modifs(aCitySlug,nbr_max){
+    jsonUrlData  =  Routing.generate('wikipedale_history_place_by_city', {_format: 'json', citySlug: aCitySlug, max:nbr_max});
     $.ajax({
         dataType: "json",
         url: jsonUrlData,
