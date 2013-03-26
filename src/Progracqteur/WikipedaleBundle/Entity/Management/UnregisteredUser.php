@@ -206,6 +206,16 @@ class UnregisteredUser extends User{
         return false;
         
     }
+    
+    /**
+     * if the user is confirmed
+     * 
+     * @return bool
+     */
+    public function isChecked()
+    {
+        return $this->check_checked;
+    }
        
     
 }
