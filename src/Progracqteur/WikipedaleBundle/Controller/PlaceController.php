@@ -68,12 +68,12 @@ class PlaceController extends Controller {
                 return new Response($ret);*/
                 break;
             
-            case 'html' :
+            /*case 'html' :
                 return $this->render('ProgracqteurWikipedaleBundle:Place:view.html.twig', 
                         array(
                             'place' => $place
                         ));
-                break;
+                break;*/
         }
     }
     
@@ -285,7 +285,7 @@ class PlaceController extends Controller {
                     ->setFrom('uello@gracq.org')
                     ->setTo($place->getCreator()->getEmail())
                     ->setBody(
-                            $this->render('ProgracqteurWikipedaleBundle:Emails:confirmation.html.twig',
+                            $this->render('ProgracqteurWikipedaleBundle:Emails:confirmation.txt.twig',
                                     array(
                                         'code' => $checkCode,
                                         'user' => $place->getCreator(),
@@ -394,6 +394,54 @@ class PlaceController extends Controller {
                     )
                 );
         
+        
+    }
+    
+    public function confirmUserAction(Request $request) 
+    {
+        $placeId = $request->query->get('placeId');
+        $token = $request->query->get('token');
+        
+        $place = $this->getDoctrine()->getEntityManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
+                ->find($placeId);
+        
+        if ($place === null)
+        {
+            throw $this->createNotFoundException('Place not found');
+        }
+        
+        if ($place->getCreator() instanceof \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser
+                && $place->getCreator()->checkCode($token))
+        {
+            $creator = $place->getCreator();
+            
+            //if the creator is already confirmed, stop the script
+            if ($creator->isChecked())
+            {
+                $r = new Response('Place already confirmed');
+                $r->setStatusCode(401);
+                return $r;
+            }
+            
+            $creator->setChecked(true);
+            
+            
+            $place->setConfirmedCreator($creator);
+            
+            $this->getDoctrine()->getEntityManager()->flush($place);
+            
+            
+            return $this->render('ProgracqteurWikipedaleBundle:Place:confirmed.html.twig',
+                    array(
+                        'place' => $place
+                    ));
+        } else 
+        {
+            $r = new Response('check code does not match');
+            $r->setStatusCode(401);
+            return $r;
+        }
         
     }
     

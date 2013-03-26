@@ -52,6 +52,13 @@ wikipedale_place_change:
     _format: json
   options:
     expose: true
+    
+    
+wikipedale_user_confirm:
+  pattern: /user/confirm.html
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:confirmUser }
+  options:
+    expose: true
 
 #deprecated    
 wikipedale_place_manager_view:

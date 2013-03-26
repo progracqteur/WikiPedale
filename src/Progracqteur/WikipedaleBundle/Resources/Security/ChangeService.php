@@ -42,6 +42,7 @@ class ChangeService {
     const PLACE_MANAGER_REMOVE = 198;
     const PLACE_PLACETYPE_ALTER = 200;
     const PLACE_MODERATOR_COMMENT_ALTER = 210;
+    const PLACE_CREATOR_CONFIRMATION = 1600;
     
     
     /**
