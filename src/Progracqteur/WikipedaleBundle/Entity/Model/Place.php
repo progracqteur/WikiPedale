@@ -863,8 +863,11 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         return $this->type;
     }
-
-
+    
+    public function setChecked()
+    {
+        $this->getChangeset()->addChange(ChangeService::PLACE_CHECK, true);
+    }
     /**
      * return the changeset made since the entity was created or 
      * retrieved from the database.

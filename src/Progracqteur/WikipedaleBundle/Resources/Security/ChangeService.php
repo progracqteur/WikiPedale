@@ -34,6 +34,7 @@ class ChangeService {
     const PLACE_STATUS_Zone = 150;
     const PLACE_CREATOR = 160;
     const PLACE_ACCEPTED = 170;
+    const PLACE_CHECK = 173;
     const PLACE_ADD_CATEGORY = 180;
     const PLACE_REMOVE_CATEGORY = 181;
     const PLACE_MANAGER_ADD = 190;

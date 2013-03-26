@@ -41,7 +41,16 @@ class PlaceController extends Controller {
         if ($place->isAccepted() === false 
                 && ! $this->get('security.context')->isGranted(User::ROLE_SEE_UNACCEPTED))
         {
-            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+            $hash = $this->getRequest()->query->get('checkcode');
+            $code = $place->getCreator()->getCheckCode();
+            
+            
+            if ($hash !== hash('sha512', $code))
+            {
+                throw new \Exception('code does not match '.$code.' '.$hash);
+                throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+            }
+                
         }
         
         switch ($_format){
@@ -240,7 +249,6 @@ class PlaceController extends Controller {
             $place->setCreator($u);
         }
         
-        //ajoute l'adresse IP du modificateur si utilisateur anonyme et création
         
         //ajoute l'utilisateur courant au changeset
         if ($place->getChangeset()->isCreation()) // si création
@@ -257,6 +265,37 @@ class PlaceController extends Controller {
         } else { //si modification d'une place
             //les vérifications de sécurité ayant eu lieu, il suffit d'ajouter l'utilisateur courant
             $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+        }
+        
+        $waitingForConfirmation = false;
+        //if user = unregistered and creation, prepare the user for checking
+        //and set the place as not accepted, and send an email to the user
+        if ($place->getChangeset()->isCreation() === true 
+                && $place->getCreator()->isRegistered() === false)
+        {
+            $place->setAccepted(false);
+            $checkCode = $place->getCreator()->getCheckCode();
+            
+            //register the place to the EntityManager, for getting the Id
+            $this->getDoctrine()->getEntityManager()->persist($place);
+            
+            $t = $this->get('translator');
+            $message = \Swift_Message::newInstance()
+                    ->setSubject($t->trans('email_confirmation_message.subject'))
+                    ->setFrom('uello@gracq.org')
+                    ->setTo($place->getCreator()->getEmail())
+                    ->setBody(
+                            $this->render('ProgracqteurWikipedaleBundle:Emails:confirmation.html.twig',
+                                    array(
+                                        'code' => $checkCode,
+                                        'user' => $place->getCreator(),
+                                        'place' => $place
+                                    )), 'text/plain'
+                            )
+                    ;
+            
+            $this->get('mailer')->send($message);
+            $waitingForConfirmation = true;
         }
         
         
@@ -306,14 +345,23 @@ class PlaceController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($place);
         $em->flush();
-               
-        return $this->redirect(
-                $this->generateUrl('wikipedale_place_view', 
-                        array('id' => $place->getId(), 
+        
+        $params = array(
+                            'id' => $place->getId(), 
                             '_format' => 'json',
                             'return' => $return,
-                            'addUserInfo' => $request->get('addUserInfo', false))
-                        )
+                            'addUserInfo' => $request->get('addUserInfo', false)
+                        );
+        
+                if ($waitingForConfirmation === true)
+                {
+                    $hashCheckCode = hash('sha512', $place->getCreator()->getCheckCode());
+                    $params['checkcode'] = $hashCheckCode;
+                }
+                
+               
+        return $this->redirect(
+                $this->generateUrl('wikipedale_place_view', $params)
                 );
     }
     
