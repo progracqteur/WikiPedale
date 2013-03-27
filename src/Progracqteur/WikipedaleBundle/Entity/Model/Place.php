@@ -288,6 +288,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * Get nbComm
      *
      * @return int 
+     * @deprecated
      */
     public function getNbComm()
     {
@@ -905,6 +906,46 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function getType()
     {
         return $this->type;
+    }
+    
+    public function registerComment(Comment $comment)
+    {
+        //$this->getChangeset()->addChange(ChangeService::PLACE_COMMENT_ADD, $comment);
+        
+        $type = $comment->getType();
+        $oldInfos = clone($this->getInfos());
+        
+        //create the entry in the hash, update it if necessary
+        if (! $this->infos->has('nbComments'))
+        {
+            $this->infos->nbComments = new Hash();
+        }
+        
+        if (! $this->infos->nbComments->has($type))
+        {
+            $this->infos->nbComments->{$type} = 1;
+        } else {
+            $this->infos->nbComments->{$type} ++;
+        }
+        
+        $this->change('infos', $oldInfos, $this->infos);
+    }
+    
+    
+    public function getNbComments($type)
+    {
+        //create the entry in the hash, update it if necessary
+        if (! $this->infos->has('nbComments'))
+        {
+            return 0;
+        }
+        
+        if (! $this->infos->nbComments->has($type))
+        {
+            return 0;
+        } else {
+            return (int) $this->infos->nbComments->{$type};
+        }
     }
     
     public function setChecked()

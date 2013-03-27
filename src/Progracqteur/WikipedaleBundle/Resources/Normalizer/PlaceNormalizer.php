@@ -11,6 +11,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
+use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 
 
 
@@ -37,6 +38,7 @@ class PlaceNormalizer implements NormalizerInterface {
     
     const PLACE_TYPE = 'placetype';
     const MODERATOR_COMMENT = 'moderatorComment';
+    const COMMENTS = 'comments';
     
     public function __construct(NormalizerSerializerService $service)
     {
@@ -256,6 +258,11 @@ class PlaceNormalizer implements NormalizerInterface {
             $placeType = null;
         }
         
+        $nbComments = array(
+            'moderator_manager' => $object->getNbComments(Comment::TYPE_MODERATOR_MANAGER),
+            'public' => $object->getNbComments(Comment::TYPE_PUBLIC)
+            );
+        
         return  array(
             'entity' => 'place',
             'description' => $object->getDescription(),
@@ -276,6 +283,7 @@ class PlaceNormalizer implements NormalizerInterface {
             'manager' => $manager,
             self::PLACE_TYPE => $placeType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
+            self::COMMENTS => $nbComments,
         );
     }
     

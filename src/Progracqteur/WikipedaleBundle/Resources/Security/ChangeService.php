@@ -25,7 +25,7 @@ class ChangeService {
     const PLACE_DESCRIPTION = 1050;
     const PLACE_ADDRESS = 1060;
     const PLACE_GEOM = 1070;
-    const PLACE_ADD_COMMENT = 110;
+    const PLACE_COMMENT_ADD = 110;
     const PLACE_ADD_VOTE = 120;
     const PLACE_ADD_PHOTO = 130;
     const PLACE_REMOVE_PHOTO = 135;
