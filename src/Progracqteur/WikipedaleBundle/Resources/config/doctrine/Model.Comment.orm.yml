@@ -6,14 +6,18 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
       type: integer
       generator: {strategy: AUTO}
   fields:
-    text:
+    content:
       type: string
     published:
       type: boolean
     creationDate:
       type: datetime
-    hash:
-      type: hash
+    updateDate:
+      type: datetime
+    type:
+      type: string
+      length: 10
+      column: kind
   manyToOne:
     creator:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User

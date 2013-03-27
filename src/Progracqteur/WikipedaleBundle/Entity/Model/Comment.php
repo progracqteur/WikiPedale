@@ -2,80 +2,62 @@
 
 namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
-use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Comment
  */
 class Comment
 {
+    
     /**
-     * @var integer $id
+     * @var integer
      */
     private $id;
 
     /**
-     * @var string $text
+     * @var string
      */
-    private $text;
+    private $content = '';
 
     /**
-     * @var boolean $published
+     * @var boolean
      */
-    private $published;
+    private $published = true;
 
     /**
-     * @var datetime $creationDate
+     * @var \DateTime
      */
     private $creationDate;
 
     /**
-     * @var Progracqteur\WikipedaleBundle\Entity\Management\User
+     * @var \DateTime
+     */
+    private $updateDate;
+
+    /**
+     * @var \Progracqteur\WikipedaleBundle\Entity\Management\User
      */
     private $creator;
 
     /**
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Place
      */
     private $place;
     
-        /**
-     * @var hash $hash
+    /**
+     * @var string
      */
-    private $hash;
+    private $type;
     
-    public function __construct(User $user, Place $place)
+    const TYPE_MODERATOR_MANAGER = 'mmm';
+    const TYPE_PUBLIC = 'public';
+
+    
+    public function __construct()
     {
-        $this->setCreator($user);
-        $this->setPlace($place);
-        $this->hash = new Hash();
         $this->setCreationDate(new \DateTime());
+        $this->updateDate = new \DateTime(); //TODO
     }
-
-
-    /**
-     * Set hash
-     *
-     * @param Progracqteur\WikipedaleBundle\Resources\Container\Hash $hash
-     */
-    public function setHash(Hash $hash)
-    {
-        $this->hash = $hash;
-    }
-
-    /**
-     * Get hash
-     *
-     * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
-     */
-    public function getHash()
-    {
-        return $this->hash;
-    }
-
 
     /**
      * Get id
@@ -91,10 +73,13 @@ class Comment
      * Set text
      *
      * @param string $text
+     * @return Comment
      */
-    public function setText($text)
+    public function setContent($text)
     {
-        $this->text = $text;
+        $this->content = $text;
+    
+        return $this;
     }
 
     /**
@@ -102,19 +87,22 @@ class Comment
      *
      * @return string 
      */
-    public function getText()
+    public function getContent()
     {
-        return $this->text;
+        return $this->content;
     }
 
     /**
      * Set published
      *
      * @param boolean $published
+     * @return Comment
      */
     public function setPublished($published)
     {
         $this->published = $published;
+    
+        return $this;
     }
 
     /**
@@ -122,7 +110,7 @@ class Comment
      *
      * @return boolean 
      */
-    public function isPublished()
+    public function getPublished()
     {
         return $this->published;
     }
@@ -130,17 +118,20 @@ class Comment
     /**
      * Set creationDate
      *
-     * @param datetime $creationDate
+     * @param \DateTime $creationDate
+     * @return Comment
      */
     private function setCreationDate($creationDate)
     {
         $this->creationDate = $creationDate;
+    
+        return $this;
     }
 
     /**
      * Get creationDate
      *
-     * @return datetime 
+     * @return \DateTime 
      */
     public function getCreationDate()
     {
@@ -148,19 +139,45 @@ class Comment
     }
 
     /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return Comment
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
      * Set creator
      *
-     * @param Progracqteur\WikipedaleBundle\Entity\Management\User $creator
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\User $creator
+     * @return Comment
      */
-    public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator)
+    public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator = null)
     {
         $this->creator = $creator;
+    
+        return $this;
     }
 
     /**
      * Get creator
      *
-     * @return Progracqteur\WikipedaleBundle\Entity\Management\User 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\User 
      */
     public function getCreator()
     {
@@ -170,21 +187,47 @@ class Comment
     /**
      * Set place
      *
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Place $place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $place
+     * @return Comment
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place)
+    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place = null)
     {
         $this->place = $place;
+        $place->registerComment($this);
+        
+        return $this;
     }
 
     /**
      * Get place
      *
-     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place 
      */
     public function getPlace()
     {
         return $this->place;
     }
 
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Comment
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

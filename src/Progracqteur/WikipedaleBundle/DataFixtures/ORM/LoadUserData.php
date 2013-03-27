@@ -151,6 +151,8 @@ public function load(ObjectManager $manager) {
         
         echo "Création de l'utilisateur ".$u->getLabel()."\n";
         
+        $this->addReference('monsieur_velo', $u);
+        
         $u->addGroup($manGroup);
         
         $userManager->updateUser($u);
@@ -171,6 +173,7 @@ public function load(ObjectManager $manager) {
         
         $manager->persist($manGroup);
         
+        
         $this->addReference('manager_mons_spw', $manGroup);
         
         $u = $this->container->get('fos_user.user_manager')->createUser();
@@ -181,6 +184,8 @@ public function load(ObjectManager $manager) {
         $u->setPhonenumber('1256');
         
         echo "Création de l'utilisateur ".$u->getLabel()."\n";
+        
+        $this->addReference('monsieur_travaux', $u);
         
         $u->addGroup($manGroup);
         

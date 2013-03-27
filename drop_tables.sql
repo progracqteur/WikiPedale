@@ -11,7 +11,7 @@ drop table IF EXISTS categories CASCADE;
 drop table IF EXISTS place_category CASCADE;
 drop table IF EXISTS zones CASCADE;
 drop table if EXISTS placetype CASCADE;
-DROP SEQUENCE IF EXISTS comment_id_seq;
+DROP SEQUENCE IF EXISTS comments_id_seq;
 drop sequence IF EXISTS photos_id_seq;
 drop sequence IF EXISTS place_id_seq;
 drop sequence IF EXISTS users_id_seq;
