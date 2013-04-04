@@ -311,7 +311,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      *
      * @return Progracqteur\WikipedaleBundle\Resources\Container\Hash 
      */
-    private function getInfos()
+    public function getInfos()
     {
         return $this->infos;
     }
@@ -349,7 +349,50 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
             }
         }
     }
+    
+    /**
+     * 
+     * this is a proxy method to set a confirmed creator to the place
+     * and set the place as accepted.
+     * 
+     * a placetracking instance is also set with code ChangeService::PLACE_CREATOR_CONFIRMATIN
+     * 
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Unregistereduser $creator
+     */
+    public function setConfirmedCreator(Unregistereduser $creator)
+    {
+        $this->forceSetCreator($creator);
+        $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR_CONFIRMATION, 1);
+        $this->setAccepted(true);
+    }
+    
+    private function forceSetCreator(UnregisteredUser $creator)
+    {
+        if ($creator instanceof UnregisteredUser)
+            {
+                if ($this->creator !== null)
+                {
+                    $this->change('creator', $this->creator, null);
+                    $this->creator = null;
+                }
 
+
+                $old = clone($this->getInfos());
+                $this->infos->creator = $creator->toHash();
+                $this->creatorUnregisteredProxy = $creator;
+
+                $this->change('infos', $old, $this->getInfos());
+                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+
+            } else {
+                $this->change('creator', $this->creator, $creator);
+                $this->creator = $creator;
+                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+                //TODO : si un unregistreredCreator existe, il faut l'enlever
+            }
+    }
+    
     /**
      * Get creator
      *
@@ -863,8 +906,11 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         return $this->type;
     }
-
-
+    
+    public function setChecked()
+    {
+        $this->getChangeset()->addChange(ChangeService::PLACE_CHECK, true);
+    }
     /**
      * return the changeset made since the entity was created or 
      * retrieved from the database.
