@@ -86,6 +86,9 @@ function marker_img_name(statuses)
     }
 }
 
+/**
+*/
+
 function map_resizing(){
     if(!displaying_tiny_map) {
         $("#map")
@@ -106,13 +109,36 @@ function map_resizing(){
 }
 
 
+function comments_mode(){
+    map_translate();
+}
+
+function normal_mode(){
+    map_untranslate();
+}
+
 function map_translate(){
     $("#map").hide();
     $("#div_placeDescription").show();
     $("#param_carte").hide();
     $("#olPanelUL").hide();
     $("#map_little").show();
+    $("#div_returnNormalMode").show();
+    $("#div_dernieres_modifs").hide();
     map.render("map_little");
+    map.updateSize();
+}
+
+
+function map_untranslate(){
+    $("#div_dernieres_modifs").show();
+    $("#div_returnNormalMode").hide();
+    $("#map").show();
+    $("#div_placeDescription").show();
+    $("#param_carte").show();
+    $("#olPanelUL").show();
+    $("#map_little").hide();
+    map.render("map");
     map.updateSize();
 }
 
@@ -1066,4 +1092,6 @@ function displayPlaceDataFunction(placeMarker, placeData) {
 
     $('#div_placeDescription').show();
 }
+
+
 
