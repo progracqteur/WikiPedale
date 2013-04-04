@@ -101,3 +101,9 @@ validation:
       have_children: Les catégories indiquées sont parentes d'autres catégories. Seules des catégories filles peuvent être indiquées.
     manager:
       group_is_not_type_manager: Le groupe associé n'est pas du type "gestionnaire de voirie". Veuillez indiquez un group du type "gestionnaire de voirie".
+      
+      
+#messages de confirmation d'adresse mail utilisateur non enregistré
+email_confirmation_message:
+  subject: Vérification de votre adresse de courriel
+  
