@@ -746,9 +746,7 @@ function changingModeFunction() {
             else {
                 document.getElementById("div_new_place_form_user_mail").style.display = 'block';
             }
-            document.getElementById("div_signaler").style.display = "block";
-            //document.getElementById("div_placeDetails").style.display = "none";
-            //document.getElementById("div_placeEdit").style.display = "none";
+            document.getElementById("div_add_new_description").style.display = "block";
             document.getElementById("div_placeDescription").style.display = "none";
 
             add_new_place_mode = true;
@@ -788,7 +786,7 @@ function changingModeFunction() {
                 }
             });
 
-            document.getElementById("div_signaler").style.display = "none";
+            document.getElementById("div_add_new_description").style.display = "none";
 
             if(last_place_selected != null ) {
                 document.getElementById("div_placeDescription").style.display = "block";
