@@ -83,7 +83,7 @@ form#loginForm {
 }
 
 /* Formulaire ajout point */
-#div_signaler {
+#div_add_new_description {
     display:none;
     background: #9CBC2C;
     -webkit-border-radius: 10px;
@@ -92,18 +92,18 @@ form#loginForm {
     margin: 0 0.5em 1em 0.5em;
 }
 
-#div_signaler img.verif {
+#div_add_new_description img.verif {
     float: left;
     width:16px;
     height:16px;
     margin-right:0.2em;
 }
 
-#new_placeForm label {
+#div_add_new_description label {
     width: 20%;
 }
 
-#div_signaler textarea, #div_signaler fieldset input, #c_chzn.chzn-container.chzn-container-multi {
+#div_add_new_description textarea, #div_signaler fieldset input, #c_chzn.chzn-container.chzn-container-multi {
     width:73%;
 }
 
