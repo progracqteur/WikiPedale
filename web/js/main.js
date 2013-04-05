@@ -591,6 +591,8 @@ function catchForm(formName) {
             error_messages = error_messages + "Veuillez donner votre nom. ";
             update_n_informer_for_form();
             }
+    console.log(place_data['email']);
+    console.log(JSON.stringify(place_data['email']));
     if(! is_mail_valid(place_data['email'])) {
         error_messages = error_messages + "Veuillez indiquer une adresse email valide. ";
         update_e_informer_for_form();
@@ -651,7 +653,6 @@ function catchForm(formName) {
                                 setTimeout(
                                     function(){
                                         changingModeFunction();
-                                        document.getElementById("div_placeEdit").style.display = "none";
                                         clearNewPlaceForm();
                                         displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
                                     },3000);        
@@ -683,19 +684,17 @@ function clearNewPlaceForm() {
     /** 
     * Clear the data entered in the form with id 'new_placeForm'
     */
-    document.getElementById("new_placeForm").user_phonenumber.value = "";
-    document.getElementById("new_placeForm").user_label.value = "";
-    document.getElementById("new_placeForm").user_label.readOnly=false;
-    document.getElementById("new_placeForm").email.value = "";
-    document.getElementById("new_placeForm").email.readOnly=false;
-    document.getElementById("new_placeForm").email.value = "";
-    document.getElementById("new_placeForm").lieu.value = "";
-    document.getElementById("new_placeForm").description.value = "";
-    document.getElementById("new_placeForm").lon.value = "";
-    document.getElementById("new_placeForm").lat.value = "";
+    $("#add_new_description_div [name=user_phonenumber]").val("");
+    $("#add_new_description_div [name=user_label]").val("");
+    $("#add_new_description_div [name=user_label]").removeAttr("readonly");
+    $("#add_new_description_div [name=email]").val("");
+    $("#add_new_description_div [name=email]").removeAttr("readonly");
+    $("#add_new_description_div [name=lieu]").val("");
+    $("#add_new_description_div [name=description]").val("");
+    $("#add_new_description_div [name=lon]").val("");
+    $("#add_new_description_div [name=lat]").val("");
     reset_informer();
     $('#new_placeFrom_message').text("");
-    $('#new_place_form_submit_button').removeAttr("disabled");   
 }
 
 function changingModeFunction() {
@@ -746,7 +745,7 @@ function changingModeFunction() {
             else {
                 document.getElementById("div_new_place_form_user_mail").style.display = 'block';
             }
-            document.getElementById("div_add_new_description").style.display = "block";
+            document.getElementById("add_new_description_div").style.display = "block";
             document.getElementById("div_placeDescription").style.display = "none";
 
             add_new_place_mode = true;
@@ -754,6 +753,7 @@ function changingModeFunction() {
         else {
             $('.olControlButtonAddPlaceItemActive').each(function(index, value){
                 value.innerHTML = 'Ajouter un point';
+                $('')
             });
 
             if(new_placeMarker != undefined) 
@@ -786,7 +786,7 @@ function changingModeFunction() {
                 }
             });
 
-            document.getElementById("div_add_new_description").style.display = "none";
+            document.getElementById("add_new_description_div").style.display = "none";
 
             if(last_place_selected != null ) {
                 document.getElementById("div_placeDescription").style.display = "block";
