@@ -42,10 +42,6 @@ Params passed by the controller to this template :
         homepageMap('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},null);
       {% endif %}
 
-
-      // chosen (for categories)
-      $(".chzn-select").chosen().change(update_c_informer_for_form);
-
       $("#optionsAffichageCategories").select2();
       $('#optionsAffichageCategories').select2("disable");
 
@@ -60,8 +56,8 @@ Params passed by the controller to this template :
       $('#span_place_description_type_edit').select2();
       $('#span_place_description_gestionaire_edit').select2();
 
-      $('#add_new_description_form__categories').select2().on("change", function(e) {update_c_informer_for_form(); });
-      
+      $('#add_new_description_form__categories').select2().on("change", function(e) { update_add_new_description_form_informer('categories'); });
+
       $('#optionsAffichageCategories').on("change", function(e) { display_only_markers_with_selected_categories(); });
       $('#optionsAffichagePlaceTypes').on("change", function(e) { display_only_markers_with_selected_categories(); });
       $('#optionsAffichageStatusCeM').on("change", function(e) { display_only_markers_with_selected_categories(); });

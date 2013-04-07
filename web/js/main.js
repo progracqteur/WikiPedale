@@ -626,8 +626,8 @@ function catchForm(formName) {
             if(editForm && userIsAdminServer())
                 { error_messages = "Vous devez être admin pour éditer ce point noir"; }
             if(error_messages != "") {
-                $('#new_placeFrom_message').text('Erreur! ' + error_messages  + 'Merci.');
-                $('#new_placeFrom_message').addClass('errorMessage');
+                $('#add_new_description_form__message').text('Erreur! ' + error_messages  + 'Merci.');
+                $('#add_new_description_form__message').addClass('errorMessage');
                 }
             else {
                 entity_string = PlaceInJson(place_data['description'], place_data['lon'],
@@ -649,7 +649,7 @@ function catchForm(formName) {
                                 displayPlaceDataFunction,
                                 newPlaceData);
                             if(! editForm) {
-                                $('#new_placeFrom_message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
+                                $('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
                                 setTimeout(
                                     function(){
                                         changingModeFunction();
@@ -658,9 +658,9 @@ function catchForm(formName) {
                                     },3000);        
                                 }
                             else {
-                                $('#new_placeFrom_message').text("Le point noir a bien été modifié. Merci!");
+                                $('#add_new_description_form__message').text("Le point noir a bien été modifié. Merci!");
                             }
-                            $('#new_placeFrom_message').addClass('successMessage');
+                            $('#add_new_description_form__message').addClass('successMessage');
                             $('#new_place_form_submit_button').attr("disabled", "disabled");
                         }
                         else { 
@@ -693,8 +693,9 @@ function clearNewPlaceForm() {
     $("#add_new_description_div [name=description]").val("");
     $("#add_new_description_div [name=lon]").val("");
     $("#add_new_description_div [name=lat]").val("");
-    reset_informer();
-    $('#new_placeFrom_message').text("");
+    $('#add_new_description_form__message').text("");
+    reset_add_new_description_form_informer();
+    
 }
 
 function changingModeFunction() {
