@@ -72,7 +72,6 @@ label { font-size: 0.9em; color:#2D2D2D; display:block; }
 
 #div_options_affichage {
     display:none;
-    margin:0;
     border:5px solid #D14836;
     margin: 0 0.5em 1em 0.5em;
     padding:1em 1em 1em 1em;
@@ -108,6 +107,23 @@ div.PointDescription p.creator {
 .status4 { border-left: 1em solid #000000; }
 
 
+/* dernieres modifs */
+
+
+#div_title_dernieres_modifs {
+    margin: 1em 0.5em 0 0.5em;
+    padding : 0.2em 0.5em 0.2em 35px;
+    border: 1px solid transparent;
+    height: 20px
+    text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+}
+
+#div_content_dernieres_modifs {
+    border:5px solid #D14836;
+    margin: 0 0.5em 1em 0.5em;
+    padding:1em 1em 1em 1em;
+}
 
 
 /* Panel */
@@ -127,7 +143,7 @@ div.PointDescription p.creator {
     text-transform: uppercase;
 }
 
-.olControlButtonAddPlaceItemActive:hover, .buttonOptionAffichage:hover {
+.olControlButtonAddPlaceItemActive:hover, #buttonOptionsAffichage:hover {
     background: url('../img/plusActive.png') no-repeat 0.5em;
 }
 
