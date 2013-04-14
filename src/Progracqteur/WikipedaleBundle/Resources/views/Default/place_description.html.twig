@@ -135,17 +135,26 @@
       </a>
     </div>
 
-    <div class="description_element">
+    <div id="div_commentaires_cem_gestionnaire" class="description_element">
       <span class="span_private_comment"></span>
-      Commentaires privés:<br />
+      Commentaires CeM-gestionnaire de Voirie:<br />
       Sed quis bibendum tellus. Aliquam ante ante, interdum vitae tincidunt sit amet, tempor vitae nulla. Sed
       a lorem lectus, ut ultrices magna. Nullam scelerisque aliquet erat, quis suscipit sem egestas sed. 
       Suspendisse dui quam, imperdiet vitae consectetur non, euismod sit amet quam. Proin tempor sapien viverra
       a nunc vulputate et euismod quam rutrum. Curabitur ante massa.<br />
       <a href="javascript:comments_mode();" title="">Plus de commentaires</a>
+
+      <div id="div_commentaires_cem_gestionnaire">
+        <form method="post" id="form_add_new_comment">
+          <label for="add_new_description_form__description">Votre commentaire :</label>
+          <textarea id="form_add_new_comment__text" name="text" rows="5" maxlength="300" placeholder="Ajoutez ici votre commentaire"></textarea>
+
+          <input class="envoi" id="new_comment_form_submit_button" type="submit" value="Soumettre">
+        </form>
+    </div>
     </div>
 
-    <div class="description_element">
+    <div id="div_commentaires_public" class="description_element" style="display:none">
       <span class="span_public_comment"></span>
       Commentaires public:<br />
       Sed quis bibendum tellus. Aliquam ante ante, interdum vitae tincidunt sit amet, tempor vitae nulla.
