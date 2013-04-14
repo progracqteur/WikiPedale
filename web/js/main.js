@@ -1023,6 +1023,14 @@ function displayRegardingToUserRole() {
         $('#span_place_description_commentaireCeM_button').hide();
         $('#span_place_description_status_button').hide();
     }
+
+
+    if(userIsAdmin() || userIsCeM() || userIsGestionnaireVoirie()) {
+        $('#div_commentaires_cem_gestionnaire').show();
+    }
+    else{
+        $('#div_commentaires_cem_gestionnaire').hide();
+    }
 }
 
 
