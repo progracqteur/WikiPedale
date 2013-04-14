@@ -348,10 +348,13 @@ function updatePageWhenLogged(){
     * - connexion link and register link : disappear
     * - user name and logout link : appear
     */
-    document.getElementById("menu_user_name").style.display = 'inline';
-    document.getElementById("menu_connexion").style.display = 'none';
-    document.getElementById("menu_logout").style.display = 'inline';
-    document.getElementById("menu_register").style.display = 'none';
+    $("#menu_user_name").css('display', 'inline-block');
+    $("#menu_connexion").hide();
+    $("#menu_logout").css('display', 'inline-block');
+    $("#menu_register").hide();
+
+    $("#div_new_place_form_user_mail").hide();
+
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
 
@@ -745,13 +748,13 @@ function changingModeFunction() {
             });
 
             if(userIsRegister()) {
-                document.getElementById("div_new_place_form_user_mail").style.display = 'none';
+                $("#div_new_place_form_user_mail").hide();
                 }
             else {
-                document.getElementById("div_new_place_form_user_mail").style.display = 'block';
+                $("#div_new_place_form_user_mail").show();
             }
-            document.getElementById("add_new_description_div").style.display = "block";
-            document.getElementById("div_placeDescription").style.display = "none";
+            $("#add_new_description_div").show();
+            $("#div_placeDescription").hide();
 
             add_new_place_mode = true;
         }
@@ -791,12 +794,10 @@ function changingModeFunction() {
                 }
             });
 
-            document.getElementById("add_new_description_div").style.display = "none";
+            $("#add_new_description_div").hide();
 
             if(last_place_selected != null ) {
-                document.getElementById("div_placeDescription").style.display = "block";
-                //if(userIsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
-                //else { document.getElementById("div_placeDetails").style.display = "block"; }
+                $("#div_placeDescription").show();
             }
             add_new_place_mode = false; 
         }
