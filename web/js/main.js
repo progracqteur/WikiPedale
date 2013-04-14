@@ -110,15 +110,19 @@ function map_resizing(){
 
 
 function comments_mode(){
-    $("#div_form_commentaires_cem_gestionnaire").show();
-    $("#span_plus_de_commenaitres_link").hide();
     map_translate();
+    $("#div_last_private_comment_container").hide();
+    $("#span_plus_de_commenaitres_link").hide();
+    $("#div_list_private_comment_container").show();
+    $("#div_form_commentaires_cem_gestionnaire").show();
 }
 
 function normal_mode(){
     map_untranslate();
-    $("#div_form_commentaires_cem_gestionnaire").hide();
+    $("#div_last_private_comment_container").show();
     $("#span_plus_de_commenaitres_link").show();
+    $("#div_list_private_comment_container").hide();
+    $("#div_form_commentaires_cem_gestionnaire").hide();
 }
 
 function map_translate(){
@@ -1027,6 +1031,7 @@ function displayRegardingToUserRole() {
 
     if(userIsAdmin() || userIsCeM() || userIsGestionnaireVoirie()) {
         $('#div_commentaires_cem_gestionnaire').show();
+
     }
     else{
         $('#div_commentaires_cem_gestionnaire').hide();
@@ -1095,6 +1100,11 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     if (userCanVieuwUsersDetails() || userIsAdmin()) {
         $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
+    }
+
+    if(userIsGestionnaireVoirie() || userIsCeM() || userIsAdmin()){
+        updateLastComment(placeData.id);
+        updateAllComments(placeData.id);
     }
 
 
