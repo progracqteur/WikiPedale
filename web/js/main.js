@@ -110,11 +110,15 @@ function map_resizing(){
 
 
 function comments_mode(){
+    $("#div_form_commentaires_cem_gestionnaire").show();
+    $("#span_plus_de_commenaitres_link").hide();
     map_translate();
 }
 
 function normal_mode(){
     map_untranslate();
+    $("#div_form_commentaires_cem_gestionnaire").hide();
+    $("#span_plus_de_commenaitres_link").show();
 }
 
 function map_translate(){
