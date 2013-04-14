@@ -15,7 +15,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
  */
 class CommentController extends Controller 
 {
-    public function getCommentByPlaceAction($_format, $placeId, Request $request)
+    private function getCommentByPLaceLimit($_format, $placeId, $limit, Request $request)
     {
         $em = $this->getDoctrine()->getEntityManager();
         
@@ -27,8 +27,14 @@ class CommentController extends Controller
         }
         
         $q = $em->createQuery("SELECT cm from ProgracqteurWikipedaleBundle:Model\\Comment cm 
-            where cm.place = :place and cm.published = true")
-                ->setParameter('place', $place);
+            where cm.place = :place and cm.published = true ORDER BY cm.id DESC")
+                ->setParameter('place',$place);
+
+        if($limit != null)
+        {
+            $q->setMaxResults($limit);
+        }
+        
         
         $comments = $q->getResult();
         
@@ -46,6 +52,16 @@ class CommentController extends Controller
             default:
                 throw new \Exception("le format $_format est inconnu");
         }
+    }
+
+    public function getLastCommentByPlaceAction($_format, $placeId, Request $request)
+    {
+        return $this->getCommentByPLaceLimit($_format, $placeId, 1, $request);
+    }
+
+    public function getCommentByPlaceAction($_format, $placeId,Request $request)
+    {
+        return $this->getCommentByPLaceLimit($_format, $placeId, null, $request);
     }
     
     public function newAction($placeId, $_format, Request $request)
