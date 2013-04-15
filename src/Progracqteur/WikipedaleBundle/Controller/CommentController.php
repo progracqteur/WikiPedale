@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
@@ -66,6 +67,11 @@ class CommentController extends Controller
     
     public function newAction($placeId, $_format, Request $request)
     {
+        if ($request->getMethod() != 'POST')
+        {
+            throw new \Exception("Only post method accepted");
+        }
+
         if (!$this->get('security.context')->getToken()->getUser() instanceof User)
         {
             throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');

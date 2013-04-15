@@ -363,6 +363,9 @@ class NormalizerSerializerService {
             case self::PLACE_TYPE :
                 $array = array($this->getPlaceNormalizer());
                 break;
+            case self::COMMENT_TYPE :
+                $array = array($this->getCommentNormalizer());
+                break;
             default: 
                 throw new \Exception("Le type demandé ($type) est inconnu");
         }

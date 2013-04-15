@@ -40,3 +40,45 @@ function updateAllComments(aPlaceId){
         }
     });
 }
+
+function submitNewCommentForm(aPlaceId){
+    var comment_text = $('#form_add_new_comment__text').val();
+    if(comment_text == "") {
+        $('#form_add_new_comment__message')
+            .val("Veuillez entrer votre commentaire") 
+            .removeClass("successMessage")
+            .addClass("errorMessage");  
+    }
+    else {
+        entity_string = ret = '{"entity":"comment","id":' + JSON.stringify(aPlaceId) + ',"text:"' + comment_text + '"}';
+        console.log(entity_string);
+        $.ajax({
+            type: "POST",
+            data: {entity: entity_string},
+            url: Routing.generate('wikipedale_comment_new', {placeId: aPlaceId, _format: 'json'}),
+            cache: false,
+            success: function(output_json) { 
+                if(output_json.query.error != undefined && ! output_json.query.error) { 
+                    $('#form_add_new_comment__message')
+                        .val("Votre commentaire a été ajouté. Merci.")
+                        .removeClass("errorMessage")
+                        .addClass("successMessage");
+                    updateLastComment(placeData.id);
+                    updateAllComments(placeData.id);
+                }
+                else { 
+                    $('#form_add_new_comment__message')
+                        .val("Une erreur s'est produite. Veuillez réessayer ou nous avertir. Merci.")
+                        .removeClass("successMessage")
+                        .addClass("errorMessage");  
+                }
+            },
+            error: function(output_json) {
+                $('#form_add_new_comment__message')
+                    .val("Une erreur s'est produite. Veuillez réessayer ou nous avertir. Merci.")
+                    .removeClass("successMessage")
+                    .addClass("errorMessage");  
+            }
+        });
+    }
+}

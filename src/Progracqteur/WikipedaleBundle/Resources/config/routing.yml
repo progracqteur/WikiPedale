@@ -87,7 +87,8 @@ wikipedale_comment_new:
   pattern: /comment/new/place-{placeId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:new }
   requirements:
-    _format: html
+    _format: json
+    _method: POST
   options:
     expose: true
 
