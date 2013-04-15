@@ -115,6 +115,7 @@ function comments_mode(){
     $("#span_plus_de_commenaitres_link").hide();
     $("#div_list_private_comment_container").show();
     $("#div_form_commentaires_cem_gestionnaire").show();
+    $("#add_new_description_form__message").val("");
 }
 
 function normal_mode(){
@@ -602,8 +603,6 @@ function catchForm(formName) {
             error_messages = error_messages + "Veuillez donner votre nom. ";
             update_n_informer_for_form();
             }
-    console.log(place_data['email']);
-    console.log(JSON.stringify(place_data['email']));
     if(! is_mail_valid(place_data['email'])) {
         error_messages = error_messages + "Veuillez indiquer une adresse email valide. ";
         update_e_informer_for_form();
@@ -1105,6 +1104,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     if(userIsGestionnaireVoirie() || userIsCeM() || userIsAdmin()){
         updateLastComment(placeData.id);
         updateAllComments(placeData.id);
+        $("#form_add_new_comment").attr("action","javascript:submitNewCommentForm(" + placeData.id + ")");
     }
 
 
