@@ -14,6 +14,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionRespon
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTrackingNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\CommentNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,10 +28,10 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 class NormalizerSerializerService {
     
     const JSON_FORMAT = 'json';
-    
     const PLACE_TYPE = 'place';
     const ADDRESS_TYPE = 'address';
     const USER_TYPE = 'user';
+    const COMMENT_TYPE = 'comment';
     
     private $em;
     /**
@@ -52,6 +53,7 @@ class NormalizerSerializerService {
     private $groupNormalizer = null;
     private $zoneNormalizer = null;
     private $placeTypeNormalizer = null;
+    private $commentNormalizer = null;
     
     /**
      *
@@ -68,6 +70,20 @@ class NormalizerSerializerService {
         /*$this->em = $em;
         $this->securityContext = $securityContext;*/
         $this->container = $container;
+    }
+
+    /**
+     *
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\CommentNormalizer 
+     */
+    public function getCommentNormalizer()
+    {
+        if ($this->commentNormalizer === null)
+        {
+            $this->commentNormalizer = new CommentNormalizer($this);
+        }
+        
+        return $this->commentNormalizer;
     }
     
     /**
@@ -292,6 +308,8 @@ class NormalizerSerializerService {
                 return 'Progracqteur\\WikipedaleBundle\\Resources\\Container\\Address';
             case self::USER_TYPE : 
                 return 'Progracqteur\\WikipedaleBundle\\Entity\\Management\\User';
+            case self::COMMENT_TYPE : 
+                return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Comment';
         }
     }
 
@@ -344,6 +362,9 @@ class NormalizerSerializerService {
         {
             case self::PLACE_TYPE :
                 $array = array($this->getPlaceNormalizer());
+                break;
+            case self::COMMENT_TYPE :
+                $array = array($this->getCommentNormalizer());
                 break;
             default: 
                 throw new \Exception("Le type demandé ($type) est inconnu");

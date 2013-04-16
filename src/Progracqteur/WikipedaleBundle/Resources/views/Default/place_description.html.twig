@@ -135,5 +135,34 @@
       </a>
     </div>
 
+    <div id="div_commentaires_cem_gestionnaire" class="description_element">
+      <span class="span_private_comment">Commentaires CeM-gestionnaire de Voirie:<br /></span>
+      
+      <div id="div_last_private_comment_container"></div>
+      <span id="span_plus_de_commenaitres_link"><a href="javascript:comments_mode();" title="">Plus de commentaires &amp; ajout</a></span>
+
+      <div id="div_list_private_comment_container" style="display:none"></div>
+
+      <div id="div_form_commentaires_cem_gestionnaire" style="display:none">
+        <form method="post" id="form_add_new_comment">
+          <label for="add_new_description_form__description">Votre commentaire :</label>
+          <textarea id="form_add_new_comment__text" name="text" rows="5" maxlength="300" placeholder="Ajoutez ici votre commentaire"></textarea>
+
+          <div id="add_new_description_form__message"></div>
+          <input class="envoi" id="new_comment_form_submit_button" type="submit" value="Soumettre">
+        </form>
+    </div>
+    </div>
+
+    <div id="div_commentaires_public" class="description_element" style="display:none">
+      <span class="span_public_comment">Commentaires public:<br /></span>
+      
+      Sed quis bibendum tellus. Aliquam ante ante, interdum vitae tincidunt sit amet, tempor vitae nulla.
+      Sed a lorem lectus, ut ultrices magna. Nullam scelerisque aliquet erat, quis suscipit sem egestas sed. 
+      Suspendisse dui quam, imperdiet vitae consectetur non, euismod sit amet quam. Proin tempor sapien viverra 
+      nunc vulputate et euismod quam rutrum. Curabitur ante massa.<br />
+      <a href="javascript:comments_mode();" title="">Plus de commentaires &amp; ajout</a>
+    </div>
+
   </div>
 </div>

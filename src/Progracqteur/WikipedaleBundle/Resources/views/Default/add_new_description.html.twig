@@ -1,0 +1,68 @@
+<div id="add_new_description_div">
+  <form method="post" id="add_new_description_form">
+    <input type="hidden" name="lon" readonly="true" />
+    <input  type="hidden" name="lat" readonly="true" />
+    
+    <fieldset id="div_new_place_form_user_mail">
+      <legend><a href="#login_form_div">{{ 'AddPoint.userdata.legend1'|trans({}, 'pointMessages') }}</a> {{ 'AddPoint.userdata.legend2'|trans({}, 'pointMessages') }}</legend>
+      
+      <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="add_new_description_form_informer__user_label" alt="is the field ok">
+      <label for="add_new_description_form__user_label">{{ 'AddPoint.userdata.name'|trans({}, 'pointMessages') }}</label>
+      <input id="add_new_description_form__user_label" name="user_label" onblur="javascript:update_add_new_description_form_informer('user_label')" placeholder="{{ 'AddPoint.userdata.name_placeholder'|trans({}, 'pointMessages') }}" /><br />
+        
+      <img src="{{ asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__email" alt="is the field ok">
+      <label for="add_new_description_form__email">{{ 'AddPoint.userdata.mail'|trans({}, 'pointMessages') }}</label>
+      <input id="add_new_description_form__email" name="email" onblur="javascript:update_add_new_description_form_informer('email')" placeholder="{{ 'AddPoint.userdata.mail_placeholder'|trans({}, 'pointMessages') }}" /><br />
+
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__user_phonenumber" alt="is the field ok">
+      <label for="add_new_description_form__user_phonenumber">{{ 'AddPoint.userdata.phone'|trans({}, 'pointMessages') }}</label>
+      <input id="add_new_description_form__user_phonenumber" name="user_phonenumber" onblur="javascript:update_add_new_description_form_informer('user_phonenumber')" placeholder="{{ 'AddPoint.userdata.phone_placeholder'|trans({}, 'pointMessages') }}" /><br />
+    </fieldset>
+    
+    <fieldset>
+        <legend>{{ 'AddPoint.map.legend'|trans({}, 'pointMessages') }}</legend>
+        <img src="{{ asset('img/AddPoint.png')}}" />
+        <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__map" alt="is the field ok">
+    </fieldset>
+
+
+    <fieldset>
+      <legend>{{ 'AddPoint.PointData.legend'|trans({}, 'pointMessages') }}</legend>
+        
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__lieu" alt="is the field ok">
+      <label for="add_new_description_form__lieu">{{ 'AddPoint.PointData.location'|trans({}, 'pointMessages') }}</label> 
+      <input id="add_new_description_form__lieu" name="lieu" maxlength="35" onblur="javascript:update_add_new_description_form_informer('lieu')" placeholder="{{ 'AddPoint.PointData.location_placeholder'|trans({}, 'pointMessages') }}" /><br />
+
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__categories" alt="is the field ok">
+      <label for="add_new_description_form__categories">{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
+      <select id="add_new_description_form__categories" name="categories" style="width:70%;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
+        {# set a value to detect changes in parent category #}
+        {% set parentId = null %}
+        {% for category in categories %}
+          {% if parentId != category.parent.id %}
+            {% if parentId is not null %}
+              </optgroup>
+            {% endif %}
+                 
+            <optgroup label="{{category.parent.hierarchicalLabel}}">
+            {% set parentId = category.parent.id %}
+            {% endif %}
+              
+          <option value="{{category.id}}">{{category.label}}</option>             
+        {% endfor %}      
+        </optgroup>
+      </select><br />
+
+    <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__description" alt="is the field ok">
+    <label for="add_new_description_form__description">{{ 'AddPoint.PointData.description'|trans({}, 'pointMessages') }}</label> 
+    <textarea id="add_new_description_form__description" name="description" rows="5" maxlength="300" onblur="javascript:update_add_new_description_form_informer('description')" placeholder="{{ 'AddPoint.PointData.description_placeholder'|trans({}, 'pointMessages') }}"></textarea>
+  </fieldset>
+    
+    <div id="add_new_description_form__message">
+    </div>
+    
+    <input class="envoi" id="new_place_form_submit_button" type="submit" value="{{ 'AddPoint.submit'|trans({}, 'pointMessages') }}">
+    <input class="CancelButton" value="{{ 'AddPoint.cancel'|trans({}, 'pointMessages') }}" type="submit" >
+  </form>
+    <div style="clear:both; margin-bottom:1em;"></div>
+</div>

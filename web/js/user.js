@@ -80,6 +80,26 @@ function userCanModifyCEMColor(){
     return ret;
 }
 
+function userIsCeM(){
+    return userCanModifyCEMColor();
+}
+
+function userIsGestionnaireVoirie(){
+    ret = false;
+    if (user.roles != undefined && $.inArray("ROLE_NOTATION", user.roles) != -1) {
+        console.log(user.groups);
+        if(user.groups != undefined){
+            $.each(user.groups, function(id, data) {
+                console.log(data);
+                if (data.type == "MANAGER" && data.notation == "cem") {
+                    ret = true;
+                }
+            });
+        }
+    }
+    return ret;
+}
+
 function userIsRegister(){
     /**
     * Returns True if the user is register.

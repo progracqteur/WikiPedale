@@ -1,0 +1,5 @@
+AddComment:
+  text: Votre commentaire
+  text_placeholder : Entrez ici votre commentaire
+  submit: Enregistrer
+  cancel: Effacer

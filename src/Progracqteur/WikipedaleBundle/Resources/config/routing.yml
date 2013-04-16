@@ -66,8 +66,50 @@ wikipedale_place_manager_view:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:placeManagerForm }
   requirements:
     id: \d+
+
+wikiedale_comment_last_by_place:
+  pattern: /comment/last/byplace/{placeId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getLastCommentByPlace}
+  requirements:
+    _format: json|html
+  options:
+    expose: true
+
+wikiedale_comment_list_by_place:
+  pattern: /comment/list/byplace/{placeId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getCommentByPlace}
+  requirements:
+    _format: json|html
+  options:
+    expose: true
+
+wikipedale_comment_new:
+  pattern: /comment/new/place-{placeId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:newbis }
+  requirements:
+    _format: json
+    _method: POST
+  options:
+    expose: true
     
+wikipedale_comment_change:
+  pattern: /comment/change.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:change }
+  requirements:
+    _format: json
+    _method: POST
+  options:
+    expose: true
     
+wikipedale_comment_view:
+  pattern: /comment/view/{commentId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:view}
+  requirements:
+    _format: json
+    commentId: d+
+  options:
+    expose: true
+
 wikipedale_photo_list_by_place:
   pattern: /photo/list/byplace/{placeId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:getPhotoByPlace }
