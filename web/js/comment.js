@@ -50,7 +50,7 @@ function submitNewCommentForm(aPlaceId){
             .addClass("errorMessage");  
     }
     else {
-        entity_string = ret = '{"entity":"comment","id":' + JSON.stringify(aPlaceId) + ',"text:"' + comment_text + '"}';
+        entity_string = ret = '{"entity":"comment","placeId":' + JSON.stringify(aPlaceId) + ',"text":"' + comment_text + '"}';
         console.log(entity_string);
         $.ajax({
             type: "POST",
