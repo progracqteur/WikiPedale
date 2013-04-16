@@ -86,6 +86,9 @@ function marker_img_name(statuses)
     }
 }
 
+/**
+*/
+
 function map_resizing(){
     if(!displaying_tiny_map) {
         $("#map")
@@ -106,13 +109,45 @@ function map_resizing(){
 }
 
 
+function comments_mode(){
+    map_translate();
+    $("#div_last_private_comment_container").hide();
+    $("#span_plus_de_commenaitres_link").hide();
+    $("#div_list_private_comment_container").show();
+    $("#div_form_commentaires_cem_gestionnaire").show();
+    $("#add_new_description_form__message").val("");
+}
+
+function normal_mode(){
+    map_untranslate();
+    $("#div_last_private_comment_container").show();
+    $("#span_plus_de_commenaitres_link").show();
+    $("#div_list_private_comment_container").hide();
+    $("#div_form_commentaires_cem_gestionnaire").hide();
+}
+
 function map_translate(){
     $("#map").hide();
     $("#div_placeDescription").show();
     $("#param_carte").hide();
     $("#olPanelUL").hide();
     $("#map_little").show();
+    $("#div_returnNormalMode").show();
+    $("#div_dernieres_modifs").hide();
     map.render("map_little");
+    map.updateSize();
+}
+
+
+function map_untranslate(){
+    $("#div_dernieres_modifs").show();
+    $("#div_returnNormalMode").hide();
+    $("#map").show();
+    $("#div_placeDescription").show();
+    $("#param_carte").show();
+    $("#olPanelUL").show();
+    $("#map_little").hide();
+    map.render("map");
     map.updateSize();
 }
 
@@ -318,10 +353,13 @@ function updatePageWhenLogged(){
     * - connexion link and register link : disappear
     * - user name and logout link : appear
     */
-    document.getElementById("menu_user_name").style.display = 'inline';
-    document.getElementById("menu_connexion").style.display = 'none';
-    document.getElementById("menu_logout").style.display = 'inline';
-    document.getElementById("menu_register").style.display = 'none';
+    $("#menu_user_name").css('display', 'inline-block');
+    $("#menu_connexion").hide();
+    $("#menu_logout").css('display', 'inline-block');
+    $("#menu_register").hide();
+
+    $("#div_new_place_form_user_mail").hide();
+
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
 
@@ -598,8 +636,8 @@ function catchForm(formName) {
             if(editForm && userIsAdminServer())
                 { error_messages = "Vous devez être admin pour éditer ce point noir"; }
             if(error_messages != "") {
-                $('#new_placeFrom_message').text('Erreur! ' + error_messages  + 'Merci.');
-                $('#new_placeFrom_message').addClass('errorMessage');
+                $('#add_new_description_form__message').text('Erreur! ' + error_messages  + 'Merci.');
+                $('#add_new_description_form__message').addClass('errorMessage');
                 }
             else {
                 entity_string = PlaceInJson(place_data['description'], place_data['lon'],
@@ -621,19 +659,18 @@ function catchForm(formName) {
                                 displayPlaceDataFunction,
                                 newPlaceData);
                             if(! editForm) {
-                                $('#new_placeFrom_message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
+                                $('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
                                 setTimeout(
                                     function(){
                                         changingModeFunction();
-                                        document.getElementById("div_placeEdit").style.display = "none";
                                         clearNewPlaceForm();
                                         displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
                                     },3000);        
                                 }
                             else {
-                                $('#new_placeFrom_message').text("Le point noir a bien été modifié. Merci!");
+                                $('#add_new_description_form__message').text("Le point noir a bien été modifié. Merci!");
                             }
-                            $('#new_placeFrom_message').addClass('successMessage');
+                            $('#add_new_description_form__message').addClass('successMessage');
                             $('#new_place_form_submit_button').attr("disabled", "disabled");
                         }
                         else { 
@@ -657,19 +694,18 @@ function clearNewPlaceForm() {
     /** 
     * Clear the data entered in the form with id 'new_placeForm'
     */
-    document.getElementById("new_placeForm").user_phonenumber.value = "";
-    document.getElementById("new_placeForm").user_label.value = "";
-    document.getElementById("new_placeForm").user_label.readOnly=false;
-    document.getElementById("new_placeForm").email.value = "";
-    document.getElementById("new_placeForm").email.readOnly=false;
-    document.getElementById("new_placeForm").email.value = "";
-    document.getElementById("new_placeForm").lieu.value = "";
-    document.getElementById("new_placeForm").description.value = "";
-    document.getElementById("new_placeForm").lon.value = "";
-    document.getElementById("new_placeForm").lat.value = "";
-    reset_informer();
-    $('#new_placeFrom_message').text("");
-    $('#new_place_form_submit_button').removeAttr("disabled");   
+    $("#add_new_description_div [name=user_phonenumber]").val("");
+    $("#add_new_description_div [name=user_label]").val("");
+    $("#add_new_description_div [name=user_label]").removeAttr("readonly");
+    $("#add_new_description_div [name=email]").val("");
+    $("#add_new_description_div [name=email]").removeAttr("readonly");
+    $("#add_new_description_div [name=lieu]").val("");
+    $("#add_new_description_div [name=description]").val("");
+    $("#add_new_description_div [name=lon]").val("");
+    $("#add_new_description_div [name=lat]").val("");
+    $('#add_new_description_form__message').text("");
+    reset_add_new_description_form_informer();
+    
 }
 
 function changingModeFunction() {
@@ -715,21 +751,20 @@ function changingModeFunction() {
             });
 
             if(userIsRegister()) {
-                document.getElementById("div_new_place_form_user_mail").style.display = 'none';
+                $("#div_new_place_form_user_mail").hide();
                 }
             else {
-                document.getElementById("div_new_place_form_user_mail").style.display = 'block';
+                $("#div_new_place_form_user_mail").show();
             }
-            document.getElementById("div_signaler").style.display = "block";
-            //document.getElementById("div_placeDetails").style.display = "none";
-            //document.getElementById("div_placeEdit").style.display = "none";
-            document.getElementById("div_placeDescription").style.display = "none";
+            $("#add_new_description_div").show();
+            $("#div_placeDescription").hide();
 
             add_new_place_mode = true;
         }
         else {
             $('.olControlButtonAddPlaceItemActive').each(function(index, value){
                 value.innerHTML = 'Ajouter un point';
+                $('')
             });
 
             if(new_placeMarker != undefined) 
@@ -762,12 +797,10 @@ function changingModeFunction() {
                 }
             });
 
-            document.getElementById("div_signaler").style.display = "none";
+            $("#add_new_description_div").hide();
 
             if(last_place_selected != null ) {
-                document.getElementById("div_placeDescription").style.display = "block";
-                //if(userIsAdmin()) { document.getElementById("div_placeEdit").style.display = "block"; }
-                //else { document.getElementById("div_placeDetails").style.display = "block"; }
+                $("#div_placeDescription").show();
             }
             add_new_place_mode = false; 
         }
@@ -993,6 +1026,15 @@ function displayRegardingToUserRole() {
         $('#span_place_description_commentaireCeM_button').hide();
         $('#span_place_description_status_button').hide();
     }
+
+
+    if(userIsAdmin() || userIsCeM() || userIsGestionnaireVoirie()) {
+        $('#div_commentaires_cem_gestionnaire').show();
+
+    }
+    else{
+        $('#div_commentaires_cem_gestionnaire').hide();
+    }
 }
 
 
@@ -1059,6 +1101,12 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
+    if(userIsGestionnaireVoirie() || userIsCeM() || userIsAdmin()){
+        updateLastComment(placeData.id);
+        updateAllComments(placeData.id);
+        $("#form_add_new_comment").attr("action","javascript:submitNewCommentForm(" + placeData.id + ")");
+    }
+
 
     descriptionHideEdit(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     displayRegardingToUserRole();
@@ -1066,4 +1114,6 @@ function displayPlaceDataFunction(placeMarker, placeData) {
 
     $('#div_placeDescription').show();
 }
+
+
 

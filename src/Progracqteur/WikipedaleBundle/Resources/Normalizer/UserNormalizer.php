@@ -99,15 +99,15 @@ class UserNormalizer implements NormalizerInterface
             $a['phonenumber'] = $object->getPhonenumber();
         }
         
-        if ($this->addGroupsToNormalization)
-        {
+        //if ($this->addGroupsToNormalization)
+        //{
             $a[self::GROUPS] = array();
             foreach ($object->getGroups() as $group)
             {
                 $a[self::GROUPS][] = $this->service->getGroupNormalizer()
                         ->normalize($group);
             }
-        }
+        //}
         
 
         return $a;

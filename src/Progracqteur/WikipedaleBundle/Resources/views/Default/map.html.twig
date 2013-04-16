@@ -4,10 +4,7 @@
 
  	<div id="ToolsPanel">
 
-    <div title="Button is to be clicked" onclick="javascript:map_resizing();">Changer la taille
-      de la carte</div>
-
-    <div title="Button is to be clicked" onclick="javascript:map_translate();">Test mode "CeM"</div>
+    <div id="div_returnNormalMode" title="Button is to be clicked" onclick="javascript:normal_mode();">Retour mode "normal"</div>
 
  		<div id="param_carte">
  			<div id="buttonOptionsAffichage" title="Button is to be clicked" onclick="javascript:action_buttonOptionsAffichage();">Filtrer
@@ -58,12 +55,12 @@
     </div>
 
     <div id="olPanelUL"></div>
-    {% include "ProgracqteurWikipedaleBundle:Default:description_new.html.twig" %}
+    {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
     {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
 
 
     <div id="div_dernieres_modifs">
-      Dernières modifications
+      <div id="div_title_dernieres_modifs">Dernières modifications</div>
       <div id="div_content_dernieres_modifs">
       </div>
     </div>

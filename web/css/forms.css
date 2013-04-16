@@ -66,7 +66,7 @@ form input.CancelButton:hover {
 }
 
 /* Boîte Connexion */
-#loginForm, #new_placeForm {
+#loginForm, #add_new_description_div {
     background: none;
     margin:0;
     padding:1em 0.2em 0 1em;
@@ -83,7 +83,7 @@ form#loginForm {
 }
 
 /* Formulaire ajout point */
-#div_signaler {
+#add_new_description_div {
     display:none;
     background: #9CBC2C;
     -webkit-border-radius: 10px;
@@ -92,18 +92,18 @@ form#loginForm {
     margin: 0 0.5em 1em 0.5em;
 }
 
-#div_signaler img.verif {
+#add_new_description_div img.verif {
     float: left;
     width:16px;
     height:16px;
     margin-right:0.2em;
 }
 
-#new_placeForm label {
+#add_new_description_div label {
     width: 20%;
 }
 
-#div_signaler textarea, #div_signaler fieldset input, #c_chzn.chzn-container.chzn-container-multi {
+#add_new_description_div textarea, #div_signaler fieldset input, #c_chzn.chzn-container.chzn-container-multi {
     width:73%;
 }
 
