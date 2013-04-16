@@ -50,12 +50,12 @@ function submitNewCommentForm(aPlaceId){
             .addClass("errorMessage");  
     }
     else {
-        entity_string = ret = '{"entity":"comment","placeId":' + JSON.stringify(aPlaceId) + ',"text":"' + comment_text + '"}';
+        entity_string = ret = '{"entity":"comment","placeId":' + JSON.stringify(aPlaceId) + ',"text":"' + comment_text + '","type":"moderator_manager"}';
         console.log(entity_string);
         $.ajax({
             type: "POST",
             data: {entity: entity_string},
-            url: Routing.generate('wikipedale_comment_new', {placeId: aPlaceId, _format: 'json'}),
+            url: Routing.generate('wikipedale_comment_change', {_format: 'json'}),
             cache: false,
             success: function(output_json) { 
                 if(output_json.query.error != undefined && ! output_json.query.error) { 

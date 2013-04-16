@@ -193,7 +193,7 @@ class CommentController extends Controller
         
         $rep = new NormalizedResponse(array($comment));
         
-        $text = $serializer->serialize($rep);
+        $text = $serializer->serialize($rep, $_format);
         
         switch($_format) 
         {
