@@ -3,6 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
@@ -15,7 +16,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
  * @author julien [at] fastre [point] info & marcducobu [at] gmail [point] com
  */
 
-class CommentNormalizer implements NormalizerInterface {
+class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     /**
      *
@@ -35,25 +36,38 @@ class CommentNormalizer implements NormalizerInterface {
         $this->service = $service;
     }
 
-    /*
+    
     public function denormalize($data, $class, $format = null) {
-   	if ($data['id'] === null){
+        //TODO à adapter lorsque le json envoyé sera corrigé
+   	/*if ($data['id'] === null)
+        {*/
             $p = new Comment();
-        }
-
-    }
-    else {
-            $p = $this->service->getManager()
-                    ->getRepository('ProgracqteurWikipedaleBundle:Model\\Comment')
-                    ->find($data['id']);
-            
-            if ($p === null)
+        /*}
+        else 
             {
-                throw new \Exception("La place recherchée n'existe pas");
-            }
-        }
+                $p = $this->service->getManager()
+                        ->getRepository('ProgracqteurWikipedaleBundle:Model\\Comment')
+                        ->find($data['id']);
 
-    $this->setCurrentComment($p);
+                if ($p === null)
+                {
+                    throw new \Exception("Le commentaire recherché n'existe pas");
+                }
+            }*/
+
+    if (isset($data['placeId']))
+    {
+        $place = $this->service->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')
+                ->find($data['placeId']);
+        
+        if ($place === null)
+        {
+            throw new \Exception("place with id ".$data['placeId']." not found");
+        }
+        
+        $p->setPlace($place);
+    }
 
     if (isset($data['text']))
             $p->setText($data['text']);
@@ -76,11 +90,15 @@ class CommentNormalizer implements NormalizerInterface {
         {
             $p->setPublished($data['published']);
         }
+        
+    if (isset($data['type']))
+    {
+        //TODO
+    }
 
     return $p;
-  	}
-  	*/
-
+    }
+  	
 
 
   	/**
@@ -96,9 +114,11 @@ class CommentNormalizer implements NormalizerInterface {
             'text' => $object->getText(),
             'published' => $object->isPublished(),
             'creationDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
+            'createDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'creator' => $this->service->getUserNormalizer()->normalize($object->getCreator(), $format),
             //'place' => $this->service->getPlaceNormalizer()->normalize($object->getPlace(), $format),
             'placeId' => $object->getPlace()->getId(),
+            'type' => 'moderator_manager' //TODO
         );
     }
     
@@ -114,9 +134,9 @@ class CommentNormalizer implements NormalizerInterface {
 
     public function supportsDenormalization($data, $type, $format = null) 
     {
-        if ($data['entity'] == 'comment')
+        if ($data['entity'] === 'comment')
         {
-            return false; //true;
+            return true; //true;
         } else 
         {
             return false;
@@ -137,5 +157,7 @@ class CommentNormalizer implements NormalizerInterface {
     {
         return $this->currentComment;
     }
+
+    
 }
 

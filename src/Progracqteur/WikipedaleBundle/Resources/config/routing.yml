@@ -85,10 +85,28 @@ wikiedale_comment_list_by_place:
 
 wikipedale_comment_new:
   pattern: /comment/new/place-{placeId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:new }
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:newbis }
   requirements:
     _format: json
     _method: POST
+  options:
+    expose: true
+    
+wikipedale_comment_change:
+  pattern: /comment/change.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:change }
+  requirements:
+    _format: json
+    _method: POST
+  options:
+    expose: true
+    
+wikipedale_comment_view:
+  pattern: /comment/view/{commentId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:view}
+  requirements:
+    _format: json
+    commentId: d+
   options:
     expose: true
 
