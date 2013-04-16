@@ -106,7 +106,7 @@ wikipedale_comment_view:
   defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:view}
   requirements:
     _format: json
-    commentId: d+
+    commentId: \d+
   options:
     expose: true
 

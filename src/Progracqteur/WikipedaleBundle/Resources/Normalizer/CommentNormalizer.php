@@ -70,7 +70,7 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
     }
 
     if (isset($data['text']))
-            $p->setText($data['text']);
+            $p->setContent($data['text']);
 
     if (isset($data['creator']))
         {
@@ -93,7 +93,15 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
         
     if (isset($data['type']))
     {
-        //TODO
+        switch($data['type'])
+        {
+            case 'moderator_manager' :
+                $p->setType(Comment::TYPE_MODERATOR_MANAGER);
+                break;
+            default :
+                $p->setType(Comment::TYPE_PUBLIC);
+                break;
+        }
     }
 
     return $p;
@@ -111,14 +119,14 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
         return  array(
             'entity' => 'comment',
             'id' => $object->getId(),
-            'text' => $object->getText(),
-            'published' => $object->isPublished(),
+            'text' => $object->getContent(),
+            'published' => $object->getPublished(),
             'creationDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'createDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'creator' => $this->service->getUserNormalizer()->normalize($object->getCreator(), $format),
             //'place' => $this->service->getPlaceNormalizer()->normalize($object->getPlace(), $format),
             'placeId' => $object->getPlace()->getId(),
-            'type' => 'moderator_manager' //TODO
+            'type' => $object->getType() 
         );
     }
     
