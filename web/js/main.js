@@ -713,9 +713,12 @@ function changingModeFunction() {
     * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
     */
     if(!add_new_place_mode) {
-        $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Annuler';
-        });
+        $('.olControlButtonAddPlaceItemActive')
+            .each(function(index, value){
+                value.innerHTML = 'Annuler';
+            })
+            .removeClass("buttonPlus")
+            .addClass("buttonAnnuler");
         $.each(markers_and_associated_data, function(index, marker_data) {
             if (marker_data != undefined) {
                 marker = marker_data[0];
@@ -762,9 +765,12 @@ function changingModeFunction() {
             add_new_place_mode = true;
         }
         else {
-            $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-                value.innerHTML = 'Ajouter un signalement';
-            });
+            $('.olControlButtonAddPlaceItemActive')
+                .each(function(index, value){
+                    value.innerHTML = 'Ajouter un signalement';
+                })
+                .removeClass("buttonAnnuler")
+                .addClass("buttonPlus");
 
             if(new_placeMarker != undefined) 
                 {
@@ -847,9 +853,9 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
     button_add_place.activate();
 
     $(document).ready(function(){
-        $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Ajouter un signalement';
-        });
+        $('.olControlButtonAddPlaceItemActive')
+            .addClass("buttonPlus")
+            .each(function(index, value){ value.innerHTML = 'Ajouter un signalement'; });
     });
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);

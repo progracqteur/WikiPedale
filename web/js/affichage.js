@@ -10,11 +10,17 @@ function action_buttonOptionsAffichage() {
     * to be used when the user ask to display or not the div "div_options_affichage"
     */
     if(display_option_affichage) {
+        $('#buttonOptionsAffichage')
+            .removeClass("buttonAnnuler")
+            .addClass("buttonPlus");
         document.getElementById("div_options_affichage").style.display = "none";
         document.getElementById("buttonOptionsAffichage").innerHTML = "Options d'affichage";  
         display_all_markers();
     }
     else {
+        $('#buttonOptionsAffichage')
+            .removeClass("buttonPlus")
+            .addClass("buttonAnnuler");
         document.getElementById("div_options_affichage").style.display = "block";
         document.getElementById("buttonOptionsAffichage").innerHTML = 'Annuler';
         display_only_markers_with_selected_categories();
