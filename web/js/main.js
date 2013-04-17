@@ -244,9 +244,9 @@ function EditDescriptionStatusInJson(id,status_type,status_value){
     return PlaceInJSonWithOtherNameValue(id,',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}]');
 }
 
-function EditDescriptionGestionaireInJson(id,gestionaire_id){
+function EditDescriptionGestionnaireInJson(id,gestionnaire_id){
     return PlaceInJSonWithOtherNameValue(id,',"manager": {"entity":"group","type":"MANAGER","id":' 
-        + JSON.stringify(gestionaire_id)  + '}');
+        + JSON.stringify(gestionnaire_id)  + '}');
 }
 
 function EditDescriptionPlacetypeInJson(id,placetype_id){
@@ -514,8 +514,8 @@ function descriptionEditOrSave(element_type){
         else if (element_type == "status") {
             json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
         }
-        else if (element_type == "gestionaire") {
-            json_request = EditDescriptionGestionaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
+        else if (element_type == "gestionnaire") {
+            json_request = EditDescriptiongestionnaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
         }
         else if (element_type == "type"){
             json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
@@ -537,7 +537,7 @@ function descriptionEditOrSave(element_type){
                     } else if (element_type == 'status'){
                         markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
                         $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
-                    } else if (element_type == 'gestionaire' || element_type == 'type'){
+                    } else if (element_type == 'gestionnaire' || element_type == 'type'){
                         $(element_id).text($(element_id + '_edit').select2('data').text);
                     }
                     else {
@@ -1006,10 +1006,10 @@ function displayRegardingToUserRole() {
     }
 
     if(userCanModifyManager() || userIsAdmin()) {
-        $('#span_place_description_gestionaire_button').show();
+        $('#span_place_description_gestionnaire_button').show();
     }
     else {
-        $('#span_place_description_gestionaire_button').hide();
+        $('#span_place_description_gestionnaire_button').hide();
     }
 
     if(userCanUnpublish() || userIsAdmin()){
@@ -1079,10 +1079,10 @@ function displayPlaceDataFunction(placeMarker, placeData) {
         $('#span_place_description_type').text(placeData.placetype.label);
     }
     if (placeData.manager == null) {
-        $('#span_place_description_gestionaire').text("pas encore de gestionaire assigné");
+        $('#span_place_description_gestionnaire').text("pas encore de gestionnaire assigné");
     }
     else{
-        $('#span_place_description_gestionaire').text(placeData.manager.label);
+        $('#span_place_description_gestionnaire').text(placeData.manager.label);
     }
     
 
