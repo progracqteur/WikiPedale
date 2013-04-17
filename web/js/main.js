@@ -713,9 +713,9 @@ function changingModeFunction() {
     * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
     */
     if(!add_new_place_mode) {
-        /* $('.olControlButtonAddPlaceItemActive').each(function(index, value){
+        $('.olControlButtonAddPlaceItemActive').each(function(index, value){
             value.innerHTML = 'Annuler';
-        }); */
+        });
         $.each(markers_and_associated_data, function(index, marker_data) {
             if (marker_data != undefined) {
                 marker = marker_data[0];
@@ -763,8 +763,7 @@ function changingModeFunction() {
         }
         else {
             $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-                value.innerHTML = 'Ajouter un point';
-                $('')
+                value.innerHTML = 'Ajouter un signalement';
             });
 
             if(new_placeMarker != undefined) 
@@ -849,7 +848,7 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
 
     $(document).ready(function(){
         $('.olControlButtonAddPlaceItemActive').each(function(index, value){
-            value.innerHTML = 'Ajouter un point';
+            value.innerHTML = 'Ajouter un signalement';
         });
     });
     $.getJSON(jsonUrlData, function(data) {
