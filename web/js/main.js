@@ -4,6 +4,9 @@ b64pad  = "=";
 
 var displaying_tiny_map = false;
 var map;
+var old_center;
+
+
 var osmLayer; // OSM layer
 var placesLayer; // layer where existing places are drawing
 var new_placeLayer;  // layer where the user can draw a new place
@@ -109,13 +112,16 @@ function map_resizing(){
 }
 
 
-function comments_mode(){
+function comments_mode(aPlaceId){
+    old_center =  map.getCenter();
     map_translate();
     $("#div_last_private_comment_container").hide();
     $("#span_plus_de_commenaitres_link").hide();
     $("#div_list_private_comment_container").show();
     $("#div_form_commentaires_cem_gestionnaire").show();
     $("#add_new_description_form__message").val("");
+    map.setCenter(markers_and_associated_data[aPlaceId][0].lonlat);
+    scroll(0,0);
 }
 
 function normal_mode(){
@@ -124,6 +130,7 @@ function normal_mode(){
     $("#span_plus_de_commenaitres_link").show();
     $("#div_list_private_comment_container").hide();
     $("#div_form_commentaires_cem_gestionnaire").hide();
+    map.setCenter(old_center);
 }
 
 function map_translate(){
@@ -1109,7 +1116,8 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     if(userIsGestionnaireVoirie() || userIsCeM() || userIsAdmin()){
         updateLastComment(placeData.id);
         updateAllComments(placeData.id);
-        $("#form_add_new_comment").attr("action","javascript:submitNewCommentForm(" + placeData.id + ")");
+        $("#span_plus_de_commenaitres_link a").attr("href","javascript:comments_mode(" + placeData.id + ");");
+        $("#form_add_new_comment").attr("action","javascript:submitNewCommentForm(" + placeData.id + ");");
     }
 
 
