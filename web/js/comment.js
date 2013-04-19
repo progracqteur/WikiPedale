@@ -4,8 +4,6 @@ function updateLastComment(aPlaceId){
         dataType: "json",
         url: jsonUrlData,
         success: function(data) {
-        	console.log(data.results);
-        	console.log(data.results.length);
         	if (data.results.length == 0) {
         		$('#div_last_private_comment_container').html('pas encore de commentaire pour ce signalement');
         	}
