@@ -61,8 +61,8 @@ function submitNewCommentForm(aPlaceId){
                         .val("Votre commentaire a été ajouté. Merci.")
                         .removeClass("errorMessage")
                         .addClass("successMessage");
-                    updateLastComment(placeData.id);
-                    updateAllComments(placeData.id);
+                    updateLastComment(aPlaceId);
+                    updateAllComments(aPlaceId);
                 }
                 else { 
                     $('#form_add_new_comment__message')
