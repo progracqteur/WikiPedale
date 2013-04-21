@@ -316,7 +316,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
    */
     private function getLipsum($amount = 1, $what = 'words', $start = 0)
     {
-        return 'ok';
+        
         //for performance reason: set a cache of previous lipsum
         //use the cache if we got more than three strings available, 
         //except 2 times on 10: create a new one
