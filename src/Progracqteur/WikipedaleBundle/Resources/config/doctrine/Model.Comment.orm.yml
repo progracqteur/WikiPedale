@@ -25,3 +25,4 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
     place:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
       mappedBy: comments
+      cascade: [persist]

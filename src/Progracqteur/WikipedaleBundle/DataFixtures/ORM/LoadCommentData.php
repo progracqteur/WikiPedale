@@ -122,11 +122,11 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
    */
     private function getLipsum($amount = 1, $what = 'words', $start = 0)
     {
-        return 'ok !';
+        
         //for performance reason: set a cache of previous lipsum
         //use the cache if we got more than three strings available, 
         //except 2 times on 10: create a new one
-        if (count($this->cacheLipsum) < 3 OR rand(0,10) % 4 === 0 )
+        if (count($this->cacheLipsum) < 3 OR rand(0,10) === 9)
         {
             $str = simplexml_load_file("http://www.lipsum.com/feed/xml?amount=$amount&what=$what&start=$start")->lipsum;
             $this->cacheLipsum[] = $str;
