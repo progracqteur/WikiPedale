@@ -109,7 +109,7 @@ class ChangeService {
             switch ($change->getType())
             {
                 //pour les objets Place
-                case self::PLACE_ADD_COMMENT : 
+                //case self::PLACE_ADD_COMMENT : 
                 case self::PLACE_ADD_VOTE :
                     continue; //tout le monde peut ajouter un commentaire ou un vote
                     break;
