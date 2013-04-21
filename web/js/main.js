@@ -656,26 +656,28 @@ function catchForm(formName) {
                     success: function(output_json) { 
                         if(! output_json.query.error) { 
                             newPlaceData = output_json.results[0];
-                            addMarkerWithClickAction(false,
-                                newPlaceData.geom.coordinates[0],
-                                newPlaceData.geom.coordinates[1],
-                                displayPlaceDataFunction,
-                                newPlaceData);
-                            if(! editForm) {
+                            clear_add_new_description_form();
+                            if(userIsRegister()) {
+                                addMarkerWithClickAction(false,
+                                    newPlaceData.geom.coordinates[0],
+                                    newPlaceData.geom.coordinates[1],
+                                    displayPlaceDataFunction,
+                                    newPlaceData);
                                 $('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
                                 setTimeout(
                                     function(){
                                         changingModeFunction();
-                                        clear_add_new_description_form();
-                                        clearNewPlaceForm();
                                         displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
-                                    },3000);        
+                                    },7000);  
                                 }
-                            else {
-                                $('#add_new_description_form__message').text("Le point noir a bien été modifié. Merci!");
-                            }
+                                else {
+                                    $('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Avant d'afficher le point noir, nous allons vérifier votre adresse mail. Veuillez suivre les instructions qui vous ont été envoyées par email.");
+                                    setTimeout(
+                                        function(){
+                                            changingModeFunction();
+                                    },7000); 
+                                }
                             $('#add_new_description_form__message').addClass('successMessage');
-                            $('#new_place_form_submit_button').attr("disabled", "disabled");
                         }
                         else { 
                             alert(output_json[0].message);
