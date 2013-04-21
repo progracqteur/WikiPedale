@@ -8,15 +8,15 @@
       
       <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="add_new_description_form_informer__user_label" alt="is the field ok">
       <label for="add_new_description_form__user_label">{{ 'AddPoint.userdata.name'|trans({}, 'pointMessages') }}</label>
-      <input id="add_new_description_form__user_label" name="user_label" onblur="javascript:update_add_new_description_form_informer('user_label')" placeholder="{{ 'AddPoint.userdata.name_placeholder'|trans({}, 'pointMessages') }}" /><br />
+      <input type="text" id="add_new_description_form__user_label" name="user_label" onblur="javascript:update_add_new_description_form_informer('user_label')" placeholder="{{ 'AddPoint.userdata.name_placeholder'|trans({}, 'pointMessages') }}" /><br />
         
       <img src="{{ asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__email" alt="is the field ok">
       <label for="add_new_description_form__email">{{ 'AddPoint.userdata.mail'|trans({}, 'pointMessages') }}</label>
-      <input id="add_new_description_form__email" name="email" onblur="javascript:update_add_new_description_form_informer('email')" placeholder="{{ 'AddPoint.userdata.mail_placeholder'|trans({}, 'pointMessages') }}" /><br />
+      <input type="text" id="add_new_description_form__email" name="email" onblur="javascript:update_add_new_description_form_informer('email')" placeholder="{{ 'AddPoint.userdata.mail_placeholder'|trans({}, 'pointMessages') }}" /><br />
 
       <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__user_phonenumber" alt="is the field ok">
       <label for="add_new_description_form__user_phonenumber">{{ 'AddPoint.userdata.phone'|trans({}, 'pointMessages') }}</label>
-      <input id="add_new_description_form__user_phonenumber" name="user_phonenumber" onblur="javascript:update_add_new_description_form_informer('user_phonenumber')" placeholder="{{ 'AddPoint.userdata.phone_placeholder'|trans({}, 'pointMessages') }}" /><br />
+      <input type="text" id="add_new_description_form__user_phonenumber" name="user_phonenumber" onblur="javascript:update_add_new_description_form_informer('user_phonenumber')" placeholder="{{ 'AddPoint.userdata.phone_placeholder'|trans({}, 'pointMessages') }}" /><br />
     </fieldset>
     
     <fieldset>
@@ -31,7 +31,7 @@
         
       <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__lieu" alt="is the field ok">
       <label for="add_new_description_form__lieu">{{ 'AddPoint.PointData.location'|trans({}, 'pointMessages') }}</label> 
-      <input id="add_new_description_form__lieu" name="lieu" maxlength="35" onblur="javascript:update_add_new_description_form_informer('lieu')" placeholder="{{ 'AddPoint.PointData.location_placeholder'|trans({}, 'pointMessages') }}" /><br />
+      <input type="text" id="add_new_description_form__lieu" name="lieu" maxlength="35" onblur="javascript:update_add_new_description_form_informer('lieu')" placeholder="{{ 'AddPoint.PointData.location_placeholder'|trans({}, 'pointMessages') }}" /><br />
 
       <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__categories" alt="is the field ok">
       <label for="add_new_description_form__categories">{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
@@ -62,7 +62,7 @@
     </div>
     
     <input class="envoi" id="new_place_form_submit_button" type="submit" value="{{ 'AddPoint.submit'|trans({}, 'pointMessages') }}">
-    <input class="CancelButton" value="{{ 'AddPoint.cancel'|trans({}, 'pointMessages') }}" type="submit" >
+    <input class="CancelButton" value="{{ 'AddPoint.cancel'|trans({}, 'pointMessages') }}" type="reset" onclick="clear_add_new_description_form()" >
   </form>
     <div style="clear:both; margin-bottom:1em;"></div>
 </div>

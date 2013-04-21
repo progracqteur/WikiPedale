@@ -581,6 +581,7 @@ function catchForm(formName) {
     * @param{string} formName The name of the form. It is '#editForm' if it is the edition form and '#new_placeForm' if it is the new place form.
     */
     editForm = formName == '#editForm';
+    console.log("catchForm");
 
     var place_data = {};
     place_data['categories'] = Array();
@@ -598,21 +599,17 @@ function catchForm(formName) {
     error_messages = "";
     if(place_data['description'] == "") { 
         error_messages = error_messages + "Veuillez remplir la description. ";
-        update_d_informer_for_form();
         }
     if(place_data['lieu'] == "") {
         error_messages = error_messages + "Veuillez indiquer l'adresse. ";
-        update_l_informer_for_form();
     }
     if(! userIsRegister())
     {
         if(place_data['user_label'] == "") { 
             error_messages = error_messages + "Veuillez donner votre nom. ";
-            update_n_informer_for_form();
             }
     if(! is_mail_valid(place_data['email'])) {
         error_messages = error_messages + "Veuillez indiquer une adresse email valide. ";
-        update_e_informer_for_form();
     }
 
     }
@@ -620,7 +617,6 @@ function catchForm(formName) {
     {
         if(place_data['lon'] == "" || place_data['lat'] == "") {
             error_messages = error_messages + "Veuillez indiquer où se trouve le point noir en cliquant sur la carte. ";
-            update_informer_map_not_ok();
             }
     }
     else
@@ -670,6 +666,7 @@ function catchForm(formName) {
                                 setTimeout(
                                     function(){
                                         changingModeFunction();
+                                        clear_add_new_description_form();
                                         clearNewPlaceForm();
                                         displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
                                     },3000);        
@@ -697,22 +694,14 @@ function catchForm(formName) {
     });
 }
 
-function clearNewPlaceForm() {
+function clear_add_new_description_form() {
     /** 
-    * Clear the data entered in the form with id 'new_placeForm'
+    * Clear the data entered in the form with id 'add_new_description_form'
     */
-    $("#add_new_description_div [name=user_phonenumber]").val("");
-    $("#add_new_description_div [name=user_label]").val("");
-    $("#add_new_description_div [name=user_label]").removeAttr("readonly");
-    $("#add_new_description_div [name=email]").val("");
-    $("#add_new_description_div [name=email]").removeAttr("readonly");
-    $("#add_new_description_div [name=lieu]").val("");
-    $("#add_new_description_div [name=description]").val("");
-    $("#add_new_description_div [name=lon]").val("");
-    $("#add_new_description_div [name=lat]").val("");
+    $("#add_new_description_form input[type=text], #add_new_description_form textarea, #add_new_description_form input[type=hidden]").val("");
     $('#add_new_description_form__message').text("");
+    new_placeMarker.display(false);
     reset_add_new_description_form_informer();
-    
 }
 
 function changingModeFunction() {
@@ -755,6 +744,7 @@ function changingModeFunction() {
                 }
                 else 
                 {
+                    new_placeMarker.display(true);
                     new_placeMarker.lonlat = position;
                     placesLayer.redraw();
                 }
