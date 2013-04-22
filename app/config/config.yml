@@ -50,6 +50,7 @@ doctrine:
           mapping_types:
             geography: point
             geometry: string
+            hstore: string
             xml: hash
         
       types:
