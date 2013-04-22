@@ -2,13 +2,19 @@
     <div id="accueil-texte">
     <img src="{{ asset('img/logos/logo_uello_300.png') }}" />
     <h1>
-        <span style="color:#008000;">{{ 'accueil.assoc'|trans({}, 'messages') }}</span>
-        {{ 'accueil.accroche'|trans({}, 'messages') }}
+        <span style="color:#008000;">{{ 'accueil.accroche'|trans({}, 'messages') }}</span>
+        
     </h1>
+
     <ul>
         {% for city in mainCities %}
         <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</a></li>
         {% endfor %}
     </ul>
+
+    <a href="http://www.gracq.be" style="padding-right:10px"><img src="{{ asset('img/logos/logo_gracq_big.png') }}"  height="160px" /></a>
+
+    <a href="http://mobilite.wallonie.be"><img src="{{ asset('img/logos/logo_WallonieCyclable.jpg') }}" height="160px"/></a>
+    
     </div>
 </div>
