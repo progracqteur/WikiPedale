@@ -1,32 +1,28 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\DataFixtures\ORM;
+namespace Progracqteur\WikipedaleBundle\Command;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use Progracqteur\WikipedaleBundle\Entity\Management\Group;
-use Progracqteur\WikipedaleBundle\Entity\Management\Notation;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 
 /**
- * Description of LoadCategoryData
+ * Description of ImportCategories
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class LoadCategoryData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface {
+class ImportCategoriesCommand extends ContainerAwareCommand {
     
-    /**
-     *
-     * @var Symfony\Component\DependencyInjection\ContainerInterface 
-     */
-    private $container;
+    protected function configure()
+    {
+        $this->setName('uello:categories')
+                ->setDescription("Importe les catégories telle que définies par la RW");
+    }
     
-    public function load(ObjectManager $manager) {
-        
+    protected function execute(InputInterface $input, OutputInterface $output) {
         
         $array = array(
             'revetement' =>
@@ -155,94 +151,47 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
                 array(
                     'l' => "Autre",
                     'p' => 'autre'
-                )
-            
+                ),
+            'test ajout' =>
+                array('l' => "test ajout", 'p' => "autre")
         );
+        
+        $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
         
         $categories = array();
         $i = 0;
         
         foreach ($array as $key => $catdef)
         {
-            $cat = new Category();
-            $categories[$key] = $cat;
+            $existingCategory = $manager
+                    ->getRepository('ProgracqteurWikipedaleBundle:Model\Category')
+                    ->findOneByLabel($catdef['l']);
             
-            $cat->setLabel($catdef['l']);
-            if ($catdef['p'] !== null)
+            if ($existingCategory === null) 
             {
-                $cat->setParent($categories[$catdef['p']]);
-                $this->addReference('cat'.$i, $cat);
-                $i++;
+                echo "Ajout de al catégorie ".$catdef['l']." \n";
+                $cat = new Category();
+                $categories[$key] = $cat;
+
+                $cat->setLabel($catdef['l']);
+                if ($catdef['p'] !== null)
+                {
+                    $cat->setParent($categories[$catdef['p']]);
+
+
+
+                    $i++;
+                }
+                $manager->persist($cat);
+            } else {
+                $categories[$key] = $existingCategory;
+                echo "Catégorie ".$existingCategory->getLabel()." existe déjà ! \n";
             }
-            $manager->persist($cat);
         }
         
         $manager->flush();
         
-/*
-        
-        $petit = new Category();
-        $petit->setLabel("Petits problèmes");
-        $manager->persist($petit);
-        
-        
-        $revetement = new Category();
-        $revetement->setLabel("Revêtement");
-        $revetement->setParent($petit);
-        $manager->persist($revetement);
-        
-        $mv = new Category();
-        $mv->setLabel("Mauvais revêtement")
-                ->setParent($revetement);
-        $manager->persist($mv);
-        
-        $this->addReference('cat1', $mv);
-        
-        $deg = new Category();
-        $deg->setLabel("Revêtement dégradé (trous...)")
-                ->setParent($revetement);
-        $manager->persist($deg);
-        
-        $this->addReference('cat2', $deg);
-        
-        $signal = new Category();
-        $signal->setLabel("Signalisation");
-        $signal->setParent($petit);
-        $manager->persist($signal);
-        
-        $feu = new Category();
-        $feu->setLabel("Feu en panne")
-                ->setParent($signal);
-        $manager->persist($feu);
-        
-        $this->addReference('cat3', $feu);
-        
-        $gros = new Category();
-        $gros->setLabel('Point noir');
-        $manager->persist($gros);
-        
-        $carrefour = new Category();
-        $carrefour->setLabel("Carrefours dangereux")
-                ->setParent($gros);
-        $manager->persist($carrefour);
-        
-        $cycl = new Category();
-        $cycl->setLabel("Pas de place au cycliste")
-                ->setParent($carrefour);
-        $manager->persist($cycl);
-        
-        $manager->flush();
- * 
- */
-        
     }
-
-    public function setContainer(ContainerInterface $container = null) {
-        $this->container = $container;
-    }
-
-    public function getOrder() {
-        return 400;
-    }
+    
 }
 
