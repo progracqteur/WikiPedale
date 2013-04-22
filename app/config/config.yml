@@ -49,6 +49,7 @@ doctrine:
           charset:  UTF8  
           mapping_types:
             geography: point
+            geometry: string
             xml: hash
         
       types:
@@ -64,7 +65,7 @@ doctrine:
           string_functions:
             covers: Progracqteur\WikipedaleBundle\Resources\Doctrine\Functions\Covers
             crosses: Progracqteur\WikipedaleBundle\Resources\Doctrine\Functions\Crosses
-
+        
 # Swiftmailer Configuration
 swiftmailer:
     transport: %mailer_transport%
