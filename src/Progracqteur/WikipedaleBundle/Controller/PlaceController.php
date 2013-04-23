@@ -282,10 +282,10 @@ class PlaceController extends Controller {
             $t = $this->get('translator');
             $message = \Swift_Message::newInstance()
                     ->setSubject($t->trans('email_confirmation_message.subject'))
-                    ->setFrom('uello@gracq.org')
+                    ->setFrom('no-reply@uello.be') //TODO insert into parameters.yml
                     ->setTo($place->getCreator()->getEmail())
                     ->setBody(
-                            $this->render('ProgracqteurWikipedaleBundle:Emails:confirmation.txt.twig',
+                            $this->renderView('ProgracqteurWikipedaleBundle:Emails:confirmation.txt.twig',
                                     array(
                                         'code' => $checkCode,
                                         'user' => $place->getCreator(),
@@ -397,10 +397,9 @@ class PlaceController extends Controller {
         
     }
     
-    public function confirmUserAction(Request $request) 
+    public function confirmUserAction(Request $request, $token, $placeId) 
     {
-        $placeId = $request->query->get('placeId');
-        $token = $request->query->get('token');
+        
         
         $place = $this->getDoctrine()->getEntityManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Place')

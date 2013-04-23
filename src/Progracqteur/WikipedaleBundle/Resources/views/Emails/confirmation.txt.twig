@@ -1,10 +1,11 @@
+{% autoescape false %}
 Bonjour,
 
 Vous avez introduit un signalement sur le service Uello. 
 
 Le service cherche à confirmer votre adresse e-mail. Pour confirmer que vous êtes bien
 le détenteur de cette adresse de courriel, merci de cliquer sur le lien suivant:
-{{ url('wikipedale_user_confirm', { 'token' : code, 'placeId' : place.id}) }}
+{{ url('wikipedale_user_confirm', {token:code, placeId: place.id} )}}
 
 Si vous n'avez pas introduit de signalement sur le site uello.be, vous pouvez ignorer ce courriel.
 
@@ -12,3 +13,4 @@ S'il vous était envoyé à de multiple reprises, veuillez contacter les adminis
 
 Merci.
 L'équipe Uello
+{% endautoescape %}
