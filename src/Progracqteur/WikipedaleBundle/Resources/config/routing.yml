@@ -55,7 +55,7 @@ wikipedale_place_change:
     
     
 wikipedale_user_confirm:
-  pattern: /user/confirm.html
+  pattern: /user/confirm/{token}/{placeId}.html
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:confirmUser }
   options:
     expose: true
@@ -221,21 +221,4 @@ wikipedale_group_covers_zone:
      expose: true
        
 
-#debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
-# en version de production
 
-debug_one:
-  pattern: /debug/one
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:debugOne }
-  
-debug_two:
-  pattern: /debug/two
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:debugTwo }
-  
-dev_send_request:
-  pattern: /dev/send_place
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:devSendPlace }
-  
-dev_test_token:
-  pattern: /dev/test_token
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:devSendTestToken}

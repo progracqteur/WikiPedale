@@ -7,7 +7,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
       generator: {strategy: AUTO}
   fields:
     content:
-      type: string
+      type: text
     published:
       type: boolean
     creationDate:
