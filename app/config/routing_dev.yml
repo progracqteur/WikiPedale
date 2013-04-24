@@ -18,3 +18,22 @@ _configurator:
 
 _main:
     resource: routing.yml
+    
+    #debogage: ces chemins seront supprimés par la suite ou rendu inaccessible
+# en version de production
+
+debug_one:
+  pattern: /debug/one
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:debugOne }
+  
+debug_two:
+  pattern: /debug/two
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:debugTwo }
+  
+dev_send_request:
+  pattern: /dev/send_place
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:devSendPlace }
+  
+dev_test_token:
+  pattern: /dev/test_token
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Debug:devSendTestToken}

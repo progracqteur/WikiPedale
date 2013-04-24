@@ -22,7 +22,9 @@
         "friendsofsymfony/jsrouting-bundle": "1.1.*",
         "doctrine/doctrine-fixtures-bundle": "dev-master@dev",
         "doctrine/data-fixtures": "dev-master@dev",
-        "friendsofsymfony/user-bundle": "*"
+        "friendsofsymfony/user-bundle": "*",
+        "doctrine/migrations" : "master@dev",
+        "doctrine/doctrine-migrations-bundle": "master@dev"
     },
     "scripts": {
         "post-install-cmd": [
