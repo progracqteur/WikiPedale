@@ -685,15 +685,21 @@ function catchForm(formName) {
                             $('#add_new_description_form__message').addClass('successMessage');
                         }
                         else { 
+                            alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                            /*
                             alert(output_json[0].message);
-                            alert('ERREUR'); } },
+                            alert('ERREUR');*/}
+                    },
                     error: function(output_json) {
+                        alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                        /*
                         alert(JSON.stringify(output_json));
                         alert(output_json.responseText);
                         alert(JSON.parse(output_json.responseText)[0]);
                         alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
                         alert((output_json.responseText[0]).message);
                         alert('ERREUR'); 
+                        */
                     }
                 });
             }
