@@ -257,7 +257,9 @@ class PlaceController extends Controller {
             if ($this->get('security.context')->getToken()->getUser() instanceof User) //si utilisateur connecté
             {
                 $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
-            } else { 
+            } 
+            else 
+            { 
                 $user = $place->getCreator();
                 
                 $place->getChangeset()->setAuthor($user);
@@ -427,6 +429,9 @@ class PlaceController extends Controller {
             
             
             $place->setConfirmedCreator($creator);
+            
+            //set creator to changeset
+            $place->getChangeset()->setAuthor($creator);
             
             $this->getDoctrine()->getEntityManager()->flush($place);
             
