@@ -370,9 +370,14 @@ function updatePageWhenLogged(){
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
 
-    update_markers_and_associated_data();
 
-    displayRegardingToUserRole();
+    signalement_id = $('#input_place_description_id').val();
+
+    if (signalement_id != "" && signalement_id != undefined) {
+        // be sure that a place is selected
+        update_markers_and_associated_data();
+        displayRegardingToUserRole();
+    }
 }
 
 function catchLoginForm(){
@@ -965,9 +970,7 @@ function refresh_span_photo(id) {
 function displayEmailAndPhoneNumberRegardingToRole() {
     signalement_id = $('#input_place_description_id').val();
 
-    if (signalement_id != "") {
-        console.log(signalement_id);
-        console.log(markers_and_associated_data[signalement_id]);
+    if (signalement_id != "" && signalement_id != undefined) {
         placeData = markers_and_associated_data[signalement_id][1]
 
         if (userCanVieuwUsersDetails() || userIsAdmin()) {
