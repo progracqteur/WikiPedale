@@ -254,6 +254,7 @@ class PlaceTracking implements ChangesetInterface {
             {
                 case ChangeService::PLACE_CREATOR:
                     //Il ne faut rien faire: place creator n'est normalement pas permis
+                    $newValue = $value;
                     break;
                 case ChangeService::PLACE_ADD_PHOTO:
                     $newValue = $value;
