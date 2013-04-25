@@ -18,7 +18,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
   getters:
     fileObject:
       - Image:
-          maxSize: 3096k
+          maxSize: 5000k
           maxSizeMessage: Le fichier est trop volumineux. Réduisez-le avant envoi.
           mimeTypes: [image/jpeg]
           mimeTypesMessage: Le fichier n'est pas un format accepté. Seul le format jpg est accepté.
