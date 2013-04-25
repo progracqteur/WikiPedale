@@ -277,7 +277,7 @@ class PlaceController extends Controller {
         {
             $place->setAccepted(false);
             $checkCode = $place->getCreator()->getCheckCode();
-            
+            $place->getChangeset()->setCreation(null);
             //register the place to the EntityManager, for getting the Id
             $this->getDoctrine()->getEntityManager()->persist($place);
             
@@ -430,8 +430,7 @@ class PlaceController extends Controller {
             
             $place->setConfirmedCreator($creator);
             
-            //set creator to changeset
-            $place->getChangeset()->setAuthor($creator);
+           
             
             $this->getDoctrine()->getEntityManager()->flush($place);
             

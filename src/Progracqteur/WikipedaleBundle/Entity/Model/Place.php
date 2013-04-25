@@ -365,6 +365,8 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         $this->forceSetCreator($creator);
         $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR_CONFIRMATION, 1);
+        $this->getChangeset()->setAuthor($creator);
+        $this->getChangeset()->setCreation(true);
         $this->setAccepted(true);
     }
     
@@ -384,7 +386,8 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
                 $this->creatorUnregisteredProxy = $creator;
 
                 $this->change('infos', $old, $this->getInfos());
-                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+                //$this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+                //normalement le creator ne doit pas être modifié
 
             } else {
                 $this->change('creator', $this->creator, $creator);

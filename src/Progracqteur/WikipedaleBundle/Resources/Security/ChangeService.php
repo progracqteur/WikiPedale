@@ -79,7 +79,10 @@ class ChangeService {
             
     
         //s'il s'agit d'une création
-        if ($object->getChangeset()->isCreation())
+        if ($object->getChangeset()->isCreation() === true 
+                OR
+            $object->getChangeset()->isCreation() === null
+                )
         {
             if ($object instanceof Place) {
                 // si l'utilisateur est authentifié, il ne peut créer un objet pour un autre
@@ -110,6 +113,9 @@ class ChangeService {
             {
                 //pour les objets Place
                 //case self::PLACE_ADD_COMMENT : 
+                case self::PLACE_CREATION:
+                    continue; //tout le monde peut ajouter un emplacement
+                    break;
                 case self::PLACE_ADD_VOTE :
                     continue; //tout le monde peut ajouter un commentaire ou un vote
                     break;
@@ -293,7 +299,7 @@ class ChangeService {
                     }
                     break;
                  default:
-                     throw ChangeException::param('inconnu');
+                     throw ChangeException::param('inconnu - '.$change->getType());
             
             }
             

@@ -56,6 +56,7 @@ class PlaceTrackingController extends Controller {
                JOIN p.place pl 
             where covers(:polygon, pl.geom ) = true 
                and pl.accepted = true
+               and p.isCreation is not null
             order by p.date DESC
             ')
                 ->setParameter('polygon', $city->getPolygon())
