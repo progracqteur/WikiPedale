@@ -370,9 +370,14 @@ function updatePageWhenLogged(){
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
 
-    update_markers_and_associated_data();
 
-    displayRegardingToUserRole();
+    signalement_id = $('#input_place_description_id').val();
+
+    if (signalement_id != "" && signalement_id != undefined) {
+        // be sure that a place is selected
+        update_markers_and_associated_data();
+        displayRegardingToUserRole();
+    }
 }
 
 function catchLoginForm(){
@@ -680,15 +685,21 @@ function catchForm(formName) {
                             $('#add_new_description_form__message').addClass('successMessage');
                         }
                         else { 
+                            alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                            /*
                             alert(output_json[0].message);
-                            alert('ERREUR'); } },
+                            alert('ERREUR');*/}
+                    },
                     error: function(output_json) {
+                        alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                        /*
                         alert(JSON.stringify(output_json));
                         alert(output_json.responseText);
                         alert(JSON.parse(output_json.responseText)[0]);
                         alert(JSON.stringify(JSON.parse(output_json.responseText)[0]));
                         alert((output_json.responseText[0]).message);
                         alert('ERREUR'); 
+                        */
                     }
                 });
             }
@@ -965,9 +976,7 @@ function refresh_span_photo(id) {
 function displayEmailAndPhoneNumberRegardingToRole() {
     signalement_id = $('#input_place_description_id').val();
 
-    if (signalement_id != "") {
-        console.log(signalement_id);
-        console.log(markers_and_associated_data[signalement_id]);
+    if (signalement_id != "" && signalement_id != undefined) {
         placeData = markers_and_associated_data[signalement_id][1]
 
         if (userCanVieuwUsersDetails() || userIsAdmin()) {
