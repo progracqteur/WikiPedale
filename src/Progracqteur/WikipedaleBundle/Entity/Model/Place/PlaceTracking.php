@@ -96,7 +96,7 @@ class PlaceTracking implements ChangesetInterface {
                     $newValue = $newValue->getFileName();
                     break;
                 case ChangeService::PLACE_CREATION:
-                    $this->isCreation = true;
+                    $this->setCreation(true);
                     //il n'y a pas d'autrs modifs à effectuer
                     break;
                 case ChangeService::PLACE_GEOM:
@@ -144,6 +144,10 @@ class PlaceTracking implements ChangesetInterface {
      */
     public function isCreation() {
         return $this->isCreation;
+    }
+    
+    public function setCreation($boolean) {
+        $this->isCreation = $boolean;
     }
     
     private $proxyAuthor;
