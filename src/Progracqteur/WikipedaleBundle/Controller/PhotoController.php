@@ -179,10 +179,10 @@ class PhotoController extends Controller
             $photo->setPhotoService($this->get('progracqteurWikipedalePhotoService'));
             
             $uploadedFile = $form['file']->getData();
-            if ($uploadedFile != null && $uploadedFile->isValid())
+            if ($uploadedFile != null && !$uploadedFile->isValid())
             {
                 $error = $uploadedFile->getError();
-                throw new \Exception("Le fichier envoyé n'est pas valide. Erreur : $error dump : $dump");
+                throw new \Exception("Le fichier envoyé n'est pas valide. Erreur : $error dump : ".var_dump($error));
             }
             
             if ($form->isValid())
