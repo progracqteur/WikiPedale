@@ -32,7 +32,10 @@ class PhotoType extends AbstractType
                 break;
         }
         
-        $builder->add('file', 'file', array('required' => $fileRequired, 'label' => 'Fichier'));
+        $builder->add('file', 'file', array(
+            'required' => $fileRequired, 
+            'label' => 'Fichier',
+            'data_class' => null));
         
         //légende
         $builder->add('legend', 'text', array(
