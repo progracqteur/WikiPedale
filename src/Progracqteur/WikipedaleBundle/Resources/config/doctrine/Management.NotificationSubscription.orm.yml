@@ -1,0 +1,24 @@
+Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription:
+  type: entity
+  table: notification_subscription
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    kind:
+      type: string
+      length: 20
+    frequency:
+      type: integer
+  manyToOne:
+    zone:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Zone
+      inversedBy: notificationSubscriptions
+    owner:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
+      inversedBy: notificationSubscriptions
+    group:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
+      inversedBy: notificationSubscriptions
+      nullable: true

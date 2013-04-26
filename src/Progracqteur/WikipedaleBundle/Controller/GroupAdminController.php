@@ -8,6 +8,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Progracqteur\WikipedaleBundle\Form\Management\GroupType;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Form\Management\GroupUser\GroupUserType;
+use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
  * Description of GroupAdminController
@@ -242,6 +243,84 @@ class GroupAdminController extends Controller {
             
             if ($formGroups->isValid())
             {
+                //add notificationSubscriptions
+                $user = $formGroups->getData();
+                
+                //add notification to group recently added
+                foreach($user->getGroups() as $group)
+                {
+                    $groupAlreadyNotified = false;
+                    
+                    foreach($user->getNotificationSubscriptions() as $notification)
+                    {
+                        if ($notification->getGroup() !== null 
+                                && $notification->getGroup()->getId() === $group->getId())
+                        {
+                            $groupAlreadyNotified = true;
+                        } 
+                    }
+                    
+                    if ($groupAlreadyNotified === false)
+                    {
+                        switch ($group->getType())
+                        {
+                            case Group::TYPE_MANAGER:
+                                $notification = new NotificationSubscription();
+                                $notification->setKind(NotificationSubscription::KIND_MANAGER);
+                                break;
+                            case Group::TYPE_MODERATOR:
+                                $notification = new NotificationSubscription();
+                                $notification->setKind(NotificationSubscription::KIND_MODERATOR);
+                                break;
+                            default:
+                                $notification = null;
+                                break;
+
+                        }
+
+                        if ($notification !== null)
+                        {
+                            $notification->setFrequency(NotificationSubscription::FREQUENCY_MINUTELY)
+                                        ->setGroup($group)
+                                        ->setOwner($user)
+                                        ->setZone($group->getZone())
+                                    ;
+                            $user->addNotificationSubscription($notification);
+
+                        }
+                    } 
+                }
+                
+                //remove notification to groups recently removed
+                foreach($user->getNotificationSubscriptions() as $notification)
+                {
+                    
+                    $notificationMatchGroup = false;
+                    
+                    foreach ($user->getGroups() as $group)
+                    {
+                        if ($notification->getGroup() !== null)
+                        {
+                            if ($notification->getGroup()->getId() === $group->getId())
+                            {
+                                $notificationMatchGroup = true;
+                                break;
+                            }
+                            
+                        } 
+                    }
+
+                    
+                    if ($notificationMatchGroup === false)
+                    {
+                        $user->removeNotificationSubscription($notification);
+                        $em->remove($notification);
+                    }
+                    
+                    
+                }
+
+                
                 $em->flush();
                 $this->get('session')->setFlash('notice', 
                         'user.groups.added_or_removed');
