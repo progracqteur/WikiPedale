@@ -62,7 +62,7 @@ class DefaultController extends Controller
             $cities = array();
         }*/
         
-        $mainCitiesSlug = array('mons', 'liege', 'gembloux', 'namur', 'ciney', 'wanze', 'braine-l-alleud');
+        $mainCitiesSlug = array('mons', 'liege', 'walhain', 'namur');
         $mainCities = array();
         
         foreach ($cities as $c)
