@@ -49,6 +49,7 @@ user:
   username: Nom d'utilisateur
   email: Adresse de courriel
   phone: Numéro de téléphone
+  label: Nom d'affichage (public)
   groups: Groupes
   form:
     registration:
@@ -56,6 +57,8 @@ user:
         invalid_repeated_password: Les deux mots de passe ne correspondent pas. Veuillez les réintroduire.
       fields:
         password: Mot de passe
+        label: "Nom public :"
+        phonenumber: "Numéro de téléphone :"
 paginations:
   pages: Pages
 
