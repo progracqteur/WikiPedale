@@ -12,8 +12,8 @@ class UserType extends BaseType
         parent::buildForm($builder, $options);
         
         $builder
-            ->add('label')
-            ->add('phonenumber')
+            ->add('label', 'text', array('label' => "user.form.registration.fields.label"))
+            ->add('phonenumber', 'text', array('label' => 'user.form.registration.fields.phonenumber'))
         ;
     }
 
