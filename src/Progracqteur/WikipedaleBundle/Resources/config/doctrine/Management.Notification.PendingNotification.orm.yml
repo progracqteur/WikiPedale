@@ -1,0 +1,14 @@
+Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification:
+  type: entity
+  readOnly: ~
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  manyToOne:
+    subscription:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription
+      mappedBy: pendingNotifications
+    placeTracking:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+      mappedBy: pendingNotifications
