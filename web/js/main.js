@@ -495,7 +495,6 @@ function descriptionEditOrSave(element_type){
         } else if (element_type == 'status') {
             color_selected = 0;
             $.each(markers_and_associated_data[signalement_id][1].statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
-            console.log(color_selected);
             $(element_id + '_edit').select2("val", color_selected);
         }
         else {
@@ -532,7 +531,6 @@ function descriptionEditOrSave(element_type){
         else if (element_type == "type"){
             json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
         }
-        console.log(json_request);
         url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
         $.ajax({
             type: "POST",
@@ -586,7 +584,6 @@ function catchForm(formName) {
     * @param{string} formName The name of the form. It is '#editForm' if it is the edition form and '#new_placeForm' if it is the new place form.
     */
     editForm = formName == '#editForm';
-    console.log("catchForm");
 
     var place_data = {};
     place_data['categories'] = Array();
@@ -651,7 +648,6 @@ function catchForm(formName) {
                 entity_string = PlaceInJson(place_data['description'], place_data['lon'],
                     place_data['lat'], place_data['lieu'], place_data['id'], place_data['couleur'],
                     place_data['user_label'], place_data['email'], place_data['user_phonenumber'],place_data['categories']);
-                console.log(entity_string);
                 url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
                 $.ajax({
                     type: "POST",
@@ -1048,6 +1044,12 @@ function displayRegardingToUserRole() {
     else{
         $('#div_commentaires_cem_gestionnaire').hide();
     }
+
+
+    // affichage du commentaire du CeM même si il est vide (afin de pouvoir l'éditer)
+    if(userIsCeM() || userIsAdmin()) {
+        $('#div_container_place_description_commentaireCeM').show();
+    }
 }
 
 
@@ -1067,7 +1069,6 @@ function displayPlaceDataFunction(placeMarker, placeData) {
             );
     }
     placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses) + '_selected.png');
-    console.log("place info:" + JSON.stringify(placeData));
     last_place_selected = placeData.id;
     refresh_span_photo(placeData.id);
     url_add_photo = "javascript:pop_up_add_photo(" + placeData.id + ")";
@@ -1082,7 +1083,18 @@ function displayPlaceDataFunction(placeMarker, placeData) {
     $('#span_place_description_signaleur').text(placeData.creator.label);
     $('#span_place_description_loc').text(placeData.addressParts.road);
     $('#span_place_description_desc').text(placeData.description);
-    $('#span_place_description_commentaireCeM').text(placeData.moderatorComment);
+
+
+    if(placeData.moderatorComment != '' || userIsCeM() || userIsAdmin()) {
+        $('#span_place_description_commentaireCeM').text(placeData.moderatorComment);
+        $('#div_container_place_description_commentaireCeM').show();
+    }
+    // pas d'affichage du commentaire du CeM si vide
+    else {
+        $('#span_place_description_commentaireCeM').text('');
+        $('#div_container_place_description_commentaireCeM').hide();
+    }
+
     $('#span_place_description_cat').text(categories_list);
 
     if (placeData.placetype == null){
