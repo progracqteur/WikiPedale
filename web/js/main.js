@@ -52,11 +52,11 @@ color_trad['2'] = 'o';
 color_trad['3'] = 'g';
 
 var color_trad_text = new Array();
-color_trad_text['0'] = 'blanc';
-color_trad_text['-1'] = 'rejeté';
-color_trad_text['1'] = 'rouge';
-color_trad_text['2'] = 'orange';
-color_trad_text['3'] = 'vert';
+color_trad_text['0'] = 'pas encore pris en compte (blanc)';
+color_trad_text['-1'] = 'rejeté (gris)';
+color_trad_text['1'] = 'pris en compte (rouge)';
+color_trad_text['2'] = 'en cours de résolution (orange)';
+color_trad_text['3'] = 'résolu (vert)';
 
 function marker_img_name(statuses)
 {
