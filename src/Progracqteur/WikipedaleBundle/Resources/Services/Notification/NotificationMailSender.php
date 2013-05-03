@@ -47,7 +47,7 @@ class NotificationMailSender implements NotificationSenderInterface {
     public function __construct(
             ToTextMailSenderService $toTextService, 
             NotificationFilter $filter,
-            SwiftMailer $mailer,
+            Swift_Mailer $mailer,
             Translator $translator
             ) 
     {
@@ -59,10 +59,10 @@ class NotificationMailSender implements NotificationSenderInterface {
     
     
     public function addNotification(PendingNotification $notification) {
-        if ($this->filter->mayBeSend($notification->getPlaceTracking()))
+        if ($this->filter->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription()))
         {
             $this->notificationToSend[$notification->getSubscription()->getOwner()->getId()]
-                    [$notification->getPlaceTracking()->getPlace()] = $notification;
+                    [$notification->getPlaceTracking()->getPlace()->getId()] = $notification;
         } 
     }
 
@@ -70,17 +70,23 @@ class NotificationMailSender implements NotificationSenderInterface {
     {
         foreach($this->notificationToSend as $key => $array)
         {
-            $userEmail = $array[0]->getOwner()->getEmail();
+            $userEmail = null; 
             
             foreach($array as $notification)
             {
                 $placetrackings[] = $notification->getPlaceTracking();
+                
+                //add user email only one time...
+                if ($userEmail === null) {
+                    $userEmail = $notification->getSubscription()->getOwner()->getEmail();
+                }
+                    
             }
             
-            $text = $this->toTextService->transformToText($placetrackings);
+            $text = $this->toTextService->transformToText($placetrackings, $notification->getSubscription()->getOwner());
             
             $message = \Swift_Message::newInstance()
-                ->setSubject($this->translator->trans('mail.subject', null, ToTextMailSenderService::DOMAIN))
+                ->setSubject($this->translator->trans('mail.subject', array(), ToTextMailSenderService::DOMAIN))
                 ->setFrom('no-reply@uello.be')
                 ->setTo($userEmail)
                 ->setBody(

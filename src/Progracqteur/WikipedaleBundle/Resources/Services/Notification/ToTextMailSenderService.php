@@ -20,7 +20,7 @@ class ToTextMailSenderService {
      */
     private $t;
     
-    const DOMAIN = 'notification';
+    const DOMAIN = 'notifications';
     
     public function __construct(Translator $translator) {
         $this->t = $translator;
@@ -50,15 +50,17 @@ class ToTextMailSenderService {
             //sort by date
             sort($array, SORT_NUMERIC);
 
-            $t .= "**".$this->t->trans('mail.place.string', null, self::DOMAIN).
-                    $array[0]->getPlace()->getLabel().
+            $t .= "**".$this->t->trans('mail.place.header', 
+                    array('%label%' => $array[0]->getPlace()->getLabel()), 
+                    self::DOMAIN).
                     "** \n \n";
 
             foreach($array as $placetracking)
             {
                 $args = array(
                                 '%author%' => $placetracking->getAuthor()->getLabel(),
-                                '%label%' => $placetracking->getPlace()->getLabel()
+                                '%label%' => $placetracking->getPlace()->getLabel(),
+                                '%date%' => $placetracking->getDate()->format('U')
                             );
 
                 if ($placetracking->isCreation())
@@ -95,19 +97,19 @@ class ToTextMailSenderService {
                     switch ($status->getValue())
                     {
                         case -1 : 
-                            $t .=  $this->t->trans('place.status.rejected', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.rejected', $args, self::DOMAIN);
                             break;
                         case 0 :
-                            $t .=  $this->t->trans('place.status.notReviewed', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.notReviewed', $args, self::DOMAIN);
                             break;
                         case 1 :
-                            $t .=  $this->t->trans('place.status.takenIntoAccount', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.takenIntoAccount', $args, self::DOMAIN);
                             break;
                         case 2 :
-                            $t .=  $this->t->trans('place.status.inChange', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.inChange', $args, self::DOMAIN);
                             break;
                         case 3 :
-                            $t .=  $this->t->trans('place.status.success', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.success', $args, self::DOMAIN);
                             break;
                     }
 
@@ -125,7 +127,7 @@ class ToTextMailSenderService {
                 {
                     $args['%change%'] = 
                          $this->getStringFromChangeType($changes[0]->getType());
-                    $t .= $this->t->trans('place.change.one', $args, self::DOMAIN);
+                    $t .= $this->t->trans('mail.place.change.one', $args, self::DOMAIN);
                     $t .= "\n";
                 }
 
@@ -135,7 +137,7 @@ class ToTextMailSenderService {
                          $this->getStringFromChangeType($changes[0]->getType());
                     $args['%change__%'] = 
                          $this->getStringFromChangeType($changes[1]->getType());
-                    $t .= $this->t->trans('place.change.two', $args, self::DOMAIN);
+                    $t .= $this->t->trans('mail.place.change.two', $args, self::DOMAIN);
                     $t .= "\n";
                 }
 
@@ -147,7 +149,7 @@ class ToTextMailSenderService {
                          $this->getStringFromChangeType($changes[1]->getType());
                     $more = $nb - 2;
                     $args['%more%'] = $more;
-                    $t .=  $this->t->transChoice('place.change.more', $more, $args, self::DOMAIN);
+                    $t .=  $this->t->transChoice('mail.place.change.more', $more, $args, self::DOMAIN);
                     $t .= "\n";
                 }
             }
@@ -155,7 +157,7 @@ class ToTextMailSenderService {
             $t .= "\n \n";
         }
         
-        $t .= $this->t->trans('mail.footer_text', null, self::DOMAIN);
+        $t .= $this->t->trans('mail.footer_text', array(), self::DOMAIN);
         
         return $t;
           
@@ -169,24 +171,24 @@ class ToTextMailSenderService {
         switch ($type)
         {
             case ChangeService::PLACE_ADDRESS :
-                return $this->t->trans('change.place.address' , array(), $d);
+                return $this->t->trans('mail.change.place.address' , array(), $d);
                 break;
             case ChangeService::PLACE_DESCRIPTION:
-                return $this->t->trans('change.place.description', array(), $d);
+                return $this->t->trans('mail.change.place.description', array(), $d);
                 break;
             case ChangeService::PLACE_GEOM:
-                return $this->t->trans('change.place.geom', array(), $d);
+                return $this->t->trans('mail.change.place.geom', array(), $d);
                 break;
             case ChangeService::PLACE_ADD_CATEGORY:
             case ChangeService::PLACE_REMOVE_CATEGORY:
-                return $this->t->trans('change.place.category', array(), $d);
+                return $this->t->trans('mail.place.change.place.category', array(), $d);
                 break;
             case ChangeService::PLACE_PLACETYPE_ALTER:
-                return $this->t->trans('change.place.place_type', array(), $d);
+                return $this->t->trans('mail.place.change.place.place_type', array(), $d);
             case ChangeService::PLACE_MODERATOR_COMMENT_ALTER:
-                return $this->t->trans('change.place.moderator_comment', array(), $d);
+                return $this->t->trans('mail.place.change.place.moderator_comment', array(), $d);
             default:
-                return $this->t->trans('change.place.other', array(), $d);
+                return $this->t->trans('mail.place.change.place.other', array(), $d);
         }
     }
 }

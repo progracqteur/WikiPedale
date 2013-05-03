@@ -264,7 +264,7 @@ class PlaceTracking implements ChangesetInterface {
                     $newValue = $value;
                     break;
                 case ChangeService::PLACE_CREATION:
-                    //nothing to do - this case should not happen
+                    $newValue = $value;
                     break;
                 case ChangeService::PLACE_GEOM:
                     $newValue = Point::fromGeoJson($value);
@@ -290,7 +290,14 @@ class PlaceTracking implements ChangesetInterface {
                     $newValue = $value;
             }
 
-            $this->values[] = $newValue;
+            //for debugging in case of message "Notice: Undefined variable: 
+            //newValue in /home/user/public_html/uello21/src/Progracqteur/WikipedaleBundle/Entity/Model/Place/PlaceTracking.php 
+            //line 295"
+            //try {
+                $this->values[] = $newValue;
+            //} catch (\Exception $e) {
+            //    echo $key ." ".$e->getMessage();
+            //}
         }
     }
 

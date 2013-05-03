@@ -57,6 +57,24 @@ services:
     arguments: [%fos_user.modeL.user.class%]
     tags: 
       - { name: form.type, alias: wikipedale_user_registration }
+      
+      
+  progracqteur.wikipedale.notification.filter:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilter
+    
+  progracqteur.wikipedale.notification.sender.mail:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationMailSender
+    arguments:
+      toTextService: "@progracqteur.wikipedale.notification.to_text.mail"
+      filter: "@progracqteur.wikipedale.notification.filter"
+      mailer: "@mailer"
+      translator: "@translator"
+  
+  progracqteur.wikipedale.notification.to_text.mail:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\ToTextMailSenderService
+    arguments:
+      translator: "@translator"
+      
   
 
 #    progracqteur_wikipedale.example:

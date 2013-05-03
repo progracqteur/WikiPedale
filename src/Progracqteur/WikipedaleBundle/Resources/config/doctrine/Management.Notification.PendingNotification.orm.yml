@@ -9,6 +9,8 @@ Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification
     subscription:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription
       mappedBy: pendingNotifications
+      fetch: EAGER
     placeTracking:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
       mappedBy: pendingNotifications
+      fetch: EAGER
