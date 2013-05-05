@@ -6,6 +6,8 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Symfony\Component\Translation\Translator;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * A service which transform a Notification to a text
@@ -25,15 +27,27 @@ class ToTextMailSenderService {
     
     private $date_format;
     
+    /**
+     *
+     * @var Doctrine\Common\Persistence\ObjectManager 
+     */
+    private $om;
+    
 
     
     const DOMAIN = 'notifications';
     
-    public function __construct(Translator $translator, array $moderatorArray, array $managerArray, $date_format) {
+    public function __construct(
+            Translator $translator, 
+            array $moderatorArray, 
+            array $managerArray, 
+            $date_format,
+            ObjectManager $om) {
         $this->t = $translator;
         $this->array[NotificationSubscription::KIND_MODERATOR] = $moderatorArray;
         $this->array[NotificationSubscription::KIND_MANAGER] = $managerArray;
         $this->date_format = $date_format;
+        $this->om = $om;
     }    
     
     
@@ -67,6 +81,9 @@ class ToTextMailSenderService {
                     array('%label%' => $array[0]->getPlace()->getLabel()), 
                     self::DOMAIN).
                     "** \n \n";
+            
+            //prefix for changes items :
+            $p = '- ';
 
             foreach($array as $placetracking)
             {
@@ -78,7 +95,7 @@ class ToTextMailSenderService {
 
                 if ($placetracking->isCreation())
                 {
-                    $t .= $this->t->trans('mail.place.creation', 
+                    $t .= $p.$this->t->trans('mail.place.creation', 
                             $args,
                             self::DOMAIN
                             );
@@ -94,7 +111,7 @@ class ToTextMailSenderService {
                 //if the change is add a photo (do not consider other changes)
                 if (isset($keyChanges[ChangeService::PLACE_ADD_PHOTO]))
                 {
-                    $t .= $this->t->trans('mail.place.add_photo', $args, self::DOMAIN);
+                    $t .= $p.$this->t->trans('mail.place.add_photo', $args, self::DOMAIN);
                     $t .= "\n";
                     continue;
                 }
@@ -105,7 +122,11 @@ class ToTextMailSenderService {
                 if (isset($keyChanges[ChangeService::PLACE_STATUS]))
                 {
                     $status = $keyChanges[ChangeService::PLACE_STATUS]->getNewValue();
-                    $args['%notation%'] = $status->getType();
+                    $args['%notation%'] = $this->om
+                            ->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
+                            ->find($status->getType());
+                    
+                    $t .= $p;
 
                     switch ($status->getValue())
                     {
@@ -131,6 +152,8 @@ class ToTextMailSenderService {
                 }
 
                 //if the changes are other : 
+                
+                $t.= $p;
 
                 //count the changes
                 $nb = count ($changes);

@@ -14,11 +14,11 @@ mail:
     creation: %author% a créé l'emplacement %label% le %date%
     add_photo: %author% a ajouté une photographie à l'emplacement %label%
     status:
-      rejected: %author% a rejeté l'emplacement %place% selon la notation %notation%
-      notReviewed: %author% a marqué l'emplacement %place% comme non traité selon la notation %notation%
-      takenIntoAccount: %author% a pris en compte l'emplacement %place% selon la notation %notation%
-      inChange: %author% a renseigné l'emplacement %place% comme étant en cours de résolution selon la notation %notation%
-      success: %author% a renseigné l'emplacement %place% comme résolu selon la notation %notation%  
+      rejected: %author% a rejeté l'emplacement selon la notation '%notation%'
+      notReviewed: %author% a marqué l'emplacement comme non traité selon la notation '%notation%'
+      takenIntoAccount: %author% a pris en compte l'emplacement selon la notation '%notation%'
+      inChange: %author% a renseigné l'emplacement comme étant en cours de résolution selon la notation '%notation%'
+      success: %author% a renseigné l'emplacement comme résolu selon la notation '%notation%'  
     change:
       one: "%author% a modifié %change% de l'emplacement %place%."
       two: "%author% a modifié %change_% et %change__% de l'emplacement %place%."
@@ -30,6 +30,7 @@ mail:
       moderator_comment_header: "Commentaire du Conseiller en Mobilité (CeM) :"
       categories: "Catégorie : %categories%"
       manager: "Gestionnaire de voirie : %manager_label%"
+      no_manager : Aucun
       
       
       
