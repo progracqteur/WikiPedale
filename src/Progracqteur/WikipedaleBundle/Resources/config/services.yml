@@ -59,14 +59,25 @@ services:
       - { name: form.type, alias: wikipedale_user_registration }
       
       
-  progracqteur.wikipedale.notification.filter:
-    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilter
+  progracqteur.wikipedale.notification.filter.role:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterByRole
+    
+  progracqteur.wikipedale.notification.filter.subscription_kind_moderator:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionModerator
+    arguments: [%notifications_subscription_moderator_events%]
+    
+  progracqteur.wikipedale.notification.filter.subscription_kind_manager:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionManager
+    arguments: [%notifications_subscription_manager_events%]
+
     
   progracqteur.wikipedale.notification.sender.mail:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationMailSender
     arguments:
       toTextService: "@progracqteur.wikipedale.notification.to_text.mail"
-      filter: "@progracqteur.wikipedale.notification.filter"
+      filterByRole: "@progracqteur.wikipedale.notification.filter.role"
+      filterBySubscriptionManager: "@progracqteur.wikipedale.notification.filter.subscription_kind_manager"
+      filterBySubscriptionModerator: "@progracqteur.wikipedale.notification.filter.subscription_kind_moderator"
       mailer: "@mailer"
       translator: "@translator"
   
@@ -74,6 +85,9 @@ services:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\ToTextMailSenderService
     arguments:
       translator: "@translator"
+      moderatorArray: %notifications_subscription_moderator_events%
+      managerArray: %notifications_subscription_manager_events%
+      date_format: %date_format%
       
   
 

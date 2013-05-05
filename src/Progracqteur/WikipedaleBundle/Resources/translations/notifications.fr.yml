@@ -1,0 +1,35 @@
+mail:
+  intro_text: | 
+              Bonjour %dest%, 
+              
+              Vous recevez ce courriel car vous êtes abonnés aux modifications 
+              de la zone %zone% sur le site http://uello.be.
+              
+  footer_text: |
+               Bonne journée, 
+               L'équipe Uello
+  subject: Notifications de Uello
+  place:
+    header: Emplacement "%label%"
+    creation: %author% a créé l'emplacement %label% le %date%
+    add_photo: %author% a ajouté une photographie à l'emplacement %label%
+    status:
+      rejected: %author% a rejeté l'emplacement %place% selon la notation %notation%
+      notReviewed: %author% a marqué l'emplacement %place% comme non traité selon la notation %notation%
+      takenIntoAccount: %author% a pris en compte l'emplacement %place% selon la notation %notation%
+      inChange: %author% a renseigné l'emplacement %place% comme étant en cours de résolution selon la notation %notation%
+      success: %author% a renseigné l'emplacement %place% comme résolu selon la notation %notation%  
+    change:
+      one: "%author% a modifié %change% de l'emplacement %place%."
+      two: "%author% a modifié %change_% et %change__% de l'emplacement %place%."
+      more: "{1} %author% a modifié %change0%, %change1% et une autre caractéristique de l'emplacement %place%. | [2,Inf] %author% a modifié %change0%, %change1% et %more% autres caractéristiques de l'emplacement %place%."
+    presentation:
+      actual: 'Description actuelle du signalement "#%id% - %label%" :'
+      description_header: "Description :"
+      introduced_by_when: Créé par %creator% le %create_date%.
+      moderator_comment_header: "Commentaire du Conseiller en Mobilité (CeM) :"
+      categories: "Catégorie : %categories%"
+      manager: "Gestionnaire de voirie : %manager_label%"
+      
+      
+      

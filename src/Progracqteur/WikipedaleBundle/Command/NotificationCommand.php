@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
  * Description of NotificationCommand
@@ -40,7 +41,10 @@ class NotificationCommand extends ContainerAwareCommand {
         
         $notifier = $this->getContainer()
                 ->get('progracqteur.wikipedale.notification.sender.mail');
-                
+        
+        //set the locale to FR:
+        $this->getContainer()->get('translator')->setLocale('fr');
+        
         foreach ($pendingNotifications as $pn)
         {
             echo $pn->getPlaceTracking()->getId()." ".$pn->getSubscription()->getOwner()->getLabel()."\n";

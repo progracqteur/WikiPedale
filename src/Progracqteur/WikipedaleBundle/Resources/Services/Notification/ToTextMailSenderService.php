@@ -2,9 +2,10 @@
 
 namespace Progracqteur\WikipedaleBundle\Resources\Services\Notification;
 
-use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
+use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Symfony\Component\Translation\Translator;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 
 /**
  * A service which transform a Notification to a text
@@ -20,17 +21,29 @@ class ToTextMailSenderService {
      */
     private $t;
     
+    private $array;
+    
+    private $date_format;
+    
+
+    
     const DOMAIN = 'notifications';
     
-    public function __construct(Translator $translator) {
+    public function __construct(Translator $translator, array $moderatorArray, array $managerArray, $date_format) {
         $this->t = $translator;
+        $this->array[NotificationSubscription::KIND_MODERATOR] = $moderatorArray;
+        $this->array[NotificationSubscription::KIND_MANAGER] = $managerArray;
+        $this->date_format = $date_format;
     }    
     
     
-    public function transformToText($placetrackings, User $owner) {
+    public function transformToText($placetrackings, User $owner, NotificationSubscription $ns) {
         
         //prepare text
-        $t = $this->t->trans('mail.intro_text', array('%dest%' => $owner->getLabel()), self::DOMAIN);
+        $t = $this->t->trans('mail.intro_text', array(
+                    '%dest%' => $owner->getLabel(),
+                    "%zone%" => $ns->getZone()
+                ), self::DOMAIN);
         $t.= "\n \n";
         
         //sort by place
@@ -60,7 +73,7 @@ class ToTextMailSenderService {
                 $args = array(
                                 '%author%' => $placetracking->getAuthor()->getLabel(),
                                 '%label%' => $placetracking->getPlace()->getLabel(),
-                                '%date%' => $placetracking->getDate()->format('U')
+                                '%date%' => $placetracking->getDate()->format($this->date_format)
                             );
 
                 if ($placetracking->isCreation())
@@ -154,7 +167,11 @@ class ToTextMailSenderService {
                 }
             }
             
-            $t .= "\n \n";
+            $t .= "\n\n";
+            
+            $t .= $this->addPlacePresentation($array[0]->getPlace());
+            
+            $t .= "\n\n\n\n\n\n\n\n";
         }
         
         $t .= $this->t->trans('mail.footer_text', array(), self::DOMAIN);
@@ -190,6 +207,89 @@ class ToTextMailSenderService {
             default:
                 return $this->t->trans('mail.place.change.place.other', array(), $d);
         }
+    }
+    
+    
+    private function addPlacePresentation(Place $place) {
+        $t = '';
+        
+        $t.= $this->t->trans('mail.place.presentation.actual',
+                array(
+                    '%label%' => $place->getLabel(),
+                    '%id%' => $place->getId()
+                ), self::DOMAIN);
+        
+        $t.="\n\n";
+        
+        $t.= $this->t->trans('mail.place.presentation.description_header', array(), self::DOMAIN);
+        
+        $t.="\n";
+        
+        $t.= $place->getDescription();
+        
+        $t.="\n";
+        
+        $t.= $this->t->trans('mail.place.presentation.introduced_by_when', 
+                array(
+                    '%creator%' => $place->getCreator()->getLabel(),
+                    '%create_date%' => $place->getCreateDate()->format($this->date_format)
+                ), self::DOMAIN);
+        
+        $t.="\n";
+        
+        if ($place->getModeratorComment() != '') {
+            $t.= $this->t->trans('mail.place.presentation.moderator_comment_header',
+                    array(
+
+                    ), self::DOMAIN);
+
+            $t.= "\n";
+
+            $t.= $place->getModeratorComment();
+
+            $t.= "\n";
+        }
+        
+        //anonymous function to show categories label
+        $func = function() use ($place) {
+                    $string = '';
+                    $i = 0;
+                    foreach ($place->getCategory() as $cat) {
+                        if ($i !== 0) {
+                            $string .= ', ';
+                        }
+                        $string.= "'".$cat->getLabel()."'";
+                        
+                        $i++;
+                    }
+                    
+                    return $string;
+                };
+        
+        $t.= $this->t->trans('mail.place.presentation.categories', array(
+                '%categories%' => $func()
+            ), self::DOMAIN);
+        
+        $t.="\n";
+        
+        if ($place->getManager() === null) {
+            $managerLabel = $this->t->trans(
+                    'mail.place.presentation.no_manager', 
+                    array(),
+                    self::DOMAIN
+                    );
+        } else {
+            $managerLabel = $place->getManager()->getName();
+        }
+        
+        $t.= $this->t->trans('mail.place.presentation.manager', array(
+            '%manager_label%' => $managerLabel
+        ), self::DOMAIN);
+                
+        $t.="\n";
+        
+        return $t;
+        
     }
 }
 
