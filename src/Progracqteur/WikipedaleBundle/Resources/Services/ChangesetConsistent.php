@@ -33,38 +33,43 @@ class ChangesetConsistent {
         if ($changeset instanceof PlaceTracking) {
             $changes = $changeset->getChanges();
             
+            $correctedChanges = array();
             //replace the change with proper objects
             foreach ($changes as $key => $value) {
-                switch($key) {
+                switch($value->getType()) {
                     default: 
-                        //do nothing
+                        $correctedChanges[$value->getType()] = $value->getNewValue();
                         break;
-                    case ChangeService::PLACE_PHOTO:
                     case ChangeService::PLACE_ADD_PHOTO:
-                        $changes[$key] = $this->om->
-                            getRepository('ProgracqteurWikipedaleBundle:Model/Photo')
-                                ->findBy(array('filename' => $value));
+                        $correctedChanges[$value->getType()] = $this->om->
+                            getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
+                                ->findBy(array('filename' => $value->getNewValue()));
                         break;
                     case ChangeService::PLACE_ADD_CATEGORY:
                     case ChangeService::PLACE_REMOVE_CATEGORY:
                         //foreach category in array
-                        $a = $value; 
+                        $a = $value->getNewValue(); 
                         $b = array();
                         foreach($a as $categoryId) {
-                            $b[] = $this->om->getRepository('ProgracqteurWikipedaleBundle:Model/Category')
+                            $b[] = $this->om
+                                    ->getRepository('ProgracqteurWikipedaleBundle:Model\Category')
                                     ->find($categoryId);       
                         }
-                        $changes[$key] = $b;
+                        $correctedChanges[$value->getType()] = $b;
                         break;
                     case ChangeService::PLACE_PLACETYPE_ALTER:
-                        $changes[$key] = $this->om->
-                        getRepository('ProgracqteurWikipedaleBundle:Model/Place/PlaceType')
-                            ->find($value);
+                        $correctedChanges[$value->getType()] = $this->om
+                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
+                                ->find($value->getNewValue());
                         break;
+                    case ChangeService::PLACE_COMMENT_ADD:
+                        $correctedChanges[$value->getType()] = $this->om
+                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
+                            ->find($value->getNewValue());
                 }
             }
             
-            return $changes;
+            return $correctedChanges;
             
         } else {
             return $changeset->getChanges();

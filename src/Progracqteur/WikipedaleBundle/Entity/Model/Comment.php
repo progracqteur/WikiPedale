@@ -192,9 +192,11 @@ class Comment
      */
     public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place = null)
     {
-        $this->place = $place;
-        $place->registerComment($this);
+        if ($this->place !== null) {
+            throw new \Exception("You cannot switch the comment place !");
+        }
         
+        $this->place = $place;
         return $this;
     }
 
@@ -229,5 +231,12 @@ class Comment
     public function getType()
     {
         return $this->type;
+    }
+    
+    /**
+     * called by prePersist lifeCycleEvent
+     */
+    public function registerToPlace() {
+        $this->place->registerComment($this);
     }
 }

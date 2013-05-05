@@ -12,7 +12,8 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 /**
  * Description of CommentController
  *
- * @author marcducobu [arobase] gmail POINT com & julien [arobase] fastre POINT info
+ * @author marcducobu [arobase] gmail POINT com 
+ * @author julien [arobase] fastre POINT info
  */
 class CommentController extends Controller 
 {
@@ -163,10 +164,16 @@ class CommentController extends Controller
         if (! $this->get('security.context')->isGranted(User::ROLE_NOTATION)) {
             throw new \Exception("Vous n'avez pas le droit d'ajouter un commentaire");
         }
+        
+        
 
         //print "plus de verif pour les droits";
 
         $em->persist($comment);
+        
+        //add user to comment
+        $comment->getPlace()->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+        
         $em->flush();
         
         return $this->redirect(

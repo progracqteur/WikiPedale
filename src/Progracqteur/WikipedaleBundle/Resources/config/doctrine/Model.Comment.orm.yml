@@ -26,3 +26,5 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
       mappedBy: comments
       cascade: [persist]
+  lifecycleCallbacks:
+    postPersist: [registerToPlace]

@@ -59,6 +59,11 @@ services:
       - { name: form.type, alias: wikipedale_user_registration }
       
       
+  progracqteur.wikipedale.changeset_consistent:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\ChangesetConsistent
+    arguments:
+      om: "@doctrine.orm.entity_manager"
+  
   progracqteur.wikipedale.notification.filter.role:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterByRole
     
