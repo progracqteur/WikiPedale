@@ -44,11 +44,15 @@ class NotificationCommand extends ContainerAwareCommand {
         
         //set the locale to FR:
         $this->getContainer()->get('translator')->setLocale('fr');
+        $context = $this->getContainer()->get('router')->getContext();
+        $context->setHost('uello.be');
+        $context->setScheme('http');
         
         foreach ($pendingNotifications as $pn)
         {
-            echo $pn->getPlaceTracking()->getId()." ".$pn->getSubscription()->getOwner()->getLabel()."\n";
+            echo "Traitement de la pendingNotification ".$pn->getId()."\n";
             $notifier->addNotification($pn);
+            $em->remove($pn);
         }
         
         $notifier->send();
@@ -62,6 +66,8 @@ class NotificationCommand extends ContainerAwareCommand {
 
             $spool->flushQueue($transport);
         }
+        
+        $em->flush();
         
         echo "ok ! \n";
         

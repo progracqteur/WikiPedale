@@ -89,6 +89,7 @@ services:
       managerArray: %notifications_subscription_manager_events%
       date_format: %date_format%
       om: "@doctrine.orm.entity_manager"
+      router: "@router"
       
   
 

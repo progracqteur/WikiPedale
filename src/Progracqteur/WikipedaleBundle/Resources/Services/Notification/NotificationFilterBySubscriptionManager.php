@@ -29,14 +29,21 @@ class NotificationFilterBySubscriptionManager implements NotificationFilter {
         
         if ($changeset instanceof PlaceTracking) {
             //check if the subscriber is the manager of the place
+            
+            if ($changeset->getPlace()->getManager() === null){
+                return false;
+            }
             $groups = $subscription->getOwner()->getGroups();
             
             $groupsManagerIds = array();
+            
             foreach($groups as $group) {
                 if ($group->getType() === Group::TYPE_MANAGER) {
                     $groupsManagerIds[] = $group->getId();
                 }
             }
+            
+            
             
             if (in_array($changeset->getPlace()->getManager()->getId(), $groupsManagerIds)) {
                 return true;

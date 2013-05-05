@@ -26,6 +26,13 @@ class NotificationFilterByRole {
     {
         if ($changeset->isCreation() === null)
         {
+            echo "changeset->isCreation === null \n";
+            return false;
+        }
+        
+        if ($changeset->getPlace()->isAccepted() === false)
+        {
+            echo "place not accepted \n";
             return false;
         }
         
@@ -36,13 +43,14 @@ class NotificationFilterByRole {
         }
         
         //stop things private for moderator/manager
-        if (isset($changes[ChangeService::PLACE_MODERATOR_COMMENT_ALTER]))
+        /*if (isset($changes[ChangeService::PLACE_MODERATOR_COMMENT_ADD]))
         {
-            if ($subscription->getOwner()->hasRole(User::ROLE_MODERATOR_COMMENT_ALTER))
+            /*if ($subscription->getOwner()->hasRole(User::ROLE_))
             {
+                echo "role not correct ! \n";
                 return false;
             }
-        }
+        }*/
         
         return true;
         

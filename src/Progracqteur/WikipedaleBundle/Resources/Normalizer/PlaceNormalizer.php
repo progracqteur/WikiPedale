@@ -186,6 +186,10 @@ class PlaceNormalizer implements NormalizerInterface {
             {
                 throw new NormalizingException('could not denormalize manager '.$data['manager']);
             }
+            
+            if ($data['manager'] === null) {
+                $p->setManager(null);
+            }
                 
         }
         

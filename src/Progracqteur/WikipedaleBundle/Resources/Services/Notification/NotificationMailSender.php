@@ -73,21 +73,39 @@ class NotificationMailSender implements NotificationSenderInterface {
             if ($this->filterBySubscription[$notification->getSubscription()->getKind()]
                     ->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription())) {
                 
+                echo "Notification de la placeTracking ". 
+                        $notification->getPlaceTracking()->getId() .
+                        " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
+                        " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
+                        "\n";
                 $this->notificationToSend[$notification->getSubscription()->getOwner()->getId()]
-                    [$notification->getPlaceTracking()->getPlace()->getId()] = $notification;
+                    [] = $notification;
                 
+            } else {
+                echo "REFUS DE Notification de la placeTracking ". 
+                        $notification->getPlaceTracking()->getId() .
+                        " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
+                        " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
+                        "\n";
             }
             
             
-        } 
+            
+        } else {
+            echo "INTERDICTION DE Notification de la placeTracking ". 
+                    $notification->getPlaceTracking()->getId() .
+                    " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
+                    " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
+                    "\n";
+        }
     }
 
     public function send() 
     {
-        echo "Locale: ".$this->translator->getLocale() ; echo "\n";
-        foreach($this->notificationToSend as $key => $array)
+        foreach($this->notificationToSend as $ownerId => $array)
         {
             $userEmail = null; 
+            $placetrackings = array();
             
             foreach($array as $notification)
             {
