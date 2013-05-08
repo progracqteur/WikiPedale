@@ -948,7 +948,9 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         
         $this->change('infos', $oldInfos, $this->infos);
         
-        $this->getChangeset()->addChange(ChangeService::PLACE_COMMENT_ADD, $comment);
+        $this->getChangeset()->addChange(
+                ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD, $comment
+                );
     }
     
     
