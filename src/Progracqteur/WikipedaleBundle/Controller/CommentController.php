@@ -176,6 +176,8 @@ class CommentController extends Controller
         
         $em->flush();
         
+        $em->flush();
+        
         return $this->redirect(
                 $this->generateUrl('wikipedale_comment_view', array( 
                     'commentId' => $comment->getId(),

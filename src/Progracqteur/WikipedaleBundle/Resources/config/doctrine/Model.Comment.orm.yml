@@ -27,4 +27,4 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
       mappedBy: comments
       cascade: [persist]
   lifecycleCallbacks:
-    postPersist: [registerToPlace]
+    preFlush: [registerToPlace]
