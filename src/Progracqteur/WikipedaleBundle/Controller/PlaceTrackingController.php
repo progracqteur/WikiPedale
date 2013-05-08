@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * 
@@ -52,41 +53,21 @@ class PlaceTrackingController extends Controller {
         }
         
         
+        //check if the user may seen comments
+        $private = false;
+        if ($this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
+            $private = true;
+        } 
         
-        $tracks = $em->createQuery('SELECT p 
-            from ProgracqteurWikipedaleBundle:Model\\Place\\PlaceTracking p 
-               JOIN p.place pl 
-            where covers(:polygon, pl.geom ) = true 
-               and pl.accepted = true
-               and p.isCreation is not null
-            order by p.date DESC
-            ')
-                ->setParameter('polygon', $city->getPolygon())
-                ->setFirstResult($first)
-                ->setMaxResults($max)
-                ->getResult();
         
-        //FIXME: stop the show of unauthorized comments
-        $consistentChangesetService = $this->get('progracqteur.wikipedale.changeset_consistent');
+        $tracks = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking')
+                ->getLastEvents($first, $max, $city, $private);
         
-        $tracksCleaned = array();
         
-        foreach ($tracks as $changeset) {
-            $changes = $consistentChangesetService->getChanges($changeset);
-            foreach ($changes as $key => $value) {
-                if ($key === ChangeService::PLACE_COMMENT_ADD) {
-                    if ($value->getNewValue()->getType() === Comment::TYPE_MODERATOR_MANAGER) {
-                        //skip 
-                        continue;
-                    } 
-                }
-            }
-            $tracksCleaned[] = $changeset;
-        }
         
         switch ($_format) {
             case 'json' :
-                $r = new NormalizedResponse($tracksCleaned);
+                $r = new NormalizedResponse($tracks);
                 $r->setLimit($max);
                 $r->setStart($first);
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
@@ -99,7 +80,7 @@ class PlaceTrackingController extends Controller {
                 $r = $this->render('ProgracqteurWikipedaleBundle:History:places.atom.twig', array(
                    'title' => $city->getName(),
                    'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
-                   'tracks' => $tracksCleaned,
+                   'tracks' => $tracks,
                    'citySlug' => $city->getSlug(),
                    'toTextService' => $this->get('progracqteur.wikipedale.place.tracking.toText'),
                    'urlFeed' => $this->generateUrl('wikipedale_history_place_by_city', 

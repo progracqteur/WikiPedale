@@ -130,7 +130,7 @@ class PlaceTracking implements ChangesetInterface {
                 case ChangeService::PLACE_MANAGER_REMOVE:
                     $newValue = $newValue->getId();
                     break;
-                case ChangeService::PLACE_COMMENT_ADD:
+                case ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD:
                     $newValue = $newValue->getId();
                     break;
                 //default:

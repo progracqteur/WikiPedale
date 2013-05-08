@@ -139,8 +139,16 @@ class User extends BaseUser
     
     /**
      * indicate if the user may alter the moderator's comment
+     * the moderator's comment is inside a place: this is not a comment entity
      */
     const ROLE_MODERATOR_COMMENT_ALTER = 'ROLE_MODERATOR_COMMENT_ALTER';
+    
+    /**
+     * indicate if the user may add and see private comments between
+     * moderators and manager. This concern comment entity and not 
+     * place's moderator comment
+     */
+    const ROLE_COMMENT_MODERATOR_MANAGER = 'ROLE_COMMENT_MODERATOR_MANAGER';
     
     
     

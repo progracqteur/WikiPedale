@@ -82,12 +82,13 @@ class Group extends BaseGroup
     public function setType($type) 
     {
         $this->type = $type;
-        
+        //TODO this should be moved to security.yml
         $this->setRoles(array());
         
         switch ($type) {
             case self::TYPE_MODERATOR :
                 $this->addRole(User::ROLE_MODERATOR_COMMENT_ALTER);
+                $this->addRole(User::ROLE_MODERATOR);
             case self::TYPE_MANAGER :
                 $this->addRole(User::ROLE_NOTATION)
                     ->addRole(User::ROLE_CATEGORY)
@@ -96,6 +97,7 @@ class Group extends BaseGroup
                     ->addRole(User::ROLE_SEE_USER_DETAILS)
                     ->addRole(User::ROLE_MANAGER_ALTER)
                     ->addRole(User::ROLE_SEE_UNACCEPTED)
+                    ->addRole(User::ROLE_COMMENT_MODERATOR_MANAGER)
                         ;
                 break;
             case self::TYPE_NOTATION:
@@ -105,6 +107,12 @@ class Group extends BaseGroup
                     ->addRole(User::ROLE_SEE_USER_DETAILS)
                     ->addRole(User::ROLE_SEE_UNACCEPTED)
                     ;
+                break;
+        }
+        
+        switch($type) {
+            case self::TYPE_MANAGER:
+                $this->addRole(User::ROLE_MANAGER);
                 break;
         }
         
