@@ -237,6 +237,6 @@ class Comment
      * called by prePersist lifeCycleEvent
      */
     public function registerToPlace() {
-        $this->place->registerComment($this);
+        $this->getPlace()->registerComment($this);
     }
 }
