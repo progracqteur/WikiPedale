@@ -74,7 +74,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     private $creatorUnregisteredProxy;
     
     /**
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Photo
+     * @var Doctrine\Common\Collections\ArrayCollection
      */
     private $photos;
     /**
@@ -125,6 +125,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * @var string
      */
     private $moderatorComment = '';
+    
+    /**
+     *
+     * @var Doctrine\Common\Collections\ArrayCollection 
+     */
+    private $comments;
             
     
     private $_listeners = array();
@@ -140,6 +146,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         $this->changesets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->getChangeset()->addChange(ChangeService::PLACE_CREATION, null);
         $this->category = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         
         //initialize the placeStatuses
         $this->infos->placeStatuses = new Hash();
@@ -863,9 +870,15 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         if ($this->getManager() !== null)
         {
-            $this->change('manager', $this->manager, $manager);
-            $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_REMOVE, null);
+            $oldManager = -1;
+        } else {
+            $oldManager = $this->getManager();
         }
+            
+        $this->change('manager', $this->manager, null);
+        $this->getChangeset()
+                ->addChange(ChangeService::PLACE_MANAGER_REMOVE, $oldManager);
+        
         
         return $this;
     }
@@ -931,7 +944,11 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
             $this->infos->nbComments->{$type} ++;
         }
         
+        $this->comments->add($comment);
+        
         $this->change('infos', $oldInfos, $this->infos);
+        
+        $this->getChangeset()->addChange(ChangeService::PLACE_COMMENT_ADD, $comment);
     }
     
     

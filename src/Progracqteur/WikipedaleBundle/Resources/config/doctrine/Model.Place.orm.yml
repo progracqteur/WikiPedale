@@ -57,6 +57,10 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
       mappedBy: place
       cascade: [persist]
+    comments:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Comment
+      mappedBy: place
+      cascade: [persist]
   manyToMany:
     category:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

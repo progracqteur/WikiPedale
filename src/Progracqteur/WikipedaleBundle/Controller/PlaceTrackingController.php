@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
+use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 
 /**
  * 
@@ -64,10 +66,27 @@ class PlaceTrackingController extends Controller {
                 ->setMaxResults($max)
                 ->getResult();
         
+        //FIXME: stop the show of unauthorized comments
+        $consistentChangesetService = $this->get('progracqteur.wikipedale.changeset_consistent');
+        
+        $tracksCleaned = array();
+        
+        foreach ($tracks as $changeset) {
+            $changes = $consistentChangesetService->getChanges($changeset);
+            foreach ($changes as $key => $value) {
+                if ($key === ChangeService::PLACE_COMMENT_ADD) {
+                    if ($value->getNewValue()->getType() === Comment::TYPE_MODERATOR_MANAGER) {
+                        //skip 
+                        continue;
+                    } 
+                }
+            }
+            $tracksCleaned[] = $changeset;
+        }
         
         switch ($_format) {
             case 'json' :
-                $r = new NormalizedResponse($tracks);
+                $r = new NormalizedResponse($tracksCleaned);
                 $r->setLimit($max);
                 $r->setStart($first);
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
@@ -80,7 +99,7 @@ class PlaceTrackingController extends Controller {
                 $r = $this->render('ProgracqteurWikipedaleBundle:History:places.atom.twig', array(
                    'title' => $city->getName(),
                    'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
-                   'tracks' => $tracks,
+                   'tracks' => $tracksCleaned,
                    'citySlug' => $city->getSlug(),
                    'toTextService' => $this->get('progracqteur.wikipedale.place.tracking.toText'),
                    'urlFeed' => $this->generateUrl('wikipedale_history_place_by_city', 

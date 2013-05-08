@@ -25,3 +25,8 @@ Progracqteur\WikipedaleBundle\Entity\Management\User:
     groups:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
       nullable: true
+  oneToMany:
+    notificationSubscriptions:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription
+      mappedBy: owner
+      cascade: [persist, refresh, remove]

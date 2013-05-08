@@ -61,6 +61,7 @@ class PlaceChange implements ChangeInterface{
      * - PLACE_ADD_CATEGORY = array of id of categories after the changes were made;
      * - PLACE_REMOVE_CATEGORY = array of id of categories afther the changes were made;
      * - PLACE_PLACETYPE_ALTER = id of the new placetype
+     * -PLACE_MANAGER_ADD ou PLACE_MANAGER_ALTER ou PLACE_MANAGER_REMOVE: id of the manager's group
      * 
      * @return mixed
      */

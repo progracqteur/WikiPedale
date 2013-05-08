@@ -8,6 +8,8 @@ use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\User
@@ -51,6 +53,12 @@ class User extends BaseUser
      * @var integer $nbVote
      */
     private $nbVote = 0;
+    
+    /**
+     *
+     * @var Doctrine\Common\Collections\ArrayCollection
+     */
+    private $notificationSubscriptions;
     
     
     const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -143,6 +151,7 @@ class User extends BaseUser
         $this->infos = new Hash();
         $salt = md5( uniqid(rand(0,1000), true) );
         $this->setSalt($salt);
+        $this->notificationSubscriptions = new ArrayCollection();
     }
 
 
@@ -320,6 +329,15 @@ class User extends BaseUser
     {
         return true;
     }
+    
+    /**
+     * 
+     * @return Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getNotificationSubscriptions()
+    {
+        return $this->notificationSubscriptions;
+    }
 
     public function equals(UserInterface $user) {
         if ($user instanceof UnregisteredUser)
@@ -327,5 +345,30 @@ class User extends BaseUser
         else {
             return $user->getId() === $this->getId();
         }
+    }
+    
+    /**
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription $notification
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\User
+     */
+    public function addNotificationSubscription(NotificationSubscription $notification)
+    {
+        $this->notificationSubscriptions->add($notification);
+        return $this;
+    }
+    
+    public function removeNotificationSubscription(NotificationSubscription $notification)
+    {
+        foreach($this->notificationSubscriptions as $key => $not)
+        {
+            if ($not->getId() === $notification->getId())
+            {
+                $this->notificationSubscriptions->remove($key);
+                return $this;
+            }
+        }
+        
+        return $this;
     }
 }

@@ -1,0 +1,50 @@
+mail:
+  intro_text: | 
+              Bonjour %dest%, 
+              
+              Vous recevez ce courriel car vous êtes abonnés aux modifications 
+              de la zone %zone% sur le site http://uello.be.
+              
+  footer_text: |
+               Bonne journée, 
+               L'équipe Uello
+  subject: Notifications de Uello
+  place:
+    header: Emplacement "%label%"
+    creation: %author% a créé l'emplacement %label% le %date%
+    add_photo: %author% a ajouté une photographie à l'emplacement %label%
+    manager:
+      add: %author% a désigné le gestionnaire de voirie %manager%.
+      you: %author% vous a désigné comme gestionnaire pour cet emplacement.
+      remove: %author% a retiré le gestionnaire de voirie de l'emplacement.
+    status:
+#TODO: add a notation label when the notation will be used...      
+      rejected: %author% a rejeté l'emplacement.
+      notReviewed: %author% a marqué l'emplacement comme non traité.
+      takenIntoAccount: %author% a pris en compte l'emplacement.
+      inChange: %author% a renseigné l'emplacement comme étant en cours de résolution.
+      success: %author% a renseigné l'emplacement comme résolu.
+    change:
+      one: "%author% a modifié %change% de l'emplacement."
+      two: "%author% a modifié %change_% et %change__% de l'emplacement."
+      more: "{1} %author% a modifié %change0%, %change1% et une autre caractéristique de l'emplacement %place%. | [2,Inf] %author% a modifié %change0%, %change1% et %more% autres caractéristiques de l'emplacement."
+      item:
+        address: l'adresse
+        description: la description
+        geom: la position géographique
+        category: la catégorie
+        place_type: le type d'emplacement
+        moderator_comment: le commentaire du modérateur
+        other: autre
+    presentation:
+      actual: 'Description actuelle du signalement "#%id% - %label%" :'
+      description_header: "Description :"
+      introduced_by_when: Créé par %creator% le %create_date%.
+      moderator_comment_header: "Commentaire du Conseiller en Mobilité (CeM) :"
+      categories: "Catégorie : %categories%"
+      manager: "Gestionnaire de voirie : %manager_label%"
+      no_manager : Aucun
+      link: "Voir sur le site : %url%"
+      
+      
+      

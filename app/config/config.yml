@@ -92,3 +92,9 @@ fos_user:
     from_email:
       address: admin-wikipedale@fastre.info
       sender_name: admin-wikipedale
+
+parameters:
+    notifications_subscription_moderator_events: [100, 1050, 1060, 1070, 110, 120, 130, 135, 141, 160, 170, 180, 181, 190, 193, 198, 200, 210]
+    notifications_subscription_moderator_service: "progracqteur.wikipedale.notification.filter.subscription_kind_moderator"
+    notifications_subscription_manager_events: [100, 1050, 1060, 1070, 110, 120, 130, 135, 141, 160, 170, 180, 181, 190, 193, 198, 200, 210]
+    notifications_subscription_manager_service: "progracqteur.wikipedale.notification.filter.subscription_kind_manager"
