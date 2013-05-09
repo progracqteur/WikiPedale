@@ -526,7 +526,7 @@ function descriptionEditOrSave(element_type){
             json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
         }
         else if (element_type == "gestionnaire") {
-            json_request = EditDescriptiongestionnaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
+            json_request = EditDescriptionGestionnaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
         }
         else if (element_type == "type"){
             json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
