@@ -30,7 +30,8 @@ class PlaceTrackingRepository extends EntityRepository {
             placetracking.details as details, 
             placetracking.date as date
                     FROM placetracking JOIN place on placetracking.place_id = place.id
-                    WHERE ST_Covers(:polygonZone, place.geom) ";
+                    WHERE ST_Covers(:polygonZone, place.geom) 
+                    and placetracking.iscreation IS NOT NULL ";
         
         if ($private === false) {
             $sql .= "AND xmlexists('/parent/tree/node[@key=110]' PASSING BY REF details) = false";
