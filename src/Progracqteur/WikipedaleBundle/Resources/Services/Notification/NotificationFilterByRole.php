@@ -7,6 +7,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
+use Symfony\Component\Security\Core\Role\Role;
 
 
 /**
@@ -15,6 +17,16 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
  * @author Julien Fastré <julien arobase fastre point info>
  */
 class NotificationFilterByRole {
+    
+    
+    private $roleHierarchy;
+    
+    public function __construct(RoleHierarchyInterface $roleHierarchy) {
+        $this->roleHierarchy = $roleHierarchy;
+    }
+    
+    
+    private $cacheRoles = array();
     
     /**
      * 
@@ -34,23 +46,37 @@ class NotificationFilterByRole {
         {
             echo "place not accepted \n";
             return false;
+        } 
+        
+        //cache the roles to avoid repeated operation on same users
+        if (!isset($this->cacheRoles[$subscription->getOwner()->getId()])){
+            
+            $rolesAvailables = array();
+            
+            foreach($subscription->getOwner()->getRoles() as $string) {
+                $rolesAvailables[] = new Role($string);
+            }
+            
+            $roleInterfaces = $this->roleHierarchy->getReachableRoles($rolesAvailables);
+            
+            foreach ($roleInterfaces as $role) {
+                $this->cacheRoles[$subscription->getOwner()->getId()][] = $role->getRole();
+            }
         }
         
-        $changes = array();
         foreach($changeset as $change)
         {
-            $changes[$change->getType()] = $change;
+            if ($change->getType() === ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD) {
+                if (!in_array(User::ROLE_COMMENT_MODERATOR_MANAGER, 
+                        $this->cacheRoles[$subscription->getOwner()->getId()])
+                        ){
+                    var_dump($this->cacheRoles[$subscription->getOwner()->getId()]);
+                    return false;
+                }
+            }
         }
         
-        //stop things private for moderator/manager
-        /*if (isset($changes[ChangeService::PLACE_MODERATOR_COMMENT_ADD]))
-        {
-            /*if ($subscription->getOwner()->hasRole(User::ROLE_))
-            {
-                echo "role not correct ! \n";
-                return false;
-            }
-        }*/
+
         
         return true;
         
