@@ -58,14 +58,14 @@ class NotificationCommand extends ContainerAwareCommand {
         $notifier->send();
         
         //send email in the spool in dev environement
-        if ($this->getContainer()->get('kernel')->getEnvironment() === 'dev') {
+        //if ($this->getContainer()->get('kernel')->getEnvironment() === 'dev') {
             $container = $this->getContainer();
             $mailer = $container->get('mailer');
             $spool = $mailer->getTransport()->getSpool();
             $transport = $container->get('swiftmailer.transport.real');
 
             $spool->flushQueue($transport);
-        }
+        //}
         
         $em->flush();
         
