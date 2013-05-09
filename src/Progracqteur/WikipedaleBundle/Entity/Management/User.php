@@ -352,6 +352,7 @@ class User extends BaseUser
             return false;
         else {
             return $user->getId() === $this->getId();
+<<<<<<< HEAD
         }
     }
     
@@ -375,6 +376,8 @@ class User extends BaseUser
                 $this->notificationSubscriptions->remove($key);
                 return $this;
             }
+=======
+>>>>>>> 7c07b0002308f014000f742393372ade6bd9a066
         }
         
         return $this;
