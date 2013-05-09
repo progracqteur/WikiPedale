@@ -52,7 +52,7 @@ class NotificationCommand extends ContainerAwareCommand {
         {
             echo "Traitement de la pendingNotification ".$pn->getId()."\n";
             $notifier->addNotification($pn);
-            //$em->remove($pn);
+            $em->remove($pn);
         }
         
         $notifier->send();

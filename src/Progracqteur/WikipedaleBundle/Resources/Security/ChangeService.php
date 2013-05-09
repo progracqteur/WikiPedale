@@ -122,7 +122,7 @@ class ChangeService {
                 case self::PLACE_CREATOR : 
                     throw ChangeException::param('creator');
                     break;
-                case self::PLACE_COMMENT_ADD:
+                case self::PLACE_COMMENT_MODERATOR_MANAGER_ADD:
                     continue; //checked by the controller CommentController
                     break;
                  case self::PLACE_ACCEPTED:
