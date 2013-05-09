@@ -152,23 +152,48 @@ class ToTextMailSenderService {
                     switch ($status->getValue())
                     {
                         case -1 : 
-                            $t .=  $this->t->trans('mail.place.status.rejected', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.rejected', 
+                                    $args, self::DOMAIN);
                             break;
                         case 0 :
-                            $t .=  $this->t->trans('mail.place.status.notReviewed', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.notReviewed', 
+                                    $args, self::DOMAIN);
                             break;
                         case 1 :
-                            $t .=  $this->t->trans('mail.place.status.takenIntoAccount', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.takenIntoAccount', 
+                                    $args, self::DOMAIN);
                             break;
                         case 2 :
-                            $t .=  $this->t->trans('mail.place.status.inChange', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.inChange', 
+                                    $args, self::DOMAIN);
                             break;
                         case 3 :
-                            $t .=  $this->t->trans('mail.place.status.success', $args, self::DOMAIN);
+                            $t .=  $this->t->trans('mail.place.status.success', 
+                                    $args, self::DOMAIN);
                             break;
                     }
 
                     $t .= "\n";
+                }
+                
+                //if the author added a private comment
+                if (isset($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD])) {
+                    $t .= $p. $this->t->trans('mail.place.comment.private_add',
+                            $args, self::DOMAIN);
+                    $t .= "\n";
+                    
+                    //retrieve the comment
+                    $comment = $this->om
+                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
+                            ->find($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD]
+                                    ->getNewValue());
+                    
+                    if ($comment !== null) {
+                        $t .= ">".$comment->getContent();
+                        $t .= "\n";
+                    }
+                    
+                    
                 }
                 
                 
@@ -222,7 +247,8 @@ class ToTextMailSenderService {
                 $key_not_to_track = array(ChangeService::PLACE_CREATION, 
                     ChangeService::PLACE_STATUS, ChangeService::PLACE_ADD_PHOTO,
                     ChangeService::PLACE_MANAGER_ADD, ChangeService::PLACE_MANAGER_ALTER,
-                    ChangeService::PLACE_MANAGER_REMOVE);
+                    ChangeService::PLACE_MANAGER_REMOVE, 
+                    ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD);
                 $changes = array();
                 
                 

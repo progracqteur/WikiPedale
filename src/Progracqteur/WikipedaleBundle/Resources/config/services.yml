@@ -66,6 +66,8 @@ services:
   
   progracqteur.wikipedale.notification.filter.role:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterByRole
+    arguments:
+      roleHierarchy: "@security.role_hierarchy"
     
   progracqteur.wikipedale.notification.filter.subscription_kind_moderator:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionModerator
