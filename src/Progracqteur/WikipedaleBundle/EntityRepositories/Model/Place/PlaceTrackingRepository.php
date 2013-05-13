@@ -31,6 +31,7 @@ class PlaceTrackingRepository extends EntityRepository {
             placetracking.date as date
                     FROM placetracking JOIN place on placetracking.place_id = place.id
                     WHERE ST_Covers(:polygonZone, place.geom) 
+                    and place.accepted = TRUE
                     and placetracking.iscreation IS NOT NULL ";
         
         if ($private === false) {
