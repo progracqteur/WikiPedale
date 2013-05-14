@@ -1,5 +1,19 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
+{% block css %}
+<style type="text/css">
+
+    #fos_user_profile_form > div {
+    clear: both;
+    display: block;
+    margin-bottom: 19px;
+}
+    
+    
+    </style>
+
+{% endblock %}
+
 {% block body %}
 {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
 {% endblock body %}
