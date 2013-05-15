@@ -8,6 +8,27 @@
 
 #}
 
+{% block css %}
+<style type="text/css">
+
+    form label {
+        float: none;
+        width: auto;
+        display: inline;
+    }
+    
+    div.option {
+        margin-bottom: 9px;
+        }
+    dt {
+        font-weight: bold;
+        }
+        
+    
+    </style>
+
+{% endblock %}
+
 {% block body %}
 <h1>{% trans %}admin.user.details{% endtrans %}</h1>
 
@@ -16,6 +37,9 @@
 <dl>
     <dt>{% trans %}user.username{% endtrans %}</dt>
     <dd>{{user.username}}</dd>
+    
+    <dt>{% trans %}user.label{% endtrans %}</dt>
+    <dd>{{user.label}}</dd>
     
     <dt>{% trans %}user.email{% endtrans %}</dt>
     <dd>{{user.email}}</dd>
@@ -30,7 +54,13 @@
 
 <form method="POST" action="{{ path('wikipedale_admin_usergroups_add_or_remove_groups', {id: user.id}) }}" {{ form_enctype(formGroup) }} >
     {{ form_errors(formGroup) }}
-    
+
+        {% for widget in formGroup.groups %}
+            <div class="option">{{ form_widget(widget) }}  {{ form_label(widget) }}</div>
+        
+        
+        {% endfor %}
+
         
     {# Please do not remove this line #}{{ form_rest(formGroup) }}
         
