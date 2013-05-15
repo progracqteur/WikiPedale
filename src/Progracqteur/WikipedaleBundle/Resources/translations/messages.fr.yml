@@ -30,6 +30,7 @@ admin:
   user:
     add_remove_groups: Modifie les appartenances de l'utilisateur
     management: Gestion des appartenances utilisateurs
+    details: Détail d'un utilisateur
   category:
     form: 
       parent: 
@@ -50,7 +51,11 @@ user:
   email: Adresse de courriel
   phone: Numéro de téléphone
   label: Nom d'affichage (public)
+  creationdate: Date d'enregistrement
+  last:
+    login: Dernière connexion
   groups: Groupes
+  is_not_member_of_any_group: Sans groupe
   form:
     registration:
       errors:
