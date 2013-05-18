@@ -92,3 +92,20 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
       - MinLength: {limit: 3, message: admin.category.form.label.min_length}
       - MaxLength: {limit: 240, message: admin.category.form.label.max_length}
       
+      
+Progracqteur\WikipedaleBundle\Entity\Model\Comment:
+  getters:
+    type: 
+      - NotNull: 
+          message: validation.comment.type.not_null
+    content:
+      - MinLength: {limit: 2, message: validation.comment.message.min_length}
+      - MaxLength: {limit: 5000, message: validation.comment.message.max_length}
+    place:
+      - NotNull: 
+          message: validation.comment.place.not_null
+    creator:
+      - NotNull:
+          message: validation.comment.creator.not_null
+          
+      
