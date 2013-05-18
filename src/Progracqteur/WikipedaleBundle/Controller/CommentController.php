@@ -257,7 +257,29 @@ class CommentController extends Controller
         
         
 
-        //print "plus de verif pour les droits";
+        $errors = $this->get('validator')->validate($comment);
+        
+        if ($errors->count() > 0) {
+            
+            if ($_format === 'json')
+                $str = array();
+            else
+                $str = '';
+            
+            foreach($errors as $error) {
+                if ($_format === 'json')
+                    $str[] = $error->getMessage();
+                else
+                    $str .= $error->getMessage().' ';
+            }
+            
+            if ($_format === 'json')
+                $str = json_encode($str);
+            
+            $r = new Response($str);
+            $r->setStatusCode(400);
+            return $r;
+        }
 
         $em->persist($comment);
         
