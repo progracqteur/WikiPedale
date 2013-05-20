@@ -587,6 +587,7 @@ function descriptionEditOrSave(element_type){
                             }
                             id_markers_for['Categories'][c.id].push(parseInt(signalement_id));
                         });
+                        display_only_markers_with_selected_categories();
                     } else if (element_type == 'status'){
                         markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
                         $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
