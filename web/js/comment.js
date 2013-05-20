@@ -48,7 +48,7 @@ function submitNewCommentForm(aPlaceId){
             .addClass("errorMessage");  
     }
     else {
-        entity_string = ret = '{"entity":"comment","placeId":' + JSON.stringify(aPlaceId) + ',"text":"' + comment_text + '","type":"moderator_manager"}';
+        entity_string = ret = '{"entity":"comment","placeId":' + JSON.stringify(aPlaceId) + ',"text":' + JSON.stringify(comment_text) + ',"type":"moderator_manager"}';
         console.log(entity_string);
         $.ajax({
             type: "POST",
