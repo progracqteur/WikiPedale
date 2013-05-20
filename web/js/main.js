@@ -591,6 +591,33 @@ function descriptionEditOrSave(element_type){
                     } else if (element_type == 'status'){
                         markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
                         $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
+
+                        $.each(old_statuses, function(index, type_value) {
+                            if(type_value.t == "cem") {
+                                id_markers_for['StatusCeM'][type_value.v.toString()].pop(parseInt(signalement_id));
+                            }
+                        });
+
+                        if(id_markers_for['StatusCeM']["0"] == undefined) {
+                            id_markers_for['StatusCeM']["0"] = new Array();
+                        }
+
+                        var someDataId_added = false;
+                        $.each(markers_and_associated_data[signalement_id][1].statuses, function(index, type_value) {
+                            if(type_value.t == "cem") {
+                                if(id_markers_for['StatusCeM'][type_value.v.toString()] == undefined) {
+                                    id_markers_for['StatusCeM'][type_value.v.toString()] = new Array();
+                                }
+                                id_markers_for['StatusCeM'][type_value.v.toString()].push(parseInt(signalement_id))
+                                someDataId_added = true;
+                            }
+                        });
+                        
+                        if(! someDataId_added) {
+                            id_markers_for['StatusCeM']["0"].push(signalement_id)
+                        }
+
+                        display_only_markers_with_selected_categories();
                     } else if (element_type == 'gestionnaire' || element_type == 'type'){
                         $(element_id).text($(element_id + '_edit').select2('data').text);
                     }
