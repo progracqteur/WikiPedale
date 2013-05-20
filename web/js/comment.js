@@ -9,7 +9,7 @@ function updateLastComment(aPlaceId){
         	}
         	else {
         		lastComment = data.results[0];
-            	$('#div_last_private_comment_container').html(lastComment.text + '<br> par : ' + lastComment.creator.label);
+            	$('#div_last_private_comment_container').html(nl2br(lastComment.text) + '<br> par : ' + lastComment.creator.label);
         	}
         },
         error: function(data) {
@@ -29,7 +29,7 @@ function updateAllComments(aPlaceId){
         		div_content = 'pas encore de commentaire pour ce signalement';
         	}
             $.each(data.results, function(index, aComment) {
-            	div_content = div_content + aComment.text + '<br> par : ' + aComment.creator.label + '<br><br>';
+            	div_content = div_content + nl2br(aComment.text) + '<br> par : ' + aComment.creator.label + '<br><br>';
             });
 			$('#div_list_private_comment_container').html(div_content);
         },
