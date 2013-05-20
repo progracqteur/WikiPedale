@@ -58,6 +58,29 @@ color_trad_text['1'] = 'pris en compte (rouge)';
 color_trad_text['2'] = 'en cours de résolution (orange)';
 color_trad_text['3'] = 'résolu (vert)';
 
+
+function nl2br (str, is_xhtml) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Philip Peterson
+  // +   improved by: Onno Marsman
+  // +   improved by: Atli Þór
+  // +   bugfixed by: Onno Marsman
+  // +      input by: Brett Zamir (http://brett-zamir.me)
+  // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Brett Zamir (http://brett-zamir.me)
+  // +   improved by: Maximusya
+  // *     example 1: nl2br('Kevin\nvan\nZonneveld');
+  // *     returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
+  // *     example 2: nl2br("\nOne\nTwo\n\nThree\n", false);
+  // *     returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
+  // *     example 3: nl2br("\nOne\nTwo\n\nThree\n", true);
+  // *     returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
+  var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
+
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+}
+
 function marker_img_name(statuses)
 {
     c1 = 'w';
@@ -234,9 +257,16 @@ function EditDescriptionLocInJson(id,loc){
     return PlaceInJSonWithOtherNameValue(id,',"addressParts":{"entity":"address","road":' + JSON.stringify(loc) + '}');
 }
 
+function EditDescriptionSingleCatInJson(id,cat){
+    categories_desc = ',"categories":[';
+    categories_desc = categories_desc + '{"entity":"category","id":' + cat + '}';
+    categories_desc = categories_desc + ']';
+    return PlaceInJSonWithOtherNameValue(id,categories_desc);
+}
+
 function EditDescriptionCatInJson(id,cat){
     categories_desc = ',"categories":[';
-    for (var i = 0; i < cat.length; i++) {
+    for (var i = 0; i < cat.length; i++) { 
         categories_desc = categories_desc + '{"entity":"category","id":' + cat[i] + '}';
         if (i < (cat.length - 1))
         {
@@ -488,6 +518,7 @@ function descriptionEditOrSave(element_type){
     signalement_id = $('#input_place_description_id').val();
 
     if (mode_edit[element_type] == undefined || ! mode_edit[element_type]) {
+        // SHOW THE EDIT FORM
         if (element_type == 'cat'){
             categories_selected = Array();
             $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
@@ -510,6 +541,7 @@ function descriptionEditOrSave(element_type){
     }
     else 
     {
+        // SAVE THE FORM
         if(element_type == "commentaireCeM") {
             json_request = EditDescriptionCommentaireCeMInJson(signalement_id,$(element_id + '_edit').val());
         }
@@ -520,7 +552,7 @@ function descriptionEditOrSave(element_type){
             json_request = EditDescriptionLocInJson(signalement_id,$(element_id + '_edit').val());
         }
         else if (element_type == "cat") {
-            json_request = EditDescriptionCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
+            json_request = EditDescriptionSingleCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
         } 
         else if (element_type == "status") {
             json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
@@ -539,11 +571,22 @@ function descriptionEditOrSave(element_type){
             cache: false,
             success: function(output_json) { 
                 if(! output_json.query.error) { 
+                    old_categories = markers_and_associated_data[signalement_id][1].categories;
+                    old_statuses = markers_and_associated_data[signalement_id][1].statuses;
                     markers_and_associated_data[signalement_id][1] = output_json.results[0];
                     if(element_type == 'cat'){
                         categories_list = "";
                         $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
-                        $(element_id).text(categories_list);    
+                        $(element_id).text(categories_list); 
+                        $.each(old_categories, function(i,c) {
+                            id_markers_for['Categories'][c.id].pop(parseInt(signalement_id));
+                        } );
+                        $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) {
+                            if (id_markers_for['Categories'][c.id] == undefined){
+                                id_markers_for['Categories'][c.id] = new Array();
+                            }
+                            id_markers_for['Categories'][c.id].push(parseInt(signalement_id));
+                        });
                     } else if (element_type == 'status'){
                         markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
                         $(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
