@@ -573,6 +573,7 @@ function descriptionEditOrSave(element_type){
                 if(! output_json.query.error) { 
                     old_categories = markers_and_associated_data[signalement_id][1].categories;
                     old_statuses = markers_and_associated_data[signalement_id][1].statuses;
+                    old_placetype = markers_and_associated_data[signalement_id][1].placetype;
                     markers_and_associated_data[signalement_id][1] = output_json.results[0];
                     if(element_type == 'cat'){
                         categories_list = "";
@@ -618,8 +619,24 @@ function descriptionEditOrSave(element_type){
                         }
 
                         display_only_markers_with_selected_categories();
-                    } else if (element_type == 'gestionnaire' || element_type == 'type'){
+                    }
+                    else if (element_type == 'gestionnaire') {
                         $(element_id).text($(element_id + '_edit').select2('data').text);
+                    }
+                    else if (element_type == 'type'){
+                        $(element_id).text($(element_id + '_edit').select2('data').text);
+                        if (old_placetype != null) {   
+                            id_markers_for['PlaceTypes'][old_placetype.id].pop(parseInt(signalement_id));
+                        }
+
+                        if (markers_and_associated_data[signalement_id][1].placetype != null) {
+                            if(id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] == undefined) {
+                                id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] = new Array();
+                            }
+                            id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id].push(parseInt(signalement_id))
+                        }
+
+                        display_only_markers_with_selected_categories();
                     }
                     else {
                         $(element_id).text($(element_id + '_edit').val());
