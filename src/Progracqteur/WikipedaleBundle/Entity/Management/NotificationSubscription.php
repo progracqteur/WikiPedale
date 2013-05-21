@@ -37,9 +37,24 @@ class NotificationSubscription
     /**
      * @var \Progracqteur\WikipedaleBundle\Entity\Management\Group
      */
-    private $group;    
-
+    private $group;   
     
+    
+        /**
+     * @var string
+     */
+    private $transporter;
+
+    /**
+     * @var \Progracqteur\WikipedaleBundle\Entity\Management\Group
+     */
+    private $groupRef;
+
+    /**
+     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     */
+    private $place;
+
     
     const KIND_MODERATOR = 'moderator';
     const KIND_MANAGER = 'manager';
@@ -48,6 +63,8 @@ class NotificationSubscription
     
     const FREQUENCY_MINUTELY = 60;
     const FREQUENCY_DAILY = 86400;
+    
+    const TRANSPORTER_MAIL = 'email';
     
 
     
@@ -244,5 +261,74 @@ class NotificationSubscription
         $this->group = $group;
     
         return $this;
+    }
+
+    /**
+     * Set transporter
+     *
+     * @param string $transporter
+     * @return NotificationSubscription
+     */
+    public function setTransporter($transporter)
+    {
+        $this->transporter = $transporter;
+    
+        return $this;
+    }
+
+    /**
+     * Get transporter
+     *
+     * @return string 
+     */
+    public function getTransporter()
+    {
+        return $this->transporter;
+    }
+
+    /**
+     * Set groupRef
+     *
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\Group $groupRef
+     * @return NotificationSubscription
+     */
+    public function setGroupRef(\Progracqteur\WikipedaleBundle\Entity\Management\Group $groupRef = null)
+    {
+        $this->groupRef = $groupRef;
+    
+        return $this;
+    }
+
+    /**
+     * Get groupRef
+     *
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Group 
+     */
+    public function getGroupRef()
+    {
+        return $this->groupRef;
+    }
+
+    /**
+     * Set place
+     *
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $place
+     * @return NotificationSubscription
+     */
+    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place = null)
+    {
+        $this->place = $place;
+    
+        return $this;
+    }
+
+    /**
+     * Get place
+     *
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     */
+    public function getPlace()
+    {
+        return $this->place;
     }
 }

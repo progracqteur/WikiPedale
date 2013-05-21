@@ -14,6 +14,11 @@ interface NotificationSenderInterface {
     
     public function send();
     
+    /**
+     * @return string
+     */
+    public function getKey();
+    
     
 }
 

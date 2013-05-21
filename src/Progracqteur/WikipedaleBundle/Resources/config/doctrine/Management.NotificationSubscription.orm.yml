@@ -11,6 +11,9 @@ Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription:
       length: 20
     frequency:
       type: integer
+    transporter:
+      type: string
+      length: 20
   manyToOne:
     zone:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Zone
@@ -20,5 +23,13 @@ Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription:
       inversedBy: notificationSubscriptions
     group:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
+      inversedBy: notificationSubscriptions
+      nullable: true
+    groupRef:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
+      inversedBy: notificationSubscriptions
+      nullable: true
+    place:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
       inversedBy: notificationSubscriptions
       nullable: true

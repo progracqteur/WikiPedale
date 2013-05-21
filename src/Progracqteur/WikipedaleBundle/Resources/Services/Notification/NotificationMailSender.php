@@ -131,6 +131,10 @@ class NotificationMailSender implements NotificationSenderInterface {
             
             $this->mailer->send($message);
         }
+    }
+
+    public function getKey() {
+        return NotificationSubscription::TRANSPORTER_MAIL;
     }    
 }
 

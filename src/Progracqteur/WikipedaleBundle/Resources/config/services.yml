@@ -63,7 +63,7 @@ services:
     class: Progracqteur\WikipedaleBundle\Resources\Services\ChangesetConsistent
     arguments:
       om: "@doctrine.orm.entity_manager"
-  
+    
   progracqteur.wikipedale.notification.filter.role:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterByRole
     arguments:
@@ -76,7 +76,14 @@ services:
   progracqteur.wikipedale.notification.filter.subscription_kind_manager:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionManager
     arguments: [%notifications_subscription_manager_events%]
-
+    
+  
+  progracqteur.wikipedale.notification.processor.moderator:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationProcessorModerator
+    arguments: 
+      om: "@doctrine.orm.entity_manager"
+    tags:
+      - { name: progracqteur.wikipedale.notification.processor }
     
   progracqteur.wikipedale.notification.sender.mail:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationMailSender
@@ -87,6 +94,8 @@ services:
       filterBySubscriptionModerator: "@progracqteur.wikipedale.notification.filter.subscription_kind_moderator"
       mailer: "@mailer"
       translator: "@translator"
+    tags:
+      - { name: progracqteur.wikipedale.notification.transport }
   
   progracqteur.wikipedale.notification.to_text.mail:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\ToTextMailSenderService
