@@ -344,6 +344,7 @@ class PlaceController extends Controller {
             
         }
         
+        
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($place);
         $em->flush();
