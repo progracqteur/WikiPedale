@@ -985,7 +985,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         if ($this->changeset === null)
         {
             $this->changeset = new Place\PlaceTracking($this);
-            $this->changesets->add($this->changeset);
+            //$this->changesets->add($this->changeset);
         }
         
         return $this->changeset;
@@ -1132,6 +1132,17 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         
         if (count($changes) === 0) {
             $this->destroyCurrentChangeset();
+        }
+    }
+    
+    public function registerCurrentChangeset() {
+        $placeTracking = $this->getChangeset();
+        
+        $changes = $placeTracking->getChanges();
+        
+        
+        if (count($changes) > 0) {
+            $this->changesets->add($placeTracking);
         }
     }
 }

@@ -17,9 +17,6 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking:
       type: hash
     date:
       type: datetime
-  lifecycleCallbacks:
-    #checkIfEmpty seems to be not efficient
-    prePersist: [checkIfEmpty]
   manyToOne:
     author:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
