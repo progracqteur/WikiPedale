@@ -344,6 +344,8 @@ class PlaceController extends Controller {
             
         }
         
+        $place->checkEmptyPlaceTracking();
+        
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($place);
         $em->flush();

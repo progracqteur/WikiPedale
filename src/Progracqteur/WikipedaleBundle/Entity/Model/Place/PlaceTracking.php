@@ -308,6 +308,10 @@ class PlaceTracking implements ChangesetInterface {
             //}
         }
     }
+    
+    public function checkIfEmpty() {
+        $this->getPlace()->checkEmptyPlaceTracking();
+    }
 
 }
 
