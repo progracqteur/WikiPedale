@@ -985,10 +985,27 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         if ($this->changeset === null)
         {
             $this->changeset = new Place\PlaceTracking($this);
-            $this->changesets->add($this->changeset);
+            //$this->changesets->add($this->changeset);
         }
         
         return $this->changeset;
+    }
+    
+    private function destroyCurrentChangeset() {
+        $changeset = $this->getChangeset();
+        
+        $hashId = spl_object_hash($changeset);
+        
+        foreach ($this->changesets as $key => $value) {
+            if ($hashId === spl_object_hash($value)) {
+                $this->changesets->remove($key);
+            }
+        }
+        
+        $this->changeset = null;
+        
+        unset($changeset);
+        
     }
 
     public function addPropertyChangedListener(PropertyChangedListener $listener) {
@@ -1104,6 +1121,28 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         {
             $context->addViolationAtSubPath('manager', 'validation.place.manager.group_is_not_type_manager', 
                     array(), $this->getManager());
+        }
+    }
+    
+    public function checkEmptyPlaceTracking() {
+        $placeTracking = $this->getChangeset();
+        
+        $changes = $placeTracking->getChanges();
+        
+        
+        if (count($changes) === 0) {
+            $this->destroyCurrentChangeset();
+        }
+    }
+    
+    public function registerCurrentChangeset() {
+        $placeTracking = $this->getChangeset();
+        
+        $changes = $placeTracking->getChanges();
+        
+        
+        if (count($changes) > 0) {
+            $this->changesets->add($placeTracking);
         }
     }
 }
