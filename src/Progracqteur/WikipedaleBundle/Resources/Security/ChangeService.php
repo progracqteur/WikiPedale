@@ -195,6 +195,8 @@ class ChangeService {
                      if ($hasRight == true)
                      {
                          continue;
+                     } else {
+                         throw ChangeException::param('status');
                      }
                      
                      /**
