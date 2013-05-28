@@ -70,7 +70,7 @@ class GeoService {
                 ->setParameter('point', $point->toWKT())
                 ->getSingleScalarResult();
         
-        return $r['covered'];
+        return $r;
     }
     
 }
