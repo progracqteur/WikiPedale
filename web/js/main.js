@@ -352,6 +352,7 @@ function update_markers_and_associated_data(){
         dataType: "json",
         url: jsonUrlData,
         success: function(data) {
+            console.log("update_markers_and_associated_data - done");
             $.each(data.results, function(index, aPlaceData) {
                 if (markers_and_associated_data[aPlaceData.id] == undefined) {
                     addMarkerWithClickAction(false,
@@ -366,6 +367,12 @@ function update_markers_and_associated_data(){
             });
         },
         complete: function(data) {
+            signalement_id = $('#input_place_description_id').val();
+            if (signalement_id != "" && signalement_id != undefined) {
+                // be sure that a place is selected
+                displayRegardingToUserRole();
+            }
+
             $.each(markers_and_associated_data, function(index, marker_and_data) {
                 if (marker_and_data != undefined) { 
                     if (marker_and_data[1] == undefined) {
@@ -374,7 +381,6 @@ function update_markers_and_associated_data(){
                     }
                 }
             });
-            displayEmailAndPhoneNumberRegardingToRole();
         }
     });
 };
@@ -400,14 +406,7 @@ function updatePageWhenLogged(){
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
 
-
-    signalement_id = $('#input_place_description_id').val();
-
-    if (signalement_id != "" && signalement_id != undefined) {
-        // be sure that a place is selected
-        update_markers_and_associated_data();
-        displayRegardingToUserRole();
-    }
+    update_markers_and_associated_data();
 }
 
 function catchLoginForm(){
@@ -1138,6 +1137,8 @@ function displayRegardingToUserRole() {
     if(userIsCeM() || userIsAdmin()) {
         $('#div_container_place_description_commentaireCeM').show();
     }
+
+    displayEmailAndPhoneNumberRegardingToRole();
 }
 
 
@@ -1224,7 +1225,6 @@ function displayPlaceDataFunction(placeMarker, placeData) {
 
     descriptionHideEdit(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     displayRegardingToUserRole();
-    
 
     $('#div_placeDescription').show();
 }
