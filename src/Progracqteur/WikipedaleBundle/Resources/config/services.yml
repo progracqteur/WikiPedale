@@ -19,6 +19,7 @@ services:
       securityContext: '@security.context'
       em: '@doctrine.orm.entity_manager'
       geoService: '@progracqteur.wikipedale.geoservice'
+      reachableRoles: '@progracqteur.wikipedale.services.reachables_roles'
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
   progracqteurWikipedale.form.type.photo:
@@ -97,6 +98,11 @@ services:
       date_format: %date_format%
       om: "@doctrine.orm.entity_manager"
       router: "@router"
+  
+  progracqteur.wikipedale.services.reachables_roles:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\ReachableRoleService
+    arguments:
+      roleHierarchy: "@security.role_hierarchy"
       
   
 
