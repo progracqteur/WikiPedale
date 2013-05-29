@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             //new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
+            new Fastre\LibravatarBundle\FastreLibravatarBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

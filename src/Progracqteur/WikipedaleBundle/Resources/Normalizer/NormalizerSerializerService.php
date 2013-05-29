@@ -136,7 +136,7 @@ class NormalizerSerializerService {
     {
         if ($this->userNormalizer === null)
         {
-            $this->userNormalizer = new UserNormalizer($this);
+            $this->userNormalizer = new UserNormalizer($this, $this->container->get('libravatar.provider'));
         }
         
         return $this->userNormalizer;
