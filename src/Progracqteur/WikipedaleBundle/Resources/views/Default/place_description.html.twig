@@ -22,7 +22,7 @@
         <input type="text" id="span_place_description_loc_edit"> 
       </div>
       <span id="span_place_description_loc_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_loc_button" onclick="javascript:descriptionEditOrSave('loc');" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_loc_button" onclick="descriptionEditOrSave('loc'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -32,7 +32,7 @@
         <textarea id="span_place_description_desc_edit"></textarea>
       </div>
       <span id="span_place_description_desc_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_desc_button" onclick="javascript:descriptionEditOrSave('desc');" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_desc_button" onclick="descriptionEditOrSave('desc'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
 
@@ -43,7 +43,7 @@
         <textarea id="span_place_description_commentaireCeM_edit"></textarea>
       </div>
       <span id="span_place_description_commentaireCeM_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_commentaireCeM_button" onclick="javascript:descriptionEditOrSave('commentaireCeM');" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_commentaireCeM_button" onclick="descriptionEditOrSave('commentaireCeM'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -69,7 +69,7 @@
         </select>
       </div>
       <span id="span_place_description_cat_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_cat_button" onclick="javascript:descriptionEditOrSave('cat');" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_cat_button" onclick="descriptionEditOrSave('cat'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -85,7 +85,7 @@
         </select>
       </div>
       <span id="span_place_description_status_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_status_button" onclick="javascript:descriptionEditOrSave('status');" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_status_button" onclick="descriptionEditOrSave('status'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <!-- 
@@ -106,7 +106,7 @@
         </select>
       </div>
       <span id="span_place_description_type_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_type_button" onclick="javascript:descriptionEditOrSave('type');" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_type_button" onclick="descriptionEditOrSave('type'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -120,12 +120,12 @@
         </select>
       </div>
       <span id="span_place_description_gestionnaire_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_gestionnaire_button" onclick="javascript:descriptionEditOrSave('gestionnaire');" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_gestionnaire_button" onclick="descriptionEditOrSave('gestionnaire'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
       <span id="span_place_description_delete_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <button id="span_place_description_delete_button" type="button" onclick="javascript:descriptionDelete();">Ne plus afficher le signalement</button> 
+      <button id="span_place_description_delete_button" type="button" onclick="descriptionDelete();">Ne plus afficher le signalement</button> 
     </div>
 
     <div>
