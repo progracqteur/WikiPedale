@@ -662,7 +662,7 @@ function descriptionEditOrSave(element_type){
             }
         });
     };
-    
+    return false;
 };
 
 function catchForm(formName) {
