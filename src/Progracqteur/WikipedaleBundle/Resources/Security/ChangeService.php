@@ -210,7 +210,7 @@ class ChangeService {
                      {
                          continue;
                      } else {
-                         throw ChangeException::param('status'.' '.$d);
+                         throw ChangeException::param('status');
                      }
                      
                      /**
