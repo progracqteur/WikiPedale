@@ -1,16 +1,18 @@
 parameters:
     database_driver   : pdo_pgsql
-    database_host     : localhost
+    database_host     : 37.59.124.209
     database_port     : 5432
-    database_name     : dbname
-    database_user     : username
-    database_password : pass
+    database_name     : progracq_dev
+    database_user     : progracq
+    database_password : DDEVN532a
 
     mailer_transport  : smtp
-    mailer_host       : 
+    mailer_host       : relay.belgacom.net
     mailer_user       :
     mailer_password   :
 
     locale            : fr
 
     secret            : ThisTokenIsNotSoSecretChangeIt
+    
+    date_format: d/m/Y à H:i
