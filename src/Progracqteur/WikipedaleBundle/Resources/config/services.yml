@@ -55,9 +55,15 @@ services:
   
   progracqteur.wikipedale.registration.form.type:
     class: Progracqteur\WikipedaleBundle\Form\Management\UserType
-    arguments: [%fos_user.modeL.user.class%]
+    arguments: [%fos_user.model.user.class%]
     tags: 
       - { name: form.type, alias: wikipedale_user_registration }
+      
+  progracqteur.wikipedale.profile.form.type:
+    class: Progracqteur\WikipedaleBundle\Form\Management\ProfileUserType
+    arguments: [%fos_user.model.user.class%]
+    tags: 
+      - { name: form.type, alias: wikipedale_user_profile }
       
       
   progracqteur.wikipedale.changeset_consistent:
