@@ -6,8 +6,8 @@ framework:
     #esi:             ~
     translator:      { fallback: %locale% }
     secret:          %secret%
-    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
-    router:
+    router:          
+      resource: "%kernel.root_dir%/config/routing.yml" 
       strict_requirements: "%kernel.debug%"
     default_locale: "%locale%"
     form:            true
