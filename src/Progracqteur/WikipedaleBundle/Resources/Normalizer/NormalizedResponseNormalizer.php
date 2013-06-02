@@ -77,7 +77,9 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         
         if ($object->hasUser())
         {
+            $this->service->getUserNormalizer()->addGroupsToNormalization(true);
             $r['user'] = $this->getNormalizedForm($object->getUser());
+            $this->service->getUserNormalizer()->addGroupsToNormalization(false);
         }
         
         return $r;

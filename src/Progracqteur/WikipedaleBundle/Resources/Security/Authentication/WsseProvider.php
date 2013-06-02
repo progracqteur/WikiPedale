@@ -30,6 +30,20 @@ class WsseProvider implements AuthenticationProviderInterface {
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
 
         if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
+            
+            //check password validity
+            if ($user->isEnabled() === FALSE) {
+                throw new AuthenticationException('user.is_disabled');
+            }
+            
+            if ($user->isLocked() === true) {
+                throw new AuthenticationException('user.is_locked');
+            }
+            
+            $user->setLastLogin(new \DateTime());
+            $this->userProvider->updateUser($user);
+            
+            
             $authenticatedToken = new WsseUserToken($user->getRoles());
             $authenticatedToken->setUser($user);
             

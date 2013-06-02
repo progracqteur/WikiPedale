@@ -5,6 +5,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
     id:
       type: integer
       generator: {strategy: AUTO}
+  indexes:
+    filter_type:
+      columns: [kind]
   fields:
     content:
       type: text
