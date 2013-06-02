@@ -9,6 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Progracqteur\WikipedaleBundle\Resources\Services\GeoService;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Progracqteur\WikipedaleBundle\Resources\Services\ReachableRoleService;
 
 /**
  * Description of ChangeService
@@ -63,11 +64,18 @@ class ChangeService {
      */
     private $geoService;
     
-    public function __construct($securityContext, EntityManager $em, GeoService $geoService)
+    /**
+     *
+     * @var \Progracqteur\WikipedaleBundle\Resources\Services\ReachableRoleService 
+     */
+    private $reachableRoles;
+    
+    public function __construct($securityContext, EntityManager $em, GeoService $geoService, ReachableRoleService $reachableRoles)
     {
         $this->securityContext = $securityContext;
         $this->em = $em;
         $this->geoService = $geoService;
+        $this->reachableRoles = $reachableRoles;
     }
     
     public function checkChangesAreAllowed(ChangeableInterface $object) 
@@ -172,29 +180,37 @@ class ChangeService {
                      
                      $hasRight = false;
                      
+                     $d = '';
+                     
                      foreach ($groups as $group)
                      {
-                         if ($group->hasRole(User::ROLE_NOTATION) 
+                         
+                         $d.= $group->getName()."\n";
+                         if ($this->reachableRoles->hasRole(User::ROLE_NOTATION, $group) 
                                  && 
                                  $group->getNotation()->getId() === $change->getNewValue()->getType())
                          {
-                             
+                             $d.= 'match role and ID';
                              if ($this->geoService->covers(
                                      $group->getZone()->getPolygon(), 
                                      $object->getGeom())
                                      )
                              {
-                                 $hasRight = true;
+                                 $hasRight = true; 
                                  break;
+                             } else {
+                                 $d .= 'geographic request fail';
                              }
                          } else {
-                             throw ChangeException::param('status');
+                             $d.= 'does not match role and id';
                          }
                      }
                      
-                     if ($hasRight == true)
+                     if ($hasRight === true)
                      {
                          continue;
+                     } else {
+                         throw ChangeException::param('status');
                      }
                      
                      /**

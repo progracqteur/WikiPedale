@@ -46,7 +46,7 @@ class WsseListener implements ListenerInterface {
                     $returnValue = $this->authenticationManager->authenticate($token);
 
                     if ($returnValue instanceof TokenInterface) {
-                        //TODO mettre à jour le dernier login
+                        
                         return $this->securityContext->setToken($returnValue);
                     } elseif ($returnValue instanceof Response) {
                         return $event->setResponse($returnValue);
