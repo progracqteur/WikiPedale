@@ -355,8 +355,7 @@ function update_markers_and_associated_data(){
             console.log("update_markers_and_associated_data - done");
             $.each(data.results, function(index, aPlaceData) {
                 if (markers_and_associated_data[aPlaceData.id] == undefined) {
-                    addMarkerWithClickAction(false,
-                        aPlaceData.geom.coordinates[0],
+                    addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
                         aPlaceData.geom.coordinates[1],
                         displayPlaceDataFunction,
                         aPlaceData);
@@ -749,8 +748,7 @@ function catchForm(formName) {
                             newPlaceData = output_json.results[0];
                             clear_add_new_description_form();
                             if(userIsRegister()) {
-                                addMarkerWithClickAction(false,
-                                    newPlaceData.geom.coordinates[0],
+                                addMarkerWithClickAction(newPlaceData.geom.coordinates[0],
                                     newPlaceData.geom.coordinates[1],
                                     displayPlaceDataFunction,
                                     newPlaceData);
@@ -758,7 +756,7 @@ function catchForm(formName) {
                                 setTimeout(
                                     function(){
                                         changingModeFunction();
-                                        displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
+                                        displayPlaceDataFunction(newPlaceData.id);
                                     },7000);  
                                 }
                                 else {
@@ -882,7 +880,7 @@ function changingModeFunction() {
 
                     var markerMouseDownFunction = (function(iid)       {
                         return function(evt) {
-                            displayPlaceDataFunction(markers_and_associated_data[iid][0],markers_and_associated_data[iid][1]);
+                            displayPlaceDataFunction(iid);
                             OpenLayers.Event.stop(evt);
                         } }
                     ) (data.id);
@@ -956,21 +954,20 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
-	    addMarkerWithClickAction(false,
-				     aPlaceData.geom.coordinates[0],
+	    addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
 				     aPlaceData.geom.coordinates[1],
 				     displayPlaceDataFunction,
 				     aPlaceData);
         if(aPlaceData.id == marker_id_to_display)
         {
-            displayPlaceDataFunction(markers_and_associated_data[marker_id_to_display][0],markers_and_associated_data[marker_id_to_display][1]);
+            displayPlaceDataFunction(marker_id_to_display);
         }
 
          } ) }
 	     );
 }
 
-function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData) {
+function addMarkerWithClickAction(aLon, aLat, anEventFunction, someData) {
     /**
      * Add a marker on a layer such that when the user click on it, an 
      action is executed.
@@ -1023,7 +1020,7 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     }
 
     var markerMouseDownFunction = function(evt) {
-	anEventFunction(marker,someData); 
+	anEventFunction(someData.id); 
         OpenLayers.Event.stop(evt);
     };
 
@@ -1145,7 +1142,7 @@ function displayRegardingToUserRole() {
 }
 
 
-function displayPlaceDataFunction(placeMarker, placeData) {
+function displayPlaceDataFunction(id_sig) {
     /**
      * Function which display some data of the place on the webpage.
      executed when the user click on a marker on the index page.
@@ -1154,6 +1151,10 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
+     placeMarker = markers_and_associated_data[id_sig][0];
+     placeData =  markers_and_associated_data[id_sig][1];
+
+    console.log('display');
 
     if (last_place_selected != null) {
         markers_and_associated_data[last_place_selected][0].setUrl(
@@ -1161,6 +1162,8 @@ function displayPlaceDataFunction(placeMarker, placeData) {
             );
     }
     placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses) + '_selected.png');
+    console.log(marker_img_name(placeData.statuses));
+
     last_place_selected = placeData.id;
     refresh_span_photo(placeData.id);
     url_add_photo = "javascript:pop_up_add_photo(" + placeData.id + ")";
@@ -1210,6 +1213,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
             if (placeData.statuses[i].t == 'cem')
             {
                 $('#span_place_description_status').text(color_trad_text[placeData.statuses[i].v]); 
+                console.log(color_trad_text[placeData.statuses[i].v]);
             }
         }
 
