@@ -8,6 +8,8 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 
+use Fastre\LibravatarBundle\Services\ServiceLibravatar;
+
 
 
 
@@ -23,12 +25,19 @@ class UserNormalizer implements NormalizerInterface
     
     private $addGroupsToNormalization = false;
     
+    /**
+     *
+     * @var \Fastre\LibravatarBundle\Services\ServiceLibravatar 
+     */
+    private $libravatarService;
+    
     
     const GROUPS = 'groups';
     
-    public function __construct(NormalizerSerializerService $service)
+    public function __construct(NormalizerSerializerService $service, ServiceLibravatar $libravatarService)
     {
         $this->service = $service;
+        $this->libravatarService = $libravatarService;
     }
     
     
@@ -88,7 +97,7 @@ class UserNormalizer implements NormalizerInterface
             'nbVote' => $object->getNbVote(),
             'roles' => $object->getRoles(),
             'registered' => $object->isRegistered(),
-            'avatar' => 'http://cdn.libravatar.org/avatar/'. md5(strtolower($object->getEmail())),    
+            'avatar' => $this->libravatarService->getUrl($object->getEmail()),    
         );
         
         if (
@@ -99,15 +108,15 @@ class UserNormalizer implements NormalizerInterface
             $a['phonenumber'] = $object->getPhonenumber();
         }
         
-        //if ($this->addGroupsToNormalization)
-        //{
+        if ($this->addGroupsToNormalization)
+        {
             $a[self::GROUPS] = array();
             foreach ($object->getGroups() as $group)
             {
                 $a[self::GROUPS][] = $this->service->getGroupNormalizer()
                         ->normalize($group);
             }
-        //}
+        }
         
 
         return $a;
