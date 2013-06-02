@@ -500,15 +500,16 @@
         {
             "name": "fastre/libravatar-bundle",
             "version": "dev-master",
+            "target-dir": "Fastre/LibravatarBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/julienfastre/LibravatarBundle.git",
-                "reference": "63a5bab27b6e201fa74563803456db9ea07b9d90"
+                "reference": "fb5064a6083e9c6521b10e6b57dead3dd389f22b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/julienfastre/LibravatarBundle/zipball/63a5bab27b6e201fa74563803456db9ea07b9d90",
-                "reference": "63a5bab27b6e201fa74563803456db9ea07b9d90",
+                "url": "https://api.github.com/repos/julienfastre/LibravatarBundle/zipball/fb5064a6083e9c6521b10e6b57dead3dd389f22b",
+                "reference": "fb5064a6083e9c6521b10e6b57dead3dd389f22b",
                 "shasum": ""
             },
             "require": {
@@ -534,7 +535,7 @@
                 }
             ],
             "description": "A simple implementation of Libravatar into Symfony",
-            "time": "2013-05-29 10:35:27"
+            "time": "2013-05-29 14:09:39"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -969,12 +970,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "05173acc5277d7813a61ba344e39540db06a6ca7"
+                "reference": "014f83418c1c790303e7d803dae873ae6b2a4f61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/05173acc5277d7813a61ba344e39540db06a6ca7",
-                "reference": "05173acc5277d7813a61ba344e39540db06a6ca7",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/014f83418c1c790303e7d803dae873ae6b2a4f61",
+                "reference": "014f83418c1c790303e7d803dae873ae6b2a4f61",
                 "shasum": ""
             },
             "require": {
@@ -1003,7 +1004,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -1032,7 +1033,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-28 19:49:14"
+            "time": "2013-06-01 22:07:54"
         },
         {
             "name": "monolog/monolog",
@@ -1092,17 +1093,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioDistributionBundle.git",
-                "reference": "v2.1.10"
+                "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioDistributionBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1138,17 +1139,17 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioFrameworkExtraBundle.git",
-                "reference": "v2.1.10"
+                "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioFrameworkExtraBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1185,17 +1186,17 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioGeneratorBundle.git",
-                "reference": "v2.1.10"
+                "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioGeneratorBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1404,17 +1405,17 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Symfony/Bundle/SwiftmailerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/SwiftmailerBundle.git",
-                "reference": "v2.1.10"
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1459,16 +1460,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "v2.1.10"
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1543,7 +1544,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-05-06 11:01:51"
+            "time": "2013-06-02 12:29:05"
         },
         {
             "name": "twig/extensions",

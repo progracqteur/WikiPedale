@@ -26,6 +26,8 @@ profile:
     show:
         username: Nom d'utilisateur
         email: Adresse e-mail
+        label: Nom affiché (public)
+        phonenumber: Numéro de téléphone
     edit:
         submit: Mettre à jour
     flash:

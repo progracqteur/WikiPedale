@@ -1,7 +1,23 @@
 {#{% form_theme form theme %}#}
 
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
-    {{ form_widget(form) }}
+
+    <div>{{ form_errors(form.username) }}{{ form_label(form.username) }}
+{{ form_widget(form.username) }}</div>
+    
+    <div>{{ form_errors(form.email) }}{{ form_label(form.email) }} 
+{{ form_widget(form.email) }}</div>
+    
+    <div>{{ form_errors(form.label) }}{{ form_label(form.label) }}
+{{ form_widget(form.label) }}</div>
+    
+    <div>{{ form_errors(form.phonenumber) }}{{ form_label(form.phonenumber) }}
+{{ form_widget(form.phonenumber) }}</div>
+    
+    <div>{{ form_errors(form.current_password) }}{{ form_label(form.current_password) }}
+{{ form_widget(form.current_password) }}
+
+{{ form_rest(form) }}
     <div>
         <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'userMessages') }}" />
     </div>
