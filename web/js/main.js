@@ -1154,15 +1154,12 @@ function displayPlaceDataFunction(id_sig) {
      placeMarker = markers_and_associated_data[id_sig][0];
      placeData =  markers_and_associated_data[id_sig][1];
 
-    console.log('display');
-
     if (last_place_selected != null) {
         markers_and_associated_data[last_place_selected][0].setUrl(
             marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[last_place_selected][1].statuses) + '.png'
             );
     }
     placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses) + '_selected.png');
-    console.log(marker_img_name(placeData.statuses));
 
     last_place_selected = placeData.id;
     refresh_span_photo(placeData.id);
@@ -1213,7 +1210,6 @@ function displayPlaceDataFunction(id_sig) {
             if (placeData.statuses[i].t == 'cem')
             {
                 $('#span_place_description_status').text(color_trad_text[placeData.statuses[i].v]); 
-                console.log(color_trad_text[placeData.statuses[i].v]);
             }
         }
 
