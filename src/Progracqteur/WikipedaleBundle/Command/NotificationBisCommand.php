@@ -57,6 +57,10 @@ class NotificationBisCommand extends ContainerAwareCommand {
 
         $spool->flushQueue($transport);
         
+        foreach($processors as $processor) {
+            $processor->finishProcess();
+        }
+        
         echo "ok ! \n";
         
         

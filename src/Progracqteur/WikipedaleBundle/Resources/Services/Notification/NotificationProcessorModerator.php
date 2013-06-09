@@ -141,10 +141,22 @@ class NotificationProcessorModerator extends NotificationProcessor {
         }
     }
     
-    public function __destruct() {
+    public function finishProcess() {
         echo "NPD: destruction de ".get_class($this)." \n";
         echo "NPD: flush de l'om \n";
         $this->om->flush();
+    }
+
+    public function getForm(\Progracqteur\WikipedaleBundle\Entity\Management\User $user, NotificationSubscription $notification) {
+        return new Form\ProcessorModeratorType();
+    }
+
+    public function getFormTemplate() {
+        return 'ProgracqteurWikipedaleBundle:NotificationSubscriptions/Forms:moderator_form.html.twig';
+    }
+
+    public function mayBeCreated(\Progracqteur\WikipedaleBundle\Entity\Management\User $user) {
+        return false;
     }
 }
 

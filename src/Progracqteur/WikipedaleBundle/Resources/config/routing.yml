@@ -216,6 +216,11 @@ wikipedale_notification_subscriptions_list:
 wikipedale_notification_subscriptions_show:
   pattern: /profile/notifications/{id}
   defaults: 
+    _controller: ProgracqteurWikipedaleBundle:Notifications:show
+    
+wikipedale_notification_subscriptions_update:
+  pattern: /profile/notifications/{id}/update
+  defaults:
     _controller: ProgracqteurWikipedaleBundle:Notifications:update
     
 ProgracqteurWikipedaleBundle_admin_category:

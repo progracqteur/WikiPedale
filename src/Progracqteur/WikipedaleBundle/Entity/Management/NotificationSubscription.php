@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * NotificationSubscription
  */
@@ -63,6 +64,7 @@ class NotificationSubscription
     
     const FREQUENCY_MINUTELY = 60;
     const FREQUENCY_DAILY = 86400;
+    const FREQUENCY_STOPPED = 0;
     
     const TRANSPORTER_MAIL = 'email';
     

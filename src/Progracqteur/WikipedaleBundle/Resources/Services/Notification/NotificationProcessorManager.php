@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * Description of NotificationProcessorModerator
@@ -141,10 +142,22 @@ class NotificationProcessorManager extends NotificationProcessor {
         }
     }
     
-    public function __destruct() {
+    public function finishProcess() {
         echo "NPManager: destruction de ".get_class($this)." \n";
         echo "NPManager: flush de l'om \n";
         $this->om->flush();
+    }
+
+    public function getForm(User $user, NotificationSubscription $notification) {
+        
+    }
+
+    public function getFormTemplate() {
+        
+    }
+
+    public function mayBeCreated(User $user) {
+        return false;
     }
 }
 

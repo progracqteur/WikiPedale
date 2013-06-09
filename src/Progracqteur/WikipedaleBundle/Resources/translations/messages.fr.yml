@@ -127,11 +127,36 @@ notification_subscriptions:
     frequency: Fréquence d'envoi
     frequency_:
       60: Immédiate
+      86400: Une fois par jour
+      0: Suspendue - aucun envoi
     transporter: Méthode d'envoi
     transporter_:
       email: Par courrier électronique
     update: Modifier
     zone: Pour la zone géographique
+  form:
+    title: Modification d'une notification
+    submit: Modifier
+    kind: Type de notification
+    kind_:
+      moderator: Notification du modérateur
+      manager: Notification du gestionnaire de voirie
+    frequency: Fréquence d'envoi
+    frequency_:
+      60: Immédiate
+      86400: Une fois par jour
+      0: Suspendue - aucun envoi
+    transporter: Méthode d'envoi
+    transporter_:
+      email: Par courrier électronique 
+    zone: Pour la zone géographique
+  forms:
+    frequency:
+      daily: Une fois par jour
+      minutely: Immédiatement
+      label: Fréquence d'envoi
+      stopped: Suspendre
+    
       
       
     

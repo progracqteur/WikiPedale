@@ -75,6 +75,11 @@ services:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationCorner
     arguments:
       container: "@service_container"
+      
+  progracqteur.wikipedale.notification.form.frequency.type:
+    class: Progracqteur\WikipedaleBundle\Form\Management\Notification\FrequencyType
+    tags:
+      - { name: form.type, alias: notification_frequency }
     
   progracqteur.wikipedale.notification.filter.role:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterByRole

@@ -45,6 +45,8 @@ abstract class NotificationProcessor {
      */
     abstract public function process($frequency);
     
+    abstract public function finishProcess();
+    
     /**
      * @return string
      */
@@ -68,6 +70,9 @@ abstract class NotificationProcessor {
      */
     abstract public function getForm(User $user, NotificationSubscription $notification);
     
-    
+    /**
+     * @return string The name of the twig template
+     */
+    abstract public function getFormTemplate();
 }
 
