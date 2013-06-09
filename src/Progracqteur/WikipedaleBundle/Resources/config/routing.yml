@@ -207,6 +207,17 @@ wikipedale_admin_usergroups_add_or_remove_groups:
   requirements:
     method: POST
     
+    
+wikipedale_notification_subscriptions_list:
+  pattern: /profile/notifications
+  defaults:
+    _controller: ProgracqteurWikipedaleBundle:Notifications:index 
+
+wikipedale_notification_subscriptions_show:
+  pattern: /profile/notifications/{id}
+  defaults: 
+    _controller: ProgracqteurWikipedaleBundle:Notifications:update
+    
 ProgracqteurWikipedaleBundle_admin_category:
         resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_category.yml"
         prefix:   /admin/category

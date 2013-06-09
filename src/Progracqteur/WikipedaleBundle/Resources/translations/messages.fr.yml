@@ -115,3 +115,23 @@ validation:
 email_confirmation_message:
   subject: Vérification de votre adresse de courriel
   
+notification_subscriptions:
+  list:
+    title: Mes notifications personnelles
+    empty: Vous n'avez aucune notification programmée
+    your_notifications: Vos notifications
+    kind: Type de notification
+    kind_:
+      moderator: Notification du modérateur
+      manager: Notification du gestionnaire de voirie
+    frequency: Fréquence d'envoi
+    frequency_:
+      60: Immédiate
+    transporter: Méthode d'envoi
+    transporter_:
+      email: Par courrier électronique
+    update: Modifier
+    zone: Pour la zone géographique
+      
+      
+    

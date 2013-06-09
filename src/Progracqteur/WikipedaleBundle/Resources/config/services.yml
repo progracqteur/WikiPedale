@@ -19,6 +19,7 @@ services:
       securityContext: '@security.context'
       em: '@doctrine.orm.entity_manager'
       geoService: '@progracqteur.wikipedale.geoservice'
+      reachableRoles: '@progracqteur.wikipedale.services.reachables_roles'
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
   progracqteurWikipedale.form.type.photo:
@@ -54,15 +55,26 @@ services:
   
   progracqteur.wikipedale.registration.form.type:
     class: Progracqteur\WikipedaleBundle\Form\Management\UserType
-    arguments: [%fos_user.modeL.user.class%]
+    arguments: [%fos_user.model.user.class%]
     tags: 
       - { name: form.type, alias: wikipedale_user_registration }
+      
+  progracqteur.wikipedale.profile.form.type:
+    class: Progracqteur\WikipedaleBundle\Form\Management\ProfileUserType
+    arguments: [%fos_user.model.user.class%]
+    tags: 
+      - { name: form.type, alias: wikipedale_user_profile }
       
       
   progracqteur.wikipedale.changeset_consistent:
     class: Progracqteur\WikipedaleBundle\Resources\Services\ChangesetConsistent
     arguments:
       om: "@doctrine.orm.entity_manager"
+  
+  progracqteur.wikipedale.notification.corner:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationCorner
+    arguments:
+      container: "@service_container"
     
   progracqteur.wikipedale.notification.filter.role:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterByRole
@@ -82,6 +94,17 @@ services:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationProcessorModerator
     arguments: 
       om: "@doctrine.orm.entity_manager"
+      filterByRole: "@progracqteur.wikipedale.notification.filter.role"
+      NotificationFilterBySubscriptionModerator: "@progracqteur.wikipedale.notification.filter.subscription_kind_moderator"
+    tags:
+      - { name: progracqteur.wikipedale.notification.processor }
+      
+  progracqteur.wikipedale.notification.processor.manager:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationProcessorManager
+    arguments: 
+      om: "@doctrine.orm.entity_manager"
+      filterByRole: "@progracqteur.wikipedale.notification.filter.role"
+      NotificationFilterBySubscriptionManager: "@progracqteur.wikipedale.notification.filter.subscription_kind_manager"
     tags:
       - { name: progracqteur.wikipedale.notification.processor }
     
@@ -89,9 +112,6 @@ services:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationMailSender
     arguments:
       toTextService: "@progracqteur.wikipedale.notification.to_text.mail"
-      filterByRole: "@progracqteur.wikipedale.notification.filter.role"
-      filterBySubscriptionManager: "@progracqteur.wikipedale.notification.filter.subscription_kind_manager"
-      filterBySubscriptionModerator: "@progracqteur.wikipedale.notification.filter.subscription_kind_moderator"
       mailer: "@mailer"
       translator: "@translator"
     tags:
@@ -106,6 +126,11 @@ services:
       date_format: %date_format%
       om: "@doctrine.orm.entity_manager"
       router: "@router"
+  
+  progracqteur.wikipedale.services.reachables_roles:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\ReachableRoleService
+    arguments:
+      roleHierarchy: "@security.role_hierarchy"
       
   
 

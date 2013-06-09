@@ -24,7 +24,8 @@
         "doctrine/data-fixtures": "dev-master@dev",
         "friendsofsymfony/user-bundle": "*",
         "doctrine/migrations" : "master@dev",
-        "doctrine/doctrine-migrations-bundle": "master@dev"
+        "doctrine/doctrine-migrations-bundle": "master@dev",
+        "fastre/libravatar-bundle": "*@dev"
     },
     "scripts": {
         "post-install-cmd": [

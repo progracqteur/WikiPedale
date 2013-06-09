@@ -2,7 +2,10 @@
 
 namespace Progracqteur\WikipedaleBundle\Resources\Services\Notification;
 
-use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationSenderInterface;
+use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationSender;
+use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
+use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
  * Description of NotificationProcessor
@@ -17,9 +20,22 @@ abstract class NotificationProcessor {
      * 
      * @param \Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationSenderInterface $sender
      */
-    public function addTransporter(NotificationSenderInterface $transporter) {
+    public function addTransporter(NotificationSender $transporter) {
         if (in_array($transporter->getKey(), $this->acceptTransporter())) {
             $this->transporters[] = $transporter;
+        }
+    }
+    
+    /**
+     * 
+     * @param string $key
+     * @return \Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationSenderInterface
+     */
+    protected function getTransporter($key) {
+        foreach($this->transporters as $transporter ){
+            if ($transporter->getKey() === $key) {
+                return $transporter;
+            }
         }
     }
     
@@ -38,6 +54,19 @@ abstract class NotificationProcessor {
      * @return string[]
      */
     abstract public function acceptTransporter();
+    
+    abstract public function postSendingProcess(PendingNotification $notification, \Exception $exception = null);
+    
+    /**
+     * @return bool
+     */
+    abstract public function mayBeCreated(User $user);
+    
+    /**
+     * 
+     * @return \Symfony\Component\Form\FormTypeInterface
+     */
+    abstract public function getForm(User $user, NotificationSubscription $notification);
     
     
 }

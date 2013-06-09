@@ -33,6 +33,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       default: true
     moderatorComment:
       type: text
+  lifecycleCallbacks:
+#    prePersist: [registerCurrentChangeset]
+    preFlush: [registerCurrentChangeset]
   manyToOne:
 #    category:
 #      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

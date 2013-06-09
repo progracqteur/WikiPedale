@@ -9,6 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\RouterInterface;
+use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
 
 /**
  * A service which transform a Notification to a text
@@ -40,6 +41,8 @@ class ToTextMailSenderService {
      */
     private $router;
     
+    private $exceptions = array();
+    
 
     
     const DOMAIN = 'notifications';
@@ -57,243 +60,336 @@ class ToTextMailSenderService {
         $this->date_format = $date_format;
         $this->om = $om;
         $this->router = $router;
-    }    
+    }
     
+    /**
+     * 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Services\Notification\SendPendingNotificationException[]
+     */
+    public function getExceptionsAndReset() {
+        return $this->exceptions;
+    }
     
-    public function transformToText($placetrackings, User $owner, NotificationSubscription $ns) {
-        echo "traitement de l'utilisateur ".$owner->getLabel()."\n";
-        //prepare text
+    /**
+     * 
+     * @param Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification[] $notifications
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\User $owner
+     * @return string
+     */
+    public function transformToText($notifications, User $owner) {
+        echo "TOTEXTMAIL : écriture du mail pour l'utilisateur ".$owner->getLabel()."\n";
+        
+        //prepare intro text
+        //
+        //get notification subscription
+        /*
+         * array to prevent for adding a subscription twice
+         */
+        $previousNotificationSubscriptionIds = array();
+
+        $notificationSubscriptions = array();
+
+        foreach ($notifications as $notification){
+            if (!in_array($notification->getSubscription()->getId(), 
+                    $previousNotificationSubscriptionIds)) {
+                $notificationSubscriptions[] = $notification->getSubscription();
+                $previousNotificationSubscriptionIds[] = $notification->getSubscription()->getId();
+            }
+        }
+        
+        //prepare the list of notifications inside the email:
+        $subText = '';
+        foreach ($notificationSubscriptions as $notificationSubscription) {
+            $subText .= '- ';
+            
+            if ($notificationSubscription->getGroup() !== null) {
+                
+                $subText .= $this->t->trans('mail.subscriptions.group',
+                            array('%groupe%' => $notificationSubscription
+                                    ->getGroup()->getName()
+                        ),
+                        self::DOMAIN
+                        );
+
+            } else {
+                if ($notificationSubscription->getZone() !== null) {
+                    
+                    $subText .= $this->t->trans('mail.subscriptions.zone',
+                            array('%zone%' => $notificationSubscription
+                                    ->getZone()->getName()
+                        ),
+                        self::DOMAIN
+                        );
+
+                } else {
+                    if ($notificationSubscription->getPlace() !== null) {
+                        
+                        $subText .= $this->t->trans('mail.subscriptions.place',
+                            array('%place%' => $notificationSubscription
+                                    ->getPlace()->getLabel()
+                        ),
+                        self::DOMAIN
+                        );
+
+                    }
+                }
+            }
+ 
+        }
+        
+        $subText .= "\n";
+        
+        
+        
         $t = $this->t->trans('mail.intro_text', array(
                     '%dest%' => $owner->getLabel(),
-                    "%zone%" => $ns->getZone()
+                    '%subscriptions%' => $subText
                 ), self::DOMAIN);
         $t.= "\n \n";
         
         //sort by place
+        
+        /**
+         * array to sort placetrackings by place and date
+         */
         $a = array();
         
         
-        foreach ($placetrackings as $placetracking)
+        
+        foreach ($notifications as $notification)
         {
-            $u = (int) $placetracking->getDate()->format('U');
-            $a[$placetracking->getPlace()->getId()][$u] = $placetracking;
+            $u = (int) $notification->getPlaceTracking()->getDate()->format('U');
+            $a[$notification->getPlaceTracking()->getPlace()->getId()][$u] = $notification;
         }
         
+        //prefix for changes items :
+        $p = '- ';
+        
         //create a string for each place
-        foreach ($a as $placeId => $array)
+        foreach ($a as $placeId => $notifications_)
         {
-            echo "traitement de la place ".$placeId."\n";
-
-            //sort by date
-            //sort($array, SORT_NUMERIC);
+            echo "TOTEXTMAIL : traitement de la place ".$placeId."\n";
+            
             $headerShow = false;
-
             
-            
-            //prefix for changes items :
-            $p = '- ';
 
-            foreach($array as $placetracking)
-            {
+            foreach($notifications_ as $timestamp => $notification) {
+                try {
+                
+                $placetracking = $notification->getPlaceTracking();
+                
+                //show the header if this is the first element of the place
                 if ($headerShow === false) {
                     $t .= "**".$this->t->trans('mail.place.header', 
                     array('%label%' => $placetracking->getPlace()->getLabel()), 
-                    self::DOMAIN).
-                    "** \n \n";
-                    
-                    $headerShow = true;
-                }
-                
-                
-                echo "traitement de la placeteracking ".$placetracking->getId()."\n";
-                $args = array(
-                                '%author%' => $placetracking->getAuthor()->getLabel(),
-                                '%label%' => $placetracking->getPlace()->getLabel(),
-                                '%date%' => $placetracking->getDate()->format($this->date_format)
-                            );
+                        self::DOMAIN).
+                        "** \n \n";
 
-                if ($placetracking->isCreation())
-                {
-                    $t .= $p.$this->t->trans('mail.place.creation', 
-                            $args,
-                            self::DOMAIN
-                            );
-                    $t .= "\n";
-                    continue; //go to next event
-                }
-                
-                
-                $keyChanges = array();
-                foreach ($placetracking as $change)
-                {
-                    $keyChanges[$change->getType()] = $change;
-                }
-
-                //if the change is add a photo (do not consider other changes)
-                if (isset($keyChanges[ChangeService::PLACE_ADD_PHOTO]))
-                {
-                    $t .= $p.$this->t->trans('mail.place.add_photo', $args, self::DOMAIN);
-                    $t .= "\n";
-                    continue;
-                }
-
-
-
-                //if the change concern the status of the place
-                if (isset($keyChanges[ChangeService::PLACE_STATUS]))
-                {
-                    $status = $keyChanges[ChangeService::PLACE_STATUS]->getNewValue();
-                    $args['%notation%'] = $this->om
-                            ->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
-                            ->find($status->getType());
-                    
-                    $t .= $p;
-
-                    switch ($status->getValue())
-                    {
-                        case -1 : 
-                            $t .=  $this->t->trans('mail.place.status.rejected', 
-                                    $args, self::DOMAIN);
-                            break;
-                        case 0 :
-                            $t .=  $this->t->trans('mail.place.status.notReviewed', 
-                                    $args, self::DOMAIN);
-                            break;
-                        case 1 :
-                            $t .=  $this->t->trans('mail.place.status.takenIntoAccount', 
-                                    $args, self::DOMAIN);
-                            break;
-                        case 2 :
-                            $t .=  $this->t->trans('mail.place.status.inChange', 
-                                    $args, self::DOMAIN);
-                            break;
-                        case 3 :
-                            $t .=  $this->t->trans('mail.place.status.success', 
-                                    $args, self::DOMAIN);
-                            break;
+                        $headerShow = true;
                     }
 
-                    $t .= "\n";
-                }
-                
-                //if the author added a private comment
-                if (isset($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD])) {
-                    $t .= $p. $this->t->trans('mail.place.comment.private_add',
-                            $args, self::DOMAIN);
-                    $t .= "\n";
+
+
+
+                    echo "TOTEXTMAIL : traitement de la placeteracking ".$placetracking->getId()."\n";
+                    $args = array(
+                                    '%author%' => $placetracking->getAuthor()->getLabel(),
+                                    '%label%' => $placetracking->getPlace()->getLabel(),
+                                    '%date%' => $placetracking->getDate()->format($this->date_format)
+                                );
+
+                    if ($placetracking->isCreation())
+                    {
+                        $t .= $p.$this->t->trans('mail.place.creation', 
+                                $args,
+                                self::DOMAIN
+                                );
+                        $t .= "\n";
+                        continue; //go to next event
+                    }
+
+
+                    $keyChanges = array();
+                    foreach ($placetracking as $change)
+                    {
+                        $keyChanges[$change->getType()] = $change;
+                    }
                     
-                    //retrieve the comment
-                    $comment = $this->om
-                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
-                            ->find($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD]
-                                    ->getNewValue());
-                    
-                    if ($comment !== null) {
-                        $t .= ">".$comment->getContent();
+                    //if the change is add a photo (do not consider other changes)
+                    if (isset($keyChanges[ChangeService::PLACE_ADD_PHOTO]))
+                    {
+                        $t .= $p.$this->t->trans('mail.place.add_photo', $args, self::DOMAIN);
+                        $t .= "\n";
+                        continue;
+                    }
+
+
+
+                    //if the change concern the status of the place
+                    if (isset($keyChanges[ChangeService::PLACE_STATUS]))
+                    {
+                        $status = $keyChanges[ChangeService::PLACE_STATUS]->getNewValue();
+                        $args['%notation%'] = $this->om
+                                ->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
+                                ->find($status->getType());
+
+                        $t .= $p;
+
+                        switch ($status->getValue())
+                        {
+                            case -1 : 
+                                $t .=  $this->t->trans('mail.place.status.rejected', 
+                                        $args, self::DOMAIN);
+                                break;
+                            case 0 :
+                                $t .=  $this->t->trans('mail.place.status.notReviewed', 
+                                        $args, self::DOMAIN);
+                                break;
+                            case 1 :
+                                $t .=  $this->t->trans('mail.place.status.takenIntoAccount', 
+                                        $args, self::DOMAIN);
+                                break;
+                            case 2 :
+                                $t .=  $this->t->trans('mail.place.status.inChange', 
+                                        $args, self::DOMAIN);
+                                break;
+                            case 3 :
+                                $t .=  $this->t->trans('mail.place.status.success', 
+                                        $args, self::DOMAIN);
+                                break;
+                        }
+
                         $t .= "\n";
                     }
-                    
-                    
-                }
-                
-                
-                //if a manager was assigned
-                if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD])
-                        OR isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) {
-                    
-                    if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD]))
-                        $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ADD];
-                    elseif (isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) 
-                        $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ALTER];
-                    
-                    $manager = $this->om
-                            ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
-                            ->find($temp_ch->getNewValue());
-                    
-                    //if the manager is the actual owner of the notification
-                    $groups = $ns->getOwner()->getGroups();
-                    $groupIds = array();
-                    
-                    foreach ($groups as $group) {
-                        $groupIds[] = $group->getId();
+
+                    //if the author added a private comment
+                    if (isset($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD])) {
+                        $t .= $p. $this->t->trans('mail.place.comment.private_add',
+                                $args, self::DOMAIN);
+                        $t .= "\n";
+
+                        //retrieve the comment
+                        $comment = $this->om
+                                ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
+                                ->find($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD]
+                                        ->getNewValue());
+
+                        if ($comment !== null) {
+                            $t .= ">".$comment->getContent();
+                            $t .= "\n";
+                        }
+
+
                     }
-                    
-                    
-                        
-                    if (in_array($manager->getId(), $groupIds)){
-                        $t.= $p. $this->t->trans('mail.place.manager.you', $args, self::DOMAIN);
-                    } else {
-                        $args['%manager%'] = $manager->getName();
-                        $t.= $p . $this->t->trans('mail.place.manager.add', $args, self::DOMAIN);
+
+
+                    //if a manager was assigned
+                    if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD])
+                            OR isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) {
+
+                        if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD]))
+                            $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ADD];
+                        elseif (isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) 
+                            $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ALTER];
+
+                        $manager = $this->om
+                                ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+                                ->find($temp_ch->getNewValue());
+
+                        //if the manager is the actual owner of the notification
+                        $groups = $ns->getOwner()->getGroups();
+                        $groupIds = array();
+
+                        foreach ($groups as $group) {
+                            $groupIds[] = $group->getId();
+                        }
+
+
+
+                        if (in_array($manager->getId(), $groupIds)){
+                            $t.= $p. $this->t->trans('mail.place.manager.you', $args, self::DOMAIN);
+                        } else {
+                            $args['%manager%'] = $manager->getName();
+                            $t.= $p . $this->t->trans('mail.place.manager.add', $args, self::DOMAIN);
+                        }
+
+
+                        unset($temp_ch);
+
+                        $t.= "\n";
                     }
-                    
 
-                    unset($temp_ch);
-                    
-                    $t.= "\n";
-                }
-                
-                if (isset($keyChanges[ChangeService::PLACE_MANAGER_REMOVE])) {
-                    $t.= $p . $this->t->trans('mail.place.manager.remove', $args, self::DOMAIN);
-                    $t.="\n";
-                }
-                
-
-                //if the changes are other : 
-                
-                
-                //count the changes
-                $nb = 0;
-                $key_not_to_track = array(ChangeService::PLACE_CREATION, 
-                    ChangeService::PLACE_STATUS, ChangeService::PLACE_ADD_PHOTO,
-                    ChangeService::PLACE_MANAGER_ADD, ChangeService::PLACE_MANAGER_ALTER,
-                    ChangeService::PLACE_MANAGER_REMOVE, 
-                    ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD);
-                $changes = array();
-                
-                
-                foreach($keyChanges as $key => $value) {
-                    
-                    if (
-                            in_array($key, $this->array[$ns->getKind()])
-                            && !in_array($key, $key_not_to_track)
-                            ) {
-                        $nb++;
-                        $changes[] = $value;
-                    } else {
-                        echo "change $key not selected";
+                    if (isset($keyChanges[ChangeService::PLACE_MANAGER_REMOVE])) {
+                        $t.= $p . $this->t->trans('mail.place.manager.remove', $args, self::DOMAIN);
+                        $t.="\n";
                     }
-                }
 
-                //if only one : 
-                if ($nb == 1)
-                {
-                    $args['%change%'] = 
-                         $this->getStringFromChangeType($changes[0]->getType());
-                    $t .= $p.$this->t->trans('mail.place.change.one', $args, self::DOMAIN);
-                    $t .= "\n";
-                }
 
-                if ($nb == 2)
-                {
-                    $args['%change_%'] = 
-                         $this->getStringFromChangeType($changes[0]->getType());
-                    $args['%change__%'] = 
-                         $this->getStringFromChangeType($changes[1]->getType());
-                    $t .= $p.$this->t->trans('mail.place.change.two', $args, self::DOMAIN);
-                    $t .= "\n";
-                }
+                    //if the changes are other : 
 
-                if ($nb > 2)
-                {
-                    $args['%change_%'] = 
-                         $this->getStringFromChangeType($changes[0]->getType());
-                    $args['%change__%'] = 
-                         $this->getStringFromChangeType($changes[1]->getType());
-                    $more = $nb - 2;
-                    $args['%more%'] = $more;
-                    $t .=  $p.$this->t->transChoice('mail.place.change.more', $more, $args, self::DOMAIN);
-                    $t .= "\n";
+
+                    //count the changes
+                    $nb = 0;
+                    $key_not_to_track = array(ChangeService::PLACE_CREATION, 
+                        ChangeService::PLACE_STATUS, ChangeService::PLACE_ADD_PHOTO,
+                        ChangeService::PLACE_MANAGER_ADD, ChangeService::PLACE_MANAGER_ALTER,
+                        ChangeService::PLACE_MANAGER_REMOVE, 
+                        ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD);
+                    $changes = array();
+
+
+                    foreach($keyChanges as $key => $value) {
+
+                        if (
+                                in_array($key, $this->array[$notification
+                                        ->getSubscription()
+                                        ->getKind()])
+                                && !in_array($key, $key_not_to_track)
+                                ) {
+                            $nb++;
+                            $changes[] = $value;
+                        } else {
+                            echo "TOTEXTMAIL : change $key not selected or previously processed \n";
+                        }
+                    }
+
+                    //if only one : 
+                    if ($nb == 1)
+                    {
+                        $args['%change%'] = 
+                             $this->getStringFromChangeType($changes[0]->getType());
+                        $t .= $p.$this->t->trans('mail.place.change.one', $args, self::DOMAIN);
+                        $t .= "\n";
+                    }
+
+                    if ($nb == 2)
+                    {
+                        $args['%change_%'] = 
+                             $this->getStringFromChangeType($changes[0]->getType());
+                        $args['%change__%'] = 
+                             $this->getStringFromChangeType($changes[1]->getType());
+                        $t .= $p.$this->t->trans('mail.place.change.two', $args, self::DOMAIN);
+                        $t .= "\n";
+                    }
+
+                    if ($nb > 2)
+                    {
+                        $args['%change_%'] = 
+                             $this->getStringFromChangeType($changes[0]->getType());
+                        $args['%change__%'] = 
+                             $this->getStringFromChangeType($changes[1]->getType());
+                        $more = $nb - 2;
+                        $args['%more%'] = $more;
+                        $t .=  $p.$this->t->transChoice('mail.place.change.more', $more, $args, self::DOMAIN);
+                        $t .= "\n";
+                    }
+                } catch (\Exception $e) {
+                    $exception = new SendPendingNotificationException(
+                            $notification, 
+                            'error during transformation to text of the placetracking',
+                            0,
+                            $e);
+                    $this->exceptions[] = $exception;
                 }
             }
             

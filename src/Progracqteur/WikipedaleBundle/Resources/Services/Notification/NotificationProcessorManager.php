@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class NotificationProcessorModerator extends NotificationProcessor {
+class NotificationProcessorManager extends NotificationProcessor {
     
     private $om;
     
@@ -28,9 +28,9 @@ class NotificationProcessorModerator extends NotificationProcessor {
     public function __construct(
             ObjectManager $om,             
             NotificationFilterByRole $filterByRole,
-            NotificationFilterBySubscriptionModerator $filterBySubscriptionModerator) {
+            NotificationFilterBySubscriptionManager $filterBySubscriptionManager) {
         $this->filterByRole = $filterByRole;
-        $this->filterBySubscription = $filterBySubscriptionModerator;
+        $this->filterBySubscription = $filterBySubscriptionManager;
         $this->om = $om;
     }
 
@@ -40,7 +40,7 @@ class NotificationProcessorModerator extends NotificationProcessor {
     }
 
     public function getKey() {
-        return NotificationSubscription::KIND_MODERATOR;
+        return NotificationSubscription::KIND_MANAGER;
     }
 
     public function process($frequency) {
@@ -54,7 +54,7 @@ class NotificationProcessorModerator extends NotificationProcessor {
                     AND s.kind like :subscription_kind'
                 )
                 ->setParameter('frequency', $frequency)
-                ->setParameter('subscription_kind', NotificationSubscription::KIND_MODERATOR)
+                ->setParameter('subscription_kind', NotificationSubscription::KIND_MANAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'place', ClassMetadata::FETCH_EAGER)
@@ -68,14 +68,14 @@ class NotificationProcessorModerator extends NotificationProcessor {
                 if ($this->filterBySubscription
                         ->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription())) {
 
-                    echo "NPM: Notification de la placeTracking ". 
+                    echo "NPManager: Notification de la placeTracking ". 
                             $notification->getPlaceTracking()->getId() .
                             " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
-                    echo "NPM: Refus DE Notification de la placeTracking par FilterBySubscription ". 
+                    echo "NPManager: Refus DE Notification de la placeTracking par FilterBySubscription ". 
                             $notification->getPlaceTracking()->getId() .
                             " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
@@ -88,7 +88,7 @@ class NotificationProcessorModerator extends NotificationProcessor {
 
 
             } else {
-                echo "NPM: Interdiction De Notification de la placeTracking par FilterByRole ". 
+                echo "NPManager: Interdiction De Notification de la placeTracking par FilterByRole ". 
                         $notification->getPlaceTracking()->getId() .
                         " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
@@ -114,14 +114,14 @@ class NotificationProcessorModerator extends NotificationProcessor {
         
         if ($exception === null) {
             
-            echo "NPM : traitement de pendingNotification ".$notification->getId().
+            echo "NPManager: traitement de pendingNotification ".$notification->getId().
                     " (placetracking ".
                     $notification->getPlaceTracking()->getId().
                     ") terminé \n";
             $this->om->remove($notification);
             
         } else {
-            echo "NPM : problème pour pendingNotification ".$notification->getId()." \n";
+            echo "NPManager: problème pour pendingNotification ".$notification->getId()." \n";
             echo $exception->getMessage()." \n";
             echo $exception->getCode()." \n";
             echo "file : ".$exception->getFile()." line : ".$exception->getLine()."\n";
@@ -142,8 +142,8 @@ class NotificationProcessorModerator extends NotificationProcessor {
     }
     
     public function __destruct() {
-        echo "NPD: destruction de ".get_class($this)." \n";
-        echo "NPD: flush de l'om \n";
+        echo "NPManager: destruction de ".get_class($this)." \n";
+        echo "NPManager: flush de l'om \n";
         $this->om->flush();
     }
 }

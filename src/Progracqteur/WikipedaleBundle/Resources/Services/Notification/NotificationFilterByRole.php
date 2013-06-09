@@ -38,13 +38,13 @@ class NotificationFilterByRole {
     {
         if ($changeset->isCreation() === null)
         {
-            echo "changeset->isCreation === null \n";
+            echo "FILTER BY ROLE : changeset->isCreation === null \n";
             return false;
         }
         
         if ($changeset->getPlace()->isAccepted() === false)
         {
-            echo "place not accepted \n";
+            echo "FILTER BY ROLE place not accepted \n";
             return false;
         } 
         
@@ -70,7 +70,7 @@ class NotificationFilterByRole {
                 if (!in_array(User::ROLE_COMMENT_MODERATOR_MANAGER, 
                         $this->cacheRoles[$subscription->getOwner()->getId()])
                         ){
-                    var_dump($this->cacheRoles[$subscription->getOwner()->getId()]);
+                    echo "FILTER BY ROLE ".$subscription->getOwner()->getLabel()." does not have role ".User::ROLE_COMMENT_MODERATOR_MANAGER." \n";
                     return false;
                 }
             }

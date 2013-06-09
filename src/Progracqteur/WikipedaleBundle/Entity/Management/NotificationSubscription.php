@@ -66,6 +66,11 @@ class NotificationSubscription
     
     const TRANSPORTER_MAIL = 'email';
     
+    
+    public function __construct() {
+        $this->transporter = self::TRANSPORTER_MAIL;
+    }
+    
 
     
     /**

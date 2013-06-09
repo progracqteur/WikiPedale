@@ -1,5 +1,9 @@
 <div class="fos_user_user_show">
     <p>{{ 'profile.show.username'|trans({}, 'userMessages') }}: {{ user.username }}</p>
     <p>{{ 'profile.show.email'|trans({}, 'userMessages') }}: {{ user.email }}</p>
+
+    <p>{{ 'profile.show.label'|trans({}, 'userMessages') }}: {{ user.label }}</p>
+    <p>{{ 'profile.show.phonenumber'|trans({}, 'userMessages') }}: {{ user.phonenumber }}</p>
+
     <p><a href="{{ path('fos_user_profile_edit') }}">Modifier mon profil</a></p>
 </div>

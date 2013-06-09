@@ -14,3 +14,5 @@ parameters:
     locale            : fr
 
     secret            : ThisTokenIsNotSoSecretChangeIt
+    
+    date_format       :  d/m/Y à H:i

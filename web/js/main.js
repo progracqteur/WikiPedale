@@ -352,10 +352,10 @@ function update_markers_and_associated_data(){
         dataType: "json",
         url: jsonUrlData,
         success: function(data) {
+            console.log("update_markers_and_associated_data - done");
             $.each(data.results, function(index, aPlaceData) {
                 if (markers_and_associated_data[aPlaceData.id] == undefined) {
-                    addMarkerWithClickAction(false,
-                        aPlaceData.geom.coordinates[0],
+                    addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
                         aPlaceData.geom.coordinates[1],
                         displayPlaceDataFunction,
                         aPlaceData);
@@ -366,6 +366,12 @@ function update_markers_and_associated_data(){
             });
         },
         complete: function(data) {
+            signalement_id = $('#input_place_description_id').val();
+            if (signalement_id != "" && signalement_id != undefined) {
+                // be sure that a place is selected
+                displayRegardingToUserRole();
+            }
+
             $.each(markers_and_associated_data, function(index, marker_and_data) {
                 if (marker_and_data != undefined) { 
                     if (marker_and_data[1] == undefined) {
@@ -374,7 +380,6 @@ function update_markers_and_associated_data(){
                     }
                 }
             });
-            displayEmailAndPhoneNumberRegardingToRole();
         }
     });
 };
@@ -400,14 +405,7 @@ function updatePageWhenLogged(){
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
 
-
-    signalement_id = $('#input_place_description_id').val();
-
-    if (signalement_id != "" && signalement_id != undefined) {
-        // be sure that a place is selected
-        update_markers_and_associated_data();
-        displayRegardingToUserRole();
-    }
+    update_markers_and_associated_data();
 }
 
 function catchLoginForm(){
@@ -483,7 +481,7 @@ function descriptionDelete(){
     /**
     * to delete a description
     */
-    signalement_id = $('#input_place_description_id').val();
+    signalement_id = parseInt($('#input_place_description_id').val());
     json_request = DeleteDescriptionInJson(signalement_id);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
     $.ajax({
@@ -515,7 +513,7 @@ function descriptionDelete(){
 
 function descriptionEditOrSave(element_type){
     element_id = "#span_place_description_" + element_type;
-    signalement_id = $('#input_place_description_id').val();
+    signalement_id = parseInt($('#input_place_description_id').val());
 
     if (mode_edit[element_type] == undefined || ! mode_edit[element_type]) {
         // SHOW THE EDIT FORM
@@ -573,19 +571,21 @@ function descriptionEditOrSave(element_type){
                 if(! output_json.query.error) { 
                     old_categories = markers_and_associated_data[signalement_id][1].categories;
                     old_statuses = markers_and_associated_data[signalement_id][1].statuses;
+                    old_placetype = markers_and_associated_data[signalement_id][1].placetype;
                     markers_and_associated_data[signalement_id][1] = output_json.results[0];
                     if(element_type == 'cat'){
                         categories_list = "";
                         $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
                         $(element_id).text(categories_list); 
                         $.each(old_categories, function(i,c) {
-                            id_markers_for['Categories'][c.id].pop(parseInt(signalement_id));
+                            index_sig = id_markers_for['Categories'][c.id].indexOf(signalement_id);
+                            id_markers_for['Categories'][c.id].splice(index_sig,1);
                         } );
                         $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) {
                             if (id_markers_for['Categories'][c.id] == undefined){
                                 id_markers_for['Categories'][c.id] = new Array();
                             }
-                            id_markers_for['Categories'][c.id].push(parseInt(signalement_id));
+                            id_markers_for['Categories'][c.id].push((signalement_id));
                         });
                         display_only_markers_with_selected_categories();
                     } else if (element_type == 'status'){
@@ -594,7 +594,8 @@ function descriptionEditOrSave(element_type){
 
                         $.each(old_statuses, function(index, type_value) {
                             if(type_value.t == "cem") {
-                                id_markers_for['StatusCeM'][type_value.v.toString()].pop(parseInt(signalement_id));
+                                index_sig = id_markers_for['StatusCeM'][type_value.v].indexOf(signalement_id);
+                                id_markers_for['StatusCeM'][type_value.v].splice(index_sig,1);
                             }
                         });
 
@@ -618,8 +619,25 @@ function descriptionEditOrSave(element_type){
                         }
 
                         display_only_markers_with_selected_categories();
-                    } else if (element_type == 'gestionnaire' || element_type == 'type'){
+                    }
+                    else if (element_type == 'gestionnaire') {
                         $(element_id).text($(element_id + '_edit').select2('data').text);
+                    }
+                    else if (element_type == 'type'){
+                        $(element_id).text($(element_id + '_edit').select2('data').text);
+                        if (old_placetype != null) {   
+                            index_sig = id_markers_for['PlaceTypes'][old_placetype.id].indexOf(signalement_id);
+                            id_markers_for['PlaceTypes'][old_placetype.id].splice(index_sig,1);
+                        }
+
+                        if (markers_and_associated_data[signalement_id][1].placetype != null) {
+                            if(id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] == undefined) {
+                                id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] = new Array();
+                            }
+                            id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id].push(parseInt(signalement_id))
+                        }
+
+                        display_only_markers_with_selected_categories();
                     }
                     else {
                         $(element_id).text($(element_id + '_edit').val());
@@ -646,7 +664,7 @@ function descriptionEditOrSave(element_type){
             }
         });
     };
-    
+    return false;
 };
 
 function catchForm(formName) {
@@ -730,8 +748,7 @@ function catchForm(formName) {
                             newPlaceData = output_json.results[0];
                             clear_add_new_description_form();
                             if(userIsRegister()) {
-                                addMarkerWithClickAction(false,
-                                    newPlaceData.geom.coordinates[0],
+                                addMarkerWithClickAction(newPlaceData.geom.coordinates[0],
                                     newPlaceData.geom.coordinates[1],
                                     displayPlaceDataFunction,
                                     newPlaceData);
@@ -739,7 +756,7 @@ function catchForm(formName) {
                                 setTimeout(
                                     function(){
                                         changingModeFunction();
-                                        displayPlaceDataFunction(markers_and_associated_data[newPlaceData.id][0],markers_and_associated_data[newPlaceData.id][1]);
+                                        displayPlaceDataFunction(newPlaceData.id);
                                     },7000);  
                                 }
                                 else {
@@ -863,7 +880,7 @@ function changingModeFunction() {
 
                     var markerMouseDownFunction = (function(iid)       {
                         return function(evt) {
-                            displayPlaceDataFunction(markers_and_associated_data[iid][0],markers_and_associated_data[iid][1]);
+                            displayPlaceDataFunction(iid);
                             OpenLayers.Event.stop(evt);
                         } }
                     ) (data.id);
@@ -937,21 +954,20 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
     $.getJSON(jsonUrlData, function(data) {
     updateUserInfo(data.user);
 	$.each(data.results, function(index, aPlaceData) {
-	    addMarkerWithClickAction(false,
-				     aPlaceData.geom.coordinates[0],
+	    addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
 				     aPlaceData.geom.coordinates[1],
 				     displayPlaceDataFunction,
 				     aPlaceData);
         if(aPlaceData.id == marker_id_to_display)
         {
-            displayPlaceDataFunction(markers_and_associated_data[marker_id_to_display][0],markers_and_associated_data[marker_id_to_display][1]);
+            displayPlaceDataFunction(marker_id_to_display);
         }
 
          } ) }
 	     );
 }
 
-function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData) {
+function addMarkerWithClickAction(aLon, aLat, anEventFunction, someData) {
     /**
      * Add a marker on a layer such that when the user click on it, an 
      action is executed.
@@ -1004,7 +1020,7 @@ function addMarkerWithClickAction(aLayer , aLon, aLat, anEventFunction, someData
     }
 
     var markerMouseDownFunction = function(evt) {
-	anEventFunction(marker,someData); 
+	anEventFunction(someData.id); 
         OpenLayers.Event.stop(evt);
     };
 
@@ -1121,10 +1137,12 @@ function displayRegardingToUserRole() {
     if(userIsCeM() || userIsAdmin()) {
         $('#div_container_place_description_commentaireCeM').show();
     }
+
+    displayEmailAndPhoneNumberRegardingToRole();
 }
 
 
-function displayPlaceDataFunction(placeMarker, placeData) {
+function displayPlaceDataFunction(id_sig) {
     /**
      * Function which display some data of the place on the webpage.
      executed when the user click on a marker on the index page.
@@ -1133,6 +1151,8 @@ function displayPlaceDataFunction(placeMarker, placeData) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
+     placeMarker = markers_and_associated_data[id_sig][0];
+     placeData =  markers_and_associated_data[id_sig][1];
 
     if (last_place_selected != null) {
         markers_and_associated_data[last_place_selected][0].setUrl(
@@ -1140,6 +1160,7 @@ function displayPlaceDataFunction(placeMarker, placeData) {
             );
     }
     placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses) + '_selected.png');
+
     last_place_selected = placeData.id;
     refresh_span_photo(placeData.id);
     url_add_photo = "javascript:pop_up_add_photo(" + placeData.id + ")";
@@ -1207,7 +1228,6 @@ function displayPlaceDataFunction(placeMarker, placeData) {
 
     descriptionHideEdit(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     displayRegardingToUserRole();
-    
 
     $('#div_placeDescription').show();
 }
