@@ -73,6 +73,50 @@ class NotificationsController extends Controller {
                 ;
     }
     
+    public function updateAction($id, \Symfony\Component\HttpFoundation\Request $request) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        //if user is not connected
+        if (!($user instanceof User)) {
+            throw new AccessDeniedException('you must be registered for accessing this page');
+        }
+        
+        
+        $notification = $this->getDoctrine()->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Management\NotificationSubscription')
+                ->find($id);
+        
+        if ($notification === null ) {
+            throw $this->createNotFoundException('notification not found');
+        }
+        
+        if ($user->getId() !== $notification->getOwner()->getId()) {
+            throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('you cannot modify notification belonging to other users');
+        }
+        
+        $form = $this->createForm(
+                $this->get('progracqteur.wikipedale.notification.corner')
+                   ->getProcessor($notification->getKind())->getForm( 
+                           $user,
+                           $notification)
+                , $notification)
+              ;
+        
+        $form->bindRequest($request);
+        
+        if ($form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            //TODO : add a message
+            return $this->redirect(
+                    $this->generateUrl('wikipedale_notification_subscriptions_list')
+                    );
+        } else {
+            $this->forward('ProgracqteurWikipedaleBundle:Notifications:show', 
+                    array('id' => $id)
+                    );
+        }
+    }
+    
     
 }
 
