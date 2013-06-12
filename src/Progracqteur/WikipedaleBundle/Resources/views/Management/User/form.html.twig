@@ -28,12 +28,14 @@
     
     <h1>{{ user.label }}</h1>
 
-<div>{{ form_label(form.email) }} {{ form_widget(form.email) }}</div>
-<div>{{ form_label(form.label) }} {{ form_widget(form.label) }}</div>
-<div>{{ form_label(form.phonenumber) }} {{ form_widget(form.phonenumber) }}</div>
-<div>{{ form_label(form.locked) }} : {{ form_widget(form.locked) }}</div>
+    <div>{{ form_label(form.email) }} {{ form_widget(form.email) }} {{ form_errors(form.email) }}</div>
+    <div>{{ form_label(form.label) }} {{ form_widget(form.label) }} {{ form_errors(form.label) }}</div>
+    <div>{{ form_label(form.phonenumber) }} {{ form_widget(form.phonenumber) }} {{ form_errors(form.phonenumber) }}</div>
+    <div>{{ form_label(form.locked) }} : {{ form_widget(form.locked) }} {{ form_errors(form.locked) }}</div>
 
-<button type="submit">{{ 'admin.profile_user.submit' | trans }}</button>
+    <button type="submit">{{ 'admin.profile_user.submit' | trans }}</button>
+    
+    {{ form_rest(form) }}
 
 </form>
 

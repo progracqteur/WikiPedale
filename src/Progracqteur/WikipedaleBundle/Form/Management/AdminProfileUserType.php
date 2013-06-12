@@ -18,7 +18,8 @@ class AdminProfileUserType extends BaseType
         ;
         
         $builder->add('locked', 'checkbox', array(
-            'label' => 'admin.profile_user.locked'
+            'label' => 'admin.profile_user.locked',
+            'required' => false
             ));
     }
 

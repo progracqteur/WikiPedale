@@ -361,11 +361,31 @@ class GroupAdminController extends Controller {
         
         $form = $this->createForm('wikipedale_user_admin_profile', $user);
         
+        if ($request->getMethod() === "POST") {
+            $form->bind($request);
+            
+            if ($form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+                
+                $this->get('session')->setFlash('notice',
+                    'admin.profile_user.user_updated');
+                
+                return $this->redirect(
+                        $this->generateUrl('wikipedale_admin_usergroups')
+                        );
+            } else {
+                $this->get('session')->setFlash('notice',
+                    'admin.profile_user.contain_errors');
+            }
+        }
+        
         return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
                 array('form' => $form->createView(), 'user' => $user)
                 );
         
     }
+    
+
     
 }
 
