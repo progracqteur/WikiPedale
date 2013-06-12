@@ -31,6 +31,10 @@ admin:
     add_remove_groups: Modifie les appartenances de l'utilisateur
     management: Gestion des appartenances utilisateurs
     details: Détail d'un utilisateur
+    update_user: Modifications de l'utilisateur
+  profile_user:
+    locked: Bloquer
+    submit: Modifier
   category:
     form: 
       parent: 

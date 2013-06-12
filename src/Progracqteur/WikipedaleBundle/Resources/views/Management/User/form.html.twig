@@ -1,0 +1,40 @@
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
+
+
+{% block css %}
+<style type="text/css">
+
+    form label {
+        float: none;
+        width: auto;
+        display: inline;
+    }
+    
+    div.option {
+        margin-bottom: 9px;
+        }
+    dt {
+        font-weight: bold;
+        }
+        
+    
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+<form method="POST" action="#">
+    
+    <h1>{{ user.label }}</h1>
+
+<div>{{ form_label(form.email) }} {{ form_widget(form.email) }}</div>
+<div>{{ form_label(form.label) }} {{ form_widget(form.label) }}</div>
+<div>{{ form_label(form.phonenumber) }} {{ form_widget(form.phonenumber) }}</div>
+<div>{{ form_label(form.locked) }} : {{ form_widget(form.locked) }}</div>
+
+<button type="submit">{{ 'admin.profile_user.submit' | trans }}</button>
+
+</form>
+
+{% endblock %}

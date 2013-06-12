@@ -343,5 +343,29 @@ class GroupAdminController extends Controller {
                         );
     }
     
+    
+    public function userShowFormAction($id, Request $request) {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        
+        $user = $this->getDoctrine()->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Management\User')
+                ->find($id);
+        
+        if ($user === null) {
+            throw $this->createNotFoundException('user '.$id.' not found');
+        }
+        
+        $form = $this->createForm('wikipedale_user_admin_profile', $user);
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
+                array('form' => $form->createView(), 'user' => $user)
+                );
+        
+    }
+    
 }
 

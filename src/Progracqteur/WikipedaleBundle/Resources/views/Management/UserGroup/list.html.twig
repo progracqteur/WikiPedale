@@ -45,7 +45,11 @@
                             {% trans %}user.is_not_member_of_any_group{% endtrans %}
                     {% endif %}
                 </td>
-                <td><a href="{{ path('wikipedale_admin_usergroups_update', {id : user.id} ) }}">{% trans %}admin.user.add_remove_groups{% endtrans %}</a></td>
+                <td>
+                    <a href="{{ path('wikipedale_admin_usergroups_update', {id : user.id} ) }}">{% trans %}admin.user.add_remove_groups{% endtrans %}</a>
+                    <br/>
+                    <a href="{{ path('wikipedale_admin_user_show_form', {id : user.id} ) }}">{% trans %}admin.user.update_user{% endtrans %}</a>
+                </td>
             </tr>
     {% endfor %}
     
