@@ -6,8 +6,8 @@ framework:
     #esi:             ~
     translator:      { fallback: %locale% }
     secret:          %secret%
-    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
-    router:
+    router:          
+      resource: "%kernel.root_dir%/config/routing.yml" 
       strict_requirements: "%kernel.debug%"
     default_locale: "%locale%"
     form:            true
@@ -89,6 +89,9 @@ fos_user:
         enabled: true
       form:
         type: wikipedale_user_registration
+    profile:
+      form:
+        type: wikipedale_user_profile
     from_email:
       address: admin-wikipedale@fastre.info
       sender_name: admin-wikipedale
