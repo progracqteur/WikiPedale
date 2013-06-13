@@ -2,6 +2,54 @@
 
 {% block title %}{% trans %}admin.management.user_group{% endtrans %}{% endblock %}
 
+{% block css %}
+<style type="text/css">
+
+    table.admin_list {
+        
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+        }
+        
+    table.admin_list td,
+    table.admin_list th,
+    table.admin_list {
+        border: 1px solid black;
+        vertical-align: middle;
+        padding: 5px;
+        }
+        
+    table.admin_list th{
+        color: white;
+        font-weight: bold;
+        background-color: black;
+        padding: 5px;
+        text-align: center;
+        vertical-align: middle;
+        }
+        
+    table.admin_list tr:nth-child(odd){
+        background-color: lightgray;
+        }
+        
+    table.admin_list tr.disabled {
+       
+        }
+        
+    .warning {
+        color: red;
+        font-weight: bold;
+        }
+        
+    
+    
+    </style>
+
+
+
+{% endblock %}
+
 {% block body %}
 
 <h1>{% trans %}admin.user.management{% endtrans %}</h1>
@@ -24,18 +72,28 @@
     <input type="submit" value="{% trans %}form.button.submit{% endtrans %}" />
 </form>
 
-<table>
+<table class="admin_list">
     <thead>
         <th>{% trans %}user.username{% endtrans %}</th>
         <th>{% trans %}user.email{% endtrans %}</th>
+        <th>{% trans %}user.label{% endtrans %}</th>
         <th>{% trans %}user.groups{% endtrans %}</th>
         <th>&nbsp;</th>
     </thead>
     <tbody>
     {% for user in users %}
-            <tr>
+            <tr class="{% spaceless%}
+{% if user.locked == true %}
+    locked
+{% endif %}
+{% if user.enabled == false %}
+    disabled
+{% endif %}
+                
+                {% endspaceless %}">
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
+                <td>{{user.label}}</td>
                 <td>
                     {% if user.groups|length > 0 %}
                         {% for group in user.groups %}
@@ -44,8 +102,21 @@
                     {% else %}
                             {% trans %}user.is_not_member_of_any_group{% endtrans %}
                     {% endif %}
+                    {% if user.locked == true %}
+                        <br/>
+                        <span class="warning">{{ 'admin.usergroup.user_locked' | trans }}</span>
+                    {% endif %}
+                    {% if user.enabled == false %}
+                        <br/>
+                        <span class="warning">{{ 'admin.usergroup.user_not_confirmed' | trans }}</span>
+                    {% endif %}                            
                 </td>
-                <td><a href="{{ path('wikipedale_admin_usergroups_update', {id : user.id} ) }}">{% trans %}admin.user.add_remove_groups{% endtrans %}</a></td>
+                <td>
+                    <a href="{{ path('wikipedale_admin_usergroups_update', {id : user.id} ) }}">{% trans %}admin.user.add_remove_groups{% endtrans %}</a>
+                    <br/>
+                    <a href="{{ path('wikipedale_admin_user_show_form', {id : user.id} ) }}">{% trans %}admin.user.update_user{% endtrans %}</a>
+
+                </td>
             </tr>
     {% endfor %}
     
