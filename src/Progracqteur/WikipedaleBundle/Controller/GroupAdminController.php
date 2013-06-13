@@ -132,7 +132,7 @@ class GroupAdminController extends Controller {
         
         $query = $request->get('q', '');
         $first = (int) $request->get('first', 0);
-        $max = (int) $request->get('max', 20);
+        $max = (int) $request->get('max', 50);
         
         $em = $this->getDoctrine()->getEntityManager();
         
