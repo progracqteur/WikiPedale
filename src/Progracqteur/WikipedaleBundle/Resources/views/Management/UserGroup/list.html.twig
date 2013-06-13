@@ -33,6 +33,15 @@
         background-color: lightgray;
         }
         
+    table.admin_list tr.disabled {
+       
+        }
+        
+    .warning {
+        color: red;
+        font-weight: bold;
+        }
+        
     
     
     </style>
@@ -73,7 +82,15 @@
     </thead>
     <tbody>
     {% for user in users %}
-            <tr>
+            <tr class="{% spaceless%}
+{% if user.locked == true %}
+    locked
+{% endif %}
+{% if user.enabled == false %}
+    disabled
+{% endif %}
+                
+                {% endspaceless %}">
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.label}}</td>
@@ -85,11 +102,20 @@
                     {% else %}
                             {% trans %}user.is_not_member_of_any_group{% endtrans %}
                     {% endif %}
+                    {% if user.locked == true %}
+                        <br/>
+                        <span class="warning">{{ 'admin.usergroup.user_locked' | trans }}</span>
+                    {% endif %}
+                    {% if user.enabled == false %}
+                        <br/>
+                        <span class="warning">{{ 'admin.usergroup.user_not_confirmed' | trans }}</span>
+                    {% endif %}                            
                 </td>
                 <td>
                     <a href="{{ path('wikipedale_admin_usergroups_update', {id : user.id} ) }}">{% trans %}admin.user.add_remove_groups{% endtrans %}</a>
                     <br/>
                     <a href="{{ path('wikipedale_admin_user_show_form', {id : user.id} ) }}">{% trans %}admin.user.update_user{% endtrans %}</a>
+
                 </td>
             </tr>
     {% endfor %}

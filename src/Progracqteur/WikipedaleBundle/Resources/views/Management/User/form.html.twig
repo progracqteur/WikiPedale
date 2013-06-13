@@ -17,6 +17,11 @@
         font-weight: bold;
         }
         
+    p.warning {
+        color: red;
+        font-weight: bold;
+        }
+        
     
     </style>
 
@@ -27,6 +32,8 @@
 <form method="POST" action="#">
     
     <h1>{{ user.label }}</h1>
+    
+    {% if user.enabled == false %}<p class="warning">{{ 'admin.profile_user.not_confirmed' | trans }}</p>{% endif %}
 
     <div>{{ form_label(form.email) }} {{ form_widget(form.email) }} {{ form_errors(form.email) }}</div>
     <div>{{ form_label(form.label) }} {{ form_widget(form.label) }} {{ form_errors(form.label) }}</div>
