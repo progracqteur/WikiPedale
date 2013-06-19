@@ -1,8 +1,7 @@
-var displaying_tiny_map = false;
-var map;
-var old_center;
+var displaying_tiny_map = false; // Display or not a tiny Map
+var old_center; // To re-center the map after displaying the tiny map
 
-
+var map; // Variable to acces to the map
 var osmLayer; // OSM layer
 var placesLayer; // layer where existing places are drawing
 var new_placeLayer;  // layer where the user can draw a new place
@@ -944,18 +943,6 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
 
     placesLayer = new OpenLayers.Layer.Markers("Existing places");
     map.addLayer(placesLayer);
-
-    var wms_voies_lentes = new OpenLayers.Layer.WMS("Voies lentes ",
-                                    "http://geoservices.wallonie.be/arcgis/rest/services/MOBILITE/VOIES_LENTES/Mapserver",
-                                    {
-                                       layers: "modis,global_mosaic",
-                                       transparent: true
-                                    }, {
-                                       opacity: 0.5,
-                                       singleTile: true
-                                    });
-    map.addLayer(wms_voies_lentes);
-
     new_placeLayer = new OpenLayers.Layer.Markers("New place");
     map.addLayer(new_placeLayer);
     new_placeLayer.display(false);
