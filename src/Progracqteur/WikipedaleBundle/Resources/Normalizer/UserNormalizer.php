@@ -97,11 +97,7 @@ class UserNormalizer implements NormalizerInterface
             'nbVote' => $object->getNbVote(),
             'roles' => $object->getRoles(),
             'registered' => $object->isRegistered(),
-<<<<<<< HEAD
             'avatar' => $this->libravatarService->getUrl($object->getEmail()),    
-=======
-            'avatar' =>  $this->libravatarService->getUrl($object->getEmail()),    
->>>>>>> 5e7cb7033c138eff31ad64494327116e448ad2ab
         );
         
         if (

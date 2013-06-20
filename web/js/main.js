@@ -1,12 +1,7 @@
-// override sha1.js default setting.
-b64pad  = "=";
+var displaying_tiny_map = false; // Display or not a tiny Map
+var old_center; // To re-center the map after displaying the tiny map
 
-
-var displaying_tiny_map = false;
-var map;
-var old_center;
-
-
+var map; // Variable to acces to the map
 var osmLayer; // OSM layer
 var placesLayer; // layer where existing places are drawing
 var new_placeLayer;  // layer where the user can draw a new place
@@ -422,8 +417,10 @@ function catchLoginForm(){
     $.ajax({
         type: "POST",
         beforeSend: function(xhrObj){
-            xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
-            xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
+            ret = xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
+            console.log(ret);
+            ret2 = xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
+            console.log(ret);
         },
         data: "",
         url: url_login,
@@ -440,6 +437,7 @@ function catchLoginForm(){
                 }
         },
         error: function(output_json) {
+            console.log(JSON.stringify(output_json));
             $('#login_message').text(output_json.responseText);
             $('#login_message').addClass('errorMessage');
         }
@@ -905,6 +903,18 @@ function changingModeFunction() {
         }
     };
 
+/*
+function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
+    map = new OpenLayers.Map('map', {maxResolution: 1000});
+    var wms_voies_lentes = new OpenLayers.Layer.WMS("Voies lentes ",
+                                    "http://geoservices.wallonie.be/arcgis/services/MOBILITE/VOIES_LENTES/MapServer/WMSServer",
+                                    {layers: "Itinéraires locaux"}
+                                    );
+        map.addLayer(wms_voies_lentes);
+};
+*/
+
+//*
 function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
     /**
      * TODO -> changer le nom et voir pour la gestion ce qui peut etre reutiliser
@@ -918,7 +928,12 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
 
     map = new OpenLayers.Map('map', {maxResolution: 1000});
     osm = new OpenLayers.Layer.OSM("OSM MAP");
+    //osm = new OpenLayers.Layer.Image(
+    //                            'City Lights',
+    //                            'http://www.webrankinfo.com/dossiers/wp-content/uploads/google-maps-france-carte.jpg');
+
     map.addLayer(osm);
+
 
     map.setCenter(
         new OpenLayers.LonLat(townLon, townLat).transform(
@@ -928,7 +943,6 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
 
     placesLayer = new OpenLayers.Layer.Markers("Existing places");
     map.addLayer(placesLayer);
-
     new_placeLayer = new OpenLayers.Layer.Markers("New place");
     map.addLayer(new_placeLayer);
     new_placeLayer.display(false);
@@ -966,6 +980,7 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
          } ) }
 	     );
 }
+//*/
 
 function addMarkerWithClickAction(aLon, aLat, anEventFunction, someData) {
     /**
