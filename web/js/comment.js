@@ -49,7 +49,7 @@ function submitNewCommentForm(aPlaceId){
     }
     else {
         entity_string = ret = '{"entity":"comment","placeId":' + JSON.stringify(aPlaceId) + ',"text":' + JSON.stringify(comment_text) + ',"type":"moderator_manager"}';
-        console.log(entity_string);
+        //console.log(entity_string);
         $.ajax({
             type: "POST",
             data: {entity: entity_string},
