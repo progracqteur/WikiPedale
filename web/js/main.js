@@ -8,8 +8,9 @@ var new_placeLayer;  // layer where the user can draw a new place
 var zoom_map = 13; // zoom level of the map
 
 var baseUrlsplit = Routing.getBaseUrl().split('/');
-var web_dir = ''
-for (i = 0; i < (baseUrlsplit.length - 1); i++)
+var web_dir = '';
+var i = 0;
+for (i = 0; i < (baseUrlsplit.length - 1);  i++)
 {
     web_dir = web_dir + baseUrlsplit[i] + '/';
 } 
@@ -17,8 +18,8 @@ var marker_img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing
 
 //var colors_in_marker = 1; //number of color in a marker
 var c1_label = "cem";
-var c2_label = undefined;
-var c3_label = undefined;
+var c2_label;
+var c3_label;
 
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
