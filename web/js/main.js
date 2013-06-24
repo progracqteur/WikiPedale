@@ -347,7 +347,7 @@ function update_markers_and_associated_data(){
         dataType: "json",
         url: jsonUrlData,
         success: function(data) {
-            console.log("update_markers_and_associated_data - done");
+            //console.log("update_markers_and_associated_data - done");
             $.each(data.results, function(index, aPlaceData) {
                 if (markers_and_associated_data[aPlaceData.id] == undefined) {
                     addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
@@ -418,16 +418,16 @@ function catchLoginForm(){
         type: "POST",
         beforeSend: function(xhrObj){
             ret = xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
-            console.log(ret);
+            //console.log(ret);
             ret2 = xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
-            console.log(ret);
+            //console.log(ret);
         },
         data: "",
         url: url_login,
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
+                //console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
                 updateUserInfo(output_json.results[0]);
                 updatePageWhenLogged();
             }
@@ -437,7 +437,7 @@ function catchLoginForm(){
                 }
         },
         error: function(output_json) {
-            console.log(JSON.stringify(output_json));
+            //console.log(JSON.stringify(output_json));
             $('#login_message').text(output_json.responseText);
             $('#login_message').addClass('errorMessage');
         }
@@ -496,14 +496,14 @@ function descriptionDelete(){
             }
             else { 
                 $('#span_place_description_delete_error').show();
-                console.log('Error else');
-                console.log(JSON.stringify(output_json));
+                //console.log('Error else');
+                //console.log(JSON.stringify(output_json));
             }
         },
         error: function(output_json) {
             $('#span_place_description_delete_error').show();
-            console.log('Error error');
-            console.log(output_json.responseText);
+            //console.log('Error error');
+            //console.log(output_json.responseText);
         }
     });
 }
@@ -651,14 +651,14 @@ function descriptionEditOrSave(element_type){
                 }
                 else { 
                     $(element_id +  '_error').show();
-                    console.log('Error else');
-                    console.log(JSON.stringify(output_json));
+                    //console.log('Error else');
+                    //console.log(JSON.stringify(output_json));
                 }
             },
             error: function(output_json) {
                 $(element_id +  '_error').show();
-                console.log('Error error');
-                console.log(output_json.responseText);
+                //console.log('Error error');
+                //console.log(output_json.responseText);
             }
         });
     };
