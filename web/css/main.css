@@ -100,11 +100,11 @@ div.PointDescription p.creator {
     margin:0;
 }
 
-.status-1, .status0 { border-left: 1em solid #ffffff; }
-.status1 { border-left: 1em solid #a80000; }
-.status2 { border-left: 1em solid #ff3300; }
-.status3 { border-left: 1em solid #00a800; }
-.status4 { border-left: 1em solid #000000; }
+.option_grey { border-left: 1em solid #696969; }
+.option_white { border-left: 1em solid #ffffff; }
+.option_red { border-left: 1em solid #ff1e00; }
+.option_orange { border-left: 1em solid #ffa100; }
+.option_green { border-left: 1em solid #69cb00; }
 
 
 /* dernieres modifs */
