@@ -62,7 +62,7 @@ class DefaultController extends Controller
             $cities = array();
         }*/
         
-        $mainCitiesSlug = array('mons', 'liege', 'walhain', 'namur');
+        $mainCitiesSlug = $this->get('service_container')->getParameter('cities_in_front_page');
         $mainCities = array();
         
         foreach ($cities as $c)
