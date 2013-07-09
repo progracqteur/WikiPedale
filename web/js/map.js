@@ -103,7 +103,7 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
             .each(function(index, value){ value.innerHTML = 'Ajouter un signalement'; });
     });
     $.getJSON(jsonUrlData, function(data) {
-    updateUserInfo(data.user);
+    user.update(data.user);
     $.each(data.results, function(index, aPlaceData) {
         addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
                      aPlaceData.geom.coordinates[1],

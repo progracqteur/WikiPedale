@@ -23,7 +23,7 @@ function catchLoginForm(){
         success: function(output_json) { 
             if(! output_json.query.error) { 
                 //console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
-                updateUserInfo(output_json.results[0]);
+                user.update(output_json.results[0]);
                 updatePageWhenLogged();
             }
             else { 

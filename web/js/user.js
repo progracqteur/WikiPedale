@@ -1,136 +1,176 @@
-var user = {};
+var user = function (){
+    // the data of the user
+    var u = {};
 
-function updateUserInfo(newUserInfo){
-    /**
-    * Update the user informations contained locally in the JS.
-    * @param newUserInfo contains the new informations (label, roles, registered, email, id)
-    */
-    if (newUserInfo.registered) {
-        user = newUserInfo;
-    }
-}
-
-function userResetInfo()
-{
-    /**
-    * Remove all the user informations (contained locally in the JS). Must be used when the user logs out.
-    */
-    user = {};
-}
-
-function userIsAdmin() {
-    /**
-    * Returns True if the user is admin.
-    */
-    return user.roles != undefined && $.inArray("ROLE_ADMIN", user.roles) != -1;
-}
-
-function userCanModifyCategories(){
-    /**
-    * True if the user can create or alter categories on a place.
-    */
-    return user.roles != undefined && $.inArray("ROLE_CATEGORY", user.roles) != -1;
-}
-
-function userCanModifyLittleDetails(){
-    /**
-    * True if the user can alter details of a little point
-    */
-    return user.roles != undefined && $.inArray("ROLE_DETAILS_LITTLE", user.roles) != -1;
-}
-
-function userCanVieuwUsersDetails(){
-    /**
-    * True if the user can see email and personal details of other users
-    */
-    return user.roles != undefined && $.inArray("ROLE_SEE_USER_DETAILS", user.roles) != -1;
-}
-
-function userCanModifyPlacetype(){
-    /**
-    * True if the user can the place type of a point
-    */
-    return user.roles != undefined && $.inArray("ROLE_PLACETYPE_ALTER", user.roles) != -1;
-}
-
-function userCanModifyManager(){
-    /**
-    * True if the user can the place type of a point
-    */
-    return user.roles != undefined && $.inArray("ROLE_MANAGER_ALTER", user.roles) != -1;
-}
-
-function userCanUnpublish(){
-    return user.roles != undefined && $.inArray("ROLE_PUBLISHED", user.roles) != -1;
-}
-
-function userCanModifyCEMColor(){
-    ret = false;
-    if (user.roles != undefined && $.inArray("ROLE_NOTATION", user.roles) != -1) {
-        if(user.groups != undefined){
-            $.each(user.groups, function(id, data) {
-                if (data.type == "MODERATOR" && data.notation == "cem") {
-                    ret = true;
-                }
-            });
+    function update(newUserData){
+        /**
+        * Update the user informations contained locally in the module.
+        * @param newUserInfo contains the new informations (label, roles, registered, email, id)
+        */
+        if (newUserData.registered) {
+            u = newUserData;
         }
     }
-    return ret;
-}
 
-function userIsCeM(){
-    return userCanModifyCEMColor();
-}
-
-function userIsGestionnaireVoirie(){
-    ret = false;
-    if (user.roles != undefined && $.inArray("ROLE_NOTATION", user.roles) != -1) {
-        if(user.groups != undefined){
-            $.each(user.groups, function(id, data) {
-                if (data.type == "MANAGER" && data.notation == "cem") {
-                    ret = true;
-                }
-            });
-        }
+    function reset(){
+        /**
+        * Remove all the user informations contained locally in the module.. To be used when the user logs out.
+        */
+        u = {};
     }
-    return ret;
-}
 
-function userIsRegister(){
-    /**
-    * Returns True if the user is register.
-    */
-    return user.registered != undefined && user.registered;
-}
+    function isAdmin(){
+        /**
+        * True if the user is admin.
+        */
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_ADMIN", u.roles) != -1;
+    }
 
-function isUserInAccordWithServer(){
-    /**
-    * Returns True if the information contained locally in the JS is in accord with information in the server.
-    * A difference happens when the session ends on the server but not in the js.
-    */
-    var defe = $.Deferred();
-    if(userIsRegister()){
-        $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
-            if(data.results[0].registered && data.results[0].id == user.id)
-                {   
+    function canModifyCategories(){
+        /**
+        * True if the user can create or alter categories on a place.
+        */
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_CATEGORY", u.roles) != -1;
+    }
+
+    function canModifyLittleDetails(){
+        /**
+        * True if the user can alter details of a little point
+        */
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_DETAILS_LITTLE", u.roles) != -1;
+    }
+
+    function canVieuwUsersDetails(){
+        /**
+        * True if the user can see email and personal details of other users
+        */
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_SEE_USER_DETAILS", u.roles) != -1;
+    }
+
+    function canModifyPlacetype(){
+        /**
+        * True if the user can the place type of a point
+        */
+        return (typeof u.roles !== "undefined")  && $.inArray("ROLE_PLACETYPE_ALTER", u.roles) != -1;
+    }
+
+    function canModifyManager(){
+        /**
+        * True if the user can the place type of a point
+        */
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_MANAGER_ALTER", u.roles) != -1;
+    }
+
+    function canUnpublishADescription(){
+        /**
+        * True if the user can unpublish a description
+        */
+        return (typeof u.roles !== "undefined")  && $.inArray("ROLE_PUBLISHED", u.roles) != -1;
+    }
+
+    function isModetatorForNotation(aNotation){
+        /**
+        * True if the user is Moderator for the notation 'aNotation'
+        */
+        ret = false;
+        if ((typeof u.roles !== "undefined")  && $.inArray("ROLE_NOTATION", u.roles) != -1) {
+            if(typeof u.groups !== "undefined") {
+                $.each(u.groups, function(id, data) {
+                    if (data.type == "MODERATOR" && data.notation == aNotation) { //MODERATOR == CEM
+                        ret = true;
+                    }
+                });
+            }
+        }
+        return ret;
+    }
+
+    function isCeM(){
+        /**
+        * True is the user if Moderator for the notation 'cem'
+        */
+        return isModetatorForNotation('cem');
+    }
+
+    function isManagerForNotation(aNotation){
+        /**
+        * True if the user is 'Gestionnaire de Voirie'
+        */
+        ret = false;
+        if ((typeof u.roles !== "undefined")  && $.inArray("ROLE_NOTATION", u.roles) != -1) {
+            if(typeof u.groups !== "undefined") {
+                $.each(u.groups, function(id, data) {
+                    if (data.type == "MANAGER" && data.notation == aNotation) { //MANAGER == Gestionnaire de VOIRIE
+                        ret = true;
+                    }
+                });
+            }
+        }
+        return ret;
+    }
+
+    function isGdV(){
+        /**
+        * True if the user is 'Gestionnaire de Voirie'
+        */
+        return isManagerForNotation('cem');
+    }
+
+    function isRegistered(){
+        /**
+        * Returns True if the user is registered regarding to the local informations.
+        */
+        return (typeof u.registered !== "undefined")  && u.registered;
+    }
+
+    function isInAccordWithServer(){
+        /**
+        * Returns True if the information contained locally in the JS is in accord with information in the server.
+        * A difference happens when the session ends on the server but not in the js.
+        */
+        var defe = $.Deferred();
+        if(userIsRegister()){
+            $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
+                if(data.results[0].registered && data.results[0].id == u.id){   
                     defe.resolve(true);
                 }
-            else
-                {
-                defe.resolve(false);
+                else {
+                    defe.resolve(false);
                 }
-        });  }
-    else{  defe.resolve(true); }
-    return defe;
-}
+            }); 
+        }
+        else{ 
+            defe.resolve(true);
+        }
+        return defe;
+    }
 
-function userIsAdminServer()
-    /**
-    * Returns True if the user is admin. The checking in by asking to the server.
-    */
-{
-    $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
-        updateUserInfo(data.results[0]);
-    });
-    return userIsAdmin();
-}
+    function isAdminWithServerCheck(){
+        /**
+        * Returns True if the user is 'Admin' BUT AFTER updating the js local information from the server
+        */
+        $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
+            update(data.results[0]);
+        });
+        return isAdmin();
+    }
+
+    return {
+        update: update,
+        reset: reset,
+        isAdmin: isAdmin,
+        canModifyCategories: canModifyCategories,
+        canModifyLittleDetails: canModifyLittleDetails,
+        canVieuwUsersDetails: canVieuwUsersDetails,
+        canModifyPlacetype: canModifyPlacetype,
+        canModifyManager: canModifyManager,
+        canUnpublishADescription: canUnpublishADescription,
+        isModetatorForNotation: isModetatorForNotation,
+        isCeM: isCeM,
+        isManagerForNotation: isManagerForNotation,
+        isGdV: isGdV,
+        isRegistered: isRegistered,
+        isInAccordWithServer: isInAccordWithServer,
+        isAdminWithServerCheck: isAdminWithServerCheck,
+    }
+}();

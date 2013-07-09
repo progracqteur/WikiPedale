@@ -258,7 +258,7 @@ function catchForm(formName) {
     if(place_data['lieu'] == "") {
         error_messages = error_messages + "Veuillez indiquer l'adresse. ";
     }
-    if(! userIsRegister())
+    if(! user.isRegistered())
     {
         if(place_data['user_label'] == "") { 
             error_messages = error_messages + "Veuillez donner votre nom. ";
@@ -283,7 +283,8 @@ function catchForm(formName) {
     }
     /* Ne marche pas car pbm de synchonisation */
     //A regler TODO
-    isUserInAccordWithServer().done(function(userInAccordWithServer)
+    console.log('Ne marche pas car pbm de synchonisation');
+    user.isInAccordWithServer().done(function(userInAccordWithServer)
         {
         if(!userInAccordWithServer)
             {
@@ -291,7 +292,7 @@ function catchForm(formName) {
                 $.colorbox({inline:true, href:"#login_form_div"});
             }
         else {
-            if(editForm && userIsAdminServer())
+            if(editForm && user.isAdminWithServerCheck())
                 { error_messages = "Vous devez être admin pour éditer ce point noir"; }
             if(error_messages != "") {
                 $('#add_new_description_form__message').text('Erreur! ' + error_messages  + 'Merci.');
@@ -311,7 +312,7 @@ function catchForm(formName) {
                         if(! output_json.query.error) { 
                             newPlaceData = output_json.results[0];
                             clear_add_new_description_form();
-                            if(userIsRegister()) {
+                            if(user.isRegistered()) {
                                 addMarkerWithClickAction(newPlaceData.geom.coordinates[0],
                                     newPlaceData.geom.coordinates[1],
                                     displayPlaceDataFunction,
@@ -411,7 +412,7 @@ function changingModeFunction() {
                 }
             });
 
-            if(userIsRegister()) {
+            if(user.isRegistered()) {
                 $("#div_new_place_form_user_mail").hide();
                 }
             else {
@@ -475,7 +476,7 @@ function displayEmailAndPhoneNumberRegardingToRole() {
     if (signalement_id != "" && signalement_id != undefined) {
         placeData = markers_and_associated_data[signalement_id][1]
 
-        if (userCanVieuwUsersDetails() || userIsAdmin()) {
+        if (user.canVieuwUsersDetails() || user.isAdmin()) {
             $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
         }
@@ -491,14 +492,14 @@ function displayRegardingToUserRole() {
     * this function display or not the button with which we can edit the 
     * information
     */
-    if(userCanModifyCategories() || userIsAdmin()) {
+    if(user.canModifyCategories() || user.isAdmin()) {
         $('#span_place_description_cat_button').show();
     }
     else {
         $('#span_place_description_cat_button').hide();
     }
 
-    if(userCanModifyLittleDetails() || userIsAdmin()) {
+    if(user.canModifyLittleDetails() || user.isAdmin()) {
         $('#span_place_description_loc_button').show();
         $('#span_place_description_desc_button').show();
     }
@@ -507,27 +508,27 @@ function displayRegardingToUserRole() {
         $('#span_place_description_desc_button').hide();
     }
 
-    if(userCanModifyPlacetype() || userIsAdmin()) {
+    if(user.canModifyPlacetype() || user.isAdmin()) {
         $('#span_place_description_type_button').show();
     }
     else {
         $('#span_place_description_type_button').hide();
     }
 
-    if(userCanModifyManager() || userIsAdmin()) {
+    if(user.canModifyManager() || user.isAdmin()) {
         $('#span_place_description_gestionnaire_button').show();
     }
     else {
         $('#span_place_description_gestionnaire_button').hide();
     }
 
-    if(userCanUnpublish() || userIsAdmin()){
+    if(user.canUnpublishADescription() || user.isAdmin()){
         $('#span_place_description_delete_button').show();
     }
     else {
         $('#span_place_description_delete_button').hide();
     }
-    if(userCanModifyCEMColor() || userIsAdmin()){
+    if(user.isCeM() || user.isAdmin()){
         $('#span_place_description_commentaireCeM_button').show();
         $('#span_place_description_status_button').show();
     }
@@ -537,7 +538,7 @@ function displayRegardingToUserRole() {
     }
 
 
-    if(userIsAdmin() || userIsCeM() || userIsGestionnaireVoirie()) {
+    if(user.isAdmin() || user.isCeM() || user.isGdV()) {
         $('#div_commentaires_cem_gestionnaire').show();
 
     }
@@ -547,7 +548,7 @@ function displayRegardingToUserRole() {
 
 
     // affichage du commentaire du CeM même si il est vide (afin de pouvoir l'éditer)
-    if(userIsCeM() || userIsAdmin()) {
+    if(user.isCeM() || user.isAdmin()) {
         $('#div_container_place_description_commentaireCeM').show();
     }
 
@@ -590,7 +591,7 @@ function displayPlaceDataFunction(id_sig) {
     $('#span_place_description_desc').text(placeData.description);
 
 
-    if(placeData.moderatorComment != '' || userIsCeM() || userIsAdmin()) {
+    if(placeData.moderatorComment != '' || user.isCeM() || user.isAdmin()) {
         $('#span_place_description_commentaireCeM').text(placeData.moderatorComment);
         $('#div_container_place_description_commentaireCeM').show();
     }
@@ -626,12 +627,12 @@ function displayPlaceDataFunction(id_sig) {
             }
         }
 
-    if (userCanVieuwUsersDetails() || userIsAdmin()) {
+    if (user.canVieuwUsersDetails() || user.isAdmin()) {
         $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
-    if(userIsGestionnaireVoirie() || userIsCeM() || userIsAdmin()){
+    if(user.isGdV() || user.isCeM() || user.isAdmin()){
         updateLastComment(placeData.id);
         updateAllComments(placeData.id);
         $("#span_plus_de_commenaitres_link a").attr("href","javascript:comments_mode(" + placeData.id + ");");

@@ -107,7 +107,7 @@ function PlaceInJson(description, lon, lat, address, id, color, user_label, user
     {
         ret = ret + ',"geom":'+ PointInJson(lon,lat);
     }
-    if( !userIsRegister() && (user_label != undefined || user_email != undefined))
+    if( !user.isRegistered() && (user_label != undefined || user_email != undefined))
         { ret = ret + ',"creator":' + unregisterUserInJson(user_label, user_email, user_phonenumber); }
 
     ret = ret + ',"description":' + JSON.stringify(description)
