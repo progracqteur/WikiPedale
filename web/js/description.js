@@ -281,9 +281,7 @@ function catchForm(formName) {
         if (place_data['id'] == "")
             { error_messages = "Veuillez reéssayer et si le problème persiste prendre contact avec le webmaster. " }
     }
-    /* Ne marche pas car pbm de synchonisation */
-    //A regler TODO
-    console.log('Ne marche pas car pbm de synchonisation');
+
     user.isInAccordWithServer().done(function(userInAccordWithServer)
         {
         if(!userInAccordWithServer)
