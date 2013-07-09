@@ -1,8 +1,8 @@
-var user = function (){
+var user = function () {
     // the data of the user
     var u = {};
 
-    function update(newUserData){
+    function update(newUserData) {
         /**
         * Update the user informations contained locally in the module.
         * @param newUserInfo contains the new informations (label, roles, registered, email, id)
@@ -12,71 +12,71 @@ var user = function (){
         }
     }
 
-    function reset(){
+    function reset() {
         /**
         * Remove all the user informations contained locally in the module.. To be used when the user logs out.
         */
         u = {};
     }
 
-    function isAdmin(){
+    function isAdmin() {
         /**
         * True if the user is admin.
         */
-        return (typeof u.roles !== "undefined") && $.inArray("ROLE_ADMIN", u.roles) != -1;
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_ADMIN", u.roles) !== -1;
     }
 
-    function canModifyCategories(){
+    function canModifyCategories() {
         /**
         * True if the user can create or alter categories on a place.
         */
-        return (typeof u.roles !== "undefined") && $.inArray("ROLE_CATEGORY", u.roles) != -1;
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_CATEGORY", u.roles) !== -1;
     }
 
-    function canModifyLittleDetails(){
+    function canModifyLittleDetails() {
         /**
         * True if the user can alter details of a little point
         */
-        return (typeof u.roles !== "undefined") && $.inArray("ROLE_DETAILS_LITTLE", u.roles) != -1;
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_DETAILS_LITTLE", u.roles) !== -1;
     }
 
-    function canVieuwUsersDetails(){
+    function canVieuwUsersDetails() {
         /**
         * True if the user can see email and personal details of other users
         */
-        return (typeof u.roles !== "undefined") && $.inArray("ROLE_SEE_USER_DETAILS", u.roles) != -1;
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_SEE_USER_DETAILS", u.roles) !== -1;
     }
 
-    function canModifyPlacetype(){
+    function canModifyPlacetype() {
         /**
         * True if the user can the place type of a point
         */
-        return (typeof u.roles !== "undefined")  && $.inArray("ROLE_PLACETYPE_ALTER", u.roles) != -1;
+        return (typeof u.roles !== "undefined")  && $.inArray("ROLE_PLACETYPE_ALTER", u.roles) !== -1;
     }
 
-    function canModifyManager(){
+    function canModifyManager() {
         /**
         * True if the user can the place type of a point
         */
-        return (typeof u.roles !== "undefined") && $.inArray("ROLE_MANAGER_ALTER", u.roles) != -1;
+        return (typeof u.roles !== "undefined") && $.inArray("ROLE_MANAGER_ALTER", u.roles) !== -1;
     }
 
-    function canUnpublishADescription(){
+    function canUnpublishADescription() {
         /**
         * True if the user can unpublish a description
         */
-        return (typeof u.roles !== "undefined")  && $.inArray("ROLE_PUBLISHED", u.roles) != -1;
+        return (typeof u.roles !== "undefined")  && $.inArray("ROLE_PUBLISHED", u.roles) !== -1;
     }
 
-    function isModetatorForNotation(aNotation){
+    function isModetatorForNotation(aNotation) {
         /**
         * True if the user is Moderator for the notation 'aNotation'
         */
-        ret = false;
-        if ((typeof u.roles !== "undefined")  && $.inArray("ROLE_NOTATION", u.roles) != -1) {
-            if(typeof u.groups !== "undefined") {
-                $.each(u.groups, function(id, data) {
-                    if (data.type == "MODERATOR" && data.notation == aNotation) { //MODERATOR == CEM
+        var ret = false;
+        if ((typeof u.roles !== "undefined")  && $.inArray("ROLE_NOTATION", u.roles) !== -1) {
+            if (typeof u.groups !== "undefined") {
+                $.each(u.groups, function (id, data) {
+                    if (data.type === "MODERATOR" && data.notation === aNotation) { //MODERATOR == CEM
                         ret = true;
                     }
                 });
@@ -85,22 +85,22 @@ var user = function (){
         return ret;
     }
 
-    function isCeM(){
+    function isCeM() {
         /**
         * True is the user if Moderator for the notation 'cem'
         */
         return isModetatorForNotation('cem');
     }
 
-    function isManagerForNotation(aNotation){
+    function isManagerForNotation(aNotation) {
         /**
         * True if the user is 'Gestionnaire de Voirie'
         */
-        ret = false;
-        if ((typeof u.roles !== "undefined")  && $.inArray("ROLE_NOTATION", u.roles) != -1) {
-            if(typeof u.groups !== "undefined") {
-                $.each(u.groups, function(id, data) {
-                    if (data.type == "MANAGER" && data.notation == aNotation) { //MANAGER == Gestionnaire de VOIRIE
+        var ret = false;
+        if ((typeof u.roles !== "undefined")  && $.inArray("ROLE_NOTATION", u.roles) !== -1) {
+            if (typeof u.groups !== "undefined") {
+                $.each(u.groups, function (id, data) {
+                    if (data.type === "MANAGER" && data.notation === aNotation) { //MANAGER == Gestionnaire de VOIRIE
                         ret = true;
                     }
                 });
@@ -109,47 +109,45 @@ var user = function (){
         return ret;
     }
 
-    function isGdV(){
+    function isGdV() {
         /**
         * True if the user is 'Gestionnaire de Voirie'
         */
         return isManagerForNotation('cem');
     }
 
-    function isRegistered(){
+    function isRegistered() {
         /**
         * Returns True if the user is registered regarding to the local informations.
         */
         return (typeof u.registered !== "undefined")  && u.registered;
     }
 
-    function isInAccordWithServer(){
+    function isInAccordWithServer() {
         /**
-        * Returns True if the information contained locally in the JS is in accord with information in the server.
+        * Returns A Defferred to know if the information contained locally in the JS is in accord with information in the server.
         * A difference happens when the session ends on the server but not in the js.
         */
         var defe = $.Deferred();
-        if(isRegistered()){
-            $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
-                if(data.results[0].registered && data.results[0].id == u.id){   
+        if (isRegistered()) {
+            $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function (data) {
+                if (data.results[0].registered && data.results[0].id === u.id) {
                     defe.resolve(true);
-                }
-                else {
+                } else {
                     defe.resolve(false);
                 }
             }); 
-        }
-        else{ 
+        } else {
             defe.resolve(true);
         }
         return defe;
     }
 
-    function isAdminWithServerCheck(){
+    function isAdminWithServerCheck() {
         /**
         * Returns True if the user is 'Admin' BUT AFTER updating the js local information from the server
         */
-        $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
+        $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function (data) {
             update(data.results[0]);
         });
         return isAdmin();
@@ -171,6 +169,6 @@ var user = function (){
         isGdV: isGdV,
         isRegistered: isRegistered,
         isInAccordWithServer: isInAccordWithServer,
-        isAdminWithServerCheck: isAdminWithServerCheck,
-    }
+        isAdminWithServerCheck: isAdminWithServerCheck
+    };
 }();
