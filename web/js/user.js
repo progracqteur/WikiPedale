@@ -129,7 +129,7 @@ var user = function (){
         * A difference happens when the session ends on the server but not in the js.
         */
         var defe = $.Deferred();
-        if(userIsRegister()){
+        if(isRegistered()){
             $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function(data) {
                 if(data.results[0].registered && data.results[0].id == u.id){   
                     defe.resolve(true);
