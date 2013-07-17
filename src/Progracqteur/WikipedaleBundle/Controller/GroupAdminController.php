@@ -299,7 +299,12 @@ class GroupAdminController extends Controller {
                     
                     foreach ($user->getGroups() as $group)
                     {
-                        if ($notification->getGroup() !== null)
+                        if ($group->getZone()->getId() === $notification->getZone()->getId()) {
+                            $notificationMatchGroup = true;
+                            break;
+                        }
+                        
+                        /*if ($notification->getGroup() !== null)
                         {
                             if ($notification->getGroup()->getId() === $group->getId())
                             {
@@ -307,7 +312,7 @@ class GroupAdminController extends Controller {
                                 break;
                             }
                             
-                        } 
+                        } */
                     }
 
                     
