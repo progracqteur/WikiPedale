@@ -149,11 +149,11 @@ class NotificationProcessorManager extends NotificationProcessor {
     }
 
     public function getForm(User $user, NotificationSubscription $notification) {
-        
+        return new Form\ProcessorManagerType($user);
     }
 
     public function getFormTemplate() {
-        
+        return 'ProgracqteurWikipedaleBundle:NotificationSubscriptions/Forms:manager_form.html.twig';
     }
 
     public function mayBeCreated(User $user) {

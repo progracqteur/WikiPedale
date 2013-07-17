@@ -1,0 +1,25 @@
+<dl>
+    <dt class="type">{{ 'notification_subscriptions.form.kind'|trans }}</dt>
+    <dd class="type">{{ ['notification_subscriptions.form.kind_.', notification.kind]|join | trans }}</dd>
+
+    <dt class="frequency">{{ 'notification_subscriptions.form.frequency'|trans }}</dt>
+    <dd class="frequency">{{ form_widget(form.frequency) }}</dd>
+
+    <dt class="transporter">{{ 'notification_subscriptions.form.transporter' | trans }}</dt>
+    <dd class="transporter">{{ ['notification_subscriptions.form.transporter_.', notification.transporter] | join | trans }}</dd>
+
+    
+    <dt class="zone">{{ 'notification_subscriptions.form.zone' | trans }}</dt>
+    {% if form.zone %}
+        {{ form_widget(form.zone) }}
+    {% else %}
+        <dd class="zone">{{ notification.zone }}</dd>
+    {% endif %}
+
+    
+
+</dl>
+
+
+<br/>
+<button type="submit">{{ 'notification_subscriptions.form.submit' | trans }}</button>
