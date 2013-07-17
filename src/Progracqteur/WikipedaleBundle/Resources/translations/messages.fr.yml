@@ -27,10 +27,18 @@ admin:
   number_of_results_per_page : Nombre de résultats par page
   usergroup:
     filter_your_research: Filtre de nom d'utilisateur
+    user_not_confirmed: Adresse email non confirmée
+    user_locked: Utilisateur bloqué
   user:
     add_remove_groups: Modifie les appartenances de l'utilisateur
     management: Gestion des appartenances utilisateurs
     details: Détail d'un utilisateur
+    update_user: Modifications de l'utilisateur
+  profile_user:
+    locked: Bloquer
+    submit: Modifier
+    user_updated: Utilisateur mis à jour !
+    not_confirmed: L'utilisateur n'a pas confirmé son adresse de courriel.
   category:
     form: 
       parent: 

@@ -11,6 +11,9 @@ drop table IF EXISTS categories CASCADE;
 drop table IF EXISTS place_category CASCADE;
 drop table IF EXISTS zones CASCADE;
 drop table if EXISTS placetype CASCADE;
+drop table if EXISTS notification_subscription CASCADE;
+drop table if exists pendingnotification;
+
 DROP SEQUENCE IF EXISTS comments_id_seq;
 drop sequence IF EXISTS photos_id_seq;
 drop sequence IF EXISTS place_id_seq;
@@ -19,3 +22,5 @@ DROP SEQUENCE IF EXISTS placetracking_id_seq;
 drop sequence IF EXISTS categories_id_seq;
 DROP SEQUENCE IF EXISTS group_table_id_seq;
 drop sequence if exists placetype_id_seq;
+drop sequence if exists notification_subscription_id_seq;
+drop sequence if exists pendingnotification_id_seq;

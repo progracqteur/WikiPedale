@@ -132,7 +132,7 @@ class GroupAdminController extends Controller {
         
         $query = $request->get('q', '');
         $first = (int) $request->get('first', 0);
-        $max = (int) $request->get('max', 20);
+        $max = (int) $request->get('max', 50);
         
         $em = $this->getDoctrine()->getEntityManager();
         
@@ -342,6 +342,50 @@ class GroupAdminController extends Controller {
                             )
                         );
     }
+    
+    
+    public function userShowFormAction($id, Request $request) {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        
+        $user = $this->getDoctrine()->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Management\User')
+                ->find($id);
+        
+        if ($user === null) {
+            throw $this->createNotFoundException('user '.$id.' not found');
+        }
+        
+        $form = $this->createForm('wikipedale_user_admin_profile', $user);
+        
+        if ($request->getMethod() === "POST") {
+            $form->bind($request);
+            
+            if ($form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+                
+                $this->get('session')->setFlash('notice',
+                    'admin.profile_user.user_updated');
+                
+                return $this->redirect(
+                        $this->generateUrl('wikipedale_admin_usergroups')
+                        );
+            } else {
+                $this->get('session')->setFlash('notice',
+                    'admin.profile_user.contain_errors');
+            }
+        }
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
+                array('form' => $form->createView(), 'user' => $user)
+                );
+        
+    }
+    
+
     
 }
 

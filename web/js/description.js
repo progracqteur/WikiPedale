@@ -1,140 +1,3 @@
-// override sha1.js default setting.
-b64pad  = "=";
-
-
-var displaying_tiny_map = false;
-var map;
-var old_center;
-
-
-var osmLayer; // OSM layer
-var placesLayer; // layer where existing places are drawing
-var new_placeLayer;  // layer where the user can draw a new place
-var zoom_map = 13; // zoom level of the map
-
-var baseUrlsplit = Routing.getBaseUrl().split('/');
-var web_dir = ''
-for (i = 0; i < (baseUrlsplit.length - 1); i++)
-{
-    web_dir = web_dir + baseUrlsplit[i] + '/';
-} 
-var marker_img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
-
-//var colors_in_marker = 1; //number of color in a marker
-var c1_label = "cem";
-var c2_label = undefined;
-var c3_label = undefined;
-
-
-var add_new_place_mode = false; // true when the user is in a mode for adding new place
-var markers_and_associated_data = new Array(); // all the markers drawed on the map and the associated data
-
-var id_markers_for = new Array();
-id_markers_for['Categories'] = new Array();
-id_markers_for['PlaceTypes'] = new Array();
-id_markers_for['StatusCeM'] = new Array();
-
-var mode_edit = new Array();
-
-var new_placeMarker;
-
-var last_place_selected = null;
-
-var townId = null;
-
-
-// marker with color
-var color_trad = new Array();
-color_trad['0'] = 'w';
-color_trad['-1'] = 'd';
-color_trad['1'] = 'r';
-color_trad['2'] = 'o';
-color_trad['3'] = 'g';
-
-var color_trad_text = new Array();
-color_trad_text['0'] = 'pas encore pris en compte (blanc)';
-color_trad_text['-1'] = 'rejeté (gris)';
-color_trad_text['1'] = 'pris en compte (rouge)';
-color_trad_text['2'] = 'en cours de résolution (orange)';
-color_trad_text['3'] = 'résolu (vert)';
-
-
-function nl2br (str, is_xhtml) {
-  // http://kevin.vanzonneveld.net
-  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // +   improved by: Philip Peterson
-  // +   improved by: Onno Marsman
-  // +   improved by: Atli Þór
-  // +   bugfixed by: Onno Marsman
-  // +      input by: Brett Zamir (http://brett-zamir.me)
-  // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // +   improved by: Brett Zamir (http://brett-zamir.me)
-  // +   improved by: Maximusya
-  // *     example 1: nl2br('Kevin\nvan\nZonneveld');
-  // *     returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
-  // *     example 2: nl2br("\nOne\nTwo\n\nThree\n", false);
-  // *     returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
-  // *     example 3: nl2br("\nOne\nTwo\n\nThree\n", true);
-  // *     returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
-  var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
-
-  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
-}
-
-function marker_img_name(statuses)
-{
-    c1 = 'w';
-    c2 = 'w';
-    c3 = 'w';
-    for (i = 0; i < (statuses.length); i++)
-    {
-        if (statuses[i].t == c1_label) {
-            c1 = color_trad[statuses[i].v];
-        }
-
-        if (c2_label != undefined && statuses[i].t == c2_label) {
-            c2 = color_trad[statuses[i].v];
-        }
-
-        if (c3_label != undefined && statuses[i].t == c3_label) {
-            c3 = color_trad[statuses[i].v];
-        }
-    }
-
-    if (c2_label == undefined) {
-        return c1;
-    }
-    else if (c3_label == undefined) {
-        return c1 + c2;
-    }
-    else {
-        return c1 + c2 + c3;
-    }
-}
-
-/**
-*/
-
-function map_resizing(){
-    if(!displaying_tiny_map) {
-        $("#map")
-            .width("30%")
-            .height("300px");
-        $("#ToolsPanel")
-            .width("70%");
-    }
-    else {
-        $("#map")
-            .width("50%")
-            .height("500px");
-        $("#ToolsPanel")
-            .width("50%");
-    }
-    displaying_tiny_map = ! displaying_tiny_map;
-    map.updateSize();
-}
-
-
 function comments_mode(aPlaceId){
     old_center =  map.getCenter();
     map_translate();
@@ -145,305 +8,6 @@ function comments_mode(aPlaceId){
     $("#add_new_description_form__message").val("");
     map.setCenter(markers_and_associated_data[aPlaceId][0].lonlat);
     scroll(0,0);
-}
-
-function normal_mode(){
-    map_untranslate();
-    $("#div_last_private_comment_container").show();
-    $("#span_plus_de_commenaitres_link").show();
-    $("#div_list_private_comment_container").hide();
-    $("#div_form_commentaires_cem_gestionnaire").hide();
-    map.setCenter(old_center);
-}
-
-function map_translate(){
-    $("#map").hide();
-    $("#div_placeDescription").show();
-    $("#param_carte").hide();
-    $("#olPanelUL").hide();
-    $("#map_little").show();
-    $("#div_returnNormalMode").show();
-    $("#div_dernieres_modifs").hide();
-    map.render("map_little");
-    map.updateSize();
-}
-
-
-function map_untranslate(){
-    $("#div_dernieres_modifs").show();
-    $("#div_returnNormalMode").hide();
-    $("#map").show();
-    $("#div_placeDescription").show();
-    $("#param_carte").show();
-    $("#olPanelUL").show();
-    $("#map_little").hide();
-    map.render("map");
-    map.updateSize();
-}
-
-function generate_edition_form(){
-    var unique = 'blop';
-
-    var span = $(document.createElement('span'))
-        .attr("id", "span_" + unique)
-        .before("Message :");
-    $("#test").append(span);
-
-    var textarea = $(document.createElement('textarea'))
-        .attr("id", "span_" + unique);
-    $("#test").append(textarea);
-    
-    var input = $(document.createElement('input'))
-        .attr("id", "input_" + unique);
-    $("#test").append(input);
-
-    var select = $(document.createElement('select'))
-        .attr("id", "select_" + unique);
-    $("#test").append(select);
-
-    var butt_save = $(document.createElement('button'))
-        .attr("id", "button_save_" + unique);
-    $("#button_save_" + unique).text('Save');
-    $("#test").append(butt_save);
-
-    var butt_undo = $(document.createElement('button'))
-        .attr("id", "button_undo_" + unique);
-    $("#button_undo_" + unique).text('Undo');
-    $("#test").append(butt_undo);
-}
-
-function unregisterUserInJson(label,email,phonenumber){
-    /**
-    * Returns a json string describing an unregister user.
-    * @param{string} label The label/pseudo of the user.
-    * @parem{string} email The email of the user.
-    */
-    return '{"entity":"user"' 
-        + ',"id":null'
-        + ',"label":' + JSON.stringify(label)
-        + ',"email":' + JSON.stringify(email)
-        + ',"phonenumber":' + JSON.stringify(phonenumber)
-        + '}';
-}
-
-function PointInJson(lon,lat){
-    /**
-    * Returns a json string describing a point.
-    * @param{string} lon The longitude of the point.
-    * @param{string} lat} The latitude of the point.
-    */
-    p = new OpenLayers.Geometry.Point(lon, lat);
-    p.transform(map.getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
-    parser = new OpenLayers.Format.GeoJSON();
-    return parser.write(p, false);
-}
-
-function PlaceInJSonWithOtherNameValue(id, otherNameValue){
-    ret = '{"entity":"place"';
-    ret = ret + ',"id":' + JSON.stringify(id);
-    ret = ret + otherNameValue;
-    return ret + '}';   
-}
-
-function EditDescriptionCommentaireCeMInJson(id,description){
-    return PlaceInJSonWithOtherNameValue(id,',"moderatorComment":' + JSON.stringify(description));
-}
-
-function EditDescriptionDescInJson(id,description){
-    return PlaceInJSonWithOtherNameValue(id,',"description":' + JSON.stringify(description));
-}
-
-function EditDescriptionLocInJson(id,loc){
-    return PlaceInJSonWithOtherNameValue(id,',"addressParts":{"entity":"address","road":' + JSON.stringify(loc) + '}');
-}
-
-function EditDescriptionSingleCatInJson(id,cat){
-    categories_desc = ',"categories":[';
-    categories_desc = categories_desc + '{"entity":"category","id":' + cat + '}';
-    categories_desc = categories_desc + ']';
-    return PlaceInJSonWithOtherNameValue(id,categories_desc);
-}
-
-function EditDescriptionCatInJson(id,cat){
-    categories_desc = ',"categories":[';
-    for (var i = 0; i < cat.length; i++) { 
-        categories_desc = categories_desc + '{"entity":"category","id":' + cat[i] + '}';
-        if (i < (cat.length - 1))
-        {
-            categories_desc = categories_desc + ',';
-        }
-    }
-    categories_desc = categories_desc + ']';
-    return PlaceInJSonWithOtherNameValue(id,categories_desc);
-}
-
-function EditDescriptionStatusInJson(id,status_type,status_value){
-    return PlaceInJSonWithOtherNameValue(id,',"statuses":[{"t":"' + status_type + '","v":"' + status_value + '"}]');
-}
-
-function EditDescriptionGestionnaireInJson(id,gestionnaire_id){
-    return PlaceInJSonWithOtherNameValue(id,',"manager": {"entity":"group","type":"MANAGER","id":' 
-        + JSON.stringify(gestionnaire_id)  + '}');
-}
-
-function EditDescriptionPlacetypeInJson(id,placetype_id){
-    return PlaceInJSonWithOtherNameValue(id,',"placetype":{"id":' +  JSON.stringify(placetype_id) + ',"entity":"placetype"}');
-}
-
-function DeleteDescriptionInJson(id){
-    return PlaceInJSonWithOtherNameValue(id,',"accepted":false');
-}
-
-function PlaceInJson(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
-    /**
-    * Returns a json string used for adding a new place.
-    * @param {string} description the description of the new place.
-    * @param {string} lon The longitude of the new place.
-    * @param {string} lat The latitude of the new place.
-    * @param {string} address The address of the new place.
-    * @param {string} id The id of the new place, this parameter is optionnal : if it isn't given or null it means tha the place is a new placa.
-    * @param {string} color The color of the place (only for existing place)
-    * @param {string} user_label The label given by the user : if the user is register and logged this field is not considered
-    * @param {string} user_email The email given by the user : if the user is register and logged this field is not considered
-    * @param {string} user_phonenumber The phonenumber given by the user : if the user is register and logged this field is not considered
-    * @param {array of string} caterogies The ids of categories selected
-    */
-    ret = '{"entity":"place"';
-
-    if(id==undefined || id==null)
-        { ret = ret + ',"id":null'; }
-    else
-        { 
-            ret = ret + ',"id":' + JSON.stringify(id);
-        }
-
-    if(lon!=undefined && lon!=null && lat!=undefined && lon!=null)
-    {
-        ret = ret + ',"geom":'+ PointInJson(lon,lat);
-    }
-    if( !userIsRegister() && (user_label != undefined || user_email != undefined))
-        { ret = ret + ',"creator":' + unregisterUserInJson(user_label, user_email, user_phonenumber); }
-
-    ret = ret + ',"description":' + JSON.stringify(description)
-        + ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}'
-
-    ret = ret + ',"categories":[';
-    for (var i = 0; i < categories.length; i++) {
-        ret = ret + '{"entity":"category","id":' + categories[i] + '}';
-        if (i < (categories.length - 1))
-        {
-            ret = ret + ',';
-        }
-    }
-    ret = ret + ']';
-    return ret + '}';
-}
-
-function update_markers_and_associated_data(){
-    // removing the information
-    $.each(markers_and_associated_data, function(index, marker_and_data) { 
-        if (marker_and_data != undefined) { 
-            delete marker_and_data[1]; 
-        }
-    });
-
-    jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
-    $.ajax({
-        dataType: "json",
-        url: jsonUrlData,
-        success: function(data) {
-            console.log("update_markers_and_associated_data - done");
-            $.each(data.results, function(index, aPlaceData) {
-                if (markers_and_associated_data[aPlaceData.id] == undefined) {
-                    addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
-                        aPlaceData.geom.coordinates[1],
-                        displayPlaceDataFunction,
-                        aPlaceData);
-                }
-                else {
-                    markers_and_associated_data[aPlaceData.id][1] = aPlaceData;
-                }
-            });
-        },
-        complete: function(data) {
-            signalement_id = $('#input_place_description_id').val();
-            if (signalement_id != "" && signalement_id != undefined) {
-                // be sure that a place is selected
-                displayRegardingToUserRole();
-            }
-
-            $.each(markers_and_associated_data, function(index, marker_and_data) {
-                if (marker_and_data != undefined) { 
-                    if (marker_and_data[1] == undefined) {
-                        marker_and_data[0].erase();
-                        marker_and_data = undefined;
-                    }
-                }
-            });
-        }
-    });
-};
-
-
-function save_info(div_id,id_for_fcts){
-    $.data($("#div_id")[0], "id_for_fcts",id_for_fcts);
-};
-
-function updatePageWhenLogged(){
-    /**
-    * Updates the menu when the user is logged :
-    * - connexion link and register link : disappear
-    * - user name and logout link : appear
-    */
-    $("#menu_user_name").css('display', 'inline-block');
-    $("#menu_connexion").hide();
-    $("#menu_logout").css('display', 'inline-block');
-    $("#menu_register").hide();
-
-    $("#div_new_place_form_user_mail").hide();
-
-    jQuery('a.connexion').colorbox.close('');
-    jQuery('.username').text(user.label);
-
-    update_markers_and_associated_data();
-}
-
-function catchLoginForm(){
-    /**
-    * When the login form is throwed.
-    * Asks to the db if couple username/password is correct
-    */
-    var user_data = {};
-    $.map($('#loginForm').serializeArray(), function(n, i){
-        user_data[n['name']] = n['value'];
-    });
-
-    url_login = Routing.generate('wikipedale_authenticate', {_format: 'json'});
-    $.ajax({
-        type: "POST",
-        beforeSend: function(xhrObj){
-            xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
-            xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
-        },
-        data: "",
-        url: url_login,
-        cache: false,
-        success: function(output_json) { 
-            if(! output_json.query.error) { 
-                console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
-                updateUserInfo(output_json.results[0]);
-                updatePageWhenLogged();
-            }
-            else { 
-                $('#login_message').text(output_json[0].message);
-                $('#login_message').addClass('errorMessage');
-                }
-        },
-        error: function(output_json) {
-            $('#login_message').text(output_json.responseText);
-            $('#login_message').addClass('errorMessage');
-        }
-    });
 }
 
 function descriptionHideEdit(){
@@ -498,14 +62,14 @@ function descriptionDelete(){
             }
             else { 
                 $('#span_place_description_delete_error').show();
-                console.log('Error else');
-                console.log(JSON.stringify(output_json));
+                //console.log('Error else');
+                //console.log(JSON.stringify(output_json));
             }
         },
         error: function(output_json) {
             $('#span_place_description_delete_error').show();
-            console.log('Error error');
-            console.log(output_json.responseText);
+            //console.log('Error error');
+            //console.log(output_json.responseText);
         }
     });
 }
@@ -622,6 +186,19 @@ function descriptionEditOrSave(element_type){
                     }
                     else if (element_type == 'gestionnaire') {
                         $(element_id).text($(element_id + '_edit').select2('data').text);
+                        if (old_placetype != null) {   
+                            index_sig = id_markers_for['PlaceTypes'][old_placetype.id].indexOf(signalement_id);
+                            id_markers_for['PlaceTypes'][old_placetype.id].splice(index_sig,1);
+                        }
+
+                        if (markers_and_associated_data[signalement_id][1].placetype != null) {
+                            if(id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] == undefined) {
+                                id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] = new Array();
+                            }
+                            id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id].push(parseInt(signalement_id))
+                        }
+
+                        display_only_markers_with_selected_categories();
                     }
                     else if (element_type == 'type'){
                         $(element_id).text($(element_id + '_edit').select2('data').text);
@@ -653,14 +230,14 @@ function descriptionEditOrSave(element_type){
                 }
                 else { 
                     $(element_id +  '_error').show();
-                    console.log('Error else');
-                    console.log(JSON.stringify(output_json));
+                    //console.log('Error else');
+                    //console.log(JSON.stringify(output_json));
                 }
             },
             error: function(output_json) {
                 $(element_id +  '_error').show();
-                console.log('Error error');
-                console.log(output_json.responseText);
+                //console.log('Error error');
+                //console.log(output_json.responseText);
             }
         });
     };
@@ -694,7 +271,7 @@ function catchForm(formName) {
     if(place_data['lieu'] == "") {
         error_messages = error_messages + "Veuillez indiquer l'adresse. ";
     }
-    if(! userIsRegister())
+    if(! user.isRegistered())
     {
         if(place_data['user_label'] == "") { 
             error_messages = error_messages + "Veuillez donner votre nom. ";
@@ -717,9 +294,8 @@ function catchForm(formName) {
         if (place_data['id'] == "")
             { error_messages = "Veuillez reéssayer et si le problème persiste prendre contact avec le webmaster. " }
     }
-    /* Ne marche pas car pbm de synchonisation */
-    //A regler TODO
-    isUserInAccordWithServer().done(function(userInAccordWithServer)
+
+    user.isInAccordWithServer().done(function(userInAccordWithServer)
         {
         if(!userInAccordWithServer)
             {
@@ -727,7 +303,7 @@ function catchForm(formName) {
                 $.colorbox({inline:true, href:"#login_form_div"});
             }
         else {
-            if(editForm && userIsAdminServer())
+            if(editForm && user.isAdminWithServerCheck())
                 { error_messages = "Vous devez être admin pour éditer ce point noir"; }
             if(error_messages != "") {
                 $('#add_new_description_form__message').text('Erreur! ' + error_messages  + 'Merci.');
@@ -747,7 +323,7 @@ function catchForm(formName) {
                         if(! output_json.query.error) { 
                             newPlaceData = output_json.results[0];
                             clear_add_new_description_form();
-                            if(userIsRegister()) {
+                            if(user.isRegistered()) {
                                 addMarkerWithClickAction(newPlaceData.geom.coordinates[0],
                                     newPlaceData.geom.coordinates[1],
                                     displayPlaceDataFunction,
@@ -847,7 +423,7 @@ function changingModeFunction() {
                 }
             });
 
-            if(userIsRegister()) {
+            if(user.isRegistered()) {
                 $("#div_new_place_form_user_mail").hide();
                 }
             else {
@@ -905,164 +481,13 @@ function changingModeFunction() {
         }
     };
 
-function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
-    /**
-     * TODO -> changer le nom et voir pour la gestion ce qui peut etre reutiliser
-     * @param {townId} id of the town
-     * @param {townLon} longitude of the town
-     * @param {townLat} latitude of the town
-     * @param {marker_id_to_display} id of the marker to display (direct acces) // none if no marker to display
-     */
-    townId = townId_param;
-    jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
-
-    map = new OpenLayers.Map('map', {maxResolution: 1000});
-    osm = new OpenLayers.Layer.OSM("OSM MAP");
-    map.addLayer(osm);
-
-    map.setCenter(
-        new OpenLayers.LonLat(townLon, townLat).transform(
-            new OpenLayers.Projection("EPSG:4326"),
-            map.getProjectionObject()
-        ), zoom_map );
-
-    placesLayer = new OpenLayers.Layer.Markers("Existing places");
-    map.addLayer(placesLayer);
-
-    new_placeLayer = new OpenLayers.Layer.Markers("New place");
-    map.addLayer(new_placeLayer);
-    new_placeLayer.display(false);
-
-    var button_add_place = new OpenLayers.Control.Button({ 
-        id : 'buttonAddPlace',
-        displayClass: 'olControlButtonAddPlace',
-        trigger: changingModeFunction,
-        title: 'Button is to be clicked'});
-
-    var control_panel = new OpenLayers.Control.Panel({
-        div: document.getElementById('olPanelUL')});
-    map.addControl(control_panel);
-    control_panel.addControls([button_add_place]);
-    
-    button_add_place.activate();
-
-    $(document).ready(function(){
-        $('.olControlButtonAddPlaceItemActive')
-            .addClass("buttonPlus")
-            .each(function(index, value){ value.innerHTML = 'Ajouter un signalement'; });
-    });
-    $.getJSON(jsonUrlData, function(data) {
-    updateUserInfo(data.user);
-	$.each(data.results, function(index, aPlaceData) {
-	    addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
-				     aPlaceData.geom.coordinates[1],
-				     displayPlaceDataFunction,
-				     aPlaceData);
-        if(aPlaceData.id == marker_id_to_display)
-        {
-            displayPlaceDataFunction(marker_id_to_display);
-        }
-
-         } ) }
-	     );
-}
-
-function addMarkerWithClickAction(aLon, aLat, anEventFunction, someData) {
-    /**
-     * Add a marker on a layer such that when the user click on it, an 
-     action is executed.
-     * @param {OpenLayers.Layer} placesLayer  The layer where the marker is added
-     * @param {number} aLon The longitude where to add the marker
-     * @param {number} aLat The latitude where to add the marker
-     * @param {function} anEventFunction A function to execute when the user click on the marker
-     * @param {object} someData Some dota passed to the function anEvent
-     */
-    var feature = new OpenLayers.Feature(osm, new OpenLayers.LonLat(aLon, aLat).transform(
-	new OpenLayers.Projection("EPSG:4326"),
-	map.getProjectionObject()
-    ));
-    var size = new OpenLayers.Size(19,25);
-    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(someData.statuses) + '.png', size, offset); 
-    feature.data.icon = icon;
-    
-    var marker = feature.createMarker();
-    markers_and_associated_data[someData.id] = ([marker,someData]);
-    $.each(someData.categories, function(index, categories_data) {
-        if (id_markers_for['Categories'][categories_data.id] == undefined){
-            id_markers_for['Categories'][categories_data.id] = new Array();
-        }
-        id_markers_for['Categories'][categories_data.id].push(someData.id);
-    });
-    if (someData.placetype != null) {
-        if(id_markers_for['PlaceTypes'][someData.placetype.id] == undefined) {
-            id_markers_for['PlaceTypes'][someData.placetype.id] = new Array();
-        }
-        id_markers_for['PlaceTypes'][someData.placetype.id].push(someData.id);  
-    }
-
-    if(id_markers_for['StatusCeM']["0"] == undefined) {
-                id_markers_for['StatusCeM']["0"] = new Array();
-    }
-
-    var someDataId_added = false;
-    $.each(someData.statuses, function(index, type_value) {
-        if(type_value.t == "cem") {
-            if(id_markers_for['StatusCeM'][type_value.v.toString()] == undefined) {
-                id_markers_for['StatusCeM'][type_value.v.toString()] = new Array();
-            }
-            id_markers_for['StatusCeM'][type_value.v.toString()].push(someData.id)
-            someDataId_added = true;
-        }
-    });
-    if(! someDataId_added) {
-        id_markers_for['StatusCeM']["0"].push(someData.id)
-    }
-
-    var markerMouseDownFunction = function(evt) {
-	anEventFunction(someData.id); 
-        OpenLayers.Event.stop(evt);
-    };
-
-    marker.events.register("mousedown", marker, markerMouseDownFunction);
-    placesLayer.addMarker(marker);
-}
-
-display_placeEdit_vars = [
-    ['.span_id', 'id'],
-    ['.span_nbComm', 'nbComm'],
-    ['.span_nbVote', 'nbVote'],
-]
-
-// PHOTO
-function pop_up_add_photo(i) {
-    window.open(Routing.generate('wikipedale_photo_new', {_format: 'html', placeId: i}));
-}
-
-function refresh_span_photo(id) {
-    url_photo_list = Routing.generate('wikipedale_photo_list_by_place', {_format: 'json', placeId: id});
-    $.getJSON(url_photo_list, function(raw_data) {
-    data = raw_data.results;
-    if(data.length == 0) {
-        $('.span_photo').each(function() { this.innerHTML = '<img src="../img/NoPictureYet.png" />'; });
-        }
-    else {
-        span_photo_inner = '<br />';
-        $.each(data, function(i,row) {
-        span_photo_inner +=  ' <a target="_blank" href="' + web_dir + row.webPath + '"><image src="' + web_dir + row.webPath + '"></image></a>';
-        $('.span_photo').each(function() { this.innerHTML = span_photo_inner; });
-        })
-        }
-    });
-}
-
 function displayEmailAndPhoneNumberRegardingToRole() {
     signalement_id = $('#input_place_description_id').val();
 
     if (signalement_id != "" && signalement_id != undefined) {
         placeData = markers_and_associated_data[signalement_id][1]
 
-        if (userCanVieuwUsersDetails() || userIsAdmin()) {
+        if (user.canVieuwUsersDetails() || user.isAdmin()) {
             $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
         }
@@ -1078,14 +503,14 @@ function displayRegardingToUserRole() {
     * this function display or not the button with which we can edit the 
     * information
     */
-    if(userCanModifyCategories() || userIsAdmin()) {
+    if(user.canModifyCategories() || user.isAdmin()) {
         $('#span_place_description_cat_button').show();
     }
     else {
         $('#span_place_description_cat_button').hide();
     }
 
-    if(userCanModifyLittleDetails() || userIsAdmin()) {
+    if(user.canModifyLittleDetails() || user.isAdmin()) {
         $('#span_place_description_loc_button').show();
         $('#span_place_description_desc_button').show();
     }
@@ -1094,27 +519,27 @@ function displayRegardingToUserRole() {
         $('#span_place_description_desc_button').hide();
     }
 
-    if(userCanModifyPlacetype() || userIsAdmin()) {
+    if(user.canModifyPlacetype() || user.isAdmin()) {
         $('#span_place_description_type_button').show();
     }
     else {
         $('#span_place_description_type_button').hide();
     }
 
-    if(userCanModifyManager() || userIsAdmin()) {
+    if(user.canModifyManager() || user.isAdmin()) {
         $('#span_place_description_gestionnaire_button').show();
     }
     else {
         $('#span_place_description_gestionnaire_button').hide();
     }
 
-    if(userCanUnpublish() || userIsAdmin()){
+    if(user.canUnpublishADescription() || user.isAdmin()){
         $('#span_place_description_delete_button').show();
     }
     else {
         $('#span_place_description_delete_button').hide();
     }
-    if(userCanModifyCEMColor() || userIsAdmin()){
+    if(user.isCeM() || user.isAdmin()){
         $('#span_place_description_commentaireCeM_button').show();
         $('#span_place_description_status_button').show();
     }
@@ -1124,7 +549,7 @@ function displayRegardingToUserRole() {
     }
 
 
-    if(userIsAdmin() || userIsCeM() || userIsGestionnaireVoirie()) {
+    if(user.isAdmin() || user.isCeM() || user.isGdV()) {
         $('#div_commentaires_cem_gestionnaire').show();
 
     }
@@ -1134,7 +559,7 @@ function displayRegardingToUserRole() {
 
 
     // affichage du commentaire du CeM même si il est vide (afin de pouvoir l'éditer)
-    if(userIsCeM() || userIsAdmin()) {
+    if(user.isCeM() || user.isAdmin()) {
         $('#div_container_place_description_commentaireCeM').show();
     }
 
@@ -1177,7 +602,7 @@ function displayPlaceDataFunction(id_sig) {
     $('#span_place_description_desc').text(placeData.description);
 
 
-    if(placeData.moderatorComment != '' || userIsCeM() || userIsAdmin()) {
+    if(placeData.moderatorComment != '' || user.isCeM() || user.isAdmin()) {
         $('#span_place_description_commentaireCeM').text(placeData.moderatorComment);
         $('#div_container_place_description_commentaireCeM').show();
     }
@@ -1213,12 +638,12 @@ function displayPlaceDataFunction(id_sig) {
             }
         }
 
-    if (userCanVieuwUsersDetails() || userIsAdmin()) {
+    if (user.canVieuwUsersDetails() || user.isAdmin()) {
         $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ placeData.creator.email +'">'+ 
         placeData.creator.email +'</a>, téléphone : '+ placeData.creator.phonenumber + ')');
     }
 
-    if(userIsGestionnaireVoirie() || userIsCeM() || userIsAdmin()){
+    if(user.isGdV() || user.isCeM() || user.isAdmin()){
         updateLastComment(placeData.id);
         updateAllComments(placeData.id);
         $("#span_plus_de_commenaitres_link a").attr("href","javascript:comments_mode(" + placeData.id + ");");
@@ -1231,6 +656,3 @@ function displayPlaceDataFunction(id_sig) {
 
     $('#div_placeDescription').show();
 }
-
-
-

@@ -184,6 +184,12 @@ wikipedale_groups_update:
   options:
     expose: false
     
+wikipedale_admin_user_show_form:
+  pattern: /admin/user/show/{id}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userShowForm}
+  options:
+    expose: false
+    
 wikipedale_admin_homepage:
   pattern: /admin
   defaults: {_controller: ProgracqteurWikipedaleBundle:Admin:index }
