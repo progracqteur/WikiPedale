@@ -27,6 +27,14 @@ class NotificationFilterBySubscriptionModerator implements NotificationFilter {
         }
         
         if ($changeset instanceof PlaceTracking) {
+            
+            //block notification for you own modifications
+            if ($changeset->getAuthor()->getId() === $subscription->getOwner()->getId())
+            {
+                echo get_class($this)." : Changeset was made by the notification's owner - STOP  \n";
+                return false;
+            }
+            
             return true;
         } else {
             return false;
