@@ -23,6 +23,7 @@ var user = function () {
         /**
         * True if the user is admin.
         */
+//        console.log(u);
         return (typeof u.roles !== "undefined") && $.inArray("ROLE_ADMIN", u.roles) !== -1;
     }
 
@@ -89,6 +90,7 @@ var user = function () {
         /**
         * True is the user if Moderator for the notation 'cem'
         */
+       // console.log(u);
         return isModetatorForNotation('cem');
     }
 
@@ -131,6 +133,8 @@ var user = function () {
         var defe = $.Deferred();
         if (isRegistered()) {
             $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function (data) {
+                console.log(data);
+                console.log(JSON.stringify(data));
                 if (data.results[0].registered && data.results[0].id === u.id) {
                     defe.resolve(true);
                 } else {
@@ -153,6 +157,13 @@ var user = function () {
         return isAdmin();
     }
 
+    function data(){
+        /**
+        * Returns the data stored in local.
+        */
+        return u;
+    }
+
     return {
         update: update,
         reset: reset,
@@ -169,6 +180,7 @@ var user = function () {
         isGdV: isGdV,
         isRegistered: isRegistered,
         isInAccordWithServer: isInAccordWithServer,
-        isAdminWithServerCheck: isAdminWithServerCheck
+        isAdminWithServerCheck: isAdminWithServerCheck,
+        data: data
     };
 }();

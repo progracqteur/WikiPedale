@@ -19,7 +19,7 @@ function PointInJson(lon,lat){
     * @param{string} lat} The latitude of the point.
     */
     p = new OpenLayers.Geometry.Point(lon, lat);
-    p.transform(map.getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
+    p.transform(map_display.map.getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
     parser = new OpenLayers.Format.GeoJSON();
     return parser.write(p, false);
 }

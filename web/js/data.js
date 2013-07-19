@@ -1,12 +1,3 @@
-var displaying_tiny_map = false; // Display or not a tiny Map
-var old_center; // To re-center the map after displaying the tiny map
-
-var map; // Variable to acces to the map
-var osmLayer; // OSM layer
-var placesLayer; // layer where existing places are drawing
-var new_placeLayer;  // layer where the user can draw a new place
-var zoom_map = 13; // zoom level of the map
-
 var baseUrlsplit = Routing.getBaseUrl().split('/');
 var web_dir = '';
 var i = 0;
@@ -30,11 +21,7 @@ id_markers_for['Categories'] = new Array();
 id_markers_for['PlaceTypes'] = new Array();
 id_markers_for['StatusCeM'] = new Array();
 
-var mode_edit = new Array();
-
 var new_placeMarker;
-
-var last_place_selected = null;
 
 var townId = null;
 
@@ -46,13 +33,6 @@ color_trad['-1'] = 'd';
 color_trad['1'] = 'r';
 color_trad['2'] = 'o';
 color_trad['3'] = 'g';
-
-var color_trad_text = new Array();
-color_trad_text['0'] = 'pas encore pris en compte (blanc)';
-color_trad_text['-1'] = 'rejeté (gris)';
-color_trad_text['1'] = 'pris en compte (rouge)';
-color_trad_text['2'] = 'en cours de résolution (orange)';
-color_trad_text['3'] = 'résolu (vert)';
 
 function update_markers_and_associated_data(){
     // removing the information
@@ -68,6 +48,7 @@ function update_markers_and_associated_data(){
         url: jsonUrlData,
         success: function(data) {
             //console.log("update_markers_and_associated_data - done");
+            descriptions.update(data.results);
             $.each(data.results, function(index, aPlaceData) {
                 if (markers_and_associated_data[aPlaceData.id] == undefined) {
                     addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
@@ -84,7 +65,7 @@ function update_markers_and_associated_data(){
             signalement_id = $('#input_place_description_id').val();
             if (signalement_id != "" && signalement_id != undefined) {
                 // be sure that a place is selected
-                displayRegardingToUserRole();
+                description_text_display.display_regarding_to_user_role();
             }
 
             $.each(markers_and_associated_data, function(index, marker_and_data) {
