@@ -20,7 +20,7 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
 
     var control_panel = new OpenLayers.Control.Panel({
         div: document.getElementById('olPanelUL')});
-    map_display.map.addControl(control_panel);
+    map_display.get_map().addControl(control_panel);
     control_panel.addControls([button_add_place]);
     
     button_add_place.activate();

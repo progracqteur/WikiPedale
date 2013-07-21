@@ -58,22 +58,16 @@ function changingModeFunction() {
             })
             .removeClass("buttonPlus")
             .addClass("buttonAnnuler");
-        $.each(markers_and_associated_data, function(index, marker_data) {
-            if (marker_data != undefined) {
-                marker = marker_data[0];
-                marker.events.remove("mousedown");
-                marker.setUrl(marker_img_url + 'm_' + marker_img_name(marker_data[1].statuses) + '_no_active.png')
-            }
-        });
+        map_display.unactivate_markers();
 
         if(new_placeMarker != undefined) 
             {
                 new_placeMarker.display(true);
             }
 
-        display_map.map.events.register("click", display_map.map, function(e) {
+        map_display.get_map().events.register("click", map_display.get_map(), function(e) {
             update_informer_map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
-            var position = display_map.map.getLonLatFromPixel(e.xy);
+            var position = map_display.get_map().getLonLatFromPixel(e.xy);
             $("input[name=lon]").val(position.lon);
             $("input[name=lat]").val(position.lat);
 
@@ -117,7 +111,7 @@ function changingModeFunction() {
                     new_placeMarker.display(false);
                 }
 
-            display_map.map.events.remove("click");
+            map_display.get_map().events.remove("click");
 
             $.each(markers_and_associated_data, function(index, marker_data) {
                 if (marker_data != undefined) {

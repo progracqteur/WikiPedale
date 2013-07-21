@@ -14,6 +14,7 @@ var map_display = function () {
     var zoom_map = 13; // zoom level of the map
 
     var marker_img_url = web_dir + 'OpenLayers/img/';
+    var markers = {};
     
     function map_resizing(){
     	/**
@@ -133,15 +134,36 @@ var map_display = function () {
 
 	    marker.events.register("mousedown", marker, markerMouseDownFunction);
     	placesLayer.addMarker(marker);
+
+        markers[description_id] = marker;
+    }
+
+    function get_marker_for(description_id){
+        return markers[description_id];
+    }
+
+    function unactivate_markers(){
+        $.each(markers, function(description_id, marker) {
+            if (marker != undefined) {
+                var description_data = descriptions.get_by_id(description_id);
+                marker.events.remove("mousedown");
+                marker.setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '_no_active.png')
+            }
+        });
+    }
+
+    function get_map(){
+        return map;
     }
 
     return {
     	translate: translate,
     	normal_mode: normal_mode,
     	init: init,
-    	map: map,
+    	get_map: get_map,
     	map_display: map_display,
     	add_marker: add_marker,
+        unactivate_markers: unactivate_markers,
     }
 
 }();
