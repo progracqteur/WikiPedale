@@ -33,20 +33,16 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
 
     $.getJSON(jsonUrlData, function(data) {
     user.update(data.user);
-    descriptions.update(data.results);
-    $.each(data.results, function(index, aPlaceData) {
-        addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
-                     aPlaceData.geom.coordinates[1],
-                     displayPlaceDataFunction,
-                     aPlaceData);
-        if(aPlaceData.id == marker_id_to_display)
-        {
-            displayPlaceDataFunction(marker_id_to_display);
-        }
-
-         } ) }
-         );
-}
+    descriptions.update(data.results, function () {
+        $.each(data.results, function(index, aPlaceData) {
+            map_display.add_marker(aPlaceData.id, displayPlaceDataFunction);
+            if(aPlaceData.id == marker_id_to_display) {
+                displayPlaceDataFunction(marker_id_to_display);
+            }
+        });
+    });
+    });
+    }
 //*/
 
 function addMarkerWithClickAction(aLon, aLat, anEventFunction, someData) {
@@ -61,7 +57,7 @@ function addMarkerWithClickAction(aLon, aLat, anEventFunction, someData) {
      */
     //console.log(someData);
 
-    descriptions.update_for_id(someData.id, someData);
+    descriptions.single_update(someData);
     markers_and_associated_data[someData.id] = (['x',someData]);
 
     $.each(someData.categories, function(index, categories_data) {

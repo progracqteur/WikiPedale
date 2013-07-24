@@ -132,7 +132,7 @@ var description_edit_form = function () {
                     	old_statuses = markers_and_associated_data[signalement_id][1].statuses;
                     	old_placetype = markers_and_associated_data[signalement_id][1].placetype;
                     	markers_and_associated_data[signalement_id][1] = output_json.results[0];
-                    	descriptions.update_for_id(signalement_id, output_json.results[0]);
+                    	descriptions.single_update(output_json.results[0]);
                     	if(element_type == 'cat'){
                        		categories_list = "";
                         	$.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});

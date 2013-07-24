@@ -14,7 +14,7 @@ var map_display = function () {
     var zoom_map = 13; // zoom level of the map
 
     var marker_img_url = web_dir + 'OpenLayers/img/';
-    var markers = {};
+    var markers = new Array;
     
     function map_resizing(){
     	/**
@@ -112,30 +112,33 @@ var map_display = function () {
      	given id. The marker is such that when the user click on it, an action is executed.
      	* @param {integer} description_id The id of the description
      	* @param {function} anEventFunction A function to execute when the user click on the marker
-     	*/
+     	*/ 
      	var description_data = descriptions.get_by_id(description_id);
 
-	    var feature = new OpenLayers.Feature(osm, new OpenLayers.LonLat(description_data.geom.coordinates[0], description_data.geom.coordinates[1]).transform(
-	    	new OpenLayers.Projection("EPSG:4326"),
-  			map.getProjectionObject()
-    		));
-    	
-    	var size = new OpenLayers.Size(19,25);
-    	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    	var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '.png', size, offset); 
-    	feature.data.icon = icon;
+        if(description_data) { //not undefined
+            var feature = new OpenLayers.Feature(osm, new OpenLayers.LonLat(description_data.geom.coordinates[0], description_data.geom.coordinates[1]).transform(
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject()
+            ));
+        
+            var size = new OpenLayers.Size(19,25);
+            var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+            var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '.png', size, offset); 
+            feature.data.icon = icon;
     
-    	var marker = feature.createMarker();
+            var marker = feature.createMarker();
 
-    	var markerMouseDownFunction = function(evt) {
-    		an_event_function(description_data.id); 
-        	OpenLayers.Event.stop(evt);
-    	};
+            var markerMouseDownFunction = function(evt) {
+                console.log('blop');
+                an_event_function(description_data.id); 
+                OpenLayers.Event.stop(evt);
+            };
 
-	    marker.events.register("mousedown", marker, markerMouseDownFunction);
-    	placesLayer.addMarker(marker);
+            marker.events.register("mousedown", marker, markerMouseDownFunction);
+            placesLayer.addMarker(marker);
 
-        markers[description_id] = marker;
+            markers[description_id] = marker;
+        }
     }
 
     function get_marker_for(description_id){
@@ -152,6 +155,25 @@ var map_display = function () {
         });
     }
 
+    function display_marker(an_id){
+        markers[an_id].display(true);
+    }
+
+    function undisplay_marker(an_id){
+        markers[an_id].display(false);
+    }   
+
+    function display_all_markers(){
+        /**
+        * display all the markers on the map
+        */
+        $.each(markers, function(description_id, marker) {
+            if (marker != undefined) {
+                marker.display(true);
+            }
+        });
+    }
+
     function get_map(){
         return map;
     }
@@ -163,7 +185,6 @@ var map_display = function () {
     	get_map: get_map,
     	map_display: map_display,
     	add_marker: add_marker,
-        unactivate_markers: unactivate_markers,
+        unactivate_markers: unactivate_markers
     }
-
 }();

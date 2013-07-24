@@ -5,7 +5,6 @@ for (i = 0; i < (baseUrlsplit.length - 1);  i++)
 {
     web_dir = web_dir + baseUrlsplit[i] + '/';
 } 
-var marker_img_url = web_dir + 'OpenLayers/img/'; // where is the dir containing the OpenLayers images
 
 //var colors_in_marker = 1; //number of color in a marker
 var c1_label = "cem";
@@ -48,7 +47,7 @@ function update_markers_and_associated_data(){
         url: jsonUrlData,
         success: function(data) {
             //console.log("update_markers_and_associated_data - done");
-            descriptions.update(data.results);
+            descriptions.update(data.results,null);
             $.each(data.results, function(index, aPlaceData) {
                 if (markers_and_associated_data[aPlaceData.id] == undefined) {
                     addMarkerWithClickAction(aPlaceData.geom.coordinates[0],

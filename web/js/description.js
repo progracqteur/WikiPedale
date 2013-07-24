@@ -154,6 +154,7 @@ function displayPlaceDataFunction(id_sig) {
      * @param {object} placeData The know data given for the place and receivd from 
      web/app_dev.php/place/list/bycity.json?city=mons
      */
+     /*
      placeMarker = markers_and_associated_data[id_sig][0];
      placeData = markers_and_associated_data[id_sig][1];
 
@@ -164,6 +165,7 @@ function displayPlaceDataFunction(id_sig) {
     }
     placeMarker.setUrl(marker_img_url + 'm_' + marker_img_name(placeData.statuses) + '_selected.png');
     last_description_selected = placeData.id;
-    
+    */
+    console.log('changer la couleur de pointeur');
     description_text_display.display_description_of(id_sig);
 }
