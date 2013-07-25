@@ -129,7 +129,6 @@ var map_display = function () {
             var marker = feature.createMarker();
 
             var markerMouseDownFunction = function(evt) {
-                console.log('blop');
                 an_event_function(description_data.id); 
                 OpenLayers.Event.stop(evt);
             };
@@ -161,6 +160,24 @@ var map_display = function () {
 
     function undisplay_marker(an_id){
         markers[an_id].display(false);
+    }
+
+    function select_marker(an_id){
+        /**
+        * Sets the marker of a given signalement to 'selected' (in pink)
+        * @param {int} an_id The id of the signalement
+        */
+        var description_data = descriptions.get_by_id(an_id);
+        markers[an_id].setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '_selected.png');
+    }   
+
+    function unselect_marker(an_id){
+        /**
+        * Sets the marker of a given signalement to 'unselected' (in pink)
+        * @param {int} an_id The id of the signalement
+        */
+        var description_data = descriptions.get_by_id(an_id);
+        markers[an_id].setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '.png');
     }   
 
     function display_all_markers(){
@@ -185,6 +202,8 @@ var map_display = function () {
     	get_map: get_map,
     	map_display: map_display,
     	add_marker: add_marker,
-        unactivate_markers: unactivate_markers
+        unactivate_markers: unactivate_markers,
+        select_marker: select_marker,
+        unselect_marker: unselect_marker
     }
 }();

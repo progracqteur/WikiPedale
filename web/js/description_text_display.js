@@ -35,11 +35,9 @@ var description_text_display = function () {
     	$('a.link_add_photo').each(function() { $(this).attr("href", url_add_photo)});
 
 		var desc_data = descriptions.get_by_id(id_desc);
-		console.log(desc_data);
 
 		categories_list = "";
   		$.each(desc_data.categories, function(i,c) { 
-  			console.log(c);
   			categories_list = categories_list + c.label; + " "});
 
 	    $('.class_span_place_description_id').each(function() { this.innerHTML = desc_data.id; });
