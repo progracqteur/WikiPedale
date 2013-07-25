@@ -204,6 +204,8 @@ var map_display = function () {
     	add_marker: add_marker,
         unactivate_markers: unactivate_markers,
         select_marker: select_marker,
-        unselect_marker: unselect_marker
+        unselect_marker: unselect_marker,
+        display_marker: display_marker,
+        undisplay_marker: undisplay_marker
     }
 }();

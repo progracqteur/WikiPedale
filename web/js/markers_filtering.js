@@ -2,7 +2,7 @@
 * To filter the markers displayed in function of places caterogries, places CeM status or place type.
 */
 
-var marker_filtering = function () {
+var markers_filtering = function () {
     var selection_mode_activate = false; // true iff  displaying the div "div_options_affichage"
 
     var filter_activated = new Array();
@@ -37,7 +37,7 @@ var marker_filtering = function () {
         /**
         * display the markers regarding to the selection made by the user
         */
-        var markers_id_to_display_cat = {};
+        var markers_id_to_display_cat = new Array();
         if(filter_activated['Categories']) { 
             $.each($('#optionsAffichageCategories').select2("val"), function(index, id_cat) {
                 if (descriptions.get_id_for('Categories',parseInt(id_cat)) != undefined) {
@@ -46,7 +46,7 @@ var marker_filtering = function () {
             });
         };
 
-        var markers_id_to_display_types = {};
+        var markers_id_to_display_types = new Array();
         if(filter_activated['PlaceTypes']) { 
             $.each($('#optionsAffichagePlaceTypes').select2("val"), function(index, id_type) {
                 if (descriptions.get_id_for('PlaceTypes',parseInt(id_type)) != undefined) {
@@ -55,17 +55,24 @@ var marker_filtering = function () {
             });
         };
 
-        var markers_id_to_display_statusCeM = {};
+        var markers_id_to_display_statusCeM = new Array();
         if(filter_activated['StatusCeM']) {
+            console.log('StatusCeM Activated');
             $.each($('#optionsAffichageStatusCeM').select2("val"), function(index, id_type) {
                 if (descriptions.get_id_for('StatusCeM',parseInt(id_type)) != undefined) {
+                    console.log(id_type);
+                    console.log('selected')
                     markers_id_to_display_statusCeM = markers_id_to_display_statusCeM.concat(descriptions.get_id_for('StatusCeM',parseInt(id_type)));
                 }
             });
+            console.log(JSON.stringify(markers_id_to_display_statusCeM))
         };
 
         // -> ici continuer
         $.each(descriptions.get_all(), function(desc_id, desc_data) {
+            console.log(desc_id);
+            console.log(typeof(desc_id));
+            desc_id = parseInt(desc_id);
             if (desc_data != undefined) {
                 if((filter_activated['Categories'] && $.inArray(desc_id, markers_id_to_display_cat) == -1) || 
                     (filter_activated['PlaceTypes'] && $.inArray(desc_id, markers_id_to_display_types) == -1) ||
@@ -92,4 +99,10 @@ var marker_filtering = function () {
         filter_activated[typesOrCategoriesOrStatusCeM] = ! filter_activated[typesOrCategoriesOrStatusCeM];
         display_only_markers_with_selected_categories();
     };
+
+    return {
+        activate_unactivate: activate_unactivate,
+        display_only_markers_with_selected_categories:display_only_markers_with_selected_categories,
+        change_mode_for: change_mode_for,
+    }
 }();
