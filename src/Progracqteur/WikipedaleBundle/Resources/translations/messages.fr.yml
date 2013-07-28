@@ -72,6 +72,8 @@ user:
         password: Mot de passe
         label: "Nom public :"
         phonenumber: "Numéro de téléphone :"
+    update_profile:
+      title: Modifier mon profil
 paginations:
   pages: Pages
 
@@ -127,7 +129,6 @@ notification_subscriptions:
   list:
     title: Mes notifications personnelles
     empty: Vous n'avez aucune notification programmée
-    your_notifications: Vos notifications
     kind: Type de notification
     kind_:
       moderator: Notification du modérateur
@@ -143,7 +144,6 @@ notification_subscriptions:
     update: Modifier
     zone: Pour la zone géographique
   form:
-    title: Modification d'une notification
     submit: Modifier
     kind: Type de notification
     kind_:
@@ -158,6 +158,10 @@ notification_subscriptions:
     transporter_:
       email: Par courrier électronique 
     zone: Pour la zone géographique
+  form_create:
+    title: Création d'une notification
+  form_update:
+    title: Modification d'une notification
   forms:
     frequency:
       daily: Une fois par jour

@@ -42,22 +42,39 @@
 
 
 {% block body %}
+    
+{% include 'ProgracqteurWikipedaleBundle:User:user_menu.html.twig' 
+        with {active: 'notification_list'} %}
+    
+    <div class="user_content">
 
-<form method="POST" class="notification_subscription {{notification.kind}}" action="{% spaceless %}
-{% if action == 'update' %}
-   {{ path('wikipedale_notification_subscriptions_update', {'id' : notification.id} ) }}
-      
-{% elseif  action == 'create' %}
-  {{ path('wikipedale_notification_subscriptions_create' ) }}
+        <form method="POST" class="notification_subscription {{notification.kind}}" action="{% spaceless %}
+        {% if action == 'update' %}
+           {{ path('wikipedale_notification_subscriptions_update', {'id' : notification.id} ) }}
 
-{% endif %}
-      {% endspaceless %}">
-      
-          {% include form_template with {'form' : form} %}
-      
-      {{ form_rest(form) }}
- </form>
-      
+        {% elseif  action == 'create' %}
+          {{ path('wikipedale_notification_subscriptions_create' ) }}
 
+        {% endif %}
+              {% endspaceless %}">
+
+         <fieldset>         
+
+        {% if action == 'update' %}
+           <legend>{{ 'notification_subscriptions.form_update.title' | trans }}</legend>
+
+        {% elseif  action == 'create' %}
+          <legend>{{ 'notification_subscriptions.form_create.title' | trans }}</legend>
+
+        {% endif %}          
+
+                  {% include form_template with {'form' : form} %}
+
+              {{ form_rest(form) }}
+
+           </fieldset>    
+         </form>
+      
+   </div>
 
 {% endblock %}

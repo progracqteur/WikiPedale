@@ -140,7 +140,11 @@ class NotificationMailSender extends NotificationSender {
             }
         }
     }
-
+    
+    /**
+     * 
+     * @return string
+     */
     public function getKey() {
         return NotificationSubscription::TRANSPORTER_MAIL;
     }    

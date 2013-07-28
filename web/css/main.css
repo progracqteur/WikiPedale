@@ -25,6 +25,8 @@ textarea {
 
 body p {padding: 0 1em 0 1em;}
 
+dt {font-weight: bold;}
+
 .clearboth { clear:both; }
 
 #accueil {
@@ -187,7 +189,7 @@ div.PointDescription p.creator {
     background: #2D2D2D url('../img/logos/logo_uello_blanc.png') no-repeat left;
     text-align: right;
     margin:0;
-    border-bottom: 1px solid #AAAAAA;
+    /*border-bottom: 1px solid #AAAAAA;*/
     padding: 0.5em 1em 0 0;
 
 }
@@ -354,3 +356,85 @@ img#VilleActuelleRSSIcon {
                    position:absolute;
                    bottom:0;
                }
+      
+
+/* definition box */
+
+.def_box {
+    display: inline-block;
+
+    
+}
+
+/* action link, button, etc. */
+
+.action {
+    background: none repeat scroll 0 0 #3E3E3E;
+    border: medium none;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    letter-spacing: 1px;
+    margin: 0.5em 0.5em 0;
+    padding: 0.5em;
+    text-shadow: 0 1px 1px #000000;
+    text-decoration: none;
+}
+               
+/* user profile */
+
+
+    
+div.user_content {
+    padding: 110px;
+    }
+    
+    
+div#user_menu {
+    font-weight: bold;
+    background-color: #2D2D2D;
+    padding-top: 10px;
+    padding-left: 110px;
+    }
+    
+div#user_menu ul {
+    list-style-type: none;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    
+    }
+    
+div#user_menu ul li {
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 10px 4px 10px;
+    height: 25px; 
+    display: inline-block;
+    
+    }
+    
+div#user_menu ul li.active {
+    color: white;
+    font-size: 1em;
+    background-color: #4f4f4f;
+    }
+    
+div#user_menu ul li a,
+div#user_menu ul li a:active,
+div#user_menu ul li a:visited{
+    
+    color: white;
+    text-decoration: none;
+    }    
+    
+div#user_menu ul li.active a,
+div#user_menu ul li.active a:visited,
+div#user_menu ul li.active a:active {
+    color: inherit;
+    }
+    
+    
+
+    
+    

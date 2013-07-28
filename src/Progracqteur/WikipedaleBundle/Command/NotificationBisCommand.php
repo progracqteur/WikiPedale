@@ -55,10 +55,10 @@ class NotificationBisCommand extends ContainerAwareCommand {
         $spool = $mailer->getTransport()->getSpool();
         $transport = $this->getContainer()->get('swiftmailer.transport.real');
 
-        $spool->flushQueue($transport);
+        //$spool->flushQueue($transport);
         
         foreach($processors as $processor) {
-            $processor->finishProcess();
+            //$processor->finishProcess();
         }
         
         echo "ok ! \n";

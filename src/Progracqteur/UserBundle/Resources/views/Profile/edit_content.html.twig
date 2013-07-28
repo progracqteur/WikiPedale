@@ -1,6 +1,8 @@
 {#{% form_theme form theme %}#}
 
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+    <fieldset>
+    <legend>{{ 'user.form.update_profile.title'|trans }}</legend>
 
     <div>{{ form_errors(form.username) }}{{ form_label(form.username) }}
 {{ form_widget(form.username) }}</div>
@@ -19,6 +21,7 @@
 
 {{ form_rest(form) }}
     <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'userMessages') }}" />
+        <input type="submit" class="action" value="{{ 'profile.edit.submit'|trans({}, 'userMessages') }}" />
     </div>
+    </fieldset>
 </form>

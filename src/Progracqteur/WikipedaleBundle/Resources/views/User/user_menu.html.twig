@@ -1,0 +1,11 @@
+ 
+
+<div id="user_menu">
+
+        <ul>
+            <li class="{% if active == 'profile_view' %}active{% endif %}"><a href="{{ path('fos_user_profile_show') }}">Mon profil</a></li>
+            <li class="{% if active == 'password_change' %}active{% endif %}"><a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a></li>
+            <li class="{% if active == 'notification_list' %}active{% endif %}"><a href="{{ path('wikipedale_notification_subscriptions_list')}}">Mes notifications</a></li>
+        </ul>
+
+    </div>
