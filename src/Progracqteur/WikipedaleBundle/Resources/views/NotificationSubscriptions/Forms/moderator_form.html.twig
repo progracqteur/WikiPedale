@@ -3,7 +3,7 @@
     <dd class="type">{{ ['notification_subscriptions.form.kind_.', notification.kind]|join | trans }}</dd>
 
     <dt class="frequency">{{ 'notification_subscriptions.form.frequency'|trans }}</dt>
-    <dd class="frequency">{{ ['notification_subscriptions.form.frequency_.', notification.frequency] | join | trans }}</dd>
+    <dd class="frequency">{{ form_widget(form.frequency) }}</dd>
 
     <dt class="transporter">{{ 'notification_subscriptions.form.transporter' | trans }}</dt>
     <dd class="transporter">{{ ['notification_subscriptions.form.transporter_.', notification.transporter] | join | trans }}</dd>
@@ -15,6 +15,6 @@
 
 </dl>
 
-{{ form_label(form.frequency ) }}&nbsp;: {{ form_widget(form.frequency) }}
+
 <br/>
 <button type="submit" class="action">{{ 'notification_subscriptions.form.submit' | trans }}</button>
