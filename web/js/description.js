@@ -66,7 +66,7 @@ function changingModeFunction() {
             }
 
         map_display.get_map().events.register("click", map_display.get_map(), function(e) {
-            update_informer_map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
+            informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
             var position = map_display.get_map().getLonLatFromPixel(e.xy);
             $("input[name=lon]").val(position.lon);
             $("input[name=lat]").val(position.lat);

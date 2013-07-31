@@ -101,3 +101,12 @@ function nl2br (str, is_xhtml) {
 
   return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
+
+function is_mail_valid(anEmail) {
+  /**
+  * Returns True/False if the email is valid
+  * @param{string} anEmail  the considered email 
+  */
+  var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
+  return(reg.test(anEmail));
+}

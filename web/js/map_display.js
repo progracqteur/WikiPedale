@@ -206,6 +206,7 @@ var map_display = function () {
         select_marker: select_marker,
         unselect_marker: unselect_marker,
         display_marker: display_marker,
-        undisplay_marker: undisplay_marker
+        undisplay_marker: undisplay_marker,
+        display_all_markers: display_all_markers,
     }
 }();

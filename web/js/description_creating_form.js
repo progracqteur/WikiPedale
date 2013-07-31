@@ -98,7 +98,7 @@ var description_creating_form = function () {
     	*/
     	$("#add_new_description_form input[type=text], #add_new_description_form textarea, #add_new_description_form input[type=hidden]").val("");
     	$('#add_new_description_form__message').text("");
-    	reset_add_new_description_form_informer();
+    	informer.reset_new_description_form();
 	}
 
 

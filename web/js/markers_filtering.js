@@ -70,8 +70,6 @@ var markers_filtering = function () {
 
         // -> ici continuer
         $.each(descriptions.get_all(), function(desc_id, desc_data) {
-            console.log(desc_id);
-            console.log(typeof(desc_id));
             desc_id = parseInt(desc_id);
             if (desc_data != undefined) {
                 if((filter_activated['Categories'] && $.inArray(desc_id, markers_id_to_display_cat) == -1) || 

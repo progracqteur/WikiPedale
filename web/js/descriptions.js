@@ -17,7 +17,7 @@ var descriptions = function () {
 	function update(new_descriptions_in_json, do_after_update) {
 
 		/**
-		* Updates the local data. 
+		* Updates the local data. d[[]]
 		* @param {array of descriptions} new_descriptions_in_json It is a 
 		* @param {function} a function to be executed after updating the descriptions. can be null if not execute
 		json object containing all the description
