@@ -5,7 +5,7 @@ function descriptionDelete() {
     * to delete a description
     */
     signalement_id = parseInt($('#input_place_description_id').val());
-    json_request = DeleteDescriptionInJson(signalement_id);
+    json_request = json_string.delete_place(signalement_id);
     url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
     $.ajax({
         type: "POST",
@@ -73,6 +73,7 @@ function changingModeFunction() {
 
             if(new_placeMarker == undefined) 
                 {
+                    //utiliser le markers de map_display
                     var size = new OpenLayers.Size(19,25);
                     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
                     var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
@@ -81,6 +82,7 @@ function changingModeFunction() {
                 }
                 else 
                 {
+                    //utiliser le markers de map_display
                     new_placeMarker.display(true);
                     new_placeMarker.lonlat = position;
                     map_display.placesLayer.redraw();
@@ -113,6 +115,7 @@ function changingModeFunction() {
 
             map_display.get_map().events.remove("click");
 
+            // ne plus utiliser makers_and_assoc_data
             $.each(markers_and_associated_data, function(index, marker_data) {
                 if (marker_data != undefined) {
                     marker = marker_data[0];
@@ -128,9 +131,13 @@ function changingModeFunction() {
                     marker.events.register("mousedown", marker, markerMouseDownFunction);
 
                     if(last_description_selected != null  && last_description_selected == data.id) {
+                        console.log(data.id == index);
+                        map_display.update_marker_for(data.id, 'selected');
                         marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses) + '_selected.png');
                         }
                     else {
+                        console.log(data.id == index);
+                        map_display.update_marker_for(data.id, 'selected');
                         marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses) + '.png');
                     }
                 }

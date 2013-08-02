@@ -14,7 +14,8 @@ var map_display = function () {
     var zoom_map = 13; // zoom level of the map
 
     var marker_img_url = web_dir + 'OpenLayers/img/';
-    var markers = new Array;
+    var markers = new Array();
+    markers['new_description'] = null;
     
     function map_resizing(){
     	/**
@@ -106,7 +107,21 @@ var map_display = function () {
 		new_placeLayer.display(false);
     }
 
+    function update_marker_for(description_id, option) {
+        var description_data  = {statuses : []};
+        if (description_id !== 'new_description') {
+            description_data = descriptions.get_by_id(description_id);
+        }
+        var end_name = '.png';
+        if (option) {
+            end_name = '_' + option + '.png';
+        }
+        markers[description_id].setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + end_name);
+    }
+
     function add_marker(description_id, an_event_function){
+        // todo renommer cette fct en add_marker_for_description
+        // l126- l129 add_marker(img en option)
     	/**
      	* Add a marker on the  Layer "Existing places" for the description corresponding to the
      	given id. The marker is such that when the user click on it, an action is executed.

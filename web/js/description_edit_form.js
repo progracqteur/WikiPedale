@@ -5,7 +5,7 @@ var description_edit_form = function () {
 		/**
     	* to delete a description
     	*/
-    	json_request = DeleteDescriptionInJson(description_id);
+    	json_request = json_string.delete_place(description_id);
     	url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
     	$.ajax({
         	type: "POST",
@@ -105,19 +105,19 @@ var description_edit_form = function () {
     	} else {
         	// SAVE THE FORM
         	if(element_type == "commentaireCeM") {
-            	json_request = EditDescriptionCommentaireCeMInJson(signalement_id,$(element_id + '_edit').val());
+            	json_request = json_string.edit_moderator_comment(signalement_id,$(element_id + '_edit').val());
         	} else if(element_type == "desc") {
-            	json_request = EditDescriptionDescInJson(signalement_id,$(element_id + '_edit').val());
+            	json_request = json_string.edit_description(signalement_id,$(element_id + '_edit').val());
         	} else if (element_type == "loc") {
-            	json_request = EditDescriptionLocInJson(signalement_id,$(element_id + '_edit').val());
+            	json_request = json_string.edit_location(signalement_id,$(element_id + '_edit').val());
         	} else if (element_type == "cat") {
-            	json_request = EditDescriptionSingleCatInJson(signalement_id,$(element_id + '_edit').select2("val"));
+            	json_request = json_string.edit_category(signalement_id,$(element_id + '_edit').select2("val"));
       		} else if (element_type == "status") {
-            	json_request = EditDescriptionStatusInJson(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
+            	json_request = json_string.edit_status(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
         	} else if (element_type == "gestionnaire") {
-            	json_request = EditDescriptionGestionnaireInJson(signalement_id,$(element_id + '_edit').select2("val"));
+            	json_request = json_string.edit_manager(signalement_id,$(element_id + '_edit').select2("val"));
         	} else if (element_type == "type"){
-            	json_request = EditDescriptionPlacetypeInJson(signalement_id,$(element_id + '_edit').select2("val"));
+            	json_request = json_string.edit_place_type(signalement_id,$(element_id + '_edit').select2("val"));
         	}
         	url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
         
@@ -149,7 +149,7 @@ var description_edit_form = function () {
                         	});
                         	display_only_markers_with_selected_categories();
                     	} else if (element_type == 'status'){
-                        	markers_and_associated_data[signalement_id][0].setUrl(marker_img_url + 'm_' + marker_img_name(markers_and_associated_data[signalement_id][1].statuses) + '_selected.png')
+                            map_display.update_marker_for(signalement_id, 'selected');
                         	$(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
 	                        $.each(old_statuses, function(index, type_value) {
     	                        if(type_value.t == "cem") {

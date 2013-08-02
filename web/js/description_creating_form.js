@@ -47,7 +47,7 @@ var description_creating_form = function () {
                 	$('#add_new_description_form__message').text('Erreur! ' + error_messages  + 'Merci.');
                 	$('#add_new_description_form__message').addClass('errorMessage');
             	} else {
-                	entity_string = PlaceInJson(desc_data['description'], desc_data['lon'],
+                	entity_string = json_string.edit_place(desc_data['description'], desc_data['lon'],
                     	desc_data['lat'], desc_data['lieu'], desc_data['id'], desc_data['couleur'],
                     	desc_data['user_label'], desc_data['email'], desc_data['user_phonenumber'],desc_data['categories']);
                 	url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
