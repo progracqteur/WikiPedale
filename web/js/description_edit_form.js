@@ -130,6 +130,9 @@ var description_edit_form = function () {
                         new_description = output_json.results[0];
                     	descriptions.single_update(new_description);
                     	if(element_type == 'cat'){
+                            categories_list = "";
+                            $.each(new_description.categories, function(i,c) { categories_list = categories_list + c.label; + " "});
+                            $(element_id).text(categories_list); 
                         	markers_filtering.display_only_markers_with_selected_categories();
                     	} else if (element_type == 'status'){
                             map_display.update_marker_for(signalement_id, 'selected');
