@@ -9,13 +9,15 @@ var map_display = function () {
     var map; // Variable to acces to the map
     var osm;
     //var osmLayer; // OSM layer
-    var placesLayer; // layer where existing places are drawing
-    var wplaceLayer;  // layer where the user can draw a new place
+    var placesLayer; // layer where existing places / new place marker are drawn
     var zoom_map = 13; // zoom level of the map
 
     var marker_img_url = web_dir + 'OpenLayers/img/';
     var markers = new Array();
-    markers['new_description'] = null;
+
+    var size;
+    var offset;
+    var icon;
     
     function map_resizing(){
     	/**
@@ -105,6 +107,13 @@ var map_display = function () {
 		new_placeLayer = new OpenLayers.Layer.Markers("New place");
 		map.addLayer(new_placeLayer);
 		new_placeLayer.display(false);
+
+        size = new OpenLayers.Size(19,25);
+        offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+        icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
+        markers['new_description'] = new OpenLayers.Marker(0,icon);
+        placesLayer.addMarker(markers['new_description']);
+        undisplay_marker('new_description');
     }
 
     function update_marker_for(description_id, option) {
@@ -136,9 +145,7 @@ var map_display = function () {
                 map.getProjectionObject()
             ));
         
-            var size = new OpenLayers.Size(19,25);
-            var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-            var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '.png', size, offset); 
+            icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '.png', size, offset); 
             feature.data.icon = icon;
     
             var marker = feature.createMarker();
@@ -174,16 +181,22 @@ var map_display = function () {
         });
     }
 
+    function marker_change_position(an_id, new_position) {
+        /**
+        * Changing the position of a marker.
+        * @param {int} an_id The id of the signalement
+        * @param {lonlat} new_position The new position
+        */
+        markers[an_id].lonlat = new_position;
+        placesLayer.redraw();
+    }
+
     function display_marker(an_id){
-        if(markers[an_id]) {
-            markers[an_id].display(true);
-        };
+        markers[an_id].display(true);
     }
 
     function undisplay_marker(an_id){
-        if(markers[an_id]) {
-            markers[an_id].display(false);
-        };
+        markers[an_id].display(false);
     }
 
     function select_marker(an_id){
@@ -234,5 +247,6 @@ var map_display = function () {
         display_all_markers: display_all_markers,
         update_marker_for:update_marker_for,
         get_marker_for: get_marker_for,
+        marker_change_position: marker_change_position,
     }
 }();

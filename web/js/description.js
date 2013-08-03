@@ -55,10 +55,7 @@ function changingModeFunction() {
             .addClass("buttonAnnuler");
         map_display.unactivate_markers();
 
-        if(new_placeMarker != undefined) 
-            {
-                new_placeMarker.display(true);
-            }
+        map_display.display_marker('new_description');
 
         map_display.get_map().events.register("click", map_display.get_map(), function(e) {
             informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
@@ -66,22 +63,9 @@ function changingModeFunction() {
             $("input[name=lon]").val(position.lon);
             $("input[name=lat]").val(position.lat);
 
-            if(new_placeMarker == undefined) 
-                {
-                    //utiliser le markers de map_display
-                    var size = new OpenLayers.Size(19,25);
-                    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-                    var icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
-                    new_placeMarker = new OpenLayers.Marker(position,icon);
-                    map_display.placesLayer.addMarker(new_placeMarker);
-                }
-                else 
-                {
-                    //utiliser le markers de map_display
-                    new_placeMarker.display(true);
-                    new_placeMarker.lonlat = position;
-                    map_display.placesLayer.redraw();
-                }
+            map_display.marker_change_position('new_description', position);
+            map_display.display_marker('new_description');
+
             });
 
             if(user.isRegistered()) {
@@ -103,10 +87,7 @@ function changingModeFunction() {
                 .removeClass("buttonAnnuler")
                 .addClass("buttonPlus");
 
-            if(new_placeMarker != undefined) 
-                {
-                    new_placeMarker.display(false);
-                }
+            map_display.undisplay_marker('new_description');
 
             map_display.get_map().events.remove("click");
 
