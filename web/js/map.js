@@ -12,19 +12,6 @@ function homepageMap(townId_param, townLon, townLat, marker_id_to_display) {
 
     map_display.init(townLon,townLat);
 
-    var button_add_place = new OpenLayers.Control.Button({ 
-        id : 'buttonAddPlace',
-        displayClass: 'olControlButtonAddPlace',
-        trigger: changingModeFunction,
-        title: 'Button is to be clicked'});
-
-    var control_panel = new OpenLayers.Control.Panel({
-        div: document.getElementById('olPanelUL')});
-    map_display.get_map().addControl(control_panel);
-    control_panel.addControls([button_add_place]);
-    
-    button_add_place.activate();
-
     $(document).ready(function(){
         $('.olControlButtonAddPlaceItemActive')
             .addClass("buttonPlus")

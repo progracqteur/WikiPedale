@@ -47,10 +47,7 @@ function changingModeFunction() {
     * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
     */
     if(!add_new_place_mode) {
-        $('.olControlButtonAddPlaceItemActive')
-            .each(function(index, value){
-                value.innerHTML = 'Annuler';
-            })
+        $('#div_add_new_description_button').text('Annuler')
             .removeClass("buttonPlus")
             .addClass("buttonAnnuler");
         map_display.unactivate_markers();
@@ -80,10 +77,7 @@ function changingModeFunction() {
             add_new_place_mode = true;
         }
         else {
-            $('.olControlButtonAddPlaceItemActive')
-                .each(function(index, value){
-                    value.innerHTML = 'Ajouter un signalement';
-                })
+            $('#div_add_new_description_button').text('Ajouter un signalement')
                 .removeClass("buttonAnnuler")
                 .addClass("buttonPlus");
 
