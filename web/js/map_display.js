@@ -110,10 +110,6 @@ var map_display = function () {
 
         size = new OpenLayers.Size(19,25);
         offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-        icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
-        markers['new_description'] = new OpenLayers.Marker(0,icon);
-        placesLayer.addMarker(markers['new_description']);
-        undisplay_marker('new_description');
     }
 
     function update_marker_for(description_id, option) {
@@ -187,16 +183,27 @@ var map_display = function () {
         * @param {int} an_id The id of the signalement
         * @param {lonlat} new_position The new position
         */
-        markers[an_id].lonlat = new_position;
-        placesLayer.redraw();
+        if(an_id === 'new_description' && !markers[an_id]) {
+            icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
+            markers['new_description'] = new OpenLayers.Marker(new_position,icon);
+            placesLayer.addMarker(markers['new_description']);
+        } else {
+            markers[an_id].lonlat = new_position;
+            placesLayer.redraw();
+        }
+        
     }
 
     function display_marker(an_id){
-        markers[an_id].display(true);
+        if (markers[an_id]) {
+            markers[an_id].display(true);
+        }
     }
 
     function undisplay_marker(an_id){
-        markers[an_id].display(false);
+        if (markers[an_id]) {
+            markers[an_id].display(false);
+        }
     }
 
     function select_marker(an_id){
