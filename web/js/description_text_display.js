@@ -84,10 +84,10 @@ var description_text_display = function () {
     	}
 
 	    if(user.isGdV() || user.isCeM() || user.isAdmin()) {
-    	    updateLastComment(id_desc);
-        	updateAllComments(id_desc);
+    	    comments.update_last(id_desc);
+        	comments.update_all(id_desc);
         	$("#span_plus_de_commenaitres_link a").attr("href","javascript:description_text_display.activate_comments_mode()");
-        	$("#form_add_new_comment").attr("action","javascript:submitNewCommentForm(" + desc_data.id + ");");
+        	$("#form_add_new_comment").attr("action","javascript:comments.submit_creation_form(" + desc_data.id + ");");
     	}
 
     	description_edit_form.hide_forms(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
