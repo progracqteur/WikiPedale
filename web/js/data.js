@@ -13,7 +13,6 @@ var c3_label;
 
 
 var add_new_place_mode = false; // true when the user is in a mode for adding new place
-var markers_and_associated_data = new Array(); // all the markers drawed on the map and the associated data
 
 var id_markers_for = new Array();
 id_markers_for['Categories'] = new Array();
@@ -35,30 +34,14 @@ color_trad['3'] = 'g';
 
 function update_markers_and_associated_data(){
     // removing the information
-    $.each(markers_and_associated_data, function(index, marker_and_data) { 
-        if (marker_and_data != undefined) { 
-            delete marker_and_data[1]; 
-        }
-    });
+    descriptions.erase_all();
 
     jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
     $.ajax({
         dataType: "json",
         url: jsonUrlData,
         success: function(data) {
-            //console.log("update_markers_and_associated_data - done");
             descriptions.update(data.results,null);
-            $.each(data.results, function(index, aPlaceData) {
-                if (markers_and_associated_data[aPlaceData.id] == undefined) {
-                    addMarkerWithClickAction(aPlaceData.geom.coordinates[0],
-                        aPlaceData.geom.coordinates[1],
-                        displayPlaceDataFunction,
-                        aPlaceData);
-                }
-                else {
-                    markers_and_associated_data[aPlaceData.id][1] = aPlaceData;
-                }
-            });
         },
         complete: function(data) {
             signalement_id = $('#input_place_description_id').val();
@@ -67,14 +50,7 @@ function update_markers_and_associated_data(){
                 description_text_display.display_regarding_to_user_role();
             }
 
-            $.each(markers_and_associated_data, function(index, marker_and_data) {
-                if (marker_and_data != undefined) { 
-                    if (marker_and_data[1] == undefined) {
-                        marker_and_data[0].erase();
-                        marker_and_data = undefined;
-                    }
-                }
-            });
+            console.log('update the markers');
         }
     });
 };

@@ -14,22 +14,17 @@ function descriptionDelete() {
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                markers_and_associated_data[signalement_id][0].erase();
-                markers_and_associated_data[signalement_id] = undefined;
-                descriptions.erase(signalement_id)
+                map_display.get_marker_for(signalement_id).erase();
+                descriptions.erase(signalement_id);
                 $('#div_placeDescription').hide();
                 last_description_selected = null;
             }
             else { 
                 $('#span_place_description_delete_error').show();
-                //console.log('Error else');
-                //console.log(JSON.stringify(output_json));
             }
         },
         error: function(output_json) {
             $('#span_place_description_delete_error').show();
-            //console.log('Error error');
-            //console.log(output_json.responseText);
         }
     });
 }
@@ -43,7 +38,7 @@ function clear_add_new_description_form() {
     /** 
     * Clear the data entered in the form with id 'add_new_description_form'
     */
-    new_placeMarker.display(false);
+    map_display.undisplay_marker('new_description');
     description_creating_form.clean();
 }
 
@@ -116,30 +111,22 @@ function changingModeFunction() {
             map_display.get_map().events.remove("click");
 
             // ne plus utiliser makers_and_assoc_data
-            $.each(markers_and_associated_data, function(index, marker_data) {
-                if (marker_data != undefined) {
-                    marker = marker_data[0];
-                    data = marker_data[1];
+            $.each(descriptions.get_all(), function(index, description) {
+                marker = map_display.get_marker_for(description.id);
 
-                    var markerMouseDownFunction = (function(iid)       {
-                        return function(evt) {
+                var markerMouseDownFunction = ( function(iid) {
+                    return ( function(evt) {
                             displayPlaceDataFunction(iid);
                             OpenLayers.Event.stop(evt);
-                        } }
-                    ) (data.id);
+                        } )}
+                    ) (description.id);
 
-                    marker.events.register("mousedown", marker, markerMouseDownFunction);
+                marker.events.register("mousedown", marker, markerMouseDownFunction);
 
-                    if(last_description_selected != null  && last_description_selected == data.id) {
-                        console.log(data.id == index);
-                        map_display.update_marker_for(data.id, 'selected');
-                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses) + '_selected.png');
-                        }
-                    else {
-                        console.log(data.id == index);
-                        map_display.update_marker_for(data.id, 'selected');
-                        marker.setUrl(marker_img_url + 'm_' + marker_img_name(data.statuses) + '.png');
-                    }
+                if(last_description_selected != null  && last_description_selected == description.id) {
+                    map_display.update_marker_for(description.id, 'selected');
+                } else {
+                    map_display.update_marker_for(description.id, '');
                 }
             });
 

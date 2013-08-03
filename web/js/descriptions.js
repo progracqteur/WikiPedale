@@ -5,13 +5,19 @@
 // mettre des parseInt
 
 var descriptions = function () {
-	var d = {}; //the data
+	var d, id_for;
 
-	var id_for = {}; // tab with all the ids of description having that categories/placetypes/statusCeM.
-	id_for['Categories'] = {};
-	id_for['PlaceTypes'] = {};
-	id_for['StatusCeM'] = {};
-    id_for['StatusCeM']["0"] = new Array();
+    function init() {
+    	/**
+    	* Initialize the data in the descriptions
+    	*/ 
+    	d = {};
+    	id_for = {}; // tab with all the ids of description having that categories/placetypes/statusCeM.
+		id_for['Categories'] = {};
+		id_for['PlaceTypes'] = {};
+		id_for['StatusCeM'] = {};
+    	id_for['StatusCeM']["0"] = new Array();
+    }
 
 
 	function update(new_descriptions_in_json, do_after_update) {
@@ -118,6 +124,13 @@ var descriptions = function () {
         }
 	}
 
+	function erase_all(){
+		/**
+		* Remove all the descriptions
+		*/
+		init();
+	}
+
 	function erase(desc_id) {
 		/**
 		* Remove the description with id desc_id
@@ -137,7 +150,8 @@ var descriptions = function () {
 		*/
 		return id_for[cst][parseInt(a_cst_id)];
 	}
-    
+
+	init();
     return {
     	update: update,
     	single_update: single_update,

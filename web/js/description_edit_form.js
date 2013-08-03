@@ -14,9 +14,8 @@ var description_edit_form = function () {
         	cache: false,
         	success: function(output_json) { 
             	if(! output_json.query.error) { 
-            		descriptions.
-                	markers_and_associated_data[signalement_id][0].erase();
-                	markers_and_associated_data[signalement_id] = undefined;
+                    map_display.delete_marker_for(signalement_id);
+            		descriptions.erase_id_for_data_relative_to(signalement_id); 
                 	$('#div_placeDescription').hide();
                 	last_description_selected = null;
             }
@@ -76,20 +75,19 @@ var description_edit_form = function () {
 		either the data given by the edition form relative 'element_type' is saved
 		The choice between the two comportements is in function of the variable 'mode_edit'
 		*/
-		console.log('Suppromer markers_and_associated_data')
-
 	    element_id = "#span_place_description_" + element_type;
     	signalement_id = parseInt($('#input_place_description_id').val());
+        signalement = descriptions.get_by_id(signalement_id);
 
 	    if (mode_edit[element_type] == undefined || ! mode_edit[element_type]) {
 	        // SHOW THE EDIT FORM
  	       if (element_type == 'cat'){
     	        categories_selected = Array();
-        	    $.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_selected.push(c.id); });
+        	    $.each(signalement.categories, function(i,c) { categories_selected.push(c.id); });
         	    $(element_id + '_edit').select2("val", categories_selected);
         	} else if (element_type == 'status') {
             	color_selected = 0;
-            	$.each(markers_and_associated_data[signalement_id][1].statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
+            	$.each(signalement.statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
             	$(element_id + '_edit').select2("val", color_selected);
         	} else {
             	$(element_id + '_edit').val($(element_id).text());
@@ -128,72 +126,19 @@ var description_edit_form = function () {
             	cache: false,
             	success: function(output_json) { 
                 	if(! output_json.query.error) { 
-                    	old_categories = markers_and_associated_data[signalement_id][1].categories;
-                    	old_statuses = markers_and_associated_data[signalement_id][1].statuses;
-                    	old_placetype = markers_and_associated_data[signalement_id][1].placetype;
-                    	markers_and_associated_data[signalement_id][1] = output_json.results[0];
-                    	descriptions.single_update(output_json.results[0]);
+                        old_signalement = descriptions.get_by_id(signalement_id);
+                        new_description = output_json.results[0];
+                    	descriptions.single_update(new_description);
                     	if(element_type == 'cat'){
-                       		categories_list = "";
-                        	$.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) { categories_list = categories_list + c.label; + " "});
-                        	$(element_id).text(categories_list); 
-                        	$.each(old_categories, function(i,c) {
-                            	index_sig = id_markers_for['Categories'][c.id].indexOf(signalement_id);
-                            	id_markers_for['Categories'][c.id].splice(index_sig,1);
-                        	} );
-                        	$.each(markers_and_associated_data[signalement_id][1].categories, function(i,c) {
-                            	if (id_markers_for['Categories'][c.id] == undefined){
-                                	id_markers_for['Categories'][c.id] = new Array();
-                            	}
-                            	id_markers_for['Categories'][c.id].push((signalement_id));
-                        	});
-                        	display_only_markers_with_selected_categories();
+                        	markers_filtering.display_only_markers_with_selected_categories();
                     	} else if (element_type == 'status'){
                             map_display.update_marker_for(signalement_id, 'selected');
-                        	$(element_id).text(color_trad_text[$(element_id + '_edit').val()]);
-	                        $.each(old_statuses, function(index, type_value) {
-    	                        if(type_value.t == "cem") {
-        	                        index_sig = id_markers_for['StatusCeM'][type_value.v].indexOf(signalement_id);
-            	                    id_markers_for['StatusCeM'][type_value.v].splice(index_sig,1);
-                	            }
-                    	    });
-	                        if(id_markers_for['StatusCeM']["0"] == undefined) {
-    	                        id_markers_for['StatusCeM']["0"] = new Array();
-        	                }
-
-            	            var someDataId_added = false;
-                	        $.each(markers_and_associated_data[signalement_id][1].statuses, function(index, type_value) {
-                    	        if(type_value.t == "cem") {
-                        	        if(id_markers_for['StatusCeM'][type_value.v.toString()] == undefined) {
-                            	        id_markers_for['StatusCeM'][type_value.v.toString()] = new Array();
-                                	}
-                                	id_markers_for['StatusCeM'][type_value.v.toString()].push(parseInt(signalement_id))
-                                	someDataId_added = true;
-                            	}
-                        	});
-                        
-	                        if(! someDataId_added) {
-    	                        id_markers_for['StatusCeM']["0"].push(signalement_id)
-        	                }
-
-            	            display_only_markers_with_selected_categories();
+                            markers_filtering.display_only_markers_with_selected_categories();
                 	    } else if (element_type == 'gestionnaire') {
                         	$(element_id).text($(element_id + '_edit').select2('data').text);
                     	} else if (element_type == 'type'){
                         	$(element_id).text($(element_id + '_edit').select2('data').text);
-                        	if (old_placetype != null) {   
-                            	index_sig = id_markers_for['PlaceTypes'][old_placetype.id].indexOf(signalement_id);
-                            	id_markers_for['PlaceTypes'][old_placetype.id].splice(index_sig,1);
-                       		}
-
-	                        if (markers_and_associated_data[signalement_id][1].placetype != null) {
-    	                        if(id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] == undefined) {
-        	                        id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id] = new Array();
-            	                }
-                	            id_markers_for['PlaceTypes'][markers_and_associated_data[signalement_id][1].placetype.id].push(parseInt(signalement_id))
-                    	    }
-
-                        	display_only_markers_with_selected_categories();
+                        	markers_filtering.display_only_markers_with_selected_categories();
                     	} else {
                         	$(element_id).text($(element_id + '_edit').val());
                     	}

@@ -159,6 +159,11 @@ var map_display = function () {
         return markers[description_id];
     }
 
+    function delete_marker_for(description_id){
+        markers[description_id].erase();
+        delete markers[description_id];
+    }
+
     function unactivate_markers(){
         $.each(markers, function(description_id, marker) {
             if (marker != undefined) {
@@ -170,11 +175,15 @@ var map_display = function () {
     }
 
     function display_marker(an_id){
-        markers[an_id].display(true);
+        if(markers[an_id]) {
+            markers[an_id].display(true);
+        };
     }
 
     function undisplay_marker(an_id){
-        markers[an_id].display(false);
+        if(markers[an_id]) {
+            markers[an_id].display(false);
+        };
     }
 
     function select_marker(an_id){
@@ -223,5 +232,7 @@ var map_display = function () {
         display_marker: display_marker,
         undisplay_marker: undisplay_marker,
         display_all_markers: display_all_markers,
+        update_marker_for:update_marker_for,
+        get_marker_for: get_marker_for,
     }
 }();

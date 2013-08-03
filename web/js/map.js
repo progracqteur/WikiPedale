@@ -58,7 +58,6 @@ function addMarkerWithClickAction(aLon, aLat, anEventFunction, someData) {
     //console.log(someData);
 
     descriptions.single_update(someData);
-    markers_and_associated_data[someData.id] = (['x',someData]);
 
     $.each(someData.categories, function(index, categories_data) {
         if (id_markers_for['Categories'][categories_data.id] == undefined){
