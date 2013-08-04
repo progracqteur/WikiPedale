@@ -12,12 +12,20 @@ var map_display = function () {
     var placesLayer; // layer where existing places / new place marker are drawn
     var zoom_map = 13; // zoom level of the map
 
-    var marker_img_url = web_dir + 'OpenLayers/img/';
+    var marker_img_url = basic_data_and_functions.web_dir + 'OpenLayers/img/';
     var markers = new Array();
 
     var size;
     var offset;
     var icon;
+
+    // marker with color
+    var color_trad = new Array();
+    color_trad['0'] = 'w';
+    color_trad['-1'] = 'd';
+    color_trad['1'] = 'r';
+    color_trad['2'] = 'o';
+    color_trad['3'] = 'g';
     
     function map_resizing(){
     	/**
@@ -237,6 +245,35 @@ var map_display = function () {
 
     function get_map(){
         return map;
+    }
+
+    function marker_img_name(statuses)
+    {
+        manager_c = 'w';
+        c2 = 'w';
+        c3 = 'w';
+        for (i = 0; i < (statuses.length); i++)
+        {
+            if (statuses[i].t == params.manager_color) {
+                manager_c = color_trad[statuses[i].v];
+            }
+
+            if (params.c2_label != undefined && statuses[i].t == params.c2_label) {
+                c2 = color_trad[statuses[i].v];
+            }
+
+            if (params.c3_label != undefined && statuses[i].t == params.c3_label) {
+                c3 = color_trad[statuses[i].v];
+            }
+        }
+
+        if (params.c2_label == undefined) {
+            return manager_c;
+        } else if (params.c3_label == undefined) {
+            return manager_c + c2;
+        } else {
+            return manager_c + c2 + c3;
+        }
     }
 
     return {

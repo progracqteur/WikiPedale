@@ -17,7 +17,7 @@ var description_edit_form = function () {
                     map_display.delete_marker_for(signalement_id);
             		descriptions.erase_id_for_data_relative_to(signalement_id); 
                 	$('#div_placeDescription').hide();
-                	last_description_selected = null;
+                    data_map_glue.last_description_selected_reset();
             }
             else { 
                 $('#span_place_description_delete_error').show();
@@ -87,7 +87,7 @@ var description_edit_form = function () {
         	    $(element_id + '_edit').select2("val", categories_selected);
         	} else if (element_type == 'status') {
             	color_selected = 0;
-            	$.each(signalement.statuses, function(i,s) { if(s.t == c1_label) color_selected = s.v });
+            	$.each(signalement.statuses, function(i,s) { if(s.t == params.manager_color) color_selected = s.v });
             	$(element_id + '_edit').select2("val", color_selected);
         	} else {
             	$(element_id + '_edit').val($(element_id).text());
@@ -111,7 +111,7 @@ var description_edit_form = function () {
         	} else if (element_type == "cat") {
             	json_request = json_string.edit_category(signalement_id,$(element_id + '_edit').select2("val"));
       		} else if (element_type == "status") {
-            	json_request = json_string.edit_status(signalement_id,c1_label,$(element_id + '_edit').select2("val"));
+            	json_request = json_string.edit_status(signalement_id,params.manager_color,$(element_id + '_edit').select2("val"));
         	} else if (element_type == "gestionnaire") {
             	json_request = json_string.edit_manager(signalement_id,$(element_id + '_edit').select2("val"));
         	} else if (element_type == "type"){

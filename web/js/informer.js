@@ -20,7 +20,7 @@ var informer = function () {
 		var value = $('#add_new_description_form__' + field_name).attr('value');
 		var is_valid = 'oui';
 
-		if(! value || (field_name == 'email' && (! is_mail_valid(value))))
+		if(! value || (field_name == 'email' && (! basic_data_and_functions.is_mail_valid(value))))
 			is_valid = 'non';
 
 		$('#add_new_description_form_informer__' + field_name).attr('src', '../img/verif_' + is_valid + '.png');

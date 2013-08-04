@@ -33,7 +33,7 @@ var description_creating_form = function () {
         	    error_messages = error_messages + "Veuillez donner votre nom. ";
          	}
 
-	   	 	if(! is_mail_valid(desc_data['email'])) {
+	   	 	if(! basic_data_and_functions.is_mail_valid(desc_data['email'])) {
     	   		error_messages = error_messages + "Veuillez indiquer une adresse email valide. ";
     		}
     	} 	
@@ -61,20 +61,20 @@ var description_creating_form = function () {
                             	newPlaceData = output_json.results[0];
                             	clear_add_new_description_form();
                             	if(user.isRegistered()) { //sinon verif de l'email
-                                	addMarkerWithClickAction(newPlaceData.geom.coordinates[0],
+                                	add_marker_and_description(newPlaceData.geom.coordinates[0],
                                     	newPlaceData.geom.coordinates[1],
-                                    	displayPlaceDataFunction,
+                                    	data_map_glue.focus_on_place_of,
                                     	newPlaceData);
 	                                $('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
     	                            setTimeout( function(){
-                                        changingModeFunction();
+                                        data_map_glue.mode_change();
                                         displayPlaceDataFunction(newPlaceData.id);
                                     	},4000);  
                             	} else {
                                 	$('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Avant d'afficher le point noir, nous allons vérifier votre adresse mail. Veuillez suivre les instructions qui vous ont été envoyées par email.");
                                 	setTimeout(
                                     	function(){
-                                        	changingModeFunction();
+                                        	data_map_glue.mode_change();
                                     	},4000); 
                             	}
                             	$('#add_new_description_form__message').addClass('successMessage');

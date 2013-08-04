@@ -10,7 +10,7 @@ var comments = function () {
         	   }
         	   else {
         	       lastComment = data.results[0];
-            	   $('#div_last_private_comment_container').html(nl2br(lastComment.text) + '<br> par : ' + lastComment.creator.label);
+            	   $('#div_last_private_comment_container').html(basic_data_and_functions.nl2br(lastComment.text) + '<br> par : ' + lastComment.creator.label);
         	   }
             },
             error: function(data) {
@@ -30,7 +30,7 @@ var comments = function () {
         		  div_content = 'pas encore de commentaire pour ce signalement';
         	   }
                 $.each(data.results, function(index, aComment) {
-            	   div_content = div_content + nl2br(aComment.text) + '<br> par : ' + aComment.creator.label + '<br><br>';
+            	   div_content = div_content + basic_data_and_functions.nl2br(aComment.text) + '<br> par : ' + aComment.creator.label + '<br><br>';
                 });
 			 $('#div_list_private_comment_container').html(div_content);
             },

@@ -55,5 +55,5 @@ function updatePageWhenLogged(){
     jQuery('a.connexion').colorbox.close('');
     jQuery('.username').text(user.label);
 
-    update_markers_and_associated_data();
+    data_map_glue.update_data_and_map();
 }

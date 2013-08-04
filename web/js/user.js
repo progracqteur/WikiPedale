@@ -88,10 +88,10 @@ var user = function () {
 
     function isCeM() {
         /**
-        * True is the user if Moderator for the notation 'cem'
+        * True is the user if Moderator for the notation params.manager_color
         */
        // console.log(u);
-        return isModetatorForNotation('cem');
+        return isModetatorForNotation(params.manager_color);
     }
 
     function isManagerForNotation(aNotation) {
@@ -115,7 +115,7 @@ var user = function () {
         /**
         * True if the user is 'Gestionnaire de Voirie'
         */
-        return isManagerForNotation('cem');
+        return isManagerForNotation(params.manager_color);
     }
 
     function isRegistered() {

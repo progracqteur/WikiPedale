@@ -70,7 +70,7 @@ var descriptions = function () {
 
 	    var a_description_id_added_for_cem = false;
     	$.each(a_description.statuses, function(index, type_value) {
-        	if(type_value.t == "cem") {
+        	if(type_value.t == params.manager_color) {
             	if(id_for['StatusCeM'][type_value.v.toString()] == undefined) {
             		id_for['StatusCeM'][type_value.v.toString()] = new Array();
             	}
@@ -113,7 +113,7 @@ var descriptions = function () {
         });
 
         $.each(a_description.statuses, function(i, stat) {
-    	    if(stat.t == "cem") {
+    	    if(stat.t == params.manager_color) {
         	    index_sig = id_for['StatusCeM'][stat.v].indexOf(desc_id);
            	    id_for['StatusCeM'][stat.v].splice(index_sig,1);
             }

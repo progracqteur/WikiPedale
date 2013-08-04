@@ -73,7 +73,7 @@ var description_text_display = function () {
     	$('#span_place_description_status').text(color_trad_text[0]);
 
     	for (i = 0; i < desc_data.statuses.length; i++) {  
-            if (desc_data.statuses[i].t == 'cem') {
+            if (desc_data.statuses[i].t == params.manager_color) {
                 $('#span_place_description_status').text(color_trad_text[desc_data.statuses[i].v]); 
             }
         }
