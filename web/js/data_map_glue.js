@@ -163,7 +163,7 @@ var data_map_glue = function () {
 
                 var markerMouseDownFunction = ( function(iid) {
                     return ( function(evt) {
-                            displayPlaceDataFunction(iid);
+                            focus_on_place_of(iid);
                             OpenLayers.Event.stop(evt);
                         } )}
                     ) (description.id);
