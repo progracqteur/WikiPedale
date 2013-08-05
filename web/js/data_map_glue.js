@@ -116,14 +116,6 @@ var data_map_glue = function () {
     });
 }
 
-    function clear_add_new_description_form() {
-    /** 
-    * Clear the data entered in the form with id 'add_new_description_form'
-    */
-    map_display.undisplay_marker('new_description');
-    description_creating_form.clean();
-    }
-
     function mode_change() {
     /**
     * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.

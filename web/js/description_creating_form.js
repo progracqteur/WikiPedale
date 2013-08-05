@@ -59,7 +59,8 @@ var description_creating_form = function () {
                     	success: function(output_json) { 
                         	if(! output_json.query.error) { 
                             	newPlaceData = output_json.results[0];
-                            	clear_add_new_description_form();
+                                map_display.delete_marker_for('new_description');
+                                clean_form();
                             	if(user.isRegistered()) { //sinon verif de l'email
                                 	add_marker_and_description(newPlaceData.geom.coordinates[0],
                                     	newPlaceData.geom.coordinates[1],
@@ -92,7 +93,7 @@ var description_creating_form = function () {
 	};
 
 	// clear_add_new_des
-	function clean() {
+	function clean_form() {
     	/** 
     	* Clear the data entered in the form with id 'add_new_description_form'
     	*/
@@ -103,8 +104,7 @@ var description_creating_form = function () {
 
 
 	return {
-		process: process,
-		clean: clean
+		process: process
     };
 }();
 

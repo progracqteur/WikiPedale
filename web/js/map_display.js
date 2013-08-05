@@ -292,5 +292,6 @@ var map_display = function () {
         update_marker_for:update_marker_for,
         get_marker_for: get_marker_for,
         marker_change_position: marker_change_position,
+        delete_marker_for: delete_marker_for
     }
 }();
