@@ -32,9 +32,9 @@ var data_map_glue = function () {
             user.update(data.user);
             descriptions.update(data.results, function () {
                 $.each(data.results, function(index, aPlaceData) {
-                    map_display.add_marker(aPlaceData.id, displayPlaceDataFunction);
+                    map_display.add_marker(aPlaceData.id, focus_on_place_of);
                     if(aPlaceData.id == marker_id_to_display) {
-                        displayPlaceDataFunction(marker_id_to_display);
+                        focus_on_place_of(marker_id_to_display);
                     }
                 });
             });
