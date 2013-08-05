@@ -22,7 +22,7 @@ function catchLoginForm(){
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                //console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
+                console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
                 user.update(output_json.results[0]);
                 updatePageWhenLogged();
             }
@@ -53,7 +53,9 @@ function updatePageWhenLogged(){
     $("#div_new_place_form_user_mail").hide();
 
     jQuery('a.connexion').colorbox.close('');
-    jQuery('.username').text(user.label);
+    console.log("update: " + JSON.stringify(user.data()));
+    jQuery('.username').text(user.data().label);
+
 
     data_map_glue.update_data_and_map();
 }
