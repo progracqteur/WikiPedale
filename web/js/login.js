@@ -13,16 +13,13 @@ function catchLoginForm(){
         type: "POST",
         beforeSend: function(xhrObj){
             ret = xhrObj.setRequestHeader("Authorization",'WSSE profile="UsernameToken"');
-            //console.log(ret);
             ret2 = xhrObj.setRequestHeader("X-WSSE",wsseHeader(user_data['username'], user_data['password']));
-            //console.log(ret);
         },
         data: "",
         url: url_login,
         cache: false,
         success: function(output_json) { 
             if(! output_json.query.error) { 
-                console.log("catchLoginForm - output success" + JSON.stringify(output_json.results[0]));
                 user.update(output_json.results[0]);
                 updatePageWhenLogged();
             }
@@ -32,7 +29,6 @@ function catchLoginForm(){
                 }
         },
         error: function(output_json) {
-            //console.log(JSON.stringify(output_json));
             $('#login_message').text(output_json.responseText);
             $('#login_message').addClass('errorMessage');
         }
@@ -53,7 +49,6 @@ function updatePageWhenLogged(){
     $("#div_new_place_form_user_mail").hide();
 
     jQuery('a.connexion').colorbox.close('');
-    console.log("update: " + JSON.stringify(user.data()));
     jQuery('.username').text(user.data().label);
 
 
