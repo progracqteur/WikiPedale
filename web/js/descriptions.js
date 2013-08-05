@@ -159,5 +159,6 @@ var descriptions = function () {
     	get_all: get_all,
     	single_update: single_update,
     	get_id_for: get_id_for,
+    	erase_all: erase_all
     };
 }();
