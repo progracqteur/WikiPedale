@@ -1,5 +1,13 @@
+/**
+* This module contains all the js relative to the comment system.
+*/
+
 var comments = function () {
     function update_last(aPlaceId) {
+        /**
+        * Update display the last posted comment in the div element having #div_last_private_comment_container as id
+        * @param {string} aPlaceId is the id of the town selected.
+        */
         jsonUrlData  =  Routing.generate('wikiedale_comment_last_by_place', {_format: 'json', placeId: aPlaceId});
         $.ajax({
             dataType: "json",
@@ -20,6 +28,10 @@ var comments = function () {
     }
 
     function update_all(aPlaceId) {
+        /**
+        * Update all the comments in the div element having #div_list_private_comment_container as id
+        * @param {string} aPlaceId is the id of the town selected.
+        */
         jsonUrlData  =  Routing.generate('wikiedale_comment_list_by_place', {_format: 'json', placeId: aPlaceId});
         $.ajax({
             dataType: "json",
@@ -41,6 +53,10 @@ var comments = function () {
     }
 
     function submit_creation_form(aPlaceId){
+        /**
+        * To process when the comment creation form is submitted.
+        * @param {string} aPlaceId is the id of the town selected.
+        */
         var comment_text = $('#form_add_new_comment__text').val();
         if(comment_text == "") {
             $('#form_add_new_comment__message')
