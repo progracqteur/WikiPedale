@@ -72,7 +72,6 @@ var data_map_glue = function () {
         /**
         * Add a marker on the map that when the user click on it, an 
         action is executed.
-        * @param {OpenLayers.Layer} placesLayer The layer where the marker is added
         * @param {number} aLon The longitude where to add the marker
         * @param {number} aLat The latitude where to add the marker
         * @param {function} anEventFunction A function to execute when the user click on the marker
@@ -83,66 +82,69 @@ var data_map_glue = function () {
     };
 
     function last_description_selected_reset() {
+        /**
+        * Resetting the private last_description_selected variable.
+        */
         last_description_selected = null;
     };
                     
 
     function last_description_selected_delete() {
         /**
-        * to delete a description
+        * Delete a description. The description deleted is the description
+        * having its id in the private variable last_description_selected.
+        * It is the last displayed description.
         */
-    signalement_id = parseInt($('#input_place_description_id').val());
-    json_request = json_string.delete_place(signalement_id);
-    url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
-    $.ajax({
-        type: "POST",
-        data: {entity: json_request},
-        url: url_edit,
-        cache: false,
-        success: function(output_json) { 
-            if(! output_json.query.error) { 
-                map_display.get_marker_for(signalement_id).erase();
-                descriptions.erase(signalement_id);
-                $('#div_placeDescription').hide();
-                last_description_selected = null;
-            }
-            else { 
+        signalement_id = parseInt($('#input_place_description_id').val());
+        json_request = json_string.delete_place(signalement_id);
+        url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+        $.ajax({
+            type: "POST",
+            data: {entity: json_request},
+            url: url_edit,
+            cache: false,
+            success: function(output_json) { 
+                if(! output_json.query.error) { 
+                    map_display.get_marker_for(signalement_id).erase();
+                    descriptions.erase(signalement_id);
+                    $('#div_placeDescription').hide();
+                    last_description_selected = null;
+                } else { 
+                    $('#span_place_description_delete_error').show();
+                }
+            },
+            error: function(output_json) {
                 $('#span_place_description_delete_error').show();
             }
-        },
-        error: function(output_json) {
-            $('#span_place_description_delete_error').show();
-        }
-    });
-}
+        });
+    }
 
     function mode_change() {
-    /**
-    * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
-    */
-    if(!add_new_place_mode) {
-        $('#div_add_new_description_button').text('Annuler')
-            .removeClass("buttonPlus")
-            .addClass("buttonAnnuler");
-        map_display.unactivate_markers();
+        /**
+        * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
+        */
+        if(!add_new_place_mode) {
+            $('#div_add_new_description_button').text('Annuler')
+                .removeClass("buttonPlus")
+                .addClass("buttonAnnuler");
+            map_display.unactivate_markers();
 
-        map_display.display_marker('new_description');
-
-        map_display.get_map().events.register("click", map_display.get_map(), function(e) {
-            informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
-            var position = map_display.get_map().getLonLatFromPixel(e.xy);
-            $("input[name=lon]").val(position.lon);
-            $("input[name=lat]").val(position.lat);
-
-            map_display.marker_change_position('new_description', position);
             map_display.display_marker('new_description');
+
+            map_display.get_map().events.register("click", map_display.get_map(), function(e) {
+                informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
+                var position = map_display.get_map().getLonLatFromPixel(e.xy);
+                $("input[name=lon]").val(position.lon);
+                $("input[name=lat]").val(position.lat);
+
+                map_display.marker_change_position('new_description', position);
+                map_display.display_marker('new_description');
 
             });
 
             if(user.isRegistered()) {
                 $("#div_new_place_form_user_mail").hide();
-                }
-            else {
+            } else {
                 $("#div_new_place_form_user_mail").show();
             }
             $("#add_new_description_div").show();
@@ -188,12 +190,10 @@ var data_map_glue = function () {
 
     function focus_on_place_of(id_sig) {
         /**
-        * Function which display some data of the place on the webpage.
-        executed when the user click on a marker on the index page.
-        For this page, a marker represents a place
-        * @param {OpenLayers.Marker} placeMarker The marker clicked
-        * @param {object} placeData The know data given for the place and receivd from 
-        web/app_dev.php/place/list/bycity.json?city=mons
+        * Function which display some data of the description on the webpage
+        * and draw the marker relative to this description as selected.
+        * To be executed when the user click on a marker on the global map.
+        * @param {int} id_sig The id of the description to display.
         */
         if (last_description_selected) {
             map_display.unselect_marker(last_description_selected);
@@ -202,7 +202,6 @@ var data_map_glue = function () {
         last_description_selected = id_sig;
         description_text_display.display_description_of(id_sig);
     }
-
 
     return {
         init_app: init_app,
