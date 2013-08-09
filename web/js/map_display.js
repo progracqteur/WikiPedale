@@ -8,7 +8,6 @@ var map_display = function () {
 
     var map; // Variable to acces to the map
     var osm;
-    //var osmLayer; // OSM layer
     var placesLayer; // layer where existing places / new place marker are drawn
     var zoom_map = 13; // zoom level of the map
 
@@ -121,6 +120,11 @@ var map_display = function () {
     }
 
     function update_marker_for(description_id, option) {
+        /**
+        * Change the icon of the marker for a description
+        * @param {int} description_id The id of the description
+        * @param {string} option Some option for the icon ('_selected' or '_no_active' or '' (for normal mode))
+        */
         var description_data  = {statuses : []};
         if (description_id !== 'new_description') {
             description_data = descriptions.get_by_id(description_id);
@@ -167,15 +171,27 @@ var map_display = function () {
     }
 
     function get_marker_for(description_id){
+        /**
+        * Get the marker associated to a description
+        * @param {int} description_id The id of the description
+        */
         return markers[description_id];
     }
 
     function delete_marker_for(description_id){
+        /**
+        * Delete the marker associated to a description. This marker
+        * can anymore be used or it must recreated by the function add_marker
+        * @param {int} description_id The id of the description
+        */
         markers[description_id].erase();
         delete markers[description_id];
     }
 
     function unactivate_markers(){
+        /**
+        * Display all the markers associated to a description as unactivate
+        */
         $.each(markers, function(description_id, marker) {
             if (marker != undefined) {
                 var description_data = descriptions.get_by_id(description_id);
@@ -203,12 +219,20 @@ var map_display = function () {
     }
 
     function display_marker(an_id){
+        /**
+        * Display on the map the marker associate to a description.
+        * @param {int} an_id The id of the description
+        */
         if (markers[an_id]) {
             markers[an_id].display(true);
         }
     }
 
     function undisplay_marker(an_id){
+        /**
+        * Undisplay on the map the marker associate to a description.
+        * @param {int} an_id The id of the description
+        */
         if (markers[an_id]) {
             markers[an_id].display(false);
         }
@@ -234,7 +258,7 @@ var map_display = function () {
 
     function display_all_markers(){
         /**
-        * display all the markers on the map
+        * Display all the markers on the map.
         */
         $.each(markers, function(description_id, marker) {
             if (marker != undefined) {
@@ -244,11 +268,16 @@ var map_display = function () {
     }
 
     function get_map(){
+        /**
+        * Get the map.
+        */
         return map;
     }
 
-    function marker_img_name(statuses)
-    {
+    function marker_img_name(statuses){
+        /**
+        * Compute the icon name of the marker.
+        */
         manager_c = 'w';
         c2 = 'w';
         c3 = 'w';
