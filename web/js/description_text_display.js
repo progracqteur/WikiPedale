@@ -30,8 +30,8 @@ var description_text_display = function () {
     	current_description_id = id_desc;
     
 	    console.log('utiliser les templates for pop_up_add_photo');
-    	refresh_span_photo(id_desc);
-    	url_add_photo = "javascript:pop_up_add_photo(" + id_desc + ")";
+    	photo.refresh_span_photo(id_desc);
+    	url_add_photo = "javascript:photo.pop_up_add_photo(" + id_desc + ")";
     	$('a.link_add_photo').each(function() { $(this).attr("href", url_add_photo)});
 
 		var desc_data = descriptions.get_by_id(id_desc);
