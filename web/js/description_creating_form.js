@@ -1,4 +1,3 @@
-var description_creating_form = function () {
 define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user'], function($, basic_data_and_functions,map_display,data_map_glue,informer,user) {
 	//catchForm
 	function process() {
@@ -108,4 +107,3 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
 		process: process
     };
 });
-
