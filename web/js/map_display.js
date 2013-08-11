@@ -11,7 +11,7 @@ var map_display = function () {
     var placesLayer; // layer where existing places / new place marker are drawn
     var zoom_map = 13; // zoom level of the map
 
-    var marker_img_url = basic_data_and_functions.web_dir + 'OpenLayers/img/';
+    var marker_img_url = basic_data_and_functions.web_dir + 'js/lib/OpenLayers/img/';
     var markers = new Array();
 
     var size;
