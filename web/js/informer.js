@@ -1,7 +1,7 @@
 /**
 * Displaying informer image when the user add a new description
 */
-var informer = function () {
+define(['jQuery'], function($) {
 	function reset_new_description_form(){
 		/**
 		* Reset all the informer images to '../img/verif_rien.png'
@@ -46,4 +46,4 @@ var informer = function () {
 		map_not_ok: map_not_ok,
 		map_ok: map_ok,
 	};
-}();
+});

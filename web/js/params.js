@@ -1,4 +1,4 @@
-var params = function () {
+define([], function() {
 	    var manager_color = "cem";
 	    var c2_label;
     	var c3_label;
@@ -8,4 +8,4 @@ var params = function () {
     		c2_label: c2_label,
     		c3_label: c3_label
     	}
-} ();
+});

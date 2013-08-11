@@ -1,4 +1,4 @@
-var user = function () {
+define(['jQuery','params'], function($,params) {
     // the data of the user
     var u = {};
 
@@ -183,4 +183,4 @@ var user = function () {
         isAdminWithServerCheck: isAdminWithServerCheck,
         data: data
     };
-}();
+});

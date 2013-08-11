@@ -1,8 +1,7 @@
 /**
 * This module contains all the function used when a user want to log in.
 */
-
-var login = function () {
+define(['jQuery','data_map_glue','user'], function($,data_map_glue,user) {
     function catch_form(){
         /**
         * To be excecuted when the login form is submitted.
@@ -61,5 +60,4 @@ var login = function () {
     return {
         catch_form: catch_form
     }
-}();
-
+});

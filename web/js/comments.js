@@ -2,7 +2,7 @@
 * This module contains all the js relative to the comment system.
 */
 
-var comments = function () {
+define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functions) {
     function update_last(aPlaceId) {
         /**
         * Update display the last posted comment in the div element having #div_last_private_comment_container as id
@@ -25,7 +25,7 @@ var comments = function () {
         	   $('#div_last_private_comment_container').html('error');
             }
         });
-    }
+    };
 
     function update_all(aPlaceId) {
         /**
@@ -50,7 +50,7 @@ var comments = function () {
         	   $('#div_list_private_comment_container').html('error');
             }
         });
-    }
+    };
 
     function submit_creation_form(aPlaceId){
         /**
@@ -94,10 +94,11 @@ var comments = function () {
                 }
             });
         }
-    }
+    };
+
     return {
         update_last: update_last,
         update_all: update_all,
         submit_creation_form: submit_creation_form
     }
-} ();
+});

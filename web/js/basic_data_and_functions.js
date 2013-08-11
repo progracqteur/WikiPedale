@@ -2,7 +2,7 @@
 * This module contains basic data and functions.
 */
 
-var basic_data_and_functions = function () { 
+define([], function() {
   var web_dir = ''; // the URL where app.php is contained
   var baseUrlsplit = Routing.getBaseUrl().split('/');
   var i = 0;
@@ -47,4 +47,4 @@ var basic_data_and_functions = function () {
     nl2br: nl2br,
     is_mail_valid: is_mail_valid
   }
-} ();
+});

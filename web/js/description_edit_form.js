@@ -1,4 +1,4 @@
-var description_edit_form = function () {
+define(['jQuery','map_display','data_map_glue','descriptions'], function($,map_display,data_map_glue,descriptions) {
 	var mode_edit = {};
 
 	function delete(){
@@ -168,6 +168,5 @@ var description_edit_form = function () {
 	return {
 		hide_forms: hide_forms,
 	    description_edit_or_save: description_edit_or_save,
-	    
     };
-}();
+});

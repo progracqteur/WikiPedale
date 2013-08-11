@@ -6,46 +6,10 @@
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 
-        <script data-main="js/data_map_glue" src="{{ asset('js/require.js') }}"></script>
+        <script data-main="js/app" src="{{ asset('js/require.js') }}"></script>
 
-        <script src="{{ asset('js/lib/OpenLayers/OpenLayers.js') }}" type="text/javascript"></script>
-        <script src="http://code.jquery.com/jquery-1.8.2.js"  type="text/javascript"></script>
-        <script src="{{ asset('js/informer.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/markers_filtering.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/json_string.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/comments.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/basic_data_and_functions.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/login.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/map_display.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/recent_activities.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/data_map_glue.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/params.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/photo.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/user.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/wsse.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/description_text_display.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/description_creating_form.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/description_edit_form.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/descriptions.js') }}" type="text/javascript"></script>
-        <link href="{{ asset('js/lib/select2-3.3.2/select2.css') }}" rel="stylesheet"/>
-        <script src="{{ asset('js/lib/select2-3.3.2/select2.js') }}"></script>
 
-        <script src="{{ asset('js/lib/Colorbox/jquery.colorbox.js') }}" type="text/javascript"></script>
         <link rel="stylesheet"  href="{{ asset('css/colorbox.css') }}" type="text/css"/>
-
-        <script language="javascript"> 
-            $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
-
-            // color box for connexion
-            $(document).ready(function(){
-                $('a.connexion').colorbox({
-                    inline:true,
-                    width:"400px",
-                    height:"400px",
-                    onComplete: function(){ $("#login_input_username").focus(); }
-                });
-            });
-        </script>
 
         {% block javascript %}
             <!-- Aucun fichier javascript ajouté par le template -->

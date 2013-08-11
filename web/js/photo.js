@@ -2,7 +2,7 @@
 * This module contains all the functions relative to the photos.
 */
 
-var photo = function () {
+define(['jQuery','basic_data_and_functions'], function($,basic_data_and_functions) {
     function pop_up_add_photo(i) {
         /**
         * Open a new window where it is possible to add a photo.
@@ -35,4 +35,4 @@ var photo = function () {
         pop_up_add_photo: pop_up_add_photo,
         refresh_span_photo: refresh_span_photo
     }
-}
+});

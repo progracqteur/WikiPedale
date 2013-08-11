@@ -1,4 +1,5 @@
-var recent_activities = function () {
+
+define(['jQuery'], function($) {
 	function filling(aCitySlug,nbr_max){
         jsonUrlData  =  Routing.generate('wikipedale_history_place_by_city', {_format: 'json', citySlug: aCitySlug, max:nbr_max});
         $.ajax({
@@ -15,9 +16,9 @@ var recent_activities = function () {
                 });
             }
         });
-    }
+    };
 
     return {
     	filling: filling
     }
-}();
+});

@@ -2,7 +2,8 @@
 * This is for all the action for the display of the map
 */
 
-var map_display = function () {
+define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'],
+        function($,basic_data_and_functions,descriptions,OpenLayers,params) {
     var displaying_tiny_map = false; // Display or not a tiny Map
     var old_center; // To re-center the map after displaying the tiny map
 
@@ -310,7 +311,6 @@ var map_display = function () {
     	normal_mode: normal_mode,
     	init: init,
     	get_map: get_map,
-    	map_display: map_display,
     	add_marker: add_marker,
         unactivate_markers: unactivate_markers,
         select_marker: select_marker,
@@ -323,4 +323,4 @@ var map_display = function () {
         marker_change_position: marker_change_position,
         delete_marker_for: delete_marker_for
     }
-}();
+});

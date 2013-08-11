@@ -1,4 +1,4 @@
-var description_text_display = function () {
+define(['jQuery','map_display','user','descriptions','photo'], function($,map_display,user,descriptions,photo) {
 	var color_trad_text = {};
 	color_trad_text['0'] = 'pas encore pris en compte (blanc)';
 	color_trad_text['-1'] = 'rejeté (gris)';
@@ -171,5 +171,4 @@ var description_text_display = function () {
 		display_description_of: display_description_of,
 		display_regarding_to_user_role: display_regarding_to_user_role
     };
-}();
-
+});

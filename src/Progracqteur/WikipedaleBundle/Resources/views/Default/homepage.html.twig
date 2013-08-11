@@ -19,74 +19,25 @@ Params passed by the controller to this template :
 
 #}
 
+
 {% block javascript %}
-
-<script language="javascript"> 
- <!--
-    web_dir2 = "{{ asset('js') }}"; // pour remplacer web_dir mais faudrait asset('js') qui ne marche pas
-
-    // color box for connexion
-    $(document).ready(function(){
-
-    {% if (app.session.get('city') ) %}
-      // adding last modifs
-      recent_activities.filling('{{ app.session.get('city').name }}',5);
-
-      {% if goToPlaceId is defined %}
-        // map and display place with id
-        data_map_glue.init_app('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},{{goToPlaceId}});
-      {% else %}
-        // map and explore
-        data_map_glue.init_app('{{ app.session.get('city').name }}', {{app.session.get('city').center.lon}}, {{app.session.get('city').center.lat}},null);
-      {% endif %}
-
-      $("#optionsAffichageCategories").select2();
-      $('#optionsAffichageCategories').select2("disable");
-
-      $("#optionsAffichagePlaceTypes").select2();
-      $('#optionsAffichagePlaceTypes').select2("disable");
-
-      $("#optionsAffichageStatusCeM").select2();
-      $("#optionsAffichageStatusCeM").select2("disable");
-
-      $('#span_place_description_cat_edit').select2();
-      $('#span_place_description_status_edit').select2();
-      $('#span_place_description_type_edit').select2();
-      $('#span_place_description_gestionnaire_edit').select2();
-
-      $('#add_new_description_form__categories').select2().on("change", function(e) { informer.update_new_description_form('categories'); });
-
-      $('#optionsAffichageCategories').on("change", function(e) { markers_filtering.display_only_markers_with_selected_categories(); });
-      $('#optionsAffichagePlaceTypes').on("change", function(e) { markers_filtering.display_only_markers_with_selected_categories(); });
-      $('#optionsAffichageStatusCeM').on("change", function(e) { markers_filtering.display_only_markers_with_selected_categories(); });
-
-      $("#div_returnNormalMode").hide();
-
-
-      $("#add_new_description_div form").attr("action","javascript:description_creating_form.process()")
-      $("")
-        /* $('#mv').prop('selected', true);
-        // $(".chzn-select").trigger('liszt:updated'); (pour selectionner mv) */
-    {% else %}
-
-
-    /*
-    var z = dhtmlXComboFromSelect("Cities_dhtmlx");
-    z.enableFilteringMode(true);
-    */
-
-    {% endif %}
-
-    });
-      
+<script language="javascript">       
     // security
     {% render "ProgracqteurWikipedaleBundle:Token:insertTokens" with {'number':15} %}
-// -->
 </script>
 {% endblock %}
 
 
 {% block body %}
+  {% if (app.session.get('city') ) %}
+    {% if goToPlaceId is defined %}
+      <div id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}"
+        data-lat="{{app.session.get('city').center.lat}}" data-description_selected_id="{{goToPlaceId}}">
+    {% else %}
+      <div id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}"
+        data-lat="{{app.session.get('city').center.lat}}">
+    {% endif %}
+  {% endif %}
 
   {% if (app.session.get('city') ) %}
     {% include "ProgracqteurWikipedaleBundle:Default:map.html.twig" %}

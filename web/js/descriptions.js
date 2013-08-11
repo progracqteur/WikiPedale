@@ -3,8 +3,7 @@
 */
 
 // mettre des parseInt
-
-var descriptions = function () {
+define(['jQuery','params'], function($,params) {
 	var d, id_for;
 
     function init() {
@@ -161,4 +160,4 @@ var descriptions = function () {
     	get_id_for: get_id_for,
     	erase_all: erase_all
     };
-}();
+});

@@ -2,7 +2,7 @@
 * To filter the markers displayed in function of places caterogries, places CeM status or place type.
 */
 
-var markers_filtering = function () {
+define(['jQuery','map_display','descriptions'], function($,map_display,descriptions) {
     var selection_mode_activate = false; // true iff  displaying the div "div_options_affichage"
 
     var filter_activated = new Array();
@@ -103,4 +103,4 @@ var markers_filtering = function () {
         display_only_markers_with_selected_categories:display_only_markers_with_selected_categories,
         change_mode_for: change_mode_for,
     }
-}();
+});

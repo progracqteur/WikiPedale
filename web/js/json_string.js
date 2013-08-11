@@ -1,4 +1,4 @@
-var json_string = function() {
+define([], function() {
     function unregister_user(label,email,phonenumber){
         /**
         * Returns a json string describing an unregister user.
@@ -43,7 +43,7 @@ var json_string = function() {
         * @param{int} id The id of the description.
         * @param{string} new_moderator_comment The new moderator comment.
         */
-        return json_string.change_place(id,'"moderatorComment":' + JSON.stringify(new_moderator_comment));
+        return change_place(id,'"moderatorComment":' + JSON.stringify(new_moderator_comment));
     }
 
     function edit_description(id,new_description){
@@ -52,7 +52,7 @@ var json_string = function() {
         * @param{int} id The id of the description.
         * @param{string} new_description The new value of the parameter 'description'.
         */
-        return json_string.change_place(id,'"description":' + JSON.stringify(new_description));
+        return change_place(id,'"description":' + JSON.stringify(new_description));
     }
 
     function edit_location(id,new_location){
@@ -61,7 +61,7 @@ var json_string = function() {
         * @param{int} id The id of the description.
         * @param{string} new_location The new location.
         */
-        return json_string.change_place(id,'"addressParts":{"entity":"address","road":' + JSON.stringify(new_location) + '}');
+        return change_place(id,'"addressParts":{"entity":"address","road":' + JSON.stringify(new_location) + '}');
     }
 
     function edit_category(id, new_category_id){
@@ -70,7 +70,7 @@ var json_string = function() {
         * @param{int} id The id of the description.
         * @param{int} new_category_id The new category id.
         */
-        return json_string.change_place(id,'"categories":[{"entity":"category","id":' + new_category_id + '}]');
+        return change_place(id,'"categories":[{"entity":"category","id":' + new_category_id + '}]');
     }
 
     function edit_categories(id, new_categories_id){
@@ -87,7 +87,7 @@ var json_string = function() {
             }
         }
         categories_desc = categories_desc + ']';
-        return json_string.change_place(id,categories_desc);
+        return change_place(id,categories_desc);
     }
 
     function edit_status(id,status_type,new_status_value){
@@ -97,7 +97,7 @@ var json_string = function() {
         * @param{string} status_type The type of the status
         * @param{string} new_status_value The new value of the status.
         */
-        return json_string.change_place(id,'"statuses":[{"t":"' + status_type + '","v":"' + new_status_value + '"}]');
+        return change_place(id,'"statuses":[{"t":"' + status_type + '","v":"' + new_status_value + '"}]');
     }
 
     function edit_manager(id,new_manager_id){
@@ -106,7 +106,7 @@ var json_string = function() {
         * @param{int} id The id of the description.
         * @param{int} new_manager_id The id of the new manager.
         */
-        return json_string.change_place(id,'"manager": {"entity":"group","type":"MANAGER","id":' 
+        return change_place(id,'"manager": {"entity":"group","type":"MANAGER","id":' 
             + JSON.stringify(new_manager_id)  + '}');
     }
 
@@ -116,7 +116,7 @@ var json_string = function() {
         * @param{int} id The id of the description.
         * @param{int} new_placetype_id The new id of the place type.
         */
-        return json_string.change_place(id,'"placetype":{"id":' +  JSON.stringify(new_placetype_id) + ',"entity":"placetype"}');
+        return change_place(id,'"placetype":{"id":' +  JSON.stringify(new_placetype_id) + ',"entity":"placetype"}');
     }
 
     function delete_place(id){
@@ -124,7 +124,7 @@ var json_string = function() {
         * Returns a json for deleting a description.
         * @param{int} id The id of the description to delete.
         */
-        return json_string.change_place(id,'"accepted":false');
+        return change_place(id,'"accepted":false');
     }
 
     function edit_place(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
@@ -150,11 +150,11 @@ var json_string = function() {
         }
 
         if(lon!=undefined && lon!=null && lat!=undefined && lon!=null) {
-            ret = ret + ',"geom":'+ json_string.point(lon,lat);
+            ret = ret + ',"geom":'+ point(lon,lat);
         }
 
         if( !user.isRegistered() && (user_label != undefined || user_email != undefined)) {
-            ret = ret + ',"creator":' + json_string.unregister_user(user_label, user_email, user_phonenumber);
+            ret = ret + ',"creator":' + unregister_user(user_label, user_email, user_phonenumber);
         }
 
         ret = ret + ',"description":' + JSON.stringify(description)
@@ -185,4 +185,4 @@ var json_string = function() {
         delete_place: delete_place,
         edit_place: edit_place
     }
-}();
+});

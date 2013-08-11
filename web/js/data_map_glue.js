@@ -3,7 +3,7 @@
 * for the application.
 */
 
-var data_map_glue = function () {
+define(['jQuery','map_display','descriptions','description_text_display','user'], function($,map_display,descriptions,description_text_display,user) {
     var townId = null;
     var last_description_selected;
     var add_new_place_mode = false; // true when the user is in a mode for adding new place
@@ -212,4 +212,4 @@ var data_map_glue = function () {
         mode_change: mode_change,
         focus_on_place_of: focus_on_place_of
     }
-} ();
+});
