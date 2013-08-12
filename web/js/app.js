@@ -23,8 +23,8 @@ require.config({
     }
 });
 
-require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox'],
-    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox){
+require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_creating_form','map_display','login','description_text_display'],
+    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_creating_form,map_display,login,description_text_display){
 
     $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
@@ -74,8 +74,35 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             $("#div_returnNormalMode").hide();
 
+            //Login
+            $("#loginForm").submit(function(e) { e.preventDefault(); login.catch_form(); });
 
-            $("#add_new_description_div form").attr("action","javascript:description_creating_form.process()")
+            // Menu
+            $("#div_add_new_description_button").click(function(e) { data_map_glue.mode_change(); });
+            $("#div_returnNormalMode").click(function(e) { map_display.normal_mode(); });
+            $("#buttonOptionsAffichage").click(function(e) { markers_filtering.activate_unactivate(); } );
+
+            // Filtring
+            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function(e) { markers_filtering.change_mode_for('StatusCeM'); } );
+            $('input[name=affichage_tous_ou_filtre_categorie]').click(function(e) { markers_filtering.change_mode_for('Categories'); } );
+
+            // Add New Description
+            $("#add_new_description_form__user_label").blur(function(e) { informer.update_new_description_form('user_label'); });
+            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
+            $("#add_new_description_form__user_phonenumber").blur(function(e) { informer.update_new_description_form('user_phonenumber'); });
+            $("#add_new_description_form__lieu").blur(function(e) { informer.update_new_description_form('lieu'); });
+            $("#add_new_description_form__description").blur(function(e) { informer.update_new_description_form('description'); });
+            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
+            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
+            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
+            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
+            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
+            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
+            $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_creating_form.process(); });
+
+            //Place Description
+            $("#span_place_description_delete_button").click(function(e) {e.preventDefault(); data_map_glue.last_description_selected_delete(); } )
+            $("span_plus_de_commenaitres_link a").click(function(e) { e.preventDefault(); description_text_display.activate_comments_mode(); } );
 
         }
     });

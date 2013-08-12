@@ -1,4 +1,4 @@
-define([], function() {
+define(['map_display','user'], function(map_display,user) {
     function unregister_user(label,email,phonenumber){
         /**
         * Returns a json string describing an unregister user.

@@ -6,10 +6,12 @@
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 
+        <script src="{{ asset('js/wsse.js') }}" type="text/javascript"></script>
         <script data-main="js/app" src="{{ asset('js/require.js') }}"></script>
 
 
-        <link rel="stylesheet"  href="{{ asset('css/colorbox.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/colorbox.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('js/lib/select2-3.3.2/select2.css') }}" type="text/css"/>
 
         {% block javascript %}
             <!-- Aucun fichier javascript ajouté par le template -->
@@ -31,7 +33,7 @@
     <div style='display:none'>
         <div id='login_form_div'>
             <b><font color="red"><span id='login_message'></span></font></b><br />
-            <form method="post" action="javascript:login.catch_form()" id="loginForm">
+            <form method="post" action="" id="loginForm">
                 <p><label for="login_input_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
                 <input type="text" id="login_input_username" name="username"/></p>
 

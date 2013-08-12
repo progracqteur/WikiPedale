@@ -23,7 +23,6 @@ define(['jQuery','params'], function($,params) {
         /**
         * True if the user is admin.
         */
-//        console.log(u);
         return (typeof u.roles !== "undefined") && $.inArray("ROLE_ADMIN", u.roles) !== -1;
     }
 
@@ -90,7 +89,6 @@ define(['jQuery','params'], function($,params) {
         /**
         * True is the user if Moderator for the notation params.manager_color
         */
-       // console.log(u);
         return isModetatorForNotation(params.manager_color);
     }
 
@@ -133,8 +131,6 @@ define(['jQuery','params'], function($,params) {
         var defe = $.Deferred();
         if (isRegistered()) {
             $.getJSON(url_edit = Routing.generate('wikipedale_authenticate', {_format: 'json'}), function (data) {
-                console.log(data);
-                console.log(JSON.stringify(data));
                 if (data.results[0].registered && data.results[0].id === u.id) {
                     defe.resolve(true);
                 } else {

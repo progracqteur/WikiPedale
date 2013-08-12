@@ -1,7 +1,7 @@
 /**
 * Displaying informer image when the user add a new description
 */
-define(['jQuery'], function($) {
+define(['jQuery','basic_data_and_functions'], function($,basic_data_and_functions) {
 	function reset_new_description_form(){
 		/**
 		* Reset all the informer images to '../img/verif_rien.png'

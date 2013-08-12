@@ -3,7 +3,8 @@
 * for the application.
 */
 
-define(['jQuery','map_display','descriptions','description_text_display','user'], function($,map_display,descriptions,description_text_display,user) {
+define(['jQuery','map_display','descriptions','description_text_display','user','informer','json_string'],
+        function($,map_display,descriptions,description_text_display,user,informer,json_string) {
     var townId = null;
     var last_description_selected;
     var add_new_place_mode = false; // true when the user is in a mode for adding new place

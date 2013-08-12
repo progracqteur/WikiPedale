@@ -1,4 +1,5 @@
-define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user'], function($, basic_data_and_functions,map_display,data_map_glue,informer,user) {
+define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string'],
+        function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string) {
 	//catchForm
 	function process() {
     	/**

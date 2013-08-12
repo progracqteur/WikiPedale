@@ -57,15 +57,11 @@ define(['jQuery','map_display','descriptions'], function($,map_display,descripti
 
         var markers_id_to_display_statusCeM = new Array();
         if(filter_activated['StatusCeM']) {
-            console.log('StatusCeM Activated');
             $.each($('#optionsAffichageStatusCeM').select2("val"), function(index, id_type) {
                 if (descriptions.get_id_for('StatusCeM',parseInt(id_type)) != undefined) {
-                    console.log(id_type);
-                    console.log('selected')
                     markers_id_to_display_statusCeM = markers_id_to_display_statusCeM.concat(descriptions.get_id_for('StatusCeM',parseInt(id_type)));
                 }
             });
-            console.log(JSON.stringify(markers_id_to_display_statusCeM))
         };
 
         // -> ici continuer
