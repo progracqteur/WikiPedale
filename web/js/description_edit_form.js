@@ -1,4 +1,5 @@
-define(['jQuery','map_display','data_map_glue','descriptions'], function($,map_display,data_map_glue,descriptions) {
+define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_functions'],
+        function($,map_display,data_map_glue,descriptions,basic_data_and_functions) {
 	var mode_edit = {};
 
 	function delete(){
@@ -51,7 +52,7 @@ define(['jQuery','map_display','data_map_glue','descriptions'], function($,map_d
     	});
 
 	    $(".ButtonEdit img").each(function(i,e) {
-	        $(e).attr("src", "../img/edit.png")
+	        $(e).attr("src", basic_data_and_functions.web_dir + "img/edit.png")
             .attr("title", "Editer");
     	    });
 
@@ -97,7 +98,7 @@ define(['jQuery','map_display','data_map_glue','descriptions'], function($,map_d
         	$("#div_place_description_" + element_type + '_edit').show();
         	$(element_id + '_button').html(
             	$(document.createElement('img'))
-                	.attr("src", "../img/sauver.png")
+                	.attr("src", basic_data_and_functions.web_dir + "img/sauver.png")
                 	.attr("title", "Sauver"));
         	mode_edit[element_type] = true;
     	} else {
@@ -150,7 +151,7 @@ define(['jQuery','map_display','data_map_glue','descriptions'], function($,map_d
                     	$(element_id).show();
                     	$(element_id + '_button').html(
                         	$(document.createElement('img'))
-                            	.attr("src", "../img/edit.png")
+                            	.attr("src",  basic_data_and_functions.web_dir + "img/edit.png")
                             	.attr("title", "Editer"));
                     	mode_edit[element_type] = false;
                 	} else { 

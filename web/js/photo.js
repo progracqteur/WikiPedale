@@ -20,7 +20,7 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
         $.getJSON(url_photo_list, function(raw_data) {
             data = raw_data.results;
             if(data.length == 0) {
-                $('.span_photo').each(function() { this.innerHTML = '<img src="../img/NoPictureYet.png" />'; });
+                $('.span_photo').each(function() { this.innerHTML = '<img src="' + basic_data_and_functions.web_dir + 'img/NoPictureYet.png" />'; });
             } else {
                 span_photo_inner = '<br />';
                 $.each(data, function(i,row) {
