@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        'jQuery': 'lib/jQuery/jquery-1.7.2',
+        'jQuery': 'lib/jQuery/jquery-1.8.2',
         'OpenLayers': 'lib/OpenLayers/OpenLayers',
         'select2': 'lib/select2-3.3.2/select2',
         'colorbox': 'lib/Colorbox/jquery.colorbox',
