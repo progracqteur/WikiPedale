@@ -1,5 +1,5 @@
-define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_functions'],
-        function($,map_display,data_map_glue,descriptions,basic_data_and_functions) {
+define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_functions','json_string','markers_filtering','params'],
+        function($,map_display,data_map_glue,descriptions,basic_data_and_functions,json_string,markers_filtering,params) {
 	var mode_edit = {};
 
 	function delete(){
@@ -68,6 +68,20 @@ define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_fu
         	}
     	});
 	};
+
+    /*
+    function lon_lat_edit_or_save() {
+        if (mode_edit['lon_lat'] == undefined || ! mode_edit['lon_lat']) {
+            $('#button_save_lon_lat').show();
+            $('#button_edit_lon_lat').hide();
+            mode_edit['lon_lat'] = true;
+        } else {
+            $('#button_save_lon_lat').hide();
+            $('#button_edit_lon_lat').save();
+            mode_edit['lon_lat'] = false;
+        }
+    }
+    */
 
 	function description_edit_or_save(element_type){
 		/**
