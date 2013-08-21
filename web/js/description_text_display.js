@@ -6,7 +6,6 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
 	color_trad_text['1'] = 'pris en compte (rouge)';
 	color_trad_text['2'] = 'en cours de résolution (orange)';
 	color_trad_text['3'] = 'résolu (vert)';
-
 	var current_description_id = null;
 
 	function activate_comments_mode() {
@@ -29,8 +28,6 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
      	* @param {int} id_desc The id of the description.
      	*/
     	current_description_id = id_desc;
-    
-	    console.log('utiliser les templates for pop_up_add_photo');
     	photo.refresh_span_photo(id_desc);
     	url_add_photo = "javascript:photo.pop_up_add_photo(" + id_desc + ")";
     	$('a.link_add_photo').each(function() { $(this).attr("href", url_add_photo)});
@@ -146,9 +143,11 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
     	    $('#span_place_description_commentaireCeM_button').show();
     	    $('#span_place_description_status_button').show();
     	    $('#div_container_place_description_commentaireCeM').show();
+            $('#button_edit_lon_lat').show();
     	} else {
     	    $('#span_place_description_commentaireCeM_button').hide();
     	    $('#span_place_description_status_button').hide();
+            $('#button_edit_lon_lat').hide();
     	}
 
 	    if(user.isAdmin() || user.isCeM() || user.isGdV()) {
@@ -156,6 +155,8 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
 	    } else{
 	        $('#div_commentaires_cem_gestionnaire').hide();
 	    }
+
+        $('#button_save_lon_lat').hide();
 	}
 
 	function display_regarding_to_user_role() {
@@ -171,7 +172,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
             $('#span_place_description_signaleur_contact').text('');
         }
 
-        display_editing_button()
+        display_editing_button();
 	}
 
 	return {

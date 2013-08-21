@@ -1,4 +1,4 @@
-define(['map_display','user'], function(map_display,user) {
+define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers) {
     function unregister_user(label,email,phonenumber){
         /**
         * Returns a json string describing an unregister user.
@@ -119,6 +119,19 @@ define(['map_display','user'], function(map_display,user) {
         return change_place(id,'"placetype":{"id":' +  JSON.stringify(new_placetype_id) + ',"entity":"placetype"}');
     }
 
+
+    function edit_place_position(id,lon,lat) {
+        /**
+        * Returns a json for editing the position of a place.
+        * @param{int} id The id of the description.
+        * @param{int} lon the new longitude of the place.
+        * @param{int} lat the new latitude of the place.
+        */
+        return change_place(id,'"geom":'+ point(lon,lat));
+    }
+
+
+
     function delete_place(id){
         /**
         * Returns a json for deleting a description.
@@ -172,7 +185,6 @@ define(['map_display','user'], function(map_display,user) {
     }
     return {
         unregister_user: unregister_user,
-        point: point,
         change_place: change_place,
         edit_moderator_comment: edit_moderator_comment,
         edit_description: edit_description,
@@ -183,6 +195,7 @@ define(['map_display','user'], function(map_display,user) {
         edit_manager: edit_manager,        
         edit_place_type: edit_place_type,
         delete_place: delete_place,
-        edit_place: edit_place
+        edit_place: edit_place,
+        edit_place_position: edit_place_position
     }
 });

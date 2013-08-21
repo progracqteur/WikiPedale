@@ -12,6 +12,8 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
     var placesLayer; // layer where existing places / new place marker are drawn
     var zoom_map = 13; // zoom level of the map
 
+
+
     var marker_img_url = basic_data_and_functions.web_dir + 'js/lib/OpenLayers/img/';
     var markers = new Array();
 
@@ -112,12 +114,14 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
 
 		placesLayer = new OpenLayers.Layer.Markers("Existing places");
 		map.addLayer(placesLayer);
-		new_placeLayer = new OpenLayers.Layer.Markers("New place");
-		map.addLayer(new_placeLayer);
-		new_placeLayer.display(false);
 
         size = new OpenLayers.Size(19,25);
         offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+
+        icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
+        markers['edit_description'] = new OpenLayers.Marker(new OpenLayers.LonLat(1.1,1.1),icon);
+        placesLayer.addMarker(markers['edit_description']);
+        markers['edit_description'].display(false);
     }
 
     function update_marker_for(description_id, option) {
@@ -208,10 +212,10 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * @param {int} an_id The id of the signalement
         * @param {lonlat} new_position The new position
         */
-        if(an_id === 'new_description' && !markers[an_id]) {
+        if((an_id === 'new_description') && !markers[an_id]) {
             icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
-            markers['new_description'] = new OpenLayers.Marker(new_position,icon);
-            placesLayer.addMarker(markers['new_description']);
+            markers[an_id] = new OpenLayers.Marker(new_position,icon);
+            placesLayer.addMarker(markers[an_id]);
         } else {
             markers[an_id].lonlat = new_position;
             placesLayer.redraw();
@@ -226,6 +230,8 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         */
         if (markers[an_id]) {
             markers[an_id].display(true);
+            placesLayer.redraw();
+
         }
     }
 
@@ -239,6 +245,16 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         }
     }
 
+    function undisplay_markers(){
+        /**
+        * Undisplay all the markers associated to a description as unactivate
+        */
+        $.each(markers, function(description_id, marker) {
+            undisplay_marker(description_id);
+        });
+    }
+
+
     function select_marker(an_id){
         /**
         * Sets the marker of a given signalement to 'selected' (in pink)
@@ -246,6 +262,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         */
         var description_data = descriptions.get_by_id(an_id);
         markers[an_id].setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '_selected.png');
+        markers['edit_description'].lonlat = markers[an_id].lonlat;
     }   
 
     function unselect_marker(an_id){
@@ -305,6 +322,61 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             return manager_c + c2 + c3;
         }
     }
+    
+    function reactivate_even_on_description_markers(marker_event, function_on_marker) {
+        /**
+        * To all the markers related to descriptions, add an event and
+        * apply a function it 
+        * @param {function : int -> ()} marker_event The event function
+        * that take as input the id of the marker
+        * @param {function : marker x int  -> ()} function_on_marker The function
+        applied to the marker.
+        */
+        $.each(descriptions.get_all(), function(index, description) {
+            marker = get_marker_for(description.id);
+
+            var markerMouseDownFunction = ( function(iid) {
+                return ( function(evt) {
+                    if (marker_event) {
+                        marker_event(iid);
+                    }
+                    OpenLayers.Event.stop(evt);
+                })
+            }) (description.id);
+
+            marker.events.register("mousedown", marker, markerMouseDownFunction);
+
+            function_on_marker(marker,description.id);
+        });
+        placesLayer.redraw();
+    }
+
+    function reactivate_description_markers(marker_event) {
+        /**
+        * Display the makers related to descriptions (remove the no_active.png
+        * of the url of the maker img) Each marker 
+        * is associated with an event that is tiggered when the user click on
+        * the marker
+        * @param {function : int -> ()} marker_event The event function
+        * that take as input the id of the marker
+        */
+        reactivate_even_on_description_markers(marker_event, function(m,i) {
+            update_marker_for(i,'');
+        });
+    }
+
+    function redisplay_description_markers(marker_event) {
+        /**
+        * Display all the markers related to descriptions. Each marker 
+        * is associated with an event that is tiggered when the user click on
+        * the marker
+        * @param {function : int -> ()} marker_event The event function
+        * that take as input the id of the marker
+        */
+        reactivate_even_on_description_markers(marker_event, function(m,i) {
+            m.display('true');
+        } );
+    }
 
     return {
     	translate: translate,
@@ -317,10 +389,13 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         unselect_marker: unselect_marker,
         display_marker: display_marker,
         undisplay_marker: undisplay_marker,
+        undisplay_markers: undisplay_markers,
         display_all_markers: display_all_markers,
         update_marker_for:update_marker_for,
         get_marker_for: get_marker_for,
         marker_change_position: marker_change_position,
-        delete_marker_for: delete_marker_for
+        delete_marker_for: delete_marker_for,
+        redisplay_description_markers: redisplay_description_markers,
+        reactivate_description_markers:reactivate_description_markers
     }
 });

@@ -1,39 +1,9 @@
-define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_functions','json_string','markers_filtering','params'],
-        function($,map_display,data_map_glue,descriptions,basic_data_and_functions,json_string,markers_filtering,params) {
+define(['jQuery','map_display','descriptions','basic_data_and_functions','json_string','markers_filtering','params'],
+        function($,map_display,descriptions,basic_data_and_functions,json_string,markers_filtering,params) {
 	var mode_edit = {};
-
-	function delete(){
-		/**
-    	* to delete a description
-    	*/
-    	json_request = json_string.delete_place(description_id);
-    	url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
-    	$.ajax({
-        	type: "POST",
-        	data: {entity: json_request},
-        	url: url_edit,
-        	cache: false,
-        	success: function(output_json) { 
-            	if(! output_json.query.error) { 
-                    map_display.delete_marker_for(signalement_id);
-            		descriptions.erase_id_for_data_relative_to(signalement_id); 
-                	$('#div_placeDescription').hide();
-                    data_map_glue.last_description_selected_reset();
-            }
-            else { 
-                $('#span_place_description_delete_error').show();
-                //console.log('Error else');
-                //console.log(JSON.stringify(output_json));
-            }
-        },
-        error: function(output_json) {
-            $('#span_place_description_delete_error').show();
-            //console.log('Error error');
-            //console.log(output_json.responseText);
-        }
-    });
-	}
-
+    var new_lat = null;
+    var new_lon = null;
+    var new_position = null;
 
 	function hide_forms(){
 		/**
@@ -56,9 +26,6 @@ define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_fu
             .attr("title", "Editer");
     	    });
 
-	    mode_edit = {};
-       
-
     	$("#div_placeDescription span").each(function(i,e) {
     		// show span element except error 
         	id_e = $(e).attr("id");
@@ -67,21 +34,81 @@ define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_fu
             	$(e).show();
         	}
     	});
+
+        mode_edit = {};
+        stop_lon_lat_edit();
 	};
 
-    /*
+    function stop_lon_lat_edit() {
+        /**
+        * Stops the edition of the position of the marker
+        * and the map mode for editing.
+        */
+        new_lat = null; //reinit these variables
+        new_lon = null;
+        new_position = null;
+        $("#span_edit_lon_lat_delete_error").hide();
+        $('#button_save_lon_lat').hide();
+        $('#button_edit_lon_lat').show();
+        mode_edit['lon_lat'] = false;
+
+        map_display.undisplay_marker('edit_description');
+        map_display.get_map().events.remove("click");
+
+        map_display.redisplay_description_markers();
+    }
+
     function lon_lat_edit_or_save() {
+        /**
+        * When this function is tiggered,
+        either the edition mode for position of the selected marker  (map) is displayed
+        either the new position of the selected marker is saved
+        The choice between is done alternatively
+        */
         if (mode_edit['lon_lat'] == undefined || ! mode_edit['lon_lat']) {
             $('#button_save_lon_lat').show();
             $('#button_edit_lon_lat').hide();
+            map_display.undisplay_markers();
+            map_display.display_marker('edit_description');
+            map_display.get_map().events.register("click", map_display.get_map(), function(e) {
+                new_position = map_display.get_map().getLonLatFromPixel(e.xy);
+                new_lat = new_position.lat;
+                new_lon = new_position.lon;
+
+                map_display.marker_change_position('edit_description', new_position);
+                map_display.display_marker('edit_description');
+            });
             mode_edit['lon_lat'] = true;
         } else {
-            $('#button_save_lon_lat').hide();
-            $('#button_edit_lon_lat').save();
-            mode_edit['lon_lat'] = false;
+            if (new_lat !== null) {
+                var signalement_id = parseInt($('#input_place_description_id').val());
+                var json_request = json_string.edit_place_position(signalement_id,new_lon,new_lat);
+                var url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+                $.ajax({
+                    type: "POST",
+                    data: {entity: json_request},
+                    url: url_edit,
+                    cache: false,
+                    success: function(output_json) { 
+                        if(! output_json.query.error) { 
+                            var new_description = output_json.results[0];
+                            descriptions.single_update(new_description);
+                            map_display.marker_change_position(new_description.id, new_position);
+                            stop_lon_lat_edit(); 
+                        } else { 
+                            $("#span_edit_lon_lat_delete_error").show();
+                        }
+                    },
+                    error: function(output_json) {
+                        $("#span_edit_lon_lat_delete_error").show();
+                    }
+                });
+            }
+            else {
+                stop_lon_lat_edit();
+            }            
         }
     }
-    */
 
 	function description_edit_or_save(element_type){
 		/**
@@ -132,7 +159,7 @@ define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_fu
         	} else if (element_type == "type"){
             	json_request = json_string.edit_place_type(signalement_id,$(element_id + '_edit').select2("val"));
         	}
-        	url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+            var url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
         
         	$.ajax({
             	type: "POST",
@@ -141,7 +168,6 @@ define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_fu
             	cache: false,
             	success: function(output_json) { 
                 	if(! output_json.query.error) { 
-                        old_signalement = descriptions.get_by_id(signalement_id);
                         new_description = output_json.results[0];
                     	descriptions.single_update(new_description);
                     	if(element_type == 'cat'){
@@ -183,5 +209,6 @@ define(['jQuery','map_display','data_map_glue','descriptions','basic_data_and_fu
 	return {
 		hide_forms: hide_forms,
 	    description_edit_or_save: description_edit_or_save,
+        lon_lat_edit_or_save:lon_lat_edit_or_save,
     };
 });

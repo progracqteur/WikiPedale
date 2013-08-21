@@ -6,7 +6,7 @@
 define(['jQuery','map_display','descriptions','description_text_display','user','informer','json_string'],
         function($,map_display,descriptions,description_text_display,user,informer,json_string) {
     var townId = null;
-    var last_description_selected;
+    var last_description_selected = null;
     var add_new_place_mode = false; // true when the user is in a mode for adding new place
 
     function init_app(townId_param, townLon, townLat, marker_id_to_display) {
@@ -47,7 +47,6 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * Update the data of the app contained in descriptions.js and re-draw the map
         * (regarding to the updated informations)
         */
-        console.log('removing the information');
         descriptions.erase_all();
 
         jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
@@ -63,8 +62,6 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                     // be sure that a place is selected
                     description_text_display.display_regarding_to_user_role();
                 }
-
-                console.log('update the markers');
             }
         });
     };
@@ -96,9 +93,8 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * having its id in the private variable last_description_selected.
         * It is the last displayed description.
         */
-        signalement_id = parseInt($('#input_place_description_id').val());
-        json_request = json_string.delete_place(signalement_id);
-        url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+        var json_request = json_string.delete_place(last_description_selected);
+        var url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
         $.ajax({
             type: "POST",
             data: {entity: json_request},
@@ -106,8 +102,8 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             cache: false,
             success: function(output_json) { 
                 if(! output_json.query.error) { 
-                    map_display.get_marker_for(signalement_id).erase();
-                    descriptions.erase(signalement_id);
+                    map_display.get_marker_for(last_description_selected).erase();
+                    descriptions.erase(last_description_selected);
                     $('#div_placeDescription').hide();
                     last_description_selected = null;
                 } else { 
@@ -118,7 +114,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                 $('#span_place_description_delete_error').show();
             }
         });
-    }
+    };
 
     function mode_change() {
         /**
@@ -157,33 +153,17 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                 .addClass("buttonPlus");
 
             map_display.undisplay_marker('new_description');
-
             map_display.get_map().events.remove("click");
+            map_display.reactivate_description_markers(focus_on_place_of);
 
             // ne plus utiliser makers_and_assoc_data
-            $.each(descriptions.get_all(), function(index, description) {
-                marker = map_display.get_marker_for(description.id);
-
-                var markerMouseDownFunction = ( function(iid) {
-                    return ( function(evt) {
-                            focus_on_place_of(iid);
-                            OpenLayers.Event.stop(evt);
-                        } )}
-                    ) (description.id);
-
-                marker.events.register("mousedown", marker, markerMouseDownFunction);
-
-                if(last_description_selected != null  && last_description_selected == description.id) {
-                    map_display.update_marker_for(description.id, 'selected');
-                } else {
-                    map_display.update_marker_for(description.id, '');
-                }
-            });
+            
 
             $("#add_new_description_div").hide();
 
-            if(last_description_selected != null ) {
+            if(last_description_selected !== null ) {
                 $("#div_placeDescription").show();
+                map_display.select_marker(last_description_selected);
             }
         }
         add_new_place_mode = ! add_new_place_mode;
@@ -211,6 +191,6 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         last_description_selected_reset: last_description_selected_reset,
         last_description_selected_delete: last_description_selected_delete,
         mode_change: mode_change,
-        focus_on_place_of: focus_on_place_of
+        focus_on_place_of: focus_on_place_of,
     }
 });
