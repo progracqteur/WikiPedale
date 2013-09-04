@@ -66,11 +66,11 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#span_place_description_type_edit').select2();
             $('#span_place_description_gestionnaire_edit').select2();
 
-            $('#add_new_description_form__categories').select2().on("change", function(e) { informer.update_new_description_form('categories'); });
+            $('#add_new_description_form__categories').select2().on("change", function() { informer.update_new_description_form('categories'); });
 
-            $('#optionsAffichageCategories').on("change", function(e) { markers_filtering.display_only_markers_with_selected_categories(); });
-            $('#optionsAffichagePlaceTypes').on("change", function(e) { markers_filtering.display_only_markers_with_selected_categories(); });
-            $('#optionsAffichageStatusCeM').on("change", function(e) { markers_filtering.display_only_markers_with_selected_categories(); });
+            $('#optionsAffichageCategories').on("change", function() { markers_filtering.display_only_markers_with_selected_categories(); });
+            $('#optionsAffichagePlaceTypes').on("change", function() { markers_filtering.display_only_markers_with_selected_categories(); });
+            $('#optionsAffichageStatusCeM').on("change", function() { markers_filtering.display_only_markers_with_selected_categories(); });
 
             $("#div_returnNormalMode").hide();
 
@@ -78,20 +78,20 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $("#loginForm").submit(function(e) { e.preventDefault(); login.catch_form(); });
 
             // Menu
-            $("#div_add_new_description_button").click(function(e) { data_map_glue.mode_change(); });
-            $("#div_returnNormalMode").click(function(e) { map_display.normal_mode(); });
-            $("#buttonOptionsAffichage").click(function(e) { markers_filtering.activate_unactivate(); } );
+            $("#div_add_new_description_button").click(function() { data_map_glue.mode_change(); });
+            $("#div_returnNormalMode").click(function() { map_display.normal_mode(); });
+            $("#buttonOptionsAffichage").click(function() { markers_filtering.activate_unactivate(); } );
 
             // Filtring
-            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function(e) { markers_filtering.change_mode_for('StatusCeM'); } );
-            $('input[name=affichage_tous_ou_filtre_categorie]').click(function(e) { markers_filtering.change_mode_for('Categories'); } );
+            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function() { markers_filtering.change_mode_for('StatusCeM'); } );
+            $('input[name=affichage_tous_ou_filtre_categorie]').click(function() { markers_filtering.change_mode_for('Categories'); } );
 
             // Add New Description
-            $("#add_new_description_form__user_label").blur(function(e) { informer.update_new_description_form('user_label'); });
-            $("#add_new_description_form__email").blur(function(e) { informer.update_new_description_form('email'); });
-            $("#add_new_description_form__user_phonenumber").blur(function(e) { informer.update_new_description_form('user_phonenumber'); });
-            $("#add_new_description_form__lieu").blur(function(e) { informer.update_new_description_form('lieu'); });
-            $("#add_new_description_form__description").blur(function(e) { informer.update_new_description_form('description'); });
+            $("#add_new_description_form__user_label").blur(function() { informer.update_new_description_form('user_label'); });
+            $("#add_new_description_form__email").blur(function() { informer.update_new_description_form('email'); });
+            $("#add_new_description_form__user_phonenumber").blur(function() { informer.update_new_description_form('user_phonenumber'); });
+            $("#add_new_description_form__lieu").blur(function() { informer.update_new_description_form('lieu'); });
+            $("#add_new_description_form__description").blur(function() { informer.update_new_description_form('description'); });
             $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_creating_form.process(); });
 
 
