@@ -46,5 +46,5 @@ define([], function() {
     web_dir: web_dir, // the URL where app.php is contained
     nl2br: nl2br,
     is_mail_valid: is_mail_valid
-  }
+  };
 });
