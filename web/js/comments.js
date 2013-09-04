@@ -70,24 +70,25 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
                 url: Routing.generate('wikipedale_comment_change', {_format: 'json'}),
                 cache: false,
                 success: function(output_json) { 
-                    if(typeof output_json.query.error !== "undefined" && ! output_json.query.error) { 
+                    if((typeof output_json.query.error !== "undefined") && (! output_json.query.error)) { 
                         $('#form_add_new_comment__message')
-                            .val("Votre commentaire a été ajouté. Merci.")
+                            .text("Votre commentaire a été ajouté. Merci.")
                             .removeClass("errorMessage")
                             .addClass("successMessage");
+                        $('#form_add_new_comment__text').val('');
                         update_last(aPlaceId);
                         update_all(aPlaceId);
                     }
                     else { 
                         $('#form_add_new_comment__message')
-                            .val("Une erreur s'est produite. Veuillez réessayer ou nous avertir. Merci.")
+                            .text("Une erreur s'est produite. Veuillez réessayer ou nous avertir. Merci.")
                             .removeClass("successMessage")
                             .addClass("errorMessage");  
                     }
                 },
                 error: function() {
                     $('#form_add_new_comment__message')
-                        .val("Une erreur s'est produite. Veuillez réessayer ou nous avertir. Merci.")
+                        .text("Une erreur s'est produite. Veuillez réessayer ou nous avertir. Merci.")
                         .removeClass("successMessage")
                         .addClass("errorMessage");  
                 }

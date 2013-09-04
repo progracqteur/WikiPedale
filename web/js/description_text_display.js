@@ -88,10 +88,11 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
                 activate_comments_mode();
             });
 
+            $("#form_add_new_comment").unbind("submit");
             $("#form_add_new_comment").submit(function(e) {
                 e.preventDefault();
                 comments.submit_creation_form(desc_data.id);  
-            })
+            });
     	}
 
     	description_edit_form.hide_forms(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
