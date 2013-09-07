@@ -58,13 +58,13 @@ class GroupAdminController extends Controller {
                 $em->flush();
                 
                 
-                $this->get('session')->setFlash('notice', 'groups.created');
+                $this->get('session')->getFlashBagh()->add('notice', 'groups.created');
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->setFlash('notice', "echec");
+                $this->get('session')->getFlashBagh()->add('notice', "echec");
             }
         }
         
@@ -106,13 +106,13 @@ class GroupAdminController extends Controller {
                 $em->flush();
                 
                 
-                $this->get('session')->setFlash('notice', 'groups.updated');
+                $this->get('session')->getFlashBagh()->add('notice', 'groups.updated');
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->setFlash('notice', "echec");
+                $this->get('session')->getFlashBagh()->add('notice', "echec");
             }
         }
         
@@ -327,7 +327,7 @@ class GroupAdminController extends Controller {
 
                 
                 $em->flush();
-                $this->get('session')->setFlash('notice', 
+                $this->get('session')->getFlashBagh()->add('notice', 
                         'user.groups.added_or_removed');
                 
                 return $this->redirect(
@@ -339,7 +339,7 @@ class GroupAdminController extends Controller {
             
         }
         //if not valid : (not POST or not valid form)
-        $this->get('session')->setFlash('notice',
+        $this->get('session')->getFlashBagh()->add('notice',
                     'user.groups.error_adding_or_removing_group');
         return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups_update',
@@ -372,14 +372,14 @@ class GroupAdminController extends Controller {
             if ($form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
                 
-                $this->get('session')->setFlash('notice',
+                $this->get('session')->getFlashBagh()->add('notice',
                     'admin.profile_user.user_updated');
                 
                 return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups')
                         );
             } else {
-                $this->get('session')->setFlash('notice',
+                $this->get('session')->getFlashBagh()->add('notice',
                     'admin.profile_user.contain_errors');
             }
         }
