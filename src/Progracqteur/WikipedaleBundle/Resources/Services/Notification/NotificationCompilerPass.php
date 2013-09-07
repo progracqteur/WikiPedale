@@ -25,7 +25,8 @@ class NotificationCompilerPass implements CompilerPassInterface {
      */
     public function process(ContainerBuilder $container) {
         
-        $cornerDefinition = $container->getDefinition('progracqteur.wikipedale.notification.corner');
+        $cornerDefinition = $container
+                ->getDefinition('progracqteur.wikipedale.notification.corner');
         
         $this->notificationProcessors = $container
                 ->findTaggedServiceIds('progracqteur.wikipedale.notification.processor');
@@ -61,10 +62,12 @@ class NotificationCompilerPass implements CompilerPassInterface {
                                     new Reference('progracqteur.wikipedale.notification.corner')
                                     )
                                 );
-                
-                $cornerDefinition->addMethodCall(
-                        'addTransporterId', array($sender_id));
             }
+          
+        }
+        
+        foreach ($this->senderServices as $sender_id => $sender_attributes) {
+            $cornerDefinition->addMethodCall('addTransporterId', array($sender_id));
         }
         
         
