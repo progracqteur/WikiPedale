@@ -1,0 +1,78 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block title%}{{ 'notification_subscriptions.list.title'|trans }}{% endblock %}
+
+{% block css %}
+
+<style type="text/css">
+
+ ul.notifications {
+     list-style-type: none;
+     padding: 0;
+     margin: 0;
+     }
+     
+ ul.notifications li.notification {
+     padding: 25px 10px;
+     
+     display: inline-block;
+     margin: 10px;
+     border: 5px solid red;
+     }
+     
+    
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'ProgracqteurWikipedaleBundle:User:user_menu.html.twig' 
+        with {active: 'notification_list'} %}
+
+<div class="user_content">
+
+
+    {% if notifications|length == 0 %}
+
+    <p class="notifications empty">{{ 'notification_subscriptions.list.empty'|trans }}</p>
+
+
+    {% else %}
+
+
+    <ul class="notifications list">
+
+        {% for notification in notifications %}
+            <li class="notification item">
+                <dl>
+                    <dt class="type">{{ 'notification_subscriptions.list.kind'|trans }}</dt>
+                    <dd class="type">{{ ['notification_subscriptions.list.kind_.', notification.kind]|join | trans }}</dd>
+
+                    <dt class="frequency">{{ 'notification_subscriptions.list.frequency'|trans }}</dt>
+                    <dd class="frequency">{{ ['notification_subscriptions.list.frequency_.', notification.frequency] | join | trans }}</dd>
+
+                    <dt class="transporter">{{ 'notification_subscriptions.list.transporter' | trans }}</dt>
+                    <dd class="transporter">{{ ['notification_subscriptions.list.transporter_.', notification.transporter] | join | trans }}</dd>
+
+                    {% if notification.zone is not null %}
+
+                        <dt class="zone">{{ 'notification_subscriptions.list.zone' | trans }}</dt>
+                        <dd class="zone">{{ notification.zone }}</dd>
+
+                    {% endif %}
+                </dl>
+
+                    <a class="action " href="{{ path('wikipedale_notification_subscriptions_show', {id: notification.id}) }}">{{ 'notification_subscriptions.list.update' | trans }}</a>
+            </li>
+
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

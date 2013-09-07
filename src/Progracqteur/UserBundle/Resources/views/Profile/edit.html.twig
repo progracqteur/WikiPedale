@@ -31,5 +31,11 @@ form {
 {% endblock %}
 
 {% block body %}
+    
+{% include 'ProgracqteurWikipedaleBundle:User:user_menu.html.twig' with {active: 'profile_edit'} %}
+
+<div class="user_content">
 {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+</div>
+    
 {% endblock body %}

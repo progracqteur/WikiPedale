@@ -1,0 +1,80 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block title %}{{ 'notification_subscriptions.form.title' | trans }}{% endblock %}
+
+
+{% block css %}
+<style type="text/css">
+
+    form label {
+        float: none;
+        width: auto;
+        display: inline;
+        margin-right: 4px;
+    }
+    
+    form span.notification_frequency_element label {
+        margin-right: 2px;
+    }
+    
+    form ul.notification_frequency {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    label.notification_frequency {
+        font-weight: bold;
+    }
+    
+    div.option {
+        margin-bottom: 9px;
+        }
+    dt {
+        font-weight: bold;
+        }
+        
+    
+    </style>
+
+
+{% endblock %}
+
+
+{% block body %}
+    
+{% include 'ProgracqteurWikipedaleBundle:User:user_menu.html.twig' 
+        with {active: 'notification_list'} %}
+    
+    <div class="user_content">
+
+        <form method="POST" class="notification_subscription {{notification.kind}}" action="{% spaceless %}
+        {% if action == 'update' %}
+           {{ path('wikipedale_notification_subscriptions_update', {'id' : notification.id} ) }}
+
+        {% elseif  action == 'create' %}
+          {{ path('wikipedale_notification_subscriptions_create' ) }}
+
+        {% endif %}
+              {% endspaceless %}">
+
+         <fieldset>         
+
+        {% if action == 'update' %}
+           <legend>{{ 'notification_subscriptions.form_update.title' | trans }}</legend>
+
+        {% elseif  action == 'create' %}
+          <legend>{{ 'notification_subscriptions.form_create.title' | trans }}</legend>
+
+        {% endif %}          
+
+                  {% include form_template with {'form' : form} %}
+
+              {{ form_rest(form) }}
+
+           </fieldset>    
+         </form>
+      
+   </div>
+
+{% endblock %}

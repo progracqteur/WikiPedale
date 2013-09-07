@@ -176,7 +176,11 @@ class Zone
     }
     
     public function __toString() {
-        return $this->getName().' ('.$this->getType().')';
+        if ($this->getType() === self::TYPE_CITY) {
+            return "Commune de ".$this->getName();
+        } else {
+            return "District SPW de ".$this->getName();
+        }
     }
     
     /**

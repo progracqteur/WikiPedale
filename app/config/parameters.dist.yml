@@ -15,7 +15,9 @@ parameters:
 
     secret            : ThisTokenIsNotSoSecretChangeIt
     
+
     
     date_format       : d/m/Y à H:i
     
-    cities_in_front_page: [MONS, TOURNAI, LIEGE, WALHAIN, NAMUR]
+    cities_in_front_page: [mons, tournai, liege, walhain, namur]
+

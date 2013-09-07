@@ -5,19 +5,18 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services\Notification;
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationSenderInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\ToTextMailSenderService;
-use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterByRole;
-use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionManager;
-use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionModerator;
 use Symfony\Component\Translation\Translator;
 use Swift_Mailer;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
+use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationSender;
+use Progracqteur\WikipedaleBundle\Resources\Services\Notification\SendPendingNotificationException;
 
 /**
  * Description of NotificationSender
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class NotificationMailSender implements NotificationSenderInterface {
+class NotificationMailSender extends NotificationSender {
     
     /**
      *
@@ -25,13 +24,6 @@ class NotificationMailSender implements NotificationSenderInterface {
      */
     private $toTextService;
     
-    /**
-     *
-     * @var Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilter 
-     */
-    private $filterByRole;
-    
-    private $filterBySubscription;
     
     /**
      *
@@ -51,86 +43,110 @@ class NotificationMailSender implements NotificationSenderInterface {
     
     public function __construct(
             ToTextMailSenderService $toTextService, 
-            NotificationFilterByRole $filterByRole,
-            NotificationFilterBySubscriptionManager $filterBySubscriptionManager,
-            NotificationFilterBySubscriptionModerator $filterBySubscriptionModerator,
             Swift_Mailer $mailer,
             Translator $translator
             ) 
     {
         $this->toTextService = $toTextService;
-        $this->filterByRole = $filterByRole;
         $this->mailer = $mailer;
         $this->translator = $translator;
-        $this->filterBySubscription[NotificationSubscription::KIND_MANAGER] = $filterBySubscriptionManager;
-        $this->filterBySubscription[NotificationSubscription::KIND_MODERATOR] = $filterBySubscriptionModerator;
     }
     
     
     public function addNotification(PendingNotification $notification) {
-        if ($this->filterByRole->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription()))
-        {
-            if ($this->filterBySubscription[$notification->getSubscription()->getKind()]
-                    ->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription())) {
-                
-                echo "Notification de la placeTracking ". 
-                        $notification->getPlaceTracking()->getId() .
-                        " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
-                        " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
-                        "\n";
-                $this->notificationToSend[$notification->getSubscription()->getOwner()->getId()]
-                    [] = $notification;
-                
-            } else {
-                echo "REFUS DE Notification de la placeTracking ". 
-                        $notification->getPlaceTracking()->getId() .
-                        " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
-                        " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
-                        "\n";
-            }
-            
-            
-            
-        } else {
-            echo "INTERDICTION DE Notification de la placeTracking ". 
-                    $notification->getPlaceTracking()->getId() .
-                    " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
-                    " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
-                    "\n";
-        }
+                $this->notificationToSend[$notification->getSubscription()
+                        ->getOwner()->getId()][] = $notification;
     }
 
     public function send() 
     {
-        foreach($this->notificationToSend as $ownerId => $array)
-        {
+        foreach($this->notificationToSend as $ownerId => $notifications){
             $userEmail = null; 
-            $placetrackings = array();
+            $owner = null;
             
-            foreach($array as $notification)
-            {
-                $placetrackings[] = $notification->getPlaceTracking();
-                
+            
+            if (isset($notifications[0])) {
                 //add user email only one time...
                 if ($userEmail === null) {
-                    $userEmail = $notification->getSubscription()->getOwner()->getEmail();
+                    $owner = $notifications[0]->getSubscription()->getOwner();
+                    $userEmail = $owner->getEmail();
                 }
                     
             }
             
-            $text = $this->toTextService->transformToText($placetrackings, $notification->getSubscription()->getOwner(), $notification->getSubscription());
             
-            $message = \Swift_Message::newInstance()
-                ->setSubject($this->translator->trans('mail.subject', array(), ToTextMailSenderService::DOMAIN))
-                ->setFrom('no-reply@uello.be')
-                ->setTo($userEmail)
-                ->setBody(
-                    $text
-                    )
-                ;
+            try {
+                $text = $this->toTextService
+                        ->transformToText($notifications, 
+                                $owner);
+            } catch (\Exception $e) {
+                foreach ($notifications as $notification) {
+                    $exception = new SendPendingNotificationException(
+                            $notification, 
+                            'Error during transformation to text', 
+                            0, 
+                            $e);
+                    $this->postProcess($notification, $exception);
+                }
+                
+                continue; //should pass sending this email
+            }
             
-            $this->mailer->send($message);
+            try {
+                $message = \Swift_Message::newInstance()
+                    ->setSubject($this->translator->trans('mail.subject', array(), ToTextMailSenderService::DOMAIN))
+                    ->setFrom('no-reply@uello.be')
+                    ->setTo($userEmail)
+                    ->setBody(
+                        $text
+                        )
+                    ;
+                
+                $this->mailer->send($message);
+                
+                //postProcess sending, according to the exceptions eventually
+                //stored in the toTextService
+                
+                $storedExceptions = $this->toTextService->getExceptionsAndReset();
+                
+                foreach ($notifications as $notification) {
+                    
+                    $problem = false;
+                    
+                    foreach($storedExceptions as $storedException){
+                        if ($notification->getId() === $storedException
+                                ->getPendingNotification()
+                                ->getId()) {
+                            
+                            $this->postProcess($notification, $storedException);
+                            $problem = true;
+                            break;
+                        }
+                    }
+                    
+                    if ($problem === false)
+                        $this->postProcess($notification, null);
+                }
+                    
+            } catch (\Exception $e) {
+                foreach ($notifications as $notification) {
+                    $exception = new SendPendingNotificationException(
+                            $notification, 
+                            'Error during sending an email', 
+                            0, 
+                            $e);
+                    $this->postProcess($notification, $exception);
+                }
+            }
         }
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getKey() {
+        return NotificationSubscription::TRANSPORTER_MAIL;
     }    
 }
 
