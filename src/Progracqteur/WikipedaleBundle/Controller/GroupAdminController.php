@@ -49,7 +49,7 @@ class GroupAdminController extends Controller {
         
         if ($request->getMethod() === 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             
             if ($form->isValid())
             {
@@ -58,13 +58,13 @@ class GroupAdminController extends Controller {
                 $em->flush();
                 
                 
-                $this->get('session')->getFlashBagh()->add('notice', 'groups.created');
+                $this->get('session')->getFlashBag()->add('notice', 'groups.created');
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->getFlashBagh()->add('notice', "echec");
+                $this->get('session')->getFlashBag()->add('notice', "echec");
             }
         }
         
@@ -97,7 +97,7 @@ class GroupAdminController extends Controller {
         
         if ($request->getMethod() === 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             
             if ($form->isValid())
             {
@@ -106,13 +106,13 @@ class GroupAdminController extends Controller {
                 $em->flush();
                 
                 
-                $this->get('session')->getFlashBagh()->add('notice', 'groups.updated');
+                $this->get('session')->getFlashBag()->add('notice', 'groups.updated');
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->getFlashBagh()->add('notice', "echec");
+                $this->get('session')->getFlashBag()->add('notice', "echec");
             }
         }
         
@@ -239,7 +239,7 @@ class GroupAdminController extends Controller {
         
         if ($request->getMethod() == "POST")
         {
-            $formGroups->bindRequest($request);
+            $formGroups->bind($request);
             
             if ($formGroups->isValid())
             {
@@ -327,7 +327,7 @@ class GroupAdminController extends Controller {
 
                 
                 $em->flush();
-                $this->get('session')->getFlashBagh()->add('notice', 
+                $this->get('session')->getFlashBag()->add('notice', 
                         'user.groups.added_or_removed');
                 
                 return $this->redirect(
@@ -339,7 +339,7 @@ class GroupAdminController extends Controller {
             
         }
         //if not valid : (not POST or not valid form)
-        $this->get('session')->getFlashBagh()->add('notice',
+        $this->get('session')->getFlashBag()->add('notice',
                     'user.groups.error_adding_or_removing_group');
         return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups_update',
@@ -372,14 +372,14 @@ class GroupAdminController extends Controller {
             if ($form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
                 
-                $this->get('session')->getFlashBagh()->add('notice',
+                $this->get('session')->getFlashBag()->add('notice',
                     'admin.profile_user.user_updated');
                 
                 return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups')
                         );
             } else {
-                $this->get('session')->getFlashBagh()->add('notice',
+                $this->get('session')->getFlashBag()->add('notice',
                     'admin.profile_user.contain_errors');
             }
         }

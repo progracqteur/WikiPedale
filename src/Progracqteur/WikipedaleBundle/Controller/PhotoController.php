@@ -107,7 +107,7 @@ class PhotoController extends Controller
                 $em->persist($photo);
                 $em->flush();
                 
-                $this->get('session')->getFlashBagh()->add('notice', "Votre photo a été correctement enregistrée.");
+                $this->get('session')->getFlashBag()->add('notice', "Votre photo a été correctement enregistrée.");
                 
                 if ($this->get('security.context')->isGranted('ROLE_NOTATION'))
                 {
