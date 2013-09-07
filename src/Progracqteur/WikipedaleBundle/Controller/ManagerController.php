@@ -21,7 +21,7 @@ class ManagerController extends Controller {
     {
         $session = $this->getRequest()->getSession();
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
         

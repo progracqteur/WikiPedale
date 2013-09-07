@@ -248,7 +248,7 @@ class NormalizerSerializerService {
     public function getManager()
     {
         //return $this->em;
-        return $this->container->get('doctrine')->getEntityManager();
+        return $this->container->get('doctrine')->getManager();
     }
     
     public function getRequest()

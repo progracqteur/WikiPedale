@@ -19,7 +19,7 @@ class NotationController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')->findAll();
 
@@ -34,7 +34,7 @@ class NotationController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')->find($id);
 
@@ -78,7 +78,7 @@ class NotationController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -98,7 +98,7 @@ class NotationController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')->find($id);
 
@@ -122,7 +122,7 @@ class NotationController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')->find($id);
 
@@ -165,7 +165,7 @@ class NotationController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')->find($id);
 
             if (!$entity) {

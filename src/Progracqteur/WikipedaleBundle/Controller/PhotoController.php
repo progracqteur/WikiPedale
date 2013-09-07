@@ -18,7 +18,7 @@ class PhotoController extends Controller
 {
     public function getPhotoByPlaceAction($_format, $placeId, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
         
@@ -56,7 +56,7 @@ class PhotoController extends Controller
             throw new AccessDeniedException('Vous devez être un administrateur pour modifier une image');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
         
@@ -135,7 +135,7 @@ class PhotoController extends Controller
     
     public function viewAction($fileNameP, $photoType, $_format, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                 ->findOneBy(array('file' => $fileNameP.'.'.$photoType));
@@ -158,7 +158,7 @@ class PhotoController extends Controller
             throw new AccessDeniedException('Vous devez être authentifié pour modifier une image');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                 ->findOneBy(array('file' => $fileNameP.'.'.$photoType));

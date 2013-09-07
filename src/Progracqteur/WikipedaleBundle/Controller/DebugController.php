@@ -28,7 +28,7 @@ class DebugController extends Controller {
         
         
         
-        $manager = $this->getDoctrine()->getEntityManager();
+        $manager = $this->getDoctrine()->getManager();
         
         $p = $manager->getRepository('ProgracqteurWikipedaleBundle:Model\Place')->find(42);
         
@@ -138,7 +138,7 @@ class DebugController extends Controller {
     
     public function debugTwoAction()
     {
-        /*$manager = $this->getDoctrine()->getEntityManager();
+        /*$manager = $this->getDoctrine()->getManager();
         
         $u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(14);
         /*
@@ -330,7 +330,7 @@ class DebugController extends Controller {
         }
         else {
             
-            $orm = $this->getDoctrine()->getEntityManager();
+            $orm = $this->getDoctrine()->getManager();
             
             $place = $orm->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
                     ->find($id);

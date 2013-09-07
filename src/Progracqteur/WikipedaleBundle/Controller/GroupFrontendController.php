@@ -14,7 +14,7 @@ class GroupFrontendController extends Controller
 
     public function getGroupCoveringZoneAction($slugZone, $type, $_format, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($slugZone);
         
