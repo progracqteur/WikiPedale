@@ -77,7 +77,7 @@ class CategoryController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm(
                 new CategoryType($this->getDoctrine()->getEntityManager()), $entity);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
@@ -139,7 +139,7 @@ class CategoryController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -164,7 +164,7 @@ class CategoryController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();

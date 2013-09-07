@@ -83,7 +83,7 @@ class PhotoController extends Controller
         
         if ($request->getMethod() === 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             
             $uploadedFile = $form['file']->getData();
             
@@ -175,7 +175,7 @@ class PhotoController extends Controller
         
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             $photo->setPhotoService($this->get('progracqteurWikipedalePhotoService'));
             
             $uploadedFile = $form['file']->getData();

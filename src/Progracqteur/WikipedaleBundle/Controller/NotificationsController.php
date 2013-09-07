@@ -102,7 +102,7 @@ class NotificationsController extends Controller {
                 , $notification)
               ;
         
-        $form->bindRequest($request);
+        $form->bind($request);
         
         if ($form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
