@@ -12,11 +12,11 @@ use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedExceptionRespons
  */
 class NormalizedExceptionResponseNormalizer implements NormalizerInterface {
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         
     }
     
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         return array(
             'error' => true,
             'message' => $object->getException()->getMessage()

@@ -36,7 +36,7 @@ class GroupNormalizer implements NormalizerInterface {
      * @param type $format
      * @return \Progracqteur\WikipedaleBundle\Entity\Management\Group
      */
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         $id = $data['id'];
         
         $group = $this->normalizerService
@@ -57,7 +57,7 @@ class GroupNormalizer implements NormalizerInterface {
      * @param \Progracqteur\WikipedaleBundle\Entity\Management\Group $object
      * @param string $format
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         
         if ($object->getNotation() !== null)
         {

@@ -18,7 +18,7 @@ class DateNormalizer implements NormalizerInterface {
         $this->service = $service;
     }
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, array $format = null) {
         throw new \Exception("not yet implemented");
     }
     
@@ -28,7 +28,7 @@ class DateNormalizer implements NormalizerInterface {
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         $u = intval($object->format('U'), 10);
         return array(
             "entity" => "datetime",
@@ -36,7 +36,7 @@ class DateNormalizer implements NormalizerInterface {
         );
     }
 
-    public function supportsDenormalization($data, $type, $format = null) {
+    public function supportsDenormalization($data, $type, $format = null, $context = array()) {
         return false; //NOt yet implemented
     }
     

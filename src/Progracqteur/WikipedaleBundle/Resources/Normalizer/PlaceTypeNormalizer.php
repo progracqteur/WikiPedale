@@ -26,7 +26,7 @@ class PlaceTypeNormalizer implements NormalizerInterface {
         $this->service = $service;
     }
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         $type = $this->service->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
                 ->find($data[self::ID]);
@@ -39,7 +39,7 @@ class PlaceTypeNormalizer implements NormalizerInterface {
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         return array(
                 self::ID => $object->getId(),
                 self::LABEL => $object->getLabel(),

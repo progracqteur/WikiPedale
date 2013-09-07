@@ -27,7 +27,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
     }
     
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         throw new \Exception("denormalization of a placeTracking is forbidden");
     }
 
@@ -36,7 +36,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
      * @param Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking $object
      * @param string $format
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         
         $userNormalizer = $this->service->getUserNormalizer();
         

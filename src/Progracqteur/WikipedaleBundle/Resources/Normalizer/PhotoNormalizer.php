@@ -26,11 +26,11 @@ class PhotoNormalizer implements NormalizerInterface {
     }
     
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         
     }
 
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         return array(
             'entity' => 'photo',
             'webPath' => $object->getWebPath(),
