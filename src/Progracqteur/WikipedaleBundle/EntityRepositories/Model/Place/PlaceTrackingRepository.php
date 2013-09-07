@@ -40,7 +40,7 @@ class PlaceTrackingRepository extends EntityRepository {
         
         $sql.= " ORDER BY date DESC LIMIT :limit OFFSET :offset";
         
-        $rsm = new ResultSetMappingBuilder($this->getManager());
+        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
         $rsm->addRootEntityFromClassMetadata('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'pt');
         
         /*$rsm->addEntityResult('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'pt')
@@ -53,7 +53,7 @@ class PlaceTrackingRepository extends EntityRepository {
         
         
         
-        return $this->getManager()
+        return $this->getEntityManager()
                 ->createNativeQuery($sql, $rsm)
                 ->setParameter('polygonZone', $zone->getPolygon())
                 ->setParameter('limit', $max)
