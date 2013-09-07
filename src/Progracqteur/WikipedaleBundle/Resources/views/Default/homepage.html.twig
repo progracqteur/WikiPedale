@@ -23,7 +23,7 @@ Params passed by the controller to this template :
 {% block javascript %}
 <script language="javascript">       
     // security
-    {% render "ProgracqteurWikipedaleBundle:Token:insertTokens" with {'number':15} %}
+    {% render (controller("ProgracqteurWikipedaleBundle:Token:insertTokens" , {'number':15})) %}
 </script>
 {% endblock %}
 
