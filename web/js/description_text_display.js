@@ -29,6 +29,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
      	*/
     	current_description_id = id_desc;
     	photo.refresh_span_photo(id_desc);
+        $("#link_add_photo").unbind("click");
         $("#link_add_photo").click(function() { photo.pop_up_add_photo(id_desc); });
 
 		var desc_data = descriptions.get_by_id(id_desc);
