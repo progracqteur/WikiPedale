@@ -46,7 +46,7 @@ class PlaceNormalizer implements NormalizerInterface {
     }
     
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         
         if ($data['id'] === null){
             $p = new Place();
@@ -222,7 +222,7 @@ class PlaceNormalizer implements NormalizerInterface {
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         $creator = $object->getCreator();
         $addrNormalizer = $this->service->getAddressNormalizer();
         $userNormalizer = $this->service->getUserNormalizer();

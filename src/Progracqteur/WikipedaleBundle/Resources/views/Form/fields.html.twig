@@ -1,0 +1,13 @@
+{% block notification_frequency_widget %}
+
+
+
+    <ul {{ block('widget_container_attributes') }} class="notification_frequency">
+    {% for child in form %}
+        <li class="notification_frequency_element">{{form_widget(child)}} {{form_label(child)}}</li>
+    {% endfor %}
+    </ul>
+
+
+
+{% endblock %}

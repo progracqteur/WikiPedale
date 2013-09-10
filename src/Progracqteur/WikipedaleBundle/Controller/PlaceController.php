@@ -29,7 +29,7 @@ class PlaceController extends Controller {
     
     public function viewAction($_format, $id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')->find($id);
         
@@ -81,7 +81,7 @@ class PlaceController extends Controller {
         
         throw new \Exception("cette fonction n'est plus fonctionnelle tant que la fonction covers n'a pas été adaptée");
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $BboxStr = $request->get('bbox', null);
         if ($BboxStr === null) {
@@ -127,7 +127,7 @@ class PlaceController extends Controller {
     {
         
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $citySlug = $request->get('city', null);
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
@@ -279,7 +279,7 @@ class PlaceController extends Controller {
             $checkCode = $place->getCreator()->getCheckCode();
             $place->getChangeset()->setCreation(null);
             //register the place to the EntityManager, for getting the Id
-            $this->getDoctrine()->getEntityManager()->persist($place);
+            $this->getDoctrine()->getManager()->persist($place);
             
             $t = $this->get('translator');
             $message = \Swift_Message::newInstance()
@@ -345,7 +345,7 @@ class PlaceController extends Controller {
         }
         
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($place);
         $em->flush();
         
@@ -375,7 +375,7 @@ class PlaceController extends Controller {
             throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException(); 
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $place = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\Place p where p.id = :id')
                 ->setParameter('id', $id)
                 ->getSingleResult();
@@ -404,7 +404,7 @@ class PlaceController extends Controller {
     {
         
         
-        $place = $this->getDoctrine()->getEntityManager()
+        $place = $this->getDoctrine()->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
                 ->find($placeId);
         
@@ -433,7 +433,7 @@ class PlaceController extends Controller {
             
            
             
-            $this->getDoctrine()->getEntityManager()->flush($place);
+            $this->getDoctrine()->getManager()->flush($place);
             
             
             return $this->render('ProgracqteurWikipedaleBundle:Place:confirmed.html.twig',

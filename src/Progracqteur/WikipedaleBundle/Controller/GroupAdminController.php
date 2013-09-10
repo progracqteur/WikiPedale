@@ -26,7 +26,7 @@ class GroupAdminController extends Controller {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
-        $d = $this->getDoctrine()->getEntityManager(); 
+        $d = $this->getDoctrine()->getManager(); 
         
         $groups = $d->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->findAll();
@@ -45,26 +45,26 @@ class GroupAdminController extends Controller {
         }
         
         $g = new Group('');
-        $form = $this->createForm(new GroupType($this->getDoctrine()->getEntityManager()), $g);
+        $form = $this->createForm(new GroupType($this->getDoctrine()->getManager()), $g);
         
         if ($request->getMethod() === 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             
             if ($form->isValid())
             {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($g);
                 $em->flush();
                 
                 
-                $this->get('session')->setFlash('notice', 'groups.created');
+                $this->get('session')->getFlashBag()->add('notice', 'groups.created');
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->setFlash('notice', "echec");
+                $this->get('session')->getFlashBag()->add('notice', "echec");
             }
         }
         
@@ -82,7 +82,7 @@ class GroupAdminController extends Controller {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $g = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->find($id);
@@ -93,26 +93,26 @@ class GroupAdminController extends Controller {
             return $this->createNotFoundException("group.non.found");
         }
         
-        $form = $this->createForm(new GroupType($this->getDoctrine()->getEntityManager()), $g);
+        $form = $this->createForm(new GroupType($this->getDoctrine()->getManager()), $g);
         
         if ($request->getMethod() === 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             
             if ($form->isValid())
             {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($g);
                 $em->flush();
                 
                 
-                $this->get('session')->setFlash('notice', 'groups.updated');
+                $this->get('session')->getFlashBag()->add('notice', 'groups.updated');
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->setFlash('notice', "echec");
+                $this->get('session')->getFlashBag()->add('notice', "echec");
             }
         }
         
@@ -134,7 +134,7 @@ class GroupAdminController extends Controller {
         $first = (int) $request->get('first', 0);
         $max = (int) $request->get('max', 50);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         if ($query !== '')
         {
@@ -199,7 +199,7 @@ class GroupAdminController extends Controller {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
                 ->find($id);
@@ -225,7 +225,7 @@ class GroupAdminController extends Controller {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
                 ->find($id);
@@ -239,7 +239,7 @@ class GroupAdminController extends Controller {
         
         if ($request->getMethod() == "POST")
         {
-            $formGroups->bindRequest($request);
+            $formGroups->bind($request);
             
             if ($formGroups->isValid())
             {
@@ -299,7 +299,12 @@ class GroupAdminController extends Controller {
                     
                     foreach ($user->getGroups() as $group)
                     {
-                        if ($notification->getGroup() !== null)
+                        if ($group->getZone()->getId() === $notification->getZone()->getId()) {
+                            $notificationMatchGroup = true;
+                            break;
+                        }
+                        
+                        /*if ($notification->getGroup() !== null)
                         {
                             if ($notification->getGroup()->getId() === $group->getId())
                             {
@@ -307,7 +312,7 @@ class GroupAdminController extends Controller {
                                 break;
                             }
                             
-                        } 
+                        } */
                     }
 
                     
@@ -322,7 +327,7 @@ class GroupAdminController extends Controller {
 
                 
                 $em->flush();
-                $this->get('session')->setFlash('notice', 
+                $this->get('session')->getFlashBag()->add('notice', 
                         'user.groups.added_or_removed');
                 
                 return $this->redirect(
@@ -334,7 +339,7 @@ class GroupAdminController extends Controller {
             
         }
         //if not valid : (not POST or not valid form)
-        $this->get('session')->setFlash('notice',
+        $this->get('session')->getFlashBag()->add('notice',
                     'user.groups.error_adding_or_removing_group');
         return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups_update',
@@ -367,14 +372,14 @@ class GroupAdminController extends Controller {
             if ($form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
                 
-                $this->get('session')->setFlash('notice',
+                $this->get('session')->getFlashBag()->add('notice',
                     'admin.profile_user.user_updated');
                 
                 return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups')
                         );
             } else {
-                $this->get('session')->setFlash('notice',
+                $this->get('session')->getFlashBag()->add('notice',
                     'admin.profile_user.contain_errors');
             }
         }

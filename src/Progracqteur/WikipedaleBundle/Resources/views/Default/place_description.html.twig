@@ -11,7 +11,10 @@
       <span id="span_place_description_signaleur_contact"></span>
     </div>
 
-    <div id="test">
+    <div class="description_element">
+      <span id="span_edit_lon_lat_delete_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
+      <button id="button_edit_lon_lat">Changer l'emplacement sur la carte</button>
+      <button id="button_save_lon_lat">Sauvegarder</button>
     </div>
 
     <div class="description_element">
@@ -22,7 +25,7 @@
         <input type="text" id="span_place_description_loc_edit"> 
       </div>
       <span id="span_place_description_loc_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_loc_button" onclick="descriptionEditOrSave('loc'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_loc_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -32,7 +35,7 @@
         <textarea id="span_place_description_desc_edit"></textarea>
       </div>
       <span id="span_place_description_desc_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_desc_button" onclick="descriptionEditOrSave('desc'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_desc_button"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
 
@@ -43,7 +46,7 @@
         <textarea id="span_place_description_commentaireCeM_edit"></textarea>
       </div>
       <span id="span_place_description_commentaireCeM_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_commentaireCeM_button" onclick="descriptionEditOrSave('commentaireCeM'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_commentaireCeM_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -69,7 +72,7 @@
         </select>
       </div>
       <span id="span_place_description_cat_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_cat_button" onclick="descriptionEditOrSave('cat'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_cat_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -77,15 +80,15 @@
       <span id="span_place_description_status"></span>
       <div id="div_place_description_status_edit" style="display: none;">
         <select id="span_place_description_status_edit">
-          <option class="status-1" value="-1">rejeté (gris)</option>
-          <option class="status0" value="0">pas encore pris en compte (blanc)</option>
-          <option class="status1" value="1">pris en compte (rouge)</option>
-          <option class="status2" value="2">en cours de résolution (orange)</option>
-          <option class="status3" value="3">résolu (vert)</option>
+          <option class="option_grey" value="-1">rejeté (gris)</option>
+          <option class="option_white" value="0">pas encore pris en compte (blanc)</option>
+          <option class="option_red" value="1">pris en compte (rouge)</option>
+          <option class="option_orange" value="2">en cours de résolution (orange)</option>
+          <option class="option_green" value="3">résolu (vert)</option>
         </select>
       </div>
       <span id="span_place_description_status_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_status_button" onclick="descriptionEditOrSave('status'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_status_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <!-- 
@@ -106,7 +109,7 @@
         </select>
       </div>
       <span id="span_place_description_type_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_type_button" onclick="descriptionEditOrSave('type'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_type_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
@@ -120,17 +123,17 @@
         </select>
       </div>
       <span id="span_place_description_gestionnaire_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_gestionnaire_button" onclick="descriptionEditOrSave('gestionnaire'); return false" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_place_description_gestionnaire_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
     </div>
 
     <div class="description_element">
       <span id="span_place_description_delete_error" style="background:red; display: none;">Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq</span>
-      <button id="span_place_description_delete_button" type="button" onclick="descriptionDelete();">Ne plus afficher le signalement</button> 
+      <button id="span_place_description_delete_button" type="button">Ne plus afficher le signalement</button> 
     </div>
 
     <div>
       <span class="span_photo"></span>
-      <a href="#" class="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}">
+      <a href="#" id="link_add_photo" title="{{ 'display_black_points.add_picture'|trans({}, 'changes') }}">
       <img src="{{asset('img/AddPicture.png')}}" />
       </a>
     </div>
@@ -139,7 +142,7 @@
       <span class="span_private_comment">Commentaires CeM-gestionnaire de Voirie:<br /></span>
       
       <div id="div_last_private_comment_container"></div>
-      <span id="span_plus_de_commenaitres_link"><a href="javascript:comments_mode();" title="">Plus de commentaires &amp; ajout</a></span>
+      <span id="span_plus_de_commenaitres_link"><a id="plus_de_commenaitres_link" href="#" title="">Plus de commentaires &amp; ajout</a></span>
 
       <div id="div_list_private_comment_container" style="display:none"></div>
 
@@ -148,7 +151,7 @@
           <label for="add_new_description_form__description">Votre commentaire :</label>
           <textarea id="form_add_new_comment__text" name="text" rows="5" maxlength="4000" placeholder="Ajoutez ici votre commentaire"></textarea>
 
-          <div id="add_new_description_form__message"></div>
+          <div id="form_add_new_comment__message"></div>
           <input class="envoi" id="new_comment_form_submit_button" type="submit" value="Soumettre">
         </form>
     </div>

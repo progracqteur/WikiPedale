@@ -34,14 +34,14 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         $this->service = $service;
     }
 
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         
     }
 
     /*
      * 
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         $a = array();
         $a['error'] = false;
         $a['nb'] = $object->getCount();

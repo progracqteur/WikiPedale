@@ -18,7 +18,7 @@ class PhotoController extends Controller
 {
     public function getPhotoByPlaceAction($_format, $placeId, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
         
@@ -56,7 +56,7 @@ class PhotoController extends Controller
             throw new AccessDeniedException('Vous devez être un administrateur pour modifier une image');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
         
@@ -83,7 +83,7 @@ class PhotoController extends Controller
         
         if ($request->getMethod() === 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             
             $uploadedFile = $form['file']->getData();
             
@@ -107,7 +107,7 @@ class PhotoController extends Controller
                 $em->persist($photo);
                 $em->flush();
                 
-                $this->get('session')->setFlash('notice', "Votre photo a été correctement enregistrée.");
+                $this->get('session')->getFlashBag()->add('notice', "Votre photo a été correctement enregistrée.");
                 
                 if ($this->get('security.context')->isGranted('ROLE_NOTATION'))
                 {
@@ -135,7 +135,7 @@ class PhotoController extends Controller
     
     public function viewAction($fileNameP, $photoType, $_format, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                 ->findOneBy(array('file' => $fileNameP.'.'.$photoType));
@@ -154,11 +154,11 @@ class PhotoController extends Controller
     {
         if (!$this->get('security.context')->isGranted('ROLE_NOTATION'))
         {
-            $this->get('session')->setFlash('notice', "Vous devez être un administrateur pour modifier une image");
+            $this->get('session')->getFlashBag()->add('notice', "Vous devez être un administrateur pour modifier une image");
             throw new AccessDeniedException('Vous devez être authentifié pour modifier une image');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                 ->findOneBy(array('file' => $fileNameP.'.'.$photoType));
@@ -175,7 +175,7 @@ class PhotoController extends Controller
         
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             $photo->setPhotoService($this->get('progracqteurWikipedalePhotoService'));
             
             $uploadedFile = $form['file']->getData();
@@ -189,7 +189,7 @@ class PhotoController extends Controller
             {
                 $em->flush();
                 
-                $this->get('session')->setFlash('notice', "La photo a été mise à jour");
+                $this->get('session')->getFlashBag()->add('notice', "La photo a été mise à jour");
                 
                 return $this->redirect($this->generateUrl('wikipedale_photo_update', array(
                     'fileNameP' => $photo->getFileName(),

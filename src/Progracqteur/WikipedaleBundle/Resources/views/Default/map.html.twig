@@ -4,26 +4,26 @@
 
  	<div id="ToolsPanel">
 
-    <div id="div_returnNormalMode" title="Button is to be clicked" onclick="javascript:normal_mode();">
-      <img src="../img/retour.png" style="padding-left:10px"> Retour à la carte globale</div>
+    <div id="div_returnNormalMode" title="Button is to be clicked">
+      <img src="{{ asset('img/retour.png') }}" style="padding-left:10px"> Retour à la carte globale</div>
 
  		<div id="param_carte">
- 			<div id="buttonOptionsAffichage" class="buttonPlus" title="Button is to be clicked" onclick="javascript:action_buttonOptionsAffichage();">Filtrer
+ 			<div id="buttonOptionsAffichage" class="buttonPlus" title="Button is to be clicked">Filtrer
       les signalements</div>
 
  			<div id="div_options_affichage">
-        <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM" onClick="javascript:changeFilteringMode('StatusCeM');">
+        <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM">
         Filtrer par couleur :
         <select style="width:100%" data-placeholder="" id="optionsAffichageStatusCeM" multiple>
-          <option class="status-1" value="-1">rejeté</option>
-          <option class="status0" value="0">blanc</option>
-          <option class="status1" value="1">rouge</option>
-          <option class="status2" value="2">orange</option>
-          <option class="status3" value="3">vert</option>
+          <option class="option_grey" value="-1">rejeté (gris)</option>
+          <option class="option_white" value="0">pas encore pris en compte (blanc)</option>
+          <option class="option_red" value="1">pris en compte (rouge)</option>
+          <option class="option_orange" value="2">en cours de résolution (orange)</option>
+          <option class="option_green" value="3">résolu (vert)</option>
         </select>
 
         <!---
-        <input type="checkbox" name="affichage_tous_ou_filtre_type" onClick="javascript:changeFilteringMode('PlaceTypes');">
+        <input type="checkbox" name="affichage_tous_ou_filtre_type">
         Filtrer par type :
         <select style="width:100%" data-placeholder="" id="optionsAffichagePlaceTypes" multiple>
         {% for placetype in placeTypes %}
@@ -33,7 +33,7 @@
         -->
 
 
-        <input type="checkbox" name="affichage_tous_ou_filtre_categorie" onClick="javascript:changeFilteringMode('Categories');">
+        <input type="checkbox" name="affichage_tous_ou_filtre_categorie">
         Filtrer par categorie :
 
         <div>
@@ -55,6 +55,12 @@
       		</select>
         </div>
  		  </div>
+    </div>
+
+    <div id="add_new_description">
+      <div id="div_add_new_description_button" class="buttonPlus" title="Button is to be clicked">
+        Ajouter un signalement
+      </div>
     </div>
 
     <div id="olPanelUL"></div>

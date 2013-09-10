@@ -27,7 +27,7 @@ class DefaultController extends Controller
         
         if ($id != null)
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             
             $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
                     ->find($id);
@@ -52,7 +52,7 @@ class DefaultController extends Controller
         
         /*if ($this->getRequest()->getSession()->get('city') == null)
         {*/
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
 
             $cities = $em->createQuery("select c from 
                 ProgracqteurWikipedaleBundle:Management\\Zone c  order by c.name")
@@ -62,7 +62,7 @@ class DefaultController extends Controller
             $cities = array();
         }*/
         
-        $mainCitiesSlug = $this->get('service_container')->getParameter('cities_in_front_page');
+        $mainCitiesSlug = $this->get('service_container')->getParameter('cities_in_front_page'); 
         $mainCities = array();
         
         foreach ($cities as $c)
@@ -73,7 +73,7 @@ class DefaultController extends Controller
             }
         }
         
-        $categories = $this->getDoctrine()->getEntityManager()
+        $categories = $this->getDoctrine()->getManager()
                 ->createQuery('SELECT c from 
             ProgracqteurWikipedaleBundle:Model\Category c JOIN c.parent p
             WHERE  c.used = true
@@ -81,7 +81,7 @@ class DefaultController extends Controller
                 ->getResult();
         //Todo: cachable query
         
-        $placeTypes = $this->getDoctrine()->getEntityManager()
+        $placeTypes = $this->getDoctrine()->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
                 ->findAll();
         //TODO : cachable query

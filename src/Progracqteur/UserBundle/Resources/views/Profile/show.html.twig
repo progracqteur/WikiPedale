@@ -1,5 +1,14 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
+{% block title %}Mon profil{% endblock %}
+
+
+
 {% block body %}
+
+{% include 'ProgracqteurWikipedaleBundle:User:user_menu.html.twig' with {active: 'profile_view'} %}
+
+<div class="user_content">
 {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+</div>        
 {% endblock body %}

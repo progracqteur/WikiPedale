@@ -40,7 +40,7 @@ class CategoryNormalizer implements NormalizerInterface {
      * @throw \Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Category
      */
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         $cat = $this->service->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Category')
                 ->find($data['id']);
@@ -59,7 +59,7 @@ class CategoryNormalizer implements NormalizerInterface {
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         $a = array();
         $a[self::ID] = $object->getId();
         $a[self::LABEL] = $object->getLabel();

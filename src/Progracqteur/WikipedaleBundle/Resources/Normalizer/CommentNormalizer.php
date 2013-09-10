@@ -37,7 +37,7 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
     }
 
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         //TODO à adapter lorsque le json envoyé sera corrigé
    	/*if ($data['id'] === null)
         {*/
@@ -115,7 +115,7 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null) {    
+    public function normalize($object, $format = null, array $context = array()) {    
         return  array(
             'entity' => 'comment',
             'id' => $object->getId(),

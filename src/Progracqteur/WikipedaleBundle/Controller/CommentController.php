@@ -23,7 +23,7 @@ class CommentController extends Controller
     
     private function getCommentByPLaceLimit($_format, $placeId, $limit, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
         
@@ -155,7 +155,7 @@ class CommentController extends Controller
             throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")
                 ->find($placeId);
@@ -217,7 +217,7 @@ class CommentController extends Controller
             throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $serializedJson = $request->get('entity', null);
         
@@ -300,7 +300,7 @@ class CommentController extends Controller
     
     public function viewAction($commentId, $_format)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         
         $comment = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Comment')
                 ->find($commentId);

@@ -3,11 +3,19 @@ mail:
               Bonjour %dest%, 
               
               Vous recevez ce courriel car vous êtes abonnés aux modifications 
-              de la zone %zone% sur le site http://uello.be.
+              de différents emplacements sur le site http://uello.be.
+              
+              Vos abonnements sont les suivants :
+              
+              %subscriptions%
               
   footer_text: |
                Bonne journée, 
                L'équipe Uello
+  subscriptions:
+    group: Notifications du groupe %groupe%
+    zone: Notifications de la zone %zone%
+    place: Notification de l'emplacement %place%
   subject: Notifications de Uello
   place:
     header: Emplacement "%label%"

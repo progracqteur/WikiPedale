@@ -21,7 +21,7 @@ class AddressNormalizer implements NormalizerInterface {
         $this->service = $service;
     }
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         $a = new Address();
         
         if (isset($data['road']))
@@ -30,7 +30,7 @@ class AddressNormalizer implements NormalizerInterface {
         return $a;
     }
     
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         $array = $object->toArray();
         $array['entity'] = 'address';
         return $array;

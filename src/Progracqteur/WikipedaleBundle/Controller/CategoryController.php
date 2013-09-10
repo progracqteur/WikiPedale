@@ -19,7 +19,7 @@ class CategoryController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Category')->findAll();
 
@@ -34,7 +34,7 @@ class CategoryController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Category')->find($id);
 
@@ -59,7 +59,7 @@ class CategoryController extends Controller
     {
         $entity = new Category();
         $form   = $this->createForm(
-                new CategoryType($this->getDoctrine()->getEntityManager()), $entity);
+                new CategoryType($this->getDoctrine()->getManager()), $entity);
 
         return $this->render('ProgracqteurWikipedaleBundle:Model/Category:new.html.twig', array(
             'entity' => $entity,
@@ -76,11 +76,11 @@ class CategoryController extends Controller
         $entity  = new Category();
         $request = $this->getRequest();
         $form    = $this->createForm(
-                new CategoryType($this->getDoctrine()->getEntityManager()), $entity);
-        $form->bindRequest($request);
+                new CategoryType($this->getDoctrine()->getManager()), $entity);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -100,7 +100,7 @@ class CategoryController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Category')->find($id);
 
@@ -109,7 +109,7 @@ class CategoryController extends Controller
         }
 
         $editForm = $this->createForm(new CategoryType(
-                $this->getDoctrine()->getEntityManager()), $entity);
+                $this->getDoctrine()->getManager()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ProgracqteurWikipedaleBundle:Model/Category:edit.html.twig', array(
@@ -125,7 +125,7 @@ class CategoryController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Category')->find($id);
 
@@ -134,12 +134,12 @@ class CategoryController extends Controller
         }
 
         $editForm   = $this->createForm(new CategoryType(
-                $this->getDoctrine()->getEntityManager()), $entity);
+                $this->getDoctrine()->getManager()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -164,10 +164,10 @@ class CategoryController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Category')->find($id);
 
             if (!$entity) {

@@ -19,7 +19,7 @@ class ZoneNormalizer implements NormalizerInterface {
         $this->service = $service;
     }
     
-    public function denormalize($data, $class, $format = null) {
+    public function denormalize($data, $class, $format = null, array $context = array()) {
         throw new \Exception("not yet implemented");
     }
     
@@ -29,7 +29,7 @@ class ZoneNormalizer implements NormalizerInterface {
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null) {
+    public function normalize($object, $format = null, array $context = array()) {
         return array(
             'entity' => 'zone',
             'name' => $object->getName(),

@@ -19,7 +19,7 @@ class PlaceTrackingController extends Controller {
     
     public function byCityAction($citySlug, $_format, Request $request)
     {
-         $em = $this->getDoctrine()->getEntityManager();
+         $em = $this->getDoctrine()->getManager();
         
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
         

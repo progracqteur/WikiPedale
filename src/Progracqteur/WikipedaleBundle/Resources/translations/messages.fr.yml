@@ -72,6 +72,8 @@ user:
         password: Mot de passe
         label: "Nom public :"
         phonenumber: "Numéro de téléphone :"
+    update_profile:
+      title: Modifier mon profil
 paginations:
   pages: Pages
 
@@ -123,3 +125,50 @@ validation:
 email_confirmation_message:
   subject: Vérification de votre adresse de courriel
   
+notification_subscriptions:
+  list:
+    title: Mes notifications personnelles
+    empty: Vous n'avez aucune notification programmée
+    kind: Type de notification
+    kind_:
+      moderator: Notification du modérateur
+      manager: Notification du gestionnaire de voirie
+    frequency: Fréquence d'envoi
+    frequency_:
+      60: Immédiate
+      86400: Une fois par jour
+      0: Suspendue - aucun envoi
+    transporter: Méthode d'envoi
+    transporter_:
+      email: Par courrier électronique
+    update: Modifier
+    zone: Pour la zone géographique
+  form:
+    submit: Modifier
+    kind: Type de notification
+    kind_:
+      moderator: Notification du modérateur
+      manager: Notification du gestionnaire de voirie
+    frequency: Fréquence d'envoi
+    frequency_:
+      60: Immédiate
+      86400: Une fois par jour
+      0: Suspendue - aucun envoi
+    transporter: Méthode d'envoi
+    transporter_:
+      email: Par courrier électronique 
+    zone: Pour la zone géographique
+  form_create:
+    title: Création d'une notification
+  form_update:
+    title: Modification d'une notification
+  forms:
+    frequency:
+      daily: Une fois par jour
+      minutely: Immédiatement
+      label: Fréquence d'envoi
+      stopped: Suspendre
+    
+      
+      
+    

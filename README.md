@@ -1,18 +1,16 @@
-== Installation  ==
-Installer le code dans /src/Progracqteur/WikipedaleBundle/
-Modifier /app/config/routing.yml en y ajoutant :
+# Wikipedale ?
 
-ProgracqteurWikipedaleBundle:
-    resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing.yml"
-    prefix:   /
+Wikipedale est un logiciel de signalement de probl√®mes √† V√©lo. Il est d√©velopp√© par le [GRACQ ASBL](http://www.gracq.org) avec le soutien de la R√©gion Wallonne.
 
-Modifier /app/AppKernel.php en ajoutant au tableau $bundles l'ÈlÈment new Progracqteur\WikipedaleBundle\ProgracqteurWikipedaleBundle() :
-$bundles = array(
-	    ... autres ÈlÈments ...
-	    new Progracqteur\WikipedaleBundle\ProgracqteurWikipedaleBundle(),
-            ... autres ÈlÈments ...
-        );
+Le projet est en test √† l'adresse suivante http://uello.be.
 
 
-== Documentation ==
-Voir wiki pour le moment...
+
+# Installation 
+
+Instructions dans le Wiki du projet : https://github.com/progracqteur/WikiPedale/wiki/Installer-wikipedale-et-symfony
+
+
+# Documentation
+
+Le wiki du projet explique le fonctionnement de l'API, les diff√©rentes URL disponibles, etc.

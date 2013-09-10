@@ -6,37 +6,12 @@
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 
-        <script src="{{ asset('OpenLayers/OpenLayers.js') }}" type="text/javascript"></script>
-        <script src="http://code.jquery.com/jquery-1.8.2.js"  type="text/javascript"></script>
         <script src="{{ asset('js/wsse.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/user.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/main.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/comment.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('js/affichage.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/add_new_description_from_informer.js') }}" type="text/javascript"></script>
+        <script data-main="{{ asset('js/app.js') }}" src="{{ asset('js/require.js') }}"></script>
 
-        <link href="{{ asset('select2-3.3.2/select2.css') }}" rel="stylesheet"/>
-        <script src="{{ asset('select2-3.3.2/select2.js') }}"></script>
 
-        <script src="{{ asset('chosen/chosen.jquery.js') }}" type="text/javascript"></script>
-        <link rel="stylesheet" href="{{ asset('chosen/chosen.css') }}" />
-
-        <script src="{{ asset('js/jquery.colorbox.js') }}" type="text/javascript"></script>
-        <link rel="stylesheet"  href="{{ asset('css/colorbox.css') }}" type="text/css"/>
-
-        <script language="javascript"> 
-            $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
-
-            // color box for connexion
-            $(document).ready(function(){
-                $('a.connexion').colorbox({
-                    inline:true,
-                    width:"400px",
-                    height:"400px",
-                    onComplete: function(){ $("#login_input_username").focus(); }
-                });
-            });
-        </script>
+        <link rel="stylesheet" href="{{ asset('css/colorbox.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('js/lib/select2-3.3.2/select2.css') }}" type="text/css"/>
 
         {% block javascript %}
             <!-- Aucun fichier javascript ajouté par le template -->
@@ -58,7 +33,7 @@
     <div style='display:none'>
         <div id='login_form_div'>
             <b><font color="red"><span id='login_message'></span></font></b><br />
-            <form method="post" action="javascript:catchLoginForm()" id="loginForm">
+            <form method="post" action="" id="loginForm">
                 <p><label for="login_input_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
                 <input type="text" id="login_input_username" name="username"/></p>
 
@@ -117,10 +92,12 @@
             
         <div id="body">
 
-            {% if app.session.hasFlash('notice') %}
+            {% if app.session.flashbag.has('notice') %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
                 <div class="flash-notice">
-                    {{ app.session.flash('notice') }}
+                    {{ flashMessage }}
                 </div>
+            {% endfor %}
             {% endif %}
             
             {% block zoneMenu %}{% endblock %}
