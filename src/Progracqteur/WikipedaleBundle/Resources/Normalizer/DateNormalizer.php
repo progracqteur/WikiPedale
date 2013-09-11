@@ -4,13 +4,14 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 /**
  * Description of DateNormalizer
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class DateNormalizer implements NormalizerInterface, Symfony\Component\Serializer\Normalizer\DenormalizerInterface {
+class DateNormalizer implements NormalizerInterface {
     
     private $service;
     

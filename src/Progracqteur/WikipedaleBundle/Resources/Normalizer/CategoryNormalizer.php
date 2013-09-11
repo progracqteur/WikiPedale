@@ -6,13 +6,14 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 /**
  * Normalize instance of Category
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class CategoryNormalizer implements NormalizerInterface, Symfony\Component\Serializer\Normalizer\DenormalizerInterface {
+class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  {
     
     /**
      *

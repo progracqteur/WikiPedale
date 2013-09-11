@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 
 /**
@@ -12,7 +13,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
  *
  * @author julien [at] fastre [point] info
  */
-class AddressNormalizer implements NormalizerInterface, Symfony\Component\Serializer\Normalizer\DenormalizerInterface {
+class AddressNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     private $service;
     
