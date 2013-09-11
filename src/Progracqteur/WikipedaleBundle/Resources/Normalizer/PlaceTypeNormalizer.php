@@ -12,7 +12,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType;
  *
  * @author julien [at] fastre [point] info
  */
-class PlaceTypeNormalizer implements NormalizerInterface {
+class PlaceTypeNormalizer implements NormalizerInterface, Symfony\Component\Serializer\Normalizer\DenormalizerInterface {
     
     private $service;
     

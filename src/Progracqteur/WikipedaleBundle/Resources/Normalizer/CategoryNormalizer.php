@@ -12,7 +12,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class CategoryNormalizer implements NormalizerInterface {
+class CategoryNormalizer implements NormalizerInterface, Symfony\Component\Serializer\Normalizer\DenormalizerInterface {
     
     /**
      *

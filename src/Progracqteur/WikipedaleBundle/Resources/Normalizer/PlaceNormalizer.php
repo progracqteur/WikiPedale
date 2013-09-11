@@ -12,7 +12,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
-
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 
 /**
@@ -20,7 +20,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
  *
  * @author julien [at] fastre [point] info
  */
-class PlaceNormalizer implements NormalizerInterface {
+class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     /**
      *

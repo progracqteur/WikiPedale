@@ -10,7 +10,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class DateNormalizer implements NormalizerInterface {
+class DateNormalizer implements NormalizerInterface, Symfony\Component\Serializer\Normalizer\DenormalizerInterface {
     
     private $service;
     

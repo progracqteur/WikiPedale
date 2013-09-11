@@ -12,7 +12,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
  *
  * @author julien [at] fastre [point] info
  */
-class AddressNormalizer implements NormalizerInterface {
+class AddressNormalizer implements NormalizerInterface, Symfony\Component\Serializer\Normalizer\DenormalizerInterface {
     
     private $service;
     
