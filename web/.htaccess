@@ -49,3 +49,4 @@ DirectoryIndex app.php
         RedirectMatch 302 ^/$ /app.php/
         # RedirectTemp cannot be used instead
     </IfModule>
+</IfModule>
