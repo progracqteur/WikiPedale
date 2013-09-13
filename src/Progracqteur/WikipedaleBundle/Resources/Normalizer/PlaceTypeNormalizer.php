@@ -3,6 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType;
 
@@ -12,7 +13,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType;
  *
  * @author julien [at] fastre [point] info
  */
-class PlaceTypeNormalizer implements NormalizerInterface {
+class PlaceTypeNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     private $service;
     
