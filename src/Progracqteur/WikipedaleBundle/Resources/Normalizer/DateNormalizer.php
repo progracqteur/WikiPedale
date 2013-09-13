@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 /**
  * Description of DateNormalizer

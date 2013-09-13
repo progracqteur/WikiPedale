@@ -5,11 +5,11 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
       - Valid: ~
   properties:
     description:
-      - MaxLength: {limit: 1000, message: La description ne peut pas être plus longue que 1000 caractères}
+      - Length: {max: 1000, maxMessage: La description ne peut pas être plus longue que 1000 caractères}
     geom:
       - NotNull: {message: Indiquez un emplacement géographique}
     moderatorComment:
-      - MaxLength: {limit: 1000, message: Le commentaire du modérateur ne peut pas être plus long que 1000 caractères}
+      - Length: {max: 1000, maxMessage: Le commentaire du modérateur ne peut pas être plus long que 1000 caractères}
   constraints:
     - Callback:
         methods: [isStatusesValid, hasOnlyOneChange, isCategoriesValid, isManagerValid]
@@ -28,7 +28,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
       - NotNull: {message: La photo doit être reliée à un emplacement}
   properties:
     legend:
-      - MaxLength: {limit: 500, message: La légende ne peut dépasser 500 caractères }
+      - Length: {max: 500, maxMessage: La légende ne peut dépasser 500 caractères }
       
 Progracqteur\WikipedaleBundle\Entity\Management\Notation:
   constraints:
@@ -40,8 +40,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\Notation:
       - Regex:
           pattern: "/^[a-z0-9]/"
           message: admin.notation.id.must_be_character_alphabeticals_or_numeric
-      - MaxLength: 20
-      - MinLength: 3
+      - Length: { max: 20, min: 3}
     name:
       - NotBlank: ~
       - MaxLength: 60
@@ -51,8 +50,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\Group:
   properties:
     name:
       - NotBlank: ~
-      - MinLength: 5
-      - MaxLength: 120
+      - Length: { min: 5, max: 120 }
   constraints:
     - Callback:
         methods: [isValidType, isValidNotation]
@@ -67,12 +65,12 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
     label:
       - NotNull: {message: user.validation.label.not_null}
       - NotBlank: {message: user.validation.label.not_blank}
-      - MinLength:
-          limit: 3
-          message: user.validation.label.more_than_three_letters
-      - MaxLength:
-          limit: 50
-          message: user.validation.label.maximum_50_letters
+      - Length:
+          min: 3
+          minMessage: user.validation.label.more_than_three_letters
+      - Length:
+          max: 50
+          maxMessage: user.validation.label.maximum_50_letters
     email:
       - NotNull: {message: user.validation.email.not_null}
       - NotBlank: {message: user.validation.email.not_blank}
@@ -89,8 +87,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
   getters:
     label:
       - NotBlank: ~
-      - MinLength: {limit: 3, message: admin.category.form.label.min_length}
-      - MaxLength: {limit: 240, message: admin.category.form.label.max_length}
+      - Length: {min: 3, minMessage: admin.category.form.label.min_length, max: 240, maxMessage: admin.category.form.label.max_length}
       
       
 Progracqteur\WikipedaleBundle\Entity\Model\Comment:
@@ -99,8 +96,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
       - NotNull: 
           message: validation.comment.type.not_null
     content:
-      - MinLength: {limit: 2, message: validation.comment.message.min_length}
-      - MaxLength: {limit: 5000, message: validation.comment.message.max_length}
+      - Length: {min: 2, minMessage: validation.comment.message.min_length, max: 5000, maxMessage: validation.comment.message.max_length}
     place:
       - NotNull: 
           message: validation.comment.place.not_null
