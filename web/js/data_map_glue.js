@@ -19,7 +19,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * (none if no marker to display)
         */
         townId = townId_param;
-        jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
+        var jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
         map_display.init(townLon,townLat);
 
@@ -32,15 +32,18 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         $.getJSON(jsonUrlData, function(data) {
             user.update(data.user);
             descriptions.update(data.results, function () {
-                $.each(data.results, function(index, aPlaceData) {
-                    map_display.add_marker(aPlaceData.id, focus_on_place_of);
-                    if(aPlaceData.id == marker_id_to_display) {
+                $.when(
+                    $.each(data.results, function(index, aPlaceData) {
+                        map_display.add_marker(aPlaceData.id, focus_on_place_of);
+                    })
+                ).done( function(){
+                    if(marker_id_to_display) {
                         focus_on_place_of(marker_id_to_display);
                     }
                 });
             });
         });
-    };
+    }
 
     function update_data_and_map(){
         /**
@@ -56,15 +59,15 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             success: function(data) {
                 descriptions.update(data.results,null);
             },
-            complete: function(data) {
-                signalement_id = $('#input_place_description_id').val();
-                if (signalement_id != "" && signalement_id != undefined) {
+            complete: function() {
+                var signalement_id = $('#input_place_description_id').val();
+                if (typeof signalement_id !== "undefined" && signalement_id !== "") {
                     // be sure that a place is selected
                     description_text_display.display_regarding_to_user_role();
                 }
             }
         });
-    };
+    }
 
     function add_marker_and_description(aLon, aLat, anEventFunction, someData) {
         /**
@@ -76,15 +79,15 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * @param {object} someData Some dota passed to the function anEvent
         */
         descriptions.single_update(someData);
-        map_display.add_marker(someData.id, anEventFunction)
-    };
+        map_display.add_marker(someData.id, anEventFunction);
+    }
 
     function last_description_selected_reset() {
         /**
         * Resetting the private last_description_selected variable.
         */
         last_description_selected = null;
-    };
+    }
                     
 
     function last_description_selected_delete() {
@@ -110,11 +113,11 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                     $('#span_place_description_delete_error').show();
                 }
             },
-            error: function(output_json) {
+            error: function() {
                 $('#span_place_description_delete_error').show();
             }
         });
-    };
+    }
 
     function mode_change() {
         /**
@@ -167,7 +170,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             }
         }
         add_new_place_mode = ! add_new_place_mode;
-    };
+    }
 
     function focus_on_place_of(id_sig) {
         /**
