@@ -323,7 +323,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         }
     }
     
-    function reactivate_even_on_description_markers(marker_event, function_on_marker) {
+    function reactivate_event_on_description_markers(marker_event, function_on_marker) {
         /**
         * To all the markers related to descriptions, add an event and
         * apply a function it 
@@ -360,7 +360,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * @param {function : int -> ()} marker_event The event function
         * that take as input the id of the marker
         */
-        reactivate_even_on_description_markers(marker_event, function(m,i) {
+        reactivate_event_on_description_markers(marker_event, function(m,i) {
             update_marker_for(i,'');
         });
     }
@@ -373,7 +373,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * @param {function : int -> ()} marker_event The event function
         * that take as input the id of the marker
         */
-        reactivate_even_on_description_markers(marker_event, function(m,i) {
+        reactivate_event_on_description_markers(marker_event, function(m,i) {
             m.display('true');
         } );
     }
