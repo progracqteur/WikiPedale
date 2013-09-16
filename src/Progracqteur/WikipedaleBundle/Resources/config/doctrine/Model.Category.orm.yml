@@ -11,10 +11,13 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
       length: 255
     used:
       type: boolean
+    order:
+      type: float
   oneToMany:
     children:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
       mappedBy: parent
+      orderBy: [ order: asc ]
   manyToOne:
     parent:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
