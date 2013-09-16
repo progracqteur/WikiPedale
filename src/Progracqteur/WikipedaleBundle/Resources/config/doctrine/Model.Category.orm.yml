@@ -13,6 +13,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
       type: boolean
     order:
       type: float
+      column: ui_order
   oneToMany:
     children:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

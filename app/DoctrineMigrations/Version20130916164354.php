@@ -15,7 +15,7 @@ class Version20130916164354 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "postgresql", "Migration can only be executed safely on 'postgresql'.");
 
-        $this->addSql("ALTER TABLE categories ADD \"order\" DOUBLE PRECISION NOT NULL DEFAULT 0");
+        $this->addSql("ALTER TABLE categories ADD \"ui_order\" DOUBLE PRECISION NOT NULL DEFAULT 0");
 
     }
 
@@ -25,7 +25,7 @@ class Version20130916164354 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "postgresql", "Migration can only be executed safely on 'postgresql'.");
         
 
-        $this->addSql("ALTER TABLE categories DROP \"order\" ");
+        $this->addSql("ALTER TABLE categories DROP \"ui_order\" ");
 
     }
 }
