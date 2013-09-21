@@ -38,20 +38,22 @@
 
         <div>
  		  	  <select style="width:100%" data-placeholder="" id="optionsAffichageCategories" multiple>
-        			{# set a value to detect changes in parent category #}
-        			{% set parentId = null %}
-        			{% for category in categories %}
-          				{% if parentId != category.parent.id %}
-            				{% if parentId is not null %}
-              					</optgroup>
-            				{% endif %}
-                 
-            				<optgroup label="{{category.parent.label}}">
-            				{% set parentId = category.parent.id %}
-            			{% endif %}
-              			<option value="{{category.id}}">{{category.label}}</option>             
-        			{% endfor %}      
-       				</optgroup>
+                            {% for category in categories %}
+                               {% if category.hasChildren %}
+                                     <optgroup label="{{ category.label }}" >
+                                        {% for childCategory in category.children %}
+                                             <option value="{{ childCategory.id }}">{{ childCategory.label }}</option>
+                                        {% endfor %}
+
+
+                                     </optgroup>
+
+                               {% else %}
+
+                                     <option value="{{ category.id }}">{{ category.label }}</option>
+                               {% endif %}
+
+                           {% endfor %}
       		</select>
         </div>
  		  </div>

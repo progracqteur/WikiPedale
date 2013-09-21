@@ -36,7 +36,23 @@
       <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__categories" alt="is the field ok">
       <label for="add_new_description_form__categories">{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
       <select id="add_new_description_form__categories" name="categories" style="width:70%;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
-        {# set a value to detect changes in parent category #}
+          {% for category in categories %}
+              {% if category.hasChildren %}
+                    <optgroup label="{{ category.label }}" >
+                       {% for childCategory in category.children %}
+                            <option value="{{ childCategory.id }}">{{ childCategory.label }}</option>
+                       {% endfor %}
+
+
+                    </optgroup>
+              
+              {% else %}
+              
+                    <option value="{{ category.id }}">{{ category.label }}</option>
+              {% endif %}
+              
+          {% endfor %}
+        {# set a value to detect changes in parent category 
         {% set parentId = null %}
         {% for category in categories %}
           {% if parentId != category.parent.id %}
@@ -48,8 +64,9 @@
             {% set parentId = category.parent.id %}
             {% endif %}
               
-          <option value="{{category.id}}">{{category.label}}</option>             
-        {% endfor %}      
+          <option value="{{category.id}}">{{category.label}}</option>   
+        {% endfor %}    
+#}   
         </optgroup>
       </select><br />
 

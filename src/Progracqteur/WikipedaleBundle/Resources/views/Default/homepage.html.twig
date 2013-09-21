@@ -42,7 +42,7 @@ Params passed by the controller to this template :
   {% endif %}
 
   {% if (app.session.get('city') ) %}
-    {% include "ProgracqteurWikipedaleBundle:Default:map.html.twig" %}
+    {% include 'ProgracqteurWikipedaleBundle:Default:map.html.twig' with { 'categories' : categories } %}
   {% else %}
     {% include "ProgracqteurWikipedaleBundle:Default:accueil.html.twig" %}
   {% endif %}
