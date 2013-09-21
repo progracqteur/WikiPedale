@@ -75,9 +75,9 @@ class DefaultController extends Controller
         
         $categories = $this->getDoctrine()->getManager()
                 ->createQuery('SELECT c from 
-            ProgracqteurWikipedaleBundle:Model\Category c JOIN c.parent p
-            WHERE  c.used = true
-            ORDER BY p.label, c.id')
+            ProgracqteurWikipedaleBundle:Model\Category c 
+            WHERE  c.used = true AND c.parent is null
+            ORDER BY c.order, c.label')
                 ->getResult();
         //Todo: cachable query
         
