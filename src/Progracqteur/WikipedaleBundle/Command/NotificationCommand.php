@@ -25,6 +25,9 @@ class NotificationCommand extends ContainerAwareCommand {
     }
     
     public function execute(InputInterface $input, OutputInterface $output) {
+        echo "This command is deprecated. Use wikipedale:notication:send2 instead \n";
+        exit();
+        
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
         $pendingNotifications = $em->createQuery(
