@@ -40,6 +40,7 @@ admin:
        Vous ne pouvez créer que des utilisateurs virtuels.
        L'utilisateur créé a été indiqué comme virtuel.
     added: Utilisateur %label% ajouté.
+    groups_added_or_removed: L'appartenance à des groupes a été mis à jour.
   profile_user:
     locked: Utilisateur bloqué ?
     submit: Modifier
