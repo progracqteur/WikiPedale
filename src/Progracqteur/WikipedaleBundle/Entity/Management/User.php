@@ -56,6 +56,12 @@ class User extends BaseUser
     
     /**
      *
+     * @var boolean 
+     */
+    private $virtual = false;
+    
+    /**
+     *
      * @var Doctrine\Common\Collections\ArrayCollection
      */
     private $notificationSubscriptions;
@@ -336,6 +342,15 @@ class User extends BaseUser
         public function isRegistered()
     {
         return true;
+    }
+    
+    public function setVirtual($virtual) {
+        $this->virtual = $virtual;
+        $this->setLocked($virtual);
+    }
+    
+    public function isVirtual() {
+        return $this->virtual;
     }
     
     /**

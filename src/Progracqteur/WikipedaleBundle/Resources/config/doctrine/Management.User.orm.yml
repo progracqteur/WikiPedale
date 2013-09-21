@@ -21,6 +21,9 @@ Progracqteur\WikipedaleBundle\Entity\Management\User:
       type: string
       length: 150
       column: fullLabel
+    virtual:
+      type: boolean
+      default: false
   manyToMany:
     groups:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
