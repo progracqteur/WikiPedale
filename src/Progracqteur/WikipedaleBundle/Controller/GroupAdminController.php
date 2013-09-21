@@ -333,7 +333,7 @@ class GroupAdminController extends Controller {
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('notice', 
                         $this->get('translator')
-                           ->trans('user.groups.added_or_removed'));
+                           ->trans('admin.user.groups_added_or_removed'));
                 
                 return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups_update',
