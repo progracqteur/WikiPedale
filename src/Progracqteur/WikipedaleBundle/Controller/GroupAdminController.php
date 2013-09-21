@@ -390,6 +390,23 @@ class GroupAdminController extends Controller {
         
     }
     
+    
+    public function newVirtualUserAction() {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        $user = new \Progracqteur\WikipedaleBundle\Entity\Management\User();
+        $user->setVirtual(true);
+        $form = $this->createForm('wikipedale_user_admin_profile', $user);
+
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
+                array('form' => $form->createView(), 'user' => $user)
+                );
+    }
+    
 
     
 }
