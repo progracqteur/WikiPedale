@@ -36,6 +36,10 @@ admin:
     update_user: Modifications de l'utilisateur
     create_virtual: Créer un utilisateur virtuel
     new_virtual_user: Nouvel utilisateur virtuel
+    transform_to_virtual: > 
+       Vous ne pouvez créer que des utilisateurs virtuels.
+       L'utilisateur créé a été indiqué comme virtuel.
+    added: Utilisateur %label% ajouté.
   profile_user:
     locked: Utilisateur bloqué ?
     submit: Modifier

@@ -17,7 +17,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
  */
 class GroupAdminController extends Controller {
     
-    
+
     
     public function listAction()
     {
@@ -385,7 +385,13 @@ class GroupAdminController extends Controller {
         }
         
         return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
-                array('form' => $form->createView(), 'user' => $user)
+                array(
+                    'form' => $form->createView(), 
+                    'user' => $user,
+                    'action' => 
+                        $this->generateUrl('wikipedale_admin_user_show_form', 
+                                array('id' => $user->getId()))
+                )
                 );
         
     }
@@ -403,8 +409,68 @@ class GroupAdminController extends Controller {
 
         
         return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
-                array('form' => $form->createView(), 'user' => $user)
+                array(
+                    'form' => $form->createView(), 
+                    'user' => $user, 
+                    'action' => 
+                        $this->generateUrl('wikipedale_admin_user_create_virtual') 
+                )
                 );
+    }
+    
+    public function createVirtualUserAction(Request $request) {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        if ($request->getMethod() === 'POST') {
+            $user = new \Progracqteur\WikipedaleBundle\Entity\Management\User();
+        
+            $form = $this->createForm('wikipedale_user_admin_profile', $user);
+            
+            $form->bind($request);
+            
+            $user->setUsername($user->getLabel());
+            
+            $password = sha1(uniqid( rand() ));
+            $user->setPassword($password);
+            
+            if (! $user->isVirtual()) {
+                $user->setVirtual(true);
+                
+                $this->get('session')->getFlashBag()->add('notice', 
+                        $this->get('translator')
+                           ->trans('admin.user.transform_to_virtual'));
+            }
+            
+            $em = $this->getDoctrine()->getManager();
+                
+            $em->persist($user);
+
+            $em->flush();
+            
+            
+            $this->get('session')->getFlashBag()->add('notice', 
+                        $this->get('translator')
+                           ->trans('admin.user.added', 
+                                   array('%label%' => $user->getLabel()
+                    )));
+            
+            return $this->redirect($this->generateUrl('wikipedale_admin_user_show_form',
+                    array('id' => $user->getId() 
+                    )));
+            
+        } else {
+            return $this->redirect(
+                    $this->generateUrl('wikipedale_admin_user_create_virtual'));
+        }
+        
+        
+        
+        
+        
+        
     }
     
 

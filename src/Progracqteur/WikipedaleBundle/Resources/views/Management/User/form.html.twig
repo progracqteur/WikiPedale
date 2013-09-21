@@ -29,7 +29,7 @@
 
 {% block body %}
 
-<form method="POST" action="#">
+<form method="POST" action="{{ action }}">
     
     {% if user.id != null %}
          <h1>{{ user.label }}</h1>
