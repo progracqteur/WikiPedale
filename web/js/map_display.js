@@ -169,6 +169,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             };
 
             marker.events.register("mousedown", marker, markerMouseDownFunction);
+            marker.events.register("touchstart", marker, markerMouseDownFunction);
             placesLayer.addMarker(marker);
 
             markers[description_id] = marker;
@@ -201,6 +202,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             if (marker != undefined) {
                 var description_data = descriptions.get_by_id(description_id);
                 marker.events.remove("mousedown");
+                marker.events.remove("touchstart");
                 marker.setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '_no_active.png')
             }
         });
@@ -345,6 +347,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             }) (description.id);
 
             marker.events.register("mousedown", marker, markerMouseDownFunction);
+            marker.events.register("touchstart", marker, markerMouseDownFunction);
 
             function_on_marker(marker,description.id);
         });

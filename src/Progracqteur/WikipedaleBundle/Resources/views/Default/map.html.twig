@@ -71,7 +71,12 @@
 
 
     <div id="div_dernieres_modifs">
-      <div id="div_title_dernieres_modifs">Dernières modifications</div>
+      <div id="div_title_dernieres_modifs">
+        Dernières modifications 
+        <a href="{{ path('wikipedale_history_place_by_city', {'citySlug': app.session.get('city').slug, _format:'atom'}) }}">
+           <img src="{{ asset('img/rss_w_b.png') }}" alt="Flux RSS" height="14" width="14">
+        </a>
+      </div>
       <div id="div_content_dernieres_modifs">
       </div>
     </div>
