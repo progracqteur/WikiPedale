@@ -18,7 +18,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
     children:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
       mappedBy: parent
-      orderBy: [ order: asc ]
+      orderBy: { order: asc }
   manyToOne:
     parent:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
