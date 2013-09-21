@@ -353,6 +353,15 @@ class User extends BaseUser
         return $this->virtual;
     }
     
+    public function isVirtualConsistant(\Symfony\Component\Validator\ExecutionContextInterface $context) {
+        if ($this->isVirtual() === true ) {
+            if ($this->isLocked() === false ) {
+                $context->addViolationAt('locked', 
+                        "admin.profile_user.inconsistent_virtual_lock", array(), null);
+            }
+        }
+    }
+    
     /**
      * 
      * @return Doctrine\Common\Collections\ArrayCollection

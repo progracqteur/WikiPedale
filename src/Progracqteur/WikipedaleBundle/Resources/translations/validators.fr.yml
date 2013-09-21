@@ -1,0 +1,4 @@
+admin:
+  profile_user:
+        inconsistent_virtual_lock: >
+           Un utilisateur virtual doit être bloqué.

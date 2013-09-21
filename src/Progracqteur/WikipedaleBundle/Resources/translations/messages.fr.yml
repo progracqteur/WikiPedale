@@ -46,6 +46,7 @@ admin:
     user_updated: Utilisateur mis à jour !
     not_confirmed: L'utilisateur n'a pas confirmé son adresse de courriel.
     virtual: Utilisateur virtuel ?
+    contain_errors: Erreurs lors de l'ajout. Vérifiez le formulaire.
   category:
     form: 
       parent: 
