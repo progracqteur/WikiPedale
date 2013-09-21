@@ -31,14 +31,19 @@
 
 <form method="POST" action="#">
     
-    <h1>{{ user.label }}</h1>
+    {% if user.id != null %}
+         <h1>{{ user.label }}</h1>
+    {% elseif user.id == null and user.virtual == true %}
+         <h1>{{ 'admin.user.new_virtual_user' | trans }}</h1>
+    {% endif %}
     
-    {% if user.enabled == false %}<p class="warning">{{ 'admin.profile_user.not_confirmed' | trans }}</p>{% endif %}
+    {% if user.enabled == false and user.virtual == false %}<p class="warning">{{ 'admin.profile_user.not_confirmed' | trans }}</p>{% endif %}
 
     <div>{{ form_label(form.email) }} {{ form_widget(form.email) }} {{ form_errors(form.email) }}</div>
     <div>{{ form_label(form.label) }} {{ form_widget(form.label) }} {{ form_errors(form.label) }}</div>
     <div>{{ form_label(form.phonenumber) }} {{ form_widget(form.phonenumber) }} {{ form_errors(form.phonenumber) }}</div>
     <div>{{ form_label(form.locked) }} : {{ form_widget(form.locked) }} {{ form_errors(form.locked) }}</div>
+    <div>{{ form_label(form.virtual) }} : {{ form_widget(form.virtual) }} {{ form_errors(form.virtual) }}</div>
 
     <button type="submit">{{ 'admin.profile_user.submit' | trans }}</button>
     
