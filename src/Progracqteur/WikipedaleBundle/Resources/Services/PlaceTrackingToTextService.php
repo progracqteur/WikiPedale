@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
 use Symfony\Component\Translation\Translator;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
+use Doctrine\ORM\EntityManager;
 
 /**
  * This class transform a placeTracking entity into a text readable by
@@ -22,8 +23,17 @@ class PlaceTrackingToTextService {
      */
     private $t;
     
-    public function __construct(Translator $translator) {
+    /**
+     *
+     * @var \Doctrine\ORM\EntityManager; 
+     */
+    private $em;
+    
+    
+    
+    public function __construct(Translator $translator, EntityManager $em) {
         $this->t = $translator;
+        $this->em = $em;
     }
     
     /**
@@ -100,6 +110,24 @@ class PlaceTrackingToTextService {
                     return $this->t->trans('place.status.success', $args, $domain);
                     break;
             }
+        }
+        
+        if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD]) 
+                OR isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) {
+            
+            if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD])) {
+                $idGroupManager = $keyChanges[ChangeService::PLACE_MANAGER_ADD]->getNewValue();
+            } else {
+                $idGroupManager = $keyChanges[ChangeService::PLACE_MANAGER_ALTER]->getNewValue();
+            }
+            
+            $groupManager = $this->em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+                    ->find($idGroupManager);
+            
+            $args['%group%'] = $groupManager->getName();
+            
+            return $this->t->trans('place.manager.new', $args, $domain);
+            
         }
         
         //if the changes are other : 

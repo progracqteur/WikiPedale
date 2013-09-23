@@ -33,7 +33,7 @@ services:
     
   progracqteur.wikipedale.place.tracking.toText:
     class: %progracqteur.wikipedale.service.place.tracking.toText.class%
-    arguments: ["@translator"]
+    arguments: ["@translator", "@doctrine.orm.entity_manager"]
     
   wsse.security.authentication.provider:
     class:  Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseProvider
