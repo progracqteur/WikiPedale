@@ -69,17 +69,14 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         });
     }
 
-    function add_marker_and_description(aLon, aLat, anEventFunction, someData) {
+    function add_marker_and_description(aDescription, anEventFunction) {
         /**
-        * Add a marker on the map that when the user click on it, an 
-        action is executed.
-        * @param {number} aLon The longitude where to add the marker
-        * @param {number} aLat The latitude where to add the marker
-        * @param {function} anEventFunction A function to execute when the user click on the marker
-        * @param {object} someData Some dota passed to the function anEvent
+        * Add on the map a new description and store this description in the local saved data.
+        * @param {object} aDescription The data describing the new description to add on the map.
+        * @param {function} anEventFunction The function to execute when the user click on the marker
         */
-        descriptions.single_update(someData);
-        map_display.add_marker(someData.id, anEventFunction);
+        descriptions.single_update(aDescription);
+        map_display.add_marker(aDescription.id, anEventFunction);
     }
 
     function last_description_selected_reset() {

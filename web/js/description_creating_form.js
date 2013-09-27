@@ -63,10 +63,10 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                                 map_display.delete_marker_for('new_description');
                                 clean_form();
                             	if(user.isRegistered()) { //sinon verif de l'email
-                                	data_map_glue.add_marker_and_description(newPlaceData.geom.coordinates[0],
-                                    	newPlaceData.geom.coordinates[1],
-                                    	data_map_glue.focus_on_place_of,
-                                    	newPlaceData);
+                                	data_map_glue.add_marker_and_description(
+                                        newPlaceData,
+                                    	data_map_glue.focus_on_place_of
+                                    	);
 	                                $('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
     	                            setTimeout( function(){
                                         data_map_glue.mode_change();
