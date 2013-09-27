@@ -17,7 +17,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
  */
 class GroupAdminController extends Controller {
     
-    
+
     
     public function listAction()
     {
@@ -58,13 +58,15 @@ class GroupAdminController extends Controller {
                 $em->flush();
                 
                 
-                $this->get('session')->getFlashBag()->add('notice', 'groups.created');
+                $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
+                           ->trans('groups.created'));
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->getFlashBag()->add('notice', "echec");
+                $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
+                           ->trans("echec"));
             }
         }
         
@@ -106,13 +108,15 @@ class GroupAdminController extends Controller {
                 $em->flush();
                 
                 
-                $this->get('session')->getFlashBag()->add('notice', 'groups.updated');
+                $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
+                           ->trans('groups.updated'));
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
                 
             } else {
-                $this->get('session')->getFlashBag()->add('notice', "echec");
+                $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
+                           ->trans("echec"));
             }
         }
         
@@ -328,7 +332,8 @@ class GroupAdminController extends Controller {
                 
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('notice', 
-                        'user.groups.added_or_removed');
+                        $this->get('translator')
+                           ->trans('admin.user.groups_added_or_removed'));
                 
                 return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups_update',
@@ -340,7 +345,8 @@ class GroupAdminController extends Controller {
         }
         //if not valid : (not POST or not valid form)
         $this->get('session')->getFlashBag()->add('notice',
-                    'user.groups.error_adding_or_removing_group');
+                    $this->get('translator')
+                           ->trans('user.groups.error_adding_or_removing_group'));
         return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups_update',
                                 array('id' => $user->getId())
@@ -373,20 +379,105 @@ class GroupAdminController extends Controller {
                 $this->getDoctrine()->getManager()->flush();
                 
                 $this->get('session')->getFlashBag()->add('notice',
-                    'admin.profile_user.user_updated');
+                    $this->get('translator')
+                           ->trans('admin.profile_user.user_updated'));
                 
                 return $this->redirect(
                         $this->generateUrl('wikipedale_admin_usergroups')
                         );
             } else {
                 $this->get('session')->getFlashBag()->add('notice',
-                    'admin.profile_user.contain_errors');
+                    $this->get('translator')
+                           ->trans('admin.profile_user.contain_errors'));
             }
         }
         
         return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
-                array('form' => $form->createView(), 'user' => $user)
+                array(
+                    'form' => $form->createView(), 
+                    'user' => $user,
+                    'action' => 
+                        $this->generateUrl('wikipedale_admin_user_show_form', 
+                                array('id' => $user->getId()))
+                )
                 );
+        
+    }
+    
+    
+    public function newVirtualUserAction() {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        $user = new \Progracqteur\WikipedaleBundle\Entity\Management\User();
+        $user->setVirtual(true);
+        $form = $this->createForm('wikipedale_user_admin_profile', $user);
+
+        
+        return $this->render('ProgracqteurWikipedaleBundle:Management/User:form.html.twig', 
+                array(
+                    'form' => $form->createView(), 
+                    'user' => $user, 
+                    'action' => 
+                        $this->generateUrl('wikipedale_admin_user_create_virtual') 
+                )
+                );
+    }
+    
+    public function createVirtualUserAction(Request $request) {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
+        {
+            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+        
+        if ($request->getMethod() === 'POST') {
+            $user = new \Progracqteur\WikipedaleBundle\Entity\Management\User();
+        
+            $form = $this->createForm('wikipedale_user_admin_profile', $user);
+            
+            $form->bind($request);
+            
+            $user->setUsername($user->getLabel());
+            
+            $password = sha1(uniqid( rand() ));
+            $user->setPassword($password);
+            
+            if (! $user->isVirtual()) {
+                $user->setVirtual(true);
+                
+                $this->get('session')->getFlashBag()->add('notice', 
+                        $this->get('translator')
+                           ->trans('admin.user.transform_to_virtual'));
+            }
+            
+            $em = $this->getDoctrine()->getManager();
+                
+            $em->persist($user);
+
+            $em->flush();
+            
+            
+            $this->get('session')->getFlashBag()->add('notice', 
+                        $this->get('translator')
+                           ->trans('admin.user.added', 
+                                   array('%label%' => $user->getLabel()
+                    )));
+            
+            return $this->redirect($this->generateUrl('wikipedale_admin_user_show_form',
+                    array('id' => $user->getId() 
+                    )));
+            
+        } else {
+            return $this->redirect(
+                    $this->generateUrl('wikipedale_admin_user_create_virtual'));
+        }
+        
+        
+        
+        
+        
         
     }
     

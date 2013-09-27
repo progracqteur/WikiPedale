@@ -190,6 +190,18 @@ wikipedale_admin_user_show_form:
   options:
     expose: false
     
+wikipedale_admin_user_new_virtual:
+  pattern: /admin/user/virtual/new
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:newVirtualUser}
+  options:
+    expose: false
+    
+wikipedale_admin_user_create_virtual:
+  pattern: /admin/user/virtual/create
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:createVirtualUser }
+  options:
+    expose: false
+    
 wikipedale_admin_homepage:
   pattern: /admin
   defaults: {_controller: ProgracqteurWikipedaleBundle:Admin:index }

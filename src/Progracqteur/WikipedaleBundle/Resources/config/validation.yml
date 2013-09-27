@@ -79,6 +79,11 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
           #checkMX: true
     phonenumber:
       - NotNull: {message: user.validation.phonenumber.not_null}
+  
+Progracqteur\WikipedaleBundle\Entity\Management\User:
+  constraints:
+      - Callback: 
+          methods: [isVirtualConsistant]
       
 Progracqteur\WikipedaleBundle\Entity\Model\Category:
   constraints:

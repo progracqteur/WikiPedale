@@ -34,11 +34,20 @@ admin:
     management: Gestion des appartenances utilisateurs
     details: Détail d'un utilisateur
     update_user: Modifications de l'utilisateur
+    create_virtual: Créer un utilisateur virtuel
+    new_virtual_user: Nouvel utilisateur virtuel
+    transform_to_virtual: > 
+       Vous ne pouvez créer que des utilisateurs virtuels.
+       L'utilisateur créé a été indiqué comme virtuel.
+    added: Utilisateur %label% ajouté.
+    groups_added_or_removed: L'appartenance à des groupes a été mis à jour.
   profile_user:
-    locked: Bloquer
+    locked: Utilisateur bloqué ?
     submit: Modifier
     user_updated: Utilisateur mis à jour !
     not_confirmed: L'utilisateur n'a pas confirmé son adresse de courriel.
+    virtual: Utilisateur virtuel ?
+    contain_errors: Erreurs lors de l'ajout. Vérifiez le formulaire.
   category:
     form: 
       parent: 

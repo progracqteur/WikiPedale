@@ -1,5 +1,5 @@
-define(['jQuery','map_display','user','descriptions','photo','params','description_edit_form','comments'],
-        function($,map_display,user,descriptions,photo,params,description_edit_form,comments) {
+define(['jQuery','map_display','user','descriptions','photo','params','description_edit_form','comments','basic_data_and_functions'],
+        function($,map_display,user,descriptions,photo,params,description_edit_form,comments,basic_data_and_functions) {
 	var color_trad_text = {};
 	color_trad_text['0'] = 'pas encore pris en compte (blanc)';
 	color_trad_text['-1'] = 'rejeté (gris)';
@@ -27,7 +27,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
      	To be executed when the user click on a marker on the index page.
      	* @param {int} id_desc The id of the description.
      	*/
-    	current_description_id = id_desc;
+        current_description_id = id_desc;
     	photo.refresh_span_photo(id_desc);
         $("#link_add_photo").unbind("click");
         $("#link_add_photo").click(function() { photo.pop_up_add_photo(id_desc); });
@@ -42,6 +42,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
     	$('.class_span_place_description_loc').each(function() { this.innerHTML = desc_data.addressParts.road; });
     	$('#input_place_description_id').val(desc_data.id);
     	$('#span_place_description_signaleur').text(desc_data.creator.label);
+        $('#span_place_description_creation_date').text(basic_data_and_functions.timestamp2date(desc_data.createDate.u));
     	$('#span_place_description_loc').text(desc_data.addressParts.road);
     	$('#span_place_description_desc').text(desc_data.description);
 
@@ -75,11 +76,6 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
                 $('#span_place_description_status').text(color_trad_text[desc_data.statuses[i].v]); 
             }
         }
-
-    	if (user.canVieuwUsersDetails() || user.isAdmin()) {
-        	$('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ desc_data.creator.email +'">'+ 
-        	desc_data.creator.email +'</a>, téléphone : '+ desc_data.creator.phonenumber + ')');
-    	}
 
 	    if(user.isGdV() || user.isCeM() || user.isAdmin()) {
     	    comments.update_last(id_desc);
@@ -167,7 +163,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
 		*/
 		if (user.canVieuwUsersDetails() || user.isAdmin()) {
 	    	var desc_data = descriptions.get_by_id(current_description_id);
-            $('#span_place_description_signaleur_contact').html('(email : <a href="mailto:'+ desc_data.creator.email +'">'+ 
+            $('#span_place_description_signaleur_contact').html(' (email : <a href="mailto:'+ desc_data.creator.email +'">'+ 
         	desc_data.creator.email +'</a>, téléphone : '+ desc_data.creator.phonenumber + ')');
         } else {
             $('#span_place_description_signaleur_contact').text('');

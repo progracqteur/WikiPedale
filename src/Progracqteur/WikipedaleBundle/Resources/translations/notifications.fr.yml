@@ -1,5 +1,5 @@
 mail:
-  intro_text: | 
+  intro_text_registered: | 
               Bonjour %dest%, 
               
               Vous recevez ce courriel car vous êtes abonnés aux modifications 
@@ -8,6 +8,18 @@ mail:
               Vos abonnements sont les suivants :
               
               %subscriptions%
+              
+              Vous pouvez modifier la fréquence des notifications ici : %updateNotificationUrl%
+              
+  intro_text_virtual: | 
+              Bonjour %dest%, 
+              
+              Vous êtes enregistré sur le site http://uello.be par votre conseiller
+              en mobilité. Vous recevez des avertissements sur les signalements vélo
+              pour lesquels vous êtes considérés comme gestionnaire.
+              
+              
+              Pour plus d'information, envoyez un courriel à l'adresse uello@gracq.org.
               
   footer_text: |
                Bonne journée, 

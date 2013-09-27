@@ -35,8 +35,11 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
         	}
     	});
 
+        if (mode_edit['lon_lat']) {
+            stop_lon_lat_edit();
+        }
+
         mode_edit = {};
-        stop_lon_lat_edit();
 	};
 
     function stop_lon_lat_edit() {
@@ -56,6 +59,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
         map_display.get_map().events.remove("click");
 
         map_display.redisplay_description_markers();
+        markers_filtering.display_only_markers_with_selected_categories();
     }
 
     function lon_lat_edit_or_save() {

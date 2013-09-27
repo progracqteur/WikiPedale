@@ -140,11 +140,21 @@ class ToTextMailSenderService {
         $subText .= "\n";
         
         
-        
-        $t = $this->t->trans('mail.intro_text', array(
-                    '%dest%' => $owner->getLabel(),
-                    '%subscriptions%' => $subText
-                ), self::DOMAIN);
+        if ($owner->isVirtual() == false ) {
+            $t = $this->t->trans('mail.intro_text_registered', array(
+                        '%dest%' => $owner->getLabel(),
+                        '%subscriptions%' => $subText,
+                        '%updateNotificationUrl%' => 
+                            $this->router->generate('wikipedale_notification_subscriptions_list', array(), true)
+                    ), self::DOMAIN);
+        } else {
+            $t = $this->t->trans('mail.intro_text_virtual', array(
+                        '%dest%' => $owner->getLabel(),
+                        '%subscriptions%' => $subText,
+                        '%updateNotificationUrl%' => 
+                            $this->router->generate('wikipedale_notification_subscriptions_list', array(), true)
+                    ), self::DOMAIN);
+        }
         $t.= "\n \n";
         
         //sort by place
@@ -297,7 +307,7 @@ class ToTextMailSenderService {
                                 ->find($temp_ch->getNewValue());
 
                         //if the manager is the actual owner of the notification
-                        $groups = $ns->getOwner()->getGroups();
+                        $groups = $owner->getGroups();
                         $groupIds = array();
 
                         foreach ($groups as $group) {

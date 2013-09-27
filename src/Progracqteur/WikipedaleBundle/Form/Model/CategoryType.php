@@ -37,6 +37,10 @@ class CategoryType extends AbstractType
                 'multiple' => false,
                 'expanded' => true
             ))
+            ->add('order', 'number', array(
+                'precision' => 4,
+                
+            ))
         ;
     }
 
