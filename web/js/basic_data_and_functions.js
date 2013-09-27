@@ -42,9 +42,21 @@ define([], function() {
     return(reg.test(anEmail));
   }
 
+
+  var months = ['Janvier','Février','Mars','Avril','Mai','Jun','Jullet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+  /**
+  * Returns a human readable date form a timestamp
+  */
+  function timestamp2date(t) {
+      var d = new Date(t*1000);
+      return '' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear(); 
+  }
+
   return {
     web_dir: web_dir, // the URL where app.php is contained
     nl2br: nl2br,
-    is_mail_valid: is_mail_valid
+    is_mail_valid: is_mail_valid,
+    timestamp2date: timestamp2date,
   };
 });
