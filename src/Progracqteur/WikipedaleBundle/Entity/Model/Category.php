@@ -31,6 +31,12 @@ class Category
     
     /**
      *
+     * @var double 
+     */
+    protected $order;
+    
+    /**
+     *
      * @var boolean
      */
     private $used = true;
@@ -131,6 +137,24 @@ class Category
     public function setUsed($used)
     {
         $this->used = $used;
+    }
+    
+    /**
+     * 
+     * @param double $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
+    
+    /**
+     * 
+     * @return double
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
     
     public function isParentAChild(ExecutionContext $context)

@@ -7,8 +7,7 @@
     <input type ="hidden" value="" id="input_place_description_id" />
 
     <div class="description_element">
-      Constat effectué par: <span id="span_place_description_signaleur"></span> 
-      <span id="span_place_description_signaleur_contact"></span>
+      Constat effectué par: <span id="span_place_description_signaleur"></span><span id="span_place_description_signaleur_contact"></span>, le <span id="span_place_description_creation_date"></span>
     </div>
 
     <div class="description_element">
@@ -54,20 +53,22 @@
       <span id="span_place_description_cat"></span>
       <div id="div_place_description_cat_edit" style="display: none;">
         <select id="span_place_description_cat_edit" style="width:100%;">
-          {# set a value to detect changes in parent category #}
-          {% set parentId = null %}
-          {% for category in categories %}
-            {% if parentId != category.parent.id %}
-              {% if parentId is not null %}
-                </optgroup>
-              {% endif %}
-                 
-              <optgroup label="{{category.parent.hierarchicalLabel}}">
-              {% set parentId = category.parent.id %}
-            {% endif %}
-              
-            <option value="{{category.id}}">{{category.label}}</option>             
-          {% endfor %}      
+                            {% for category in categories %}
+                               {% if category.hasChildren %}
+                                     <optgroup label="{{ category.label }}" >
+                                        {% for childCategory in category.children %}
+                                             <option value="{{ childCategory.id }}">{{ childCategory.label }}</option>
+                                        {% endfor %}
+
+
+                                     </optgroup>
+
+                               {% else %}
+
+                                     <option value="{{ category.id }}">{{ category.label }}</option>
+                               {% endif %}
+
+                           {% endfor %}    
           </optgroup>
         </select>
       </div>

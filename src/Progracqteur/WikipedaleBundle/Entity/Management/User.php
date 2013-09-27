@@ -56,6 +56,12 @@ class User extends BaseUser
     
     /**
      *
+     * @var boolean 
+     */
+    private $virtual = false;
+    
+    /**
+     *
      * @var Doctrine\Common\Collections\ArrayCollection
      */
     private $notificationSubscriptions;
@@ -336,6 +342,24 @@ class User extends BaseUser
         public function isRegistered()
     {
         return true;
+    }
+    
+    public function setVirtual($virtual) {
+        $this->virtual = $virtual;
+        $this->setLocked($virtual);
+    }
+    
+    public function isVirtual() {
+        return $this->virtual;
+    }
+    
+    public function isVirtualConsistant(\Symfony\Component\Validator\ExecutionContextInterface $context) {
+        if ($this->isVirtual() === true ) {
+            if ($this->isLocked() === false ) {
+                $context->addViolationAt('locked', 
+                        "admin.profile_user.inconsistent_virtual_lock", array(), null);
+            }
+        }
     }
     
     /**

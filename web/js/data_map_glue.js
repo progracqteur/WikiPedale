@@ -50,36 +50,35 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * Update the data of the app contained in descriptions.js and re-draw the map
         * (regarding to the updated informations)
         */
-        descriptions.erase_all();
+        if (townId !== null) {
+            descriptions.erase_all();
 
-        jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
-        $.ajax({
-            dataType: "json",
-            url: jsonUrlData,
-            success: function(data) {
-                descriptions.update(data.results,null);
-            },
-            complete: function() {
-                var signalement_id = $('#input_place_description_id').val();
-                if (typeof signalement_id !== "undefined" && signalement_id !== "") {
-                    // be sure that a place is selected
-                    description_text_display.display_regarding_to_user_role();
+            jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
+            $.ajax({
+                dataType: "json",
+                url: jsonUrlData,
+                success: function(data) {
+                    descriptions.update(data.results,null);
+                },
+                complete: function() {
+                    var signalement_id = $('#input_place_description_id').val();
+                    if (typeof signalement_id !== "undefined" && signalement_id !== "") {
+                        // be sure that a place is selected
+                        description_text_display.display_regarding_to_user_role();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
-    function add_marker_and_description(aLon, aLat, anEventFunction, someData) {
+    function add_marker_and_description(aDescription, anEventFunction) {
         /**
-        * Add a marker on the map that when the user click on it, an 
-        action is executed.
-        * @param {number} aLon The longitude where to add the marker
-        * @param {number} aLat The latitude where to add the marker
-        * @param {function} anEventFunction A function to execute when the user click on the marker
-        * @param {object} someData Some dota passed to the function anEvent
+        * Add on the map a new description and store this description in the local saved data.
+        * @param {object} aDescription The data describing the new description to add on the map.
+        * @param {function} anEventFunction The function to execute when the user click on the marker
         */
-        descriptions.single_update(someData);
-        map_display.add_marker(someData.id, anEventFunction);
+        descriptions.single_update(aDescription);
+        map_display.add_marker(aDescription.id, anEventFunction);
     }
 
     function last_description_selected_reset() {
@@ -156,18 +155,20 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                 .addClass("buttonPlus");
 
             map_display.undisplay_marker('new_description');
+            map_display.undisplay_marker('new_description');
             map_display.get_map().events.remove("click");
             map_display.reactivate_description_markers(focus_on_place_of);
-
             // ne plus utiliser makers_and_assoc_data
             
 
             $("#add_new_description_div").hide();
 
+            /*
             if(last_description_selected !== null ) {
                 $("#div_placeDescription").show();
                 map_display.select_marker(last_description_selected);
             }
+            */
         }
         add_new_place_mode = ! add_new_place_mode;
     }

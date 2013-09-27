@@ -21,6 +21,11 @@ class AdminProfileUserType extends BaseType
             'label' => 'admin.profile_user.locked',
             'required' => false
             ));
+        
+        $builder->add('virtual', 'checkbox', array(
+            'label' => 'admin.profile_user.virtual',
+            'required' => false
+        ));
     }
 
     public function getName()

@@ -5,15 +5,17 @@ place:
   add:
     photo: "%author% a ajouté une photo à l'emplacement %place%."
   status:
-    rejected: %author% a rejeté l'emplacement %place% selon la notation %notation%
-    notReviewed: %author% a marqué l'emplacement %place% comme non traité selon la notation %notation%
-    takenIntoAccount: %author% a pris en compte l'emplacement %place% selon la notation %notation%
-    inChange: %author% a renseigné l'emplacement %place% comme étant en cours de résolution selon la notation %notation%
-    success: %author% a renseigné l'emplacement %place% comme résolu selon la notation %notation%
+    rejected: %author% a rejeté l'emplacement %place%.
+    notReviewed: %author% a marqué l'emplacement %place% comme non traité.
+    takenIntoAccount: %author% a pris en compte l'emplacement %place%.
+    inChange: %author% a renseigné l'emplacement %place% comme étant en cours de résolution.
+    success: %author% a renseigné l'emplacement %place% comme résolu.
   change:
     one: "%author% a modifié %change% de l'emplacement %place%."
     two: "%author% a modifié %change_% et %change__% de l'emplacement %place%."
     more: "{1} %author% a modifié %change0%, %change1% et une autre caractéristique de l'emplacement %place%. | [2,Inf] %author% a modifié %change0%, %change1% et %more% autres caractéristiques de l'emplacement %place%."
+  manager:
+    new: %author% a désigné %group% comme gestionnaire de l'emplacement %place%.
 change:
    place:
      description: "la description"

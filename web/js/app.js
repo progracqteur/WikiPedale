@@ -36,8 +36,10 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             onComplete: function(){ $("#login_input_username").focus(); }
         });
 
-        var data_for_init = $('#data_for_init');
+        //Login
+        $("#loginForm").submit(function(e) { e.preventDefault(); login.catch_form(); });
 
+        var data_for_init = $('#data_for_init');
         if (data_for_init.length !== 0)
         {
             var city_name = data_for_init.attr('data-city');
@@ -74,9 +76,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             $("#div_returnNormalMode").hide();
 
-            //Login
-            $("#loginForm").submit(function(e) { e.preventDefault(); login.catch_form(); });
-
+            
             // Menu
             $("#div_add_new_description_button").click(function() { data_map_glue.mode_change(); });
             $("#div_returnNormalMode").click(function() { map_display.normal_mode(); });
