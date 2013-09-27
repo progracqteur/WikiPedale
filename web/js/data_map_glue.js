@@ -153,18 +153,20 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                 .addClass("buttonPlus");
 
             map_display.undisplay_marker('new_description');
+            map_display.undisplay_marker('new_description');
             map_display.get_map().events.remove("click");
             map_display.reactivate_description_markers(focus_on_place_of);
-
             // ne plus utiliser makers_and_assoc_data
             
 
             $("#add_new_description_div").hide();
 
+            /*
             if(last_description_selected !== null ) {
                 $("#div_placeDescription").show();
                 map_display.select_marker(last_description_selected);
             }
+            */
         }
         add_new_place_mode = ! add_new_place_mode;
     }

@@ -1,5 +1,5 @@
-define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string'],
-        function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string) {
+define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string','descriptions'],
+        function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string,descriptions) {
 	//catchForm
 	function process() {
     	/**
@@ -60,26 +60,23 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                     	success: function(output_json) { 
                         	if(! output_json.query.error) { 
                             	newPlaceData = output_json.results[0];
-                                map_display.delete_marker_for('new_description');
                                 clean_form();
-                            	if(user.isRegistered()) { //sinon verif de l'email
-                                	data_map_glue.add_marker_and_description(
-                                        newPlaceData,
-                                    	data_map_glue.focus_on_place_of
-                                    	);
+                            	if(user.isRegistered()) { //sinon verif de l'email 
 	                                $('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Merci!");
     	                            setTimeout( function(){
+                                        data_map_glue.add_marker_and_description(newPlaceData);
                                         data_map_glue.mode_change();
                                         data_map_glue.focus_on_place_of(newPlaceData.id);
-                                    	},4000);  
+                                        map_display.delete_marker_for('new_description');
+                                    	},3000);  
                             	} else {
                                 	$('#add_new_description_form__message').text("Le point noir que vous avez soumis a bien été enregistré. Avant d'afficher le point noir, nous allons vérifier votre adresse mail. Veuillez suivre les instructions qui vous ont été envoyées par email.");
                                 	setTimeout(
                                     	function(){
                                         	data_map_glue.mode_change();
-                                    	},4000); 
+                                    	},3000); 
                             	}
-                            	$('#add_new_description_form__message').addClass('successMessage');
+                                $('#add_new_description_form__message').addClass('successMessage');
                         	} else { 
                             	alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
                         	}
