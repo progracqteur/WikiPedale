@@ -50,23 +50,25 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * Update the data of the app contained in descriptions.js and re-draw the map
         * (regarding to the updated informations)
         */
-        descriptions.erase_all();
+        if (townId !== null) {
+            descriptions.erase_all();
 
-        jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
-        $.ajax({
-            dataType: "json",
-            url: jsonUrlData,
-            success: function(data) {
-                descriptions.update(data.results,null);
-            },
-            complete: function() {
-                var signalement_id = $('#input_place_description_id').val();
-                if (typeof signalement_id !== "undefined" && signalement_id !== "") {
-                    // be sure that a place is selected
-                    description_text_display.display_regarding_to_user_role();
+            jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
+            $.ajax({
+                dataType: "json",
+                url: jsonUrlData,
+                success: function(data) {
+                    descriptions.update(data.results,null);
+                },
+                complete: function() {
+                    var signalement_id = $('#input_place_description_id').val();
+                    if (typeof signalement_id !== "undefined" && signalement_id !== "") {
+                        // be sure that a place is selected
+                        description_text_display.display_regarding_to_user_role();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     function add_marker_and_description(aDescription, anEventFunction) {
