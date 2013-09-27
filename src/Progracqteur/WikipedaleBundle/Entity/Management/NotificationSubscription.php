@@ -60,6 +60,7 @@ class NotificationSubscription
     const KIND_MODERATOR = 'moderator';
     const KIND_MANAGER = 'manager';
     const KIND_PUBLIC = 'public';
+    const KIND_PUBLIC_PLACE = 'publicplace';
     
     
     const FREQUENCY_MINUTELY = 60;
