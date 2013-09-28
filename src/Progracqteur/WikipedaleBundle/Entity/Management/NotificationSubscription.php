@@ -72,6 +72,7 @@ class NotificationSubscription
     
     public function __construct() {
         $this->transporter = self::TRANSPORTER_MAIL;
+        $this->frequency = self::FREQUENCY_MINUTELY;
     }
     
 
@@ -165,28 +166,7 @@ class NotificationSubscription
         return $this->zone;
     }
 
-    /**
-     * Add owner
-     *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Management\User $owner
-     * @return NotificationSubscription
-     */
-    public function addOwner(\Progracqteur\WikipedaleBundle\Entity\Management\User $owner)
-    {
-        $this->owner[] = $owner;
-    
-        return $this;
-    }
 
-    /**
-     * Remove owner
-     *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Management\User $owner
-     */
-    public function removeOwner(\Progracqteur\WikipedaleBundle\Entity\Management\User $owner)
-    {
-        $this->owner->removeElement($owner);
-    }
 
     /**
      * Get owner
