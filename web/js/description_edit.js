@@ -3,22 +3,18 @@
 */
 define(['jQuery','map_display','descriptions','basic_data_and_functions','json_string','markers_filtering','params'],
         function($,map_display,descriptions,basic_data_and_functions,json_string,markers_filtering,params) {
-	var mode_edit = {};
-    var new_lat = null;
-    var new_lon = null;
-    var new_position = null;
+	var mode_edit = {},
+        new_lat = null,
+        new_lon = null,
+        new_position = null;
 
-	function hide_forms(){
+    function stop_edition(){
 		/**
-		* Hides all the forms that were opened (and show the data like before
-		edition)
-    	* dans le div "div_placeDescription", l'utilisateur peut afficher un formulaire pour éditer
-    	* certaines données.
-    	* si il change de point, il faut afficher le nouveau point dans un mode de non-édition
-    	* -> se fait en appeleant cette fonction
+		* Hides all the forms that were opened (and display the data in text) and
+        * stops the postion description edition.
     	*/
     	$("#div_placeDescription div").each(function(i,e) {
-        	id_e = $(e).attr("id");
+        	var id_e = $(e).attr("id");
         	if(id_e != undefined && id_e.indexOf('_edit') != -1 &&  id_e.indexOf('div_') != -1) {
             	$(e).hide();
         	}
@@ -31,7 +27,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
 
     	$("#div_placeDescription span").each(function(i,e) {
     		// show span element except error 
-        	id_e = $(e).attr("id");
+        	var id_e = $(e).attr("id");
         	if(id_e != undefined 
             	&& id_e.indexOf('_error') == -1) {
             	$(e).show();
@@ -39,16 +35,15 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
     	});
 
         if (mode_edit['lon_lat']) {
-            stop_lon_lat_edit();
+            stop_position_edition();
         }
 
         mode_edit = {};
 	};
 
-    function stop_lon_lat_edit() {
+    function stop_position_edition() {
         /**
-        * Stops the edition of the position of the marker
-        * and the map mode for editing.
+        * Stops the edition of the position in the map
         */
         new_lat = null; //reinit these variables
         new_lon = null;
@@ -65,7 +60,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
         markers_filtering.display_only_markers_with_selected_categories();
     }
 
-    function lon_lat_edit_or_save() {
+    function position_edit_or_save() {
         /**
         * When this function is tiggered,
         either the edition mode for position of the selected marker  (map) is displayed
@@ -101,7 +96,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
                             var new_description = output_json.results[0];
                             descriptions.single_update(new_description);
                             map_display.marker_change_position(new_description.id, new_position);
-                            stop_lon_lat_edit(); 
+                            stop_position_edition(); 
                         } else { 
                             $("#span_edit_lon_lat_delete_error").show();
                         }
@@ -112,7 +107,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
                 });
             }
             else {
-                stop_lon_lat_edit();
+                stop_position_edition();
             }            
         }
     }
@@ -214,8 +209,8 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
 	};
 
 	return {
-		hide_forms: hide_forms,
+		stop_edition: stop_edition,
 	    description_edit_or_save: description_edit_or_save,
-        lon_lat_edit_or_save:lon_lat_edit_or_save,
+        position_edit_or_save:position_edit_or_save,
     };
 });

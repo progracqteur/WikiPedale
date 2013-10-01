@@ -106,8 +106,8 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $("#span_place_description_gestionnaire_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('gestionnaire'); });
             $("#span_place_description_delete_button").click(function(e) {e.preventDefault(); data_map_glue.last_description_selected_delete(); });
             $("span_plus_de_commenaitres_link a").click(function(e) { e.preventDefault(); description_text_display.activate_comments_mode(); });
-            $("#button_edit_lon_lat").click(function(e) { e.preventDefault(); description_edit.lon_lat_edit_or_save(); });
-            $("#button_save_lon_lat").click(function(e) { e.preventDefault(); description_edit.lon_lat_edit_or_save(); });
+            $("#button_edit_lon_lat").click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
+            $("#button_save_lon_lat").click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
         }
     });
 });
