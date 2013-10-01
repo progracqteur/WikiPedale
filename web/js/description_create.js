@@ -48,7 +48,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
     	} 	
 
 	    user.isInAccordWithServer().done(function(userInAccordWithServer) {
-    	    if(true) {
+    	    if(!userInAccordWithServer) {
                     login.display_login_form_with_message('Veuillez vous reconnecter.');
         	} else {
             	if(error_messages != "") {
@@ -97,15 +97,17 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
     	});
 	};
 
-	function clear_creating_form(the_form_to_clear) {
-    	/** 
-    	* Clear the data entered in the form used to create new description.
-        * @param {DOM elem} the_form_to_clear the DOM elem which is the form to clear.
-    	*/
-    	$("#add_new_description_form input[type=text], #add_new_description_form textarea, #add_new_description_form input[type=hidden]").val('');
-    	$(the_form_to_clear).children('.message').text('');
-    	informer.reset_new_description_form();
-	}
+    function clear_creating_form() {
+        console.log('blopbloooooop');
+        /** 
+        * Clear the data entered in the form used to create new description.
+        * It remove also the marker of the map.
+        */
+        //$("#add_new_description_form input[type=text], #add_new_description_form textarea, #add_new_description_form input[type=hidden]").val('');
+        //$(the_form_to_clear).children('.message').text('');
+        informer.reset_new_description_form();
+        map_display.delete_marker_for('new_description');
+    }
 
 	return {
 		catch_creating_form: catch_creating_form,
