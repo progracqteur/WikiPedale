@@ -2,6 +2,15 @@
 * This module contains all the function used when a user want to log in.
 */
 define(['jQuery','data_map_glue','user'], function($,data_map_glue,user) {
+    function display_login_form_with_message(message){
+        /**
+        * Display the login form in a colorbox
+        * @param {string} the message to be displayeed
+        */
+        $('#login_message').text(message);
+        $.colorbox({inline:true, href:"#login_form_div"});
+    }
+
     function catch_form(){
         /**
         * To be excecuted when the login form is submitted.
@@ -58,6 +67,7 @@ define(['jQuery','data_map_glue','user'], function($,data_map_glue,user) {
     }
 
     return {
+        display_login_form_with_message: display_login_form_with_message,
         catch_form: catch_form
     }
 });

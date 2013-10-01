@@ -2,8 +2,8 @@
 * This module is used when the user want to create a new description (used to catch the 
 creating form and to clear this form)
 */
-define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string','descriptions'],
-        function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string,descriptions) {
+define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string','descriptions','login'],
+        function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string,descriptions,login) {
 	function catch_creating_form(the_form_to_catch) {
     	/**
     	* Catches the form used to create a new description.
@@ -48,9 +48,8 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
     	} 	
 
 	    user.isInAccordWithServer().done(function(userInAccordWithServer) {
-    	    if(!userInAccordWithServer) {
-        	        $('#login_message').text("Veuillez vous reconnecter.");
-            	    $.colorbox({inline:true, href:"#login_form_div"});
+    	    if(true) {
+                    login.display_login_form_with_message('Veuillez vous reconnecter.');
         	} else {
             	if(error_messages != "") {
                 	$(messages_div).text('Erreur! ' + error_messages  + 'Merci.');
