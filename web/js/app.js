@@ -23,8 +23,8 @@ require.config({
     }
 });
 
-require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit_form'],
-    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit_form){
+require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit'],
+    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit){
 
     $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
@@ -97,17 +97,17 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
 
             //Place Description Edit
-            $("#span_place_description_loc_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('loc'); });
-            $("#span_place_description_desc_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('desc'); });
-            $("#span_place_description_commentaireCeM_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('commentaireCeM'); });
-            $("#span_place_description_cat_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('cat'); });
-            $("#span_place_description_status_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('status'); });
-            $("#span_place_description_type_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('type'); });
-            $("#span_place_description_gestionnaire_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('gestionnaire'); });
+            $("#span_place_description_loc_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('loc'); });
+            $("#span_place_description_desc_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('desc'); });
+            $("#span_place_description_commentaireCeM_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('commentaireCeM'); });
+            $("#span_place_description_cat_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('cat'); });
+            $("#span_place_description_status_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('status'); });
+            $("#span_place_description_type_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('type'); });
+            $("#span_place_description_gestionnaire_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('gestionnaire'); });
             $("#span_place_description_delete_button").click(function(e) {e.preventDefault(); data_map_glue.last_description_selected_delete(); });
             $("span_plus_de_commenaitres_link a").click(function(e) { e.preventDefault(); description_text_display.activate_comments_mode(); });
-            $("#button_edit_lon_lat").click(function(e) { e.preventDefault(); description_edit_form.lon_lat_edit_or_save(); });
-            $("#button_save_lon_lat").click(function(e) { e.preventDefault(); description_edit_form.lon_lat_edit_or_save(); });
+            $("#button_edit_lon_lat").click(function(e) { e.preventDefault(); description_edit.lon_lat_edit_or_save(); });
+            $("#button_save_lon_lat").click(function(e) { e.preventDefault(); description_edit.lon_lat_edit_or_save(); });
         }
     });
 });

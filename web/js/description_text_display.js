@@ -1,5 +1,5 @@
-define(['jQuery','map_display','user','descriptions','photo','params','description_edit_form','comments','basic_data_and_functions'],
-        function($,map_display,user,descriptions,photo,params,description_edit_form,comments,basic_data_and_functions) {
+define(['jQuery','map_display','user','descriptions','photo','params','description_edit','comments','basic_data_and_functions'],
+        function($,map_display,user,descriptions,photo,params,description_edit,comments,basic_data_and_functions) {
 	var color_trad_text = {};
 	color_trad_text['0'] = 'pas encore pris en compte (blanc)';
 	color_trad_text['-1'] = 'rejeté (gris)';
@@ -92,7 +92,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
             });
     	}
 
-    	description_edit_form.hide_forms(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
+    	description_edit.hide_forms(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     	display_regarding_to_user_role();
 
 	    $('#div_placeDescription').show();

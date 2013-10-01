@@ -1,3 +1,6 @@
+/**
+* This module is used when the user wants to edit a description
+*/
 define(['jQuery','map_display','descriptions','basic_data_and_functions','json_string','markers_filtering','params'],
         function($,map_display,descriptions,basic_data_and_functions,json_string,markers_filtering,params) {
 	var mode_edit = {};
