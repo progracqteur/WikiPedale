@@ -92,7 +92,10 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $("#add_new_description_form__user_phonenumber").blur(function() { informer.update_new_description_form('user_phonenumber'); });
             $("#add_new_description_form__lieu").blur(function() { informer.update_new_description_form('lieu'); });
             $("#add_new_description_form__description").blur(function() { informer.update_new_description_form('description'); });
-            $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_create.process(); });
+            $("#add_new_description_div form").submit(function(e) { 
+                    e.preventDefault();
+                    description_create.catch_creating_form(this);
+                });
 
 
             //Place Description Edit
