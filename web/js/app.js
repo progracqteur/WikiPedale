@@ -23,8 +23,8 @@ require.config({
     }
 });
 
-require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_creating_form','map_display','login','description_text_display','description_edit_form'],
-    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_creating_form,map_display,login,description_text_display,description_edit_form){
+require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit_form'],
+    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit_form){
 
     $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
@@ -92,7 +92,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $("#add_new_description_form__user_phonenumber").blur(function() { informer.update_new_description_form('user_phonenumber'); });
             $("#add_new_description_form__lieu").blur(function() { informer.update_new_description_form('lieu'); });
             $("#add_new_description_form__description").blur(function() { informer.update_new_description_form('description'); });
-            $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_creating_form.process(); });
+            $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_create.process(); });
 
 
             //Place Description Edit
