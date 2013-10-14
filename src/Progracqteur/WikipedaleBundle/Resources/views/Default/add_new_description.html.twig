@@ -75,11 +75,11 @@
     <textarea id="add_new_description_form__description" name="description" rows="5" placeholder="{{ 'AddPoint.PointData.description_placeholder'|trans({}, 'pointMessages') }}"></textarea>
   </fieldset>
     
-    <div id="add_new_description_form__message">
+    <div id="add_new_description_form__message" class="message">
     </div>
     
     <input class="envoi" id="new_place_form_submit_button" type="submit" value="{{ 'AddPoint.submit'|trans({}, 'pointMessages') }}">
-    <input class="CancelButton" value="{{ 'AddPoint.cancel'|trans({}, 'pointMessages') }}" type="reset" onclick="clear_add_new_description_form()" >
+    <input class="CancelButton" id="new_place_form_reset_button" value="{{ 'AddPoint.cancel'|trans({}, 'pointMessages') }}" type="reset">
   </form>
     <div style="clear:both; margin-bottom:1em;"></div>
 </div>
