@@ -21,3 +21,11 @@ parameters:
     
     cities_in_front_page: [mons, tournai, liege, walhain, namur]
 
+    place_types       :
+      bike :
+            key: bike
+            label : place_type.bike.label
+            terms : 
+               - short: {label: place_type.bike.short.label}
+               - long: {label: place_type.bike.long.label }
+
