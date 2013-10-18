@@ -15,7 +15,7 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 class NotificationFilterBySubscriptionPublicPlace implements NotificationFilter {
     
     
-    private $authorizedChangesToBeNotified = array(
+    public static $authorizedChangesToBeNotified = array(
         ChangeService::PLACE_ADDRESS,
         ChangeService::PLACE_ACCEPTED,
         ChangeService::PLACE_ADD_PHOTO,
@@ -36,7 +36,7 @@ class NotificationFilterBySubscriptionPublicPlace implements NotificationFilter 
         
         //if on change may NOT be notified, the whole notification is blocked.
         foreach ($changeset as $change ) {
-            if (! in_array($change->getKey()) ) {
+            if (! in_array($change->getType(), self::$authorizedChangesToBeNotified) ) {
                 $maybesend = false;
             }
         }

@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
 use Progracqteur\WikipedaleBundle\Form\Model\PlaceType;
+use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
  * Description of PlaceController
@@ -301,7 +302,7 @@ class PlaceController extends Controller {
         }
         
         
-        
+
         /**
          * @var Progracqteur\WikipedaleBundle\Resources\Security\ChangeService 
          */
@@ -347,6 +348,28 @@ class PlaceController extends Controller {
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($place);
+        
+        
+        //If the change is a creation, suscribe the creator to notification
+        //only for registered users - a notificaiton will be suscribe at email confirmation for unregistered
+        if ($place->getChangeset()->isCreation() === true
+                && $place->getCreator()->isRegistered() === true) {
+
+        
+            $notification = new NotificationSubscription();
+            
+                       
+            $notification->setOwner($place->getCreator())
+                    ->setKind(NotificationSubscription::KIND_PUBLIC_PLACE)
+                    ->setPlace($place)
+                    ->setTransporter(NotificationSubscription::TRANSPORTER_MAIL);
+            
+            $em->persist($notification);
+            
+        }
+        
+        
+        
         $em->flush();
         
         $params = array(
