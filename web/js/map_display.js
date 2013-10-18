@@ -15,7 +15,8 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
 
 
     var marker_img_url = basic_data_and_functions.web_dir + 'js/lib/OpenLayers/img/';
-    var markers = new Array();
+    var markers = [];
+    markers['new_description'] = null;
 
     var size;
     var offset;
@@ -68,7 +69,6 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
     		map.setCenter(descriptions.get_by_id(current_description_id).lonlat);
     	}
     }
-
 
     function untranslate(){
     	/**
@@ -149,6 +149,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
      	given id. The marker is such that when the user click on it, an action is executed.
      	* @param {integer} description_id The id of the description
      	* @param {function} anEventFunction A function to execute when the user click on the marker
+        * (enEventFunction is optinal)
      	*/ 
      	var description_data = descriptions.get_by_id(description_id);
 
@@ -163,13 +164,15 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
     
             var marker = feature.createMarker();
 
-            var markerMouseDownFunction = function(evt) {
-                an_event_function(description_data.id); 
-                OpenLayers.Event.stop(evt);
-            };
-
-            marker.events.register("mousedown", marker, markerMouseDownFunction);
-            marker.events.register("touchstart", marker, markerMouseDownFunction);
+            if (an_event_function) {
+                var markerMouseDownFunction = function(evt) {
+                    an_event_function(description_data.id); 
+                    OpenLayers.Event.stop(evt);
+                };
+            
+                marker.events.register("mousedown", marker, markerMouseDownFunction);
+                marker.events.register("touchstart", marker, markerMouseDownFunction);
+            }
             placesLayer.addMarker(marker);
 
             markers[description_id] = marker;
@@ -190,8 +193,8 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * can anymore be used or it must recreated by the function add_marker
         * @param {int} description_id The id of the description
         */
-        markers[description_id].erase();
-        delete markers[description_id];
+        placesLayer.removeMarker(markers[description_id]);
+        markers[description_id] = null;
     }
 
     function unactivate_markers(){
@@ -214,7 +217,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * @param {int} an_id The id of the signalement
         * @param {lonlat} new_position The new position
         */
-        if((an_id === 'new_description') && !markers[an_id]) {
+        if((an_id === 'new_description') && markers['new_description'] == null) {
             icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
             markers[an_id] = new OpenLayers.Marker(new_position,icon);
             placesLayer.addMarker(markers[an_id]);
@@ -222,7 +225,6 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             markers[an_id].lonlat = new_position;
             placesLayer.redraw();
         }
-        
     }
 
     function display_marker(an_id){
@@ -233,7 +235,6 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         if (markers[an_id]) {
             markers[an_id].display(true);
             placesLayer.redraw();
-
         }
     }
 
@@ -244,6 +245,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         */
         if (markers[an_id]) {
             markers[an_id].display(false);
+            placesLayer.redraw();
         }
     }
 
