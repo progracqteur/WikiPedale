@@ -20,8 +20,11 @@ services:
       em: '@doctrine.orm.entity_manager'
       geoService: '@progracqteur.wikipedale.geoservice'
       reachableRoles: '@progracqteur.wikipedale.services.reachables_roles'
+      defaultTypeTerm: %place_type_default%
+      
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
+    
   progracqteurWikipedale.form.type.photo:
       class: Progracqteur\WikipedaleBundle\Form\Model\PhotoType
       arguments: ["@service_container"]

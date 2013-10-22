@@ -156,6 +156,11 @@ class User extends BaseUser
      */
     const ROLE_COMMENT_MODERATOR_MANAGER = 'ROLE_COMMENT_MODERATOR_MANAGER';
     
+    /**
+     * indicate if the user may alter the term.
+     */
+    const ROLE_PLACE_TERM = 'ROLE_PLACE_TERM';
+    
     
     
     public function __construct()

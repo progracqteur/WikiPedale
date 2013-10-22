@@ -310,7 +310,7 @@ class PlaceController extends Controller {
         
         try {
         //TODO implémenter une réponse avec code d'erreur en JSON
-        $return = $securityController->checkChangesAreAllowed($place);
+            $return = $securityController->checkChangesAreAllowed($place);
         } catch (ChangeException $exc) {
             $r = new Response($exc->getMessage());
             $r->setStatusCode(403);
@@ -319,7 +319,7 @@ class PlaceController extends Controller {
         
         if ($return == false)
         {
-            $r = new Response("Vous n'avez pas de droits suffisant pour effectuer cette modification");
+            $r = new Response("Vous n'avez pas de droits suffisants pour effectuer cette modification");
             $r->setStatusCode(403);
             return $r;
         }

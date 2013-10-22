@@ -316,7 +316,7 @@ class DebugController extends Controller {
         
         $u = new UnregisteredUser();
         $u->setLabel('non enregistré ');
-        $u->setEmail('test@email');
+        $u->setEmail('test@email.com');
         $u->setIp('192.168.1.89');
 
         $place = new Place();
@@ -344,6 +344,17 @@ class DebugController extends Controller {
         $add = $this->geolocate($point);
 
         $place->setAddress($add);
+        
+        //add a random category
+        $cats = $this->getDoctrine()->getManager()
+                ->createQuery('SELECT c from ProgracqteurWikipedaleBundle:Model\Category c
+                    WHERE c.parent is not null ')
+                ->getResult();
+        
+        $cat = $cats[array_rand($cats)];
+        
+        $place->addCategory($cat);
+        
         }
         else {
             

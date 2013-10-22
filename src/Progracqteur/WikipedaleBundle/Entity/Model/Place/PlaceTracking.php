@@ -133,6 +133,8 @@ class PlaceTracking implements ChangesetInterface {
                 case ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD:
                     $newValue = $newValue->getId();
                     break;
+                case ChangeService::PLACE_TERM:
+                    $newValue = $newValue;
                 //default:
                     //rien à faire
             }
@@ -151,6 +153,9 @@ class PlaceTracking implements ChangesetInterface {
      * @return boolean
      */
     public function isCreation() {
+        if ($this->isCreation === NULL) {
+            return true;
+        }
         return $this->isCreation;
     }
     

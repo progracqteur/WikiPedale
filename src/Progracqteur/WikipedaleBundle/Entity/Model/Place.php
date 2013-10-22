@@ -269,6 +269,9 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         if ($term !== $this->term) {
             $this->term = $term;
             $this->change('term', $this->term, $term);
+            
+            $this->getChangeset()->addChange(ChangeService::PLACE_TERM, $term);
+            
         }   
     }
     
