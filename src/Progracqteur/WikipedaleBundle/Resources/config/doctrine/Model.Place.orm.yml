@@ -31,6 +31,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     accepted:
       type: boolean
       default: true
+    term:
+      type: text
+      length: 30
     moderatorComment:
       type: text
   lifecycleCallbacks:

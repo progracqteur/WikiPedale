@@ -13,6 +13,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
   constraints:
     - Callback:
         methods: [isStatusesValid, hasOnlyOneChange, isCategoriesValid, isManagerValid]
+    - Progracqteur\WikipedaleBundle\Validator\Constraints\TermConstraint: ~
 
 Progracqteur\WikipedaleBundle\Entity\Model\Photo:
   getters:

@@ -43,6 +43,7 @@ class ChangeService {
     const PLACE_MANAGER_REMOVE = 198;
     const PLACE_PLACETYPE_ALTER = 200;
     const PLACE_MODERATOR_COMMENT_ALTER = 210;
+    const PLACE_TERM = 220;
     const PLACE_CREATOR_CONFIRMATION = 1600;
     
     
@@ -70,12 +71,25 @@ class ChangeService {
      */
     private $reachableRoles;
     
-    public function __construct($securityContext, EntityManager $em, GeoService $geoService, ReachableRoleService $reachableRoles)
+    /**
+     * default type and term.
+     * Must be defined in app/config/parameters.yml
+     * 
+     * @var string
+     */
+    private $defaultTypeTerm;
+    
+    public function __construct($securityContext, 
+            EntityManager $em, 
+            GeoService $geoService, 
+            ReachableRoleService $reachableRoles,
+            $defaultTypeTerm)
     {
         $this->securityContext = $securityContext;
         $this->em = $em;
         $this->geoService = $geoService;
         $this->reachableRoles = $reachableRoles;
+        $this->defaultTypeTerm = $defaultTypeTerm;
     }
     
     public function checkChangesAreAllowed(ChangeableInterface $object) 
@@ -98,7 +112,7 @@ class ChangeService {
                 {
                     if ( $object->getCreator()->equals($author))
                     {
-                        return true;
+                        //ok
                     } else 
                     {
                         throw ChangeException::mayNotCreateEntityForAnotherUser(10);
@@ -109,7 +123,7 @@ class ChangeService {
                     {
                         throw ChangeException::mayNotCreateEntityForAnotherUser(100);
                     } else {
-                        return true;
+                        //ok
                     }
                 }
             } 
@@ -128,12 +142,18 @@ class ChangeService {
                     continue; //tout le monde peut ajouter un commentaire ou un vote
                     break;
                 case self::PLACE_CREATOR : 
-                    throw ChangeException::param('creator');
+                    if (!$object->getChangeset()->isCreation()) {
+                        throw ChangeException::param('creator');
+                    }
                     break;
                 case self::PLACE_COMMENT_MODERATOR_MANAGER_ADD:
                     continue; //checked by the controller CommentController
                     break;
                  case self::PLACE_ACCEPTED:
+                     if ($object->getChangeset()->isCreation()) {
+                         //must be accepted except if the user is not registered
+                         continue;
+                     }
                      if ($this->securityContext->isGranted(User::ROLE_PUBLISHED))
                      {
                          continue;
@@ -141,6 +161,11 @@ class ChangeService {
                          throw ChangeException::param('accepted');
                      }
                  case self::PLACE_ADDRESS : 
+                     //allowed on creation
+                     if ($object->getChangeset()->isCreation()) {
+                         continue;
+                     }
+                     
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
                              OR 
                              $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
@@ -150,6 +175,11 @@ class ChangeService {
                          throw ChangeException::param('address');
                      }
                  case self::PLACE_DESCRIPTION :
+                     //allowed on creation
+                     if ($object->getChangeset()->isCreation()) {
+                         continue;
+                     }
+                     
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
                              OR 
                              $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
@@ -159,6 +189,11 @@ class ChangeService {
                          throw ChangeException::param('description');
                      }
                  case self::PLACE_GEOM:
+                     //allowed on creation
+                     if ($object->getChangeset()->isCreation()) {
+                         continue;
+                     }
+                     
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
                              OR 
                              $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
@@ -317,6 +352,26 @@ class ChangeService {
                         throw ChangeException::param('moderator_comment');
                     }
                     break;
+                case self::PLACE_TERM:
+                    
+                    if ($object->getChangeset()->isCreation()) {
+                        //it must be to default term
+                        //TODO add support for other things than bike...
+                        $ar = explode('.', $this->defaultTypeTerm);
+
+                        
+                        if ($change->getNewValue() == $ar[1]) {
+                            //this is ok !
+                            continue; 
+                        } else {
+                            throw ChangeException::param('term_not_default');
+                        }
+                    } elseif ($this->securityContext->isGranted(User::ROLE_PLACE_TERM)) {
+                        //OK ! 
+                        continue;
+                    } else {
+                        throw ChangeException::param('term');
+                    }
                  default:
                      throw ChangeException::param('inconnu - '.$change->getType());
             

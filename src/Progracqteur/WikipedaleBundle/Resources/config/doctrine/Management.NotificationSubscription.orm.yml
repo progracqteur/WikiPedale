@@ -18,6 +18,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription:
     zone:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Zone
       inversedBy: notificationSubscriptions
+      nullable: true
     owner:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
       inversedBy: notificationSubscriptions

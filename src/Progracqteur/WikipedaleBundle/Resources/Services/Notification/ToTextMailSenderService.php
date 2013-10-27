@@ -57,6 +57,7 @@ class ToTextMailSenderService {
         $this->t = $translator;
         $this->array[NotificationSubscription::KIND_MODERATOR] = $moderatorArray;
         $this->array[NotificationSubscription::KIND_MANAGER] = $managerArray;
+        $this->array[NotificationSubscription::KIND_PUBLIC_PLACE] = NotificationFilterBySubscriptionPublicPlace::$authorizedChangesToBeNotified;
         $this->date_format = $date_format;
         $this->om = $om;
         $this->router = $router;
