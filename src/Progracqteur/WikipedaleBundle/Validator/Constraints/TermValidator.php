@@ -33,6 +33,8 @@ class TermValidator extends ConstraintValidator {
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
     public function validate($place, Constraint $constraint) {
+        //TODO term is now used in categories. This should be adapted.
+        
         $valid_terms = array();
         
         foreach ($this->place_type as $target => $array) {
