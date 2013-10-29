@@ -158,6 +158,13 @@ services:
     arguments:
       roleHierarchy: "@security.role_hierarchy"
       
+  progracqteur.wikipedale.form.type.term:
+      class: Progracqteur\WikipedaleBundle\Form\Type\TermType
+      arguments:
+          place_type: %place_types%
+      tags:
+        - { name: form.type, alias: term }
+      
   progracqteur.wikipedale.validators.term:
     class: Progracqteur\WikipedaleBundle\Validator\Constraints\TermValidator
     arguments:

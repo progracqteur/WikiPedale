@@ -27,6 +27,7 @@ class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  
     const PARENT = 'parent';
     const ENTITY = 'entity';
     const ENTITY_TYPE = 'category';
+    const TERM = 'term';
     
     public function __construct(NormalizerSerializerService $service) {
         $this->service = $service;
@@ -65,6 +66,7 @@ class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  
         $a[self::ID] = $object->getId();
         $a[self::LABEL] = $object->getLabel();
         $a[self::ENTITY] = self::ENTITY_TYPE;
+        $a[self::TERM] = $object->getTerm();
         if ($object->hasParent())
         {
             $a[self::PARENT] = $this->normalize($object->getParent(), $format);
