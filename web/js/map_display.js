@@ -115,7 +115,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
 		placesLayer = new OpenLayers.Layer.Markers("Existing places");
 		map.addLayer(placesLayer);
 
-        size = new OpenLayers.Size(30,45);
+        size = new OpenLayers.Size(30.75,51);
         offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
 
         icon = new OpenLayers.Icon(marker_img_name([],null, 'selected'), size, offset); 

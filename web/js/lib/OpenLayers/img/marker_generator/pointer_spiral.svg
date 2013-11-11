@@ -7,38 +7,12 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="40.69141"
-   height="67.871773"
-   id="svg3173"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Nouveau document 2">
+   width="42"
+   height="68"
+   id="svg3173">
   <defs
      id="defs3175" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="75.70549"
-     inkscape:cy="23.553542"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:window-width="1301"
-     inkscape:window-height="744"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1" />
   <metadata
      id="metadata3178">
     <rdf:RDF>
@@ -52,34 +26,34 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Calque 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-236.79715,-398.42629)">
+     transform="translate(-236.18707,-398.29806)"
+     id="layer1">
     <path
-       inkscape:connector-curvature="0"
        d="m 265.50336,435.68961 c -2.251,6.83 -4.917,13.5 -7.767,20.096 -4.72,-11.153 -8.701,-19.552 -12.23,-31.159 -1.115,-3.666 -7.792,-5.015 -6.667,-1.316 4.324,14.213 10.521,27.717 16.196,41.418 1.113,2.688 4.563,1.528 5.484,-0.527 3.934,-8.761 7.681,-17.6 10.692,-26.728 1.211,-3.669 -4.503,-5.439 -5.708,-1.784 z"
-       id="path145" />
+       id="path145"
+       style="fill:#000000" />
     <g
        transform="translate(-86.547641,346.97061)"
-       id="g147">
+       id="g147"
+       style="fill:#ff0000">
       <g
-         id="g149">
+         id="g149"
+         style="fill:#ff0000">
         <g
-           id="g151">
+           id="g151"
+           style="fill:#ff0000">
           <path
-             style="fill:#76b82a"
-             inkscape:connector-curvature="0"
              d="m 363.562,62.833 c -1.579,-8.057 -9.201,-11.158 -15.25,-11.365 -4.31,-0.148 -8.512,1.045 -11.244,3.196 -0.388,0.304 -0.861,1.825 -0.469,3.021 0.353,1.078 1.331,1.476 2.842,1.177 0.861,-0.168 1.694,-0.514 2.58,-0.879 1.07,-0.443 2.177,-0.9 3.338,-1.017 1.241,-0.126 2.326,-0.171 3.313,-0.137 3.891,0.134 6.697,1.566 8.58,4.381 2.396,3.582 2.024,9.17 -0.865,13 -2.908,3.853 -8.64,6.312 -14.258,6.12 -2.088,-0.073 -4.022,-0.494 -5.754,-1.253 -6.188,-2.712 -8.472,-8.105 -6.982,-16.487 0.254,-1.426 -0.503,-3.876 -1.327,-4.301 -0.379,-0.195 -0.726,-0.299 -1.031,-0.309 -1.188,-0.042 -1.831,1.39 -2.452,2.773 -0.069,0.155 -0.138,0.308 -0.207,0.457 -0.243,0.527 -0.382,1.139 -0.517,1.73 -1.282,5.61 -0.147,11.062 3.183,15.392 3.468,4.505 8.9,7.208 14.903,7.415 1.765,0.06 3.571,-0.096 5.364,-0.465 9.253,-1.893 14.767,-6.462 16.396,-13.578 0.686,-3.936 0.136,-7.479 -0.132,-8.821 l -0.011,-0.05 z"
-             id="path153" />
+             id="path153"
+             style="fill:#ff0000" />
         </g>
         <g
-           id="g155">
+           id="g155"
+           style="fill:#ff0000">
           <path
-             style="fill:#76b82a"
-             inkscape:connector-curvature="0"
              d="m 354.587,66.577 c 0.777,-0.746 1.192,-1.646 1.199,-2.601 0.018,-2.597 -3.016,-4.701 -7.056,-4.898 l -0.169,-0.006 c -4.093,-0.14 -7.417,1.802 -7.564,4.421 -0.053,0.941 0.302,1.857 1.026,2.65 1.284,1.407 3.606,2.301 6.211,2.39 l -0.016,0.453 0,0 0.027,-0.452 c 2.606,0.087 4.975,-0.645 6.342,-1.957 z"
-             id="path157" />
+             id="path157"
+             style="fill:#ff0000" />
         </g>
       </g>
     </g>
