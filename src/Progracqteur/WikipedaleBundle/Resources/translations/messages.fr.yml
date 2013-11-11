@@ -178,6 +178,9 @@ notification_subscriptions:
       label: Fréquence d'envoi
       stopped: Suspendre
     
-      
+csv:
+    place:
+        list:
+            
       
     

@@ -1,0 +1,4 @@
+"{{ 'csv.place.list.id'|trans}}","{{ 'csv.place.list.address'|trans }}","{{ 'csv.place.list.lat'|trans }}", "{{ 'csv.place.list.lon'|trans }}", "{{ 'csv.place.list.description'|trans }}"
+{% for place in places %}
+{{ place.id }},"{{ place.address.road|raw }}", {{ place.geom.lat|raw }}, {{ place.geom.lon|raw }},"{{ place.description|raw }}"
+{% endfor %}
