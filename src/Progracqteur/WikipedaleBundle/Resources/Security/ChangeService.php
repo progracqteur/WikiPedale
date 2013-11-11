@@ -311,6 +311,8 @@ class ChangeService {
                      
                      if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
                      {
+                         //TODO: wheen we will need it, check if the user may add the category
+                         //with specific term using place_type
                          continue;
                      } else {
                          throw ChangeException::param('add category ');

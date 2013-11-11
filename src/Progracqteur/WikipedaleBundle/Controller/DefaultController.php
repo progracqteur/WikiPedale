@@ -73,11 +73,35 @@ class DefaultController extends Controller
             }
         }
         
+        //retrieve categories depending on user's right
+        
+        $terms_allowed = '(';
+        $iTerm = 0;
+        foreach ($this->get('container')->getParameter('place_type') 
+                as $target => $array) {
+                    if ($target === 'bike') {
+                        foreach ($array["terms"] as $term) {
+                            if ($this->get('security.context')->isGranted(
+                                    $term['mayAddToPlace'])){
+                                if ($iTerm > 0) {
+                                    $terms_allowed .= ', ';
+                                }
+                                $terms_allowed .= $term['key'];
+                            }
+                            
+                        }
+                    }
+            
+                }
+                
+        $terms_allowed .= ') ';
+        
         $categories = $this->getDoctrine()->getManager()
                 ->createQuery('SELECT c from 
             ProgracqteurWikipedaleBundle:Model\Category c 
-            WHERE  c.used = true AND c.parent is null
+            WHERE  c.used = true AND c.parent is null AND c.term IN ?term
             ORDER BY c.order, c.label')
+                ->setParameter('term', $terms_allowed)
                 ->getResult();
         //Todo: cachable query
         
