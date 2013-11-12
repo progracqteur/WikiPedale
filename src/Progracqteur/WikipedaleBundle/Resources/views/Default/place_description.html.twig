@@ -57,7 +57,9 @@
                                {% if category.hasChildren %}
                                      <optgroup label="{{ category.label }}" >
                                         {% for childCategory in category.children %}
+                                        {% if childCategory.term in terms_allowed %}
                                              <option value="{{ childCategory.id }}">{{ childCategory.label }}</option>
+                                        {% endif %}
                                         {% endfor %}
 
 

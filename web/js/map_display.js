@@ -115,10 +115,10 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
 		placesLayer = new OpenLayers.Layer.Markers("Existing places");
 		map.addLayer(placesLayer);
 
-        size = new OpenLayers.Size(19,25);
+        size = new OpenLayers.Size(30.75,51);
         offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
 
-        icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
+        icon = new OpenLayers.Icon(marker_img_name([],null, 'selected'), size, offset); 
         markers['edit_description'] = new OpenLayers.Marker(new OpenLayers.LonLat(1.1,1.1),icon);
         placesLayer.addMarker(markers['edit_description']);
         markers['edit_description'].display(false);
@@ -134,11 +134,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         if (description_id !== 'new_description') {
             description_data = descriptions.get_by_id(description_id);
         }
-        var end_name = '.png';
-        if (option) {
-            end_name = '_' + option + '.png';
-        }
-        markers[description_id].setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + end_name);
+        markers[description_id].setUrl(marker_img_name(description_data.statuses,description_data.term,option));
     }
 
     function add_marker(description_id, an_event_function){
@@ -159,7 +155,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
                 map.getProjectionObject()
             ));
         
-            icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '.png', size, offset); 
+            icon = new OpenLayers.Icon(marker_img_name(description_data.statuses,description_data.term,null), size, offset); 
             feature.data.icon = icon;
     
             var marker = feature.createMarker();
@@ -206,7 +202,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
                 var description_data = descriptions.get_by_id(description_id);
                 marker.events.remove("mousedown");
                 marker.events.remove("touchstart");
-                marker.setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '_no_active.png')
+                marker.setUrl(marker_img_name(description_data.statuses,description_data.term,'no_active'));
             }
         });
     }
@@ -218,7 +214,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * @param {lonlat} new_position The new position
         */
         if((an_id === 'new_description') && markers['new_description'] == null) {
-            icon = new OpenLayers.Icon(marker_img_url + 'm_' + marker_img_name([]) + '_selected.png', size, offset); 
+            icon = new OpenLayers.Icon(marker_img_name([],null,'selected'), size, offset); 
             markers[an_id] = new OpenLayers.Marker(new_position,icon);
             placesLayer.addMarker(markers[an_id]);
         } else {
@@ -265,7 +261,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * @param {int} an_id The id of the signalement
         */
         var description_data = descriptions.get_by_id(an_id);
-        markers[an_id].setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '_selected.png');
+        markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.term,'selected'));
         markers['edit_description'].lonlat = markers[an_id].lonlat;
     }   
 
@@ -275,7 +271,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         * @param {int} an_id The id of the signalement
         */
         var description_data = descriptions.get_by_id(an_id);
-        markers[an_id].setUrl(marker_img_url + 'm_' + marker_img_name(description_data.statuses) + '.png');
+        markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.term,null));
     }   
 
     function display_all_markers(){
@@ -296,7 +292,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         return map;
     }
 
-    function marker_img_name(statuses){
+    function marker_img_name(statuses,term,option){
         /**
         * Compute the icon name of the marker.
         */
@@ -318,12 +314,26 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             }
         }
 
+        if (term == null) {
+            term = '';
+        }
+        else {
+            term = term + '_';
+        }
+
+        if (option == null) {
+            option = '';
+        }
+        else if (option !== '') {
+            option = '_' + option;
+        }
+
         if (params.c2_label == undefined) {
-            return manager_c;
+            return marker_img_url + 'm_' + term + manager_c + option +  '.svg';
         } else if (params.c3_label == undefined) {
-            return manager_c + c2;
+            return marker_img_url + 'm_' + term + manager_c + c2 + option + '.svg';
         } else {
-            return manager_c + c2 + c3;
+            return marker_img_url + 'm_' + term + manager_c + c2 + c3 + option + '.svg';
         }
     }
     

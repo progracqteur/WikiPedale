@@ -39,6 +39,7 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
     const PLACE_TYPE = 'placetype';
     const MODERATOR_COMMENT = 'moderatorComment';
     const COMMENTS = 'comments';
+    const TERM = 'term';
     
     public function __construct(NormalizerSerializerService $service)
     {
@@ -213,6 +214,10 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
             $p->setModeratorComment($data[self::MODERATOR_COMMENT]);
         }
         
+        if (isset($data[self::TERM])) {
+            $p->setTerm($data[self::TERM]);
+        }
+        
         return $p;
     }
     
@@ -285,6 +290,7 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
             'statuses' => $s,
             'categories' => $c,
             'manager' => $manager,
+            self::TERM => $object->getTerm(),
             self::PLACE_TYPE => $placeType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
             self::COMMENTS => $nbComments,

@@ -14,6 +14,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
     order:
       type: float
       column: ui_order
+    term:
+      type: string
+      length: 30
   oneToMany:
     children:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category

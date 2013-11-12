@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
 use Progracqteur\WikipedaleBundle\Form\Model\PlaceType;
+use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
  * Description of PlaceController
@@ -117,6 +118,11 @@ class PlaceController extends Controller {
                 break;
             case 'html':
                 return new Response('Pas encore implémenté');
+            case 'csv' :
+                return $this->render('ProbracqteurWikipedaleBundle:Place:list.csv.twig', 
+                        array(
+                            'places' => $r
+                        ));
                 
         }
         
@@ -149,7 +155,7 @@ class PlaceController extends Controller {
         $p = $em->createQuery('SELECT p 
             from ProgracqteurWikipedaleBundle:Model\\Place p 
                 
-            where covers(:polygon, p.geom) = true and p.accepted = true')
+            where covers(:polygon, p.geom) = true and p.accepted = true ORDER BY p.id')
                 ->setParameter('polygon', $city->getPolygon());
         
         $r = $p->getResult();
@@ -165,6 +171,21 @@ class PlaceController extends Controller {
                 break;
             case 'html':
                 return new Response('Pas encore implémenté');
+            case 'csv' :
+                $response = $this->render('ProgracqteurWikipedaleBundle:Place:list.csv.twig', 
+                        array(
+                            'places' => $r
+                        ));
+                
+                $response->setStatusCode(200);
+                $response->headers->set('Content-Type', 'text/csv');
+                $response->headers->set('Content-Description', 'List of places');
+                $response->headers->set('Content-Disposition', 'attachment; filename=list.csv');
+                $response->headers->set('Content-Transfer-Encoding', 'binary');
+                $response->headers->set('Pragma', 'no-cache');
+                $response->headers->set('Expires', '0');
+
+                return $response; 
                 
         }
         
@@ -301,7 +322,7 @@ class PlaceController extends Controller {
         }
         
         
-        
+
         /**
          * @var Progracqteur\WikipedaleBundle\Resources\Security\ChangeService 
          */
@@ -309,7 +330,7 @@ class PlaceController extends Controller {
         
         try {
         //TODO implémenter une réponse avec code d'erreur en JSON
-        $return = $securityController->checkChangesAreAllowed($place);
+            $return = $securityController->checkChangesAreAllowed($place);
         } catch (ChangeException $exc) {
             $r = new Response($exc->getMessage());
             $r->setStatusCode(403);
@@ -318,7 +339,7 @@ class PlaceController extends Controller {
         
         if ($return == false)
         {
-            $r = new Response("Vous n'avez pas de droits suffisant pour effectuer cette modification");
+            $r = new Response("Vous n'avez pas de droits suffisants pour effectuer cette modification");
             $r->setStatusCode(403);
             return $r;
         }
@@ -347,6 +368,28 @@ class PlaceController extends Controller {
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($place);
+        
+        
+        //If the change is a creation, suscribe the creator to notification
+        //only for registered users - a notificaiton will be suscribe at email confirmation for unregistered
+        if ($place->getChangeset()->isCreation() === true
+                && $place->getCreator()->isRegistered() === true) {
+
+        
+            $notification = new NotificationSubscription();
+            
+                       
+            $notification->setOwner($place->getCreator())
+                    ->setKind(NotificationSubscription::KIND_PUBLIC_PLACE)
+                    ->setPlace($place)
+                    ->setTransporter(NotificationSubscription::TRANSPORTER_MAIL);
+            
+            $em->persist($notification);
+            
+        }
+        
+        
+        
         $em->flush();
         
         $params = array(
