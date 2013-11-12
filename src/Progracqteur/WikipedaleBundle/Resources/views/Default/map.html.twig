@@ -69,7 +69,7 @@
     {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
     {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
 
-    <div id="div_export_data" style="display:none">
+    <div id="div_export_data">
         Export des données :
         <a href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}">
            CSV
