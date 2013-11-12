@@ -23,6 +23,8 @@ twig:
     form:
       resources:
         - 'ProgracqteurWikipedaleBundle:Form:fields.html.twig'
+    globals:
+        date_format: %date_format%
 
 # Assetic Configuration
 assetic:
