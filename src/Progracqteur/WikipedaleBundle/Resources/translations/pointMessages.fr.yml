@@ -18,6 +18,7 @@ AddPoint:
     categories_placeholder: Sélectionner une ou plusieurs catégories
     description: Détails
     description_placeholder: Description du problème
+  medium_warning: Attention, un problème de ce type est complexe à résoudre. Cela peut donc prendre du temps.
   submit: Enregistrer
   cancel: Effacer
 

@@ -277,6 +277,10 @@ img#VilleActuelleRSSIcon {
     color:green;
 }
 
+.warningMessage{
+    color:#FF5500;
+}
+
 
 #legend{
     position:absolute; 
