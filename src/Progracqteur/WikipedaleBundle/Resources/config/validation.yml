@@ -90,6 +90,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
   constraints:
     - Callback:
         methods: [isParentAChild]
+    - Progracqteur\WikipedaleBundle\Validator\Constraints\TermConstraint: ~
   getters:
     label:
       - NotBlank: ~
