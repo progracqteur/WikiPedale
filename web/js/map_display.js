@@ -105,6 +105,17 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
 		osm = new OpenLayers.Layer.OSM("OSM MAP");
 		map.addLayer(osm);
 
+        var voies_lentes_layer = new OpenLayers.Layer.WMS("Voies Lentes","http://geoservices.wallonie.be/arcgis/services/MOBILITE/VOIES_LENTES/MapServer/WMSServer?",
+            {
+                layers: '1',
+                transparent: true,
+            },{
+                projection: new OpenLayers.Projection("EPSG:3857"),
+            });
+        map.addLayer(voies_lentes_layer);
+
+        map.addControl(new OpenLayers.Control.LayerSwitcher());
+
 		map.setCenter(
             new OpenLayers.LonLat(townLon, townLat).transform(
 				new OpenLayers.Projection("EPSG:4326"),
@@ -112,7 +123,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             	), zoom_map
             );
 
-		placesLayer = new OpenLayers.Layer.Markers("Existing places");
+		placesLayer = new OpenLayers.Layer.Markers("Uello Markers");
 		map.addLayer(placesLayer);
 
         size = new OpenLayers.Size(19,25);
