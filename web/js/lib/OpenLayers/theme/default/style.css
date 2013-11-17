@@ -326,7 +326,7 @@ div.olControlSaveFeaturesItemInactive {
     padding-left: 10px;
     padding-bottom: 5px;
     padding-right: 10px;
-    background-color: darkblue;
+    background-color: #CCCCCC;
 }
 
 .olControlLayerSwitcher .layersDiv .baseLbl,
