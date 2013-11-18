@@ -329,11 +329,11 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         }
 
         if (params.c2_label == undefined) {
-            return marker_img_url + 'm_' + term + manager_c + option +  '.svg';
+            return marker_img_url + 'm_' + term + manager_c + option +  '.png';
         } else if (params.c3_label == undefined) {
-            return marker_img_url + 'm_' + term + manager_c + c2 + option + '.svg';
+            return marker_img_url + 'm_' + term + manager_c + c2 + option + '.png';
         } else {
-            return marker_img_url + 'm_' + term + manager_c + c2 + c3 + option + '.svg';
+            return marker_img_url + 'm_' + term + manager_c + c2 + c3 + option + '.png';
         }
     }
     
