@@ -40,7 +40,9 @@
               {% if category.hasChildren %}
                     <optgroup label="{{ category.label }}" >
                        {% for childCategory in category.children %}
-                            <option value="{{ childCategory.id }}">{{ childCategory.label }}</option>
+                            {% if childCategory.term in terms_allowed %}
+                            <option value="{{ childCategory.id }}" data-term="{{ childCategory.term }}">{{ childCategory.label }}</option>
+                            {% endif %}
                        {% endfor %}
 
 
@@ -48,7 +50,7 @@
               
               {% else %}
               
-                    <option value="{{ category.id }}">{{ category.label }}</option>
+                    <option value="{{ category.id }}" data-term="{{ category.term }}">{{ category.label }}</option>
               {% endif %}
               
           {% endfor %}
@@ -69,6 +71,9 @@
 #}   
         </optgroup>
       </select><br />
+
+      <p><span id="add_new_description_form_informer__categories_medium_warning" class="warningMessage">{{ 'AddPoint.medium_warning'|trans({}, 'pointMessages') }}</span></p>
+
 
     <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__description" alt="is the field ok">
     <label for="add_new_description_form__description">{{ 'AddPoint.PointData.description'|trans({}, 'pointMessages') }}</label> 

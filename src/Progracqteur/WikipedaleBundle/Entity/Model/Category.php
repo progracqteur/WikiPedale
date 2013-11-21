@@ -40,6 +40,14 @@ class Category
      * @var boolean
      */
     private $used = true;
+    
+    
+    /**
+     * associated term
+     * 
+     * @var string
+     */
+    private $term;
 
     public function __construct()
     {
@@ -210,5 +218,13 @@ class Category
         } else {
             return $this->getLabel().$string;
         }
+    }
+    
+    public function getTerm() {
+        return $this->term;
+    }
+    
+    public function setTerm($term) {
+        $this->term = $term;
     }
 }

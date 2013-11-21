@@ -94,6 +94,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $("#add_new_description_form__description").blur(function() { informer.update_new_description_form('description'); });
             $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_create.catch_creating_form(this); });
             $("#new_place_form_reset_button").click(function(e) { console.log('blopblop'); e.preventDefault(); description_create.clear_creating_form(); });
+            $("#add_new_description_form_informer__categories_medium_warning").hide();
 
 
             //Place Description Edit

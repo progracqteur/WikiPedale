@@ -29,6 +29,7 @@ class CategoryType extends AbstractType
                 'property' => 'hierarchicalLabel',
                 'required' => false
             ))
+            ->add('term')
             ->add('used', 'choice', array(
                 'choices' => array(
                     true => 'admin.category.form.field.used.in_use',

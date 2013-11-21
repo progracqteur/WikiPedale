@@ -73,11 +73,43 @@ class DefaultController extends Controller
             }
         }
         
-        $categories = $this->getDoctrine()->getManager()
-                ->createQuery('SELECT c from 
+        //retrieve categories depending on user's right
+        
+        $terms_allowed = ' ';
+        $terms_allowed_array = array();
+        $iTerm = 0;
+        foreach ($this->get('service_container')->getParameter('place_types') 
+                as $target => $array) {
+            //TODO extendds to other transports
+                    if ($target === 'bike') {
+                        foreach ($array["terms"] as $term) {
+                            if ($this->get('security.context')->isGranted(
+                                    $term['mayAddToPlace'])){
+                                if ($iTerm > 0) {
+                                    $terms_allowed .= ', ';
+                                }
+                                $terms_allowed .= "'".$term['key']."'";
+                                $terms_allowed_array[] = $term['key'];
+                                $iTerm ++;
+                            }
+                            
+                        }
+                    }
+            
+                }
+                
+        $terms_allowed .= ' ';
+        
+        
+        $q = sprintf('SELECT c from 
             ProgracqteurWikipedaleBundle:Model\Category c 
-            WHERE  c.used = true AND c.parent is null
-            ORDER BY c.order, c.label')
+            WHERE  c.used = true AND c.parent is null AND c.term IN (%s)
+            ORDER BY c.order, c.label', $terms_allowed);
+        
+        
+        
+        $categories = $this->getDoctrine()->getManager()
+                ->createQuery($q)
                 ->getResult();
         //Todo: cachable query
         
@@ -101,7 +133,8 @@ class DefaultController extends Controller
                     'cities' => $cities,
                     'categories' => $categories,
                     'placeTypes' => $placeTypes,
-                    'managers' => $managers
+                    'managers' => $managers,
+                    'terms_allowed' => $terms_allowed_array
                 );
 
         if ($id != null)

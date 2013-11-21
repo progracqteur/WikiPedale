@@ -316,17 +316,45 @@ class DebugController extends Controller {
         
         $u = new UnregisteredUser();
         $u->setLabel('non enregistré ');
-        $u->setEmail('test@email');
+        $u->setEmail('test@email.com');
         $u->setIp('192.168.1.89');
 
         $place = new Place();
         $place->setCreator($u);
         $place->setDescription('Description '.$str);
         $place->setGeom($point);
+        
+        $place_type = $this->get('service_container')->getParameter('place_types');
+        $valid_terms = array();
+        
+        foreach ($place_type as $target => $array) {
+            //TODO : we work only for bike place now
+            if ($target === "bike") {
+                foreach ($array["terms"] as $term) {
+                    $valid_terms[] = $term['key'];
+                }
+            }
+        }
+        
+        $term = $valid_terms[array_rand($valid_terms)];
+
+        $place->setTerm($term);
+        
 
         $add = $this->geolocate($point);
 
         $place->setAddress($add);
+        
+        //add a random category
+        $cats = $this->getDoctrine()->getManager()
+                ->createQuery('SELECT c from ProgracqteurWikipedaleBundle:Model\Category c
+                    WHERE c.parent is not null ')
+                ->getResult();
+        
+        $cat = $cats[array_rand($cats)];
+        
+        $place->addCategory($cat);
+        
         }
         else {
             

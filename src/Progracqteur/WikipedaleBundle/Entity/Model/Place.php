@@ -120,6 +120,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     private $type;
     
     /**
+     *
+     * @var string 
+     */
+    private $term ;
+    
+    /**
      * comment for moderators of the system
      * 
      * @var string
@@ -253,9 +259,25 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         return $this->geom;
     }
-
-
-
+    
+    
+    /**
+     * 
+     * @param string $term
+     */
+    public function setTerm($term) {
+        if ($term !== $this->term) {
+            $this->term = $term;
+            $this->change('term', $this->term, $term);
+            
+            $this->getChangeset()->addChange(ChangeService::PLACE_TERM, $term);
+            
+        }   
+    }
+    
+    public function getTerm() {
+        return $this->term;
+    }
 
     /**
      * Set createDate
