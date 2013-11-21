@@ -118,6 +118,11 @@ class PlaceController extends Controller {
                 break;
             case 'html':
                 return new Response('Pas encore implémenté');
+            case 'csv' :
+                return $this->render('ProbracqteurWikipedaleBundle:Place:list.csv.twig', 
+                        array(
+                            'places' => $r
+                        ));
                 
         }
         
@@ -148,7 +153,7 @@ class PlaceController extends Controller {
         $p = $em->createQuery('SELECT p 
             from ProgracqteurWikipedaleBundle:Model\\Place p 
                 
-            where covers(:polygon, p.geom) = true and p.accepted = true')
+            where covers(:polygon, p.geom) = true and p.accepted = true ORDER BY p.id')
                 ->setParameter('polygon', $city->getPolygon());
         
         $r = $p->getResult();
@@ -164,6 +169,21 @@ class PlaceController extends Controller {
                 break;
             case 'html':
                 return new Response('Pas encore implémenté');
+            case 'csv' :
+                $response = $this->render('ProgracqteurWikipedaleBundle:Place:list.csv.twig', 
+                        array(
+                            'places' => $r
+                        ));
+                
+                $response->setStatusCode(200);
+                $response->headers->set('Content-Type', 'text/csv');
+                $response->headers->set('Content-Description', 'List of places');
+                $response->headers->set('Content-Disposition', 'attachment; filename=list.csv');
+                $response->headers->set('Content-Transfer-Encoding', 'binary');
+                $response->headers->set('Pragma', 'no-cache');
+                $response->headers->set('Expires', '0');
+
+                return $response; 
                 
         }
         
