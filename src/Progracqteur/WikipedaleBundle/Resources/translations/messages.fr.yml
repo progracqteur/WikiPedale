@@ -178,6 +178,26 @@ notification_subscriptions:
       label: Fréquence d'envoi
       stopped: Suspendre
     
-      
+csv:
+    place:
+        list:
+            statuses: '{-1} Rejeté (gris)|{0}Non traité (blanc) | {1} Pris en compte (rouge) | {2} En cours de résolution (orange) | {3} Résolu (vert)'
+            id: Identifiant
+            address: Adresse
+            lat: Latitude
+            lon: Longitude
+            description: Description
+            createDate: Date de création
+            category: Catégorie
+            term:
+                title: Type de point
+                short: Petit problème
+                medium: Résolution à moyen terme
+                long: Point noir
+            moderator_status: Statut
+            creator: Créateur
+            creator_email: Email du créateur
+            creator_phone: Téléphone du créateur
+                
       
     

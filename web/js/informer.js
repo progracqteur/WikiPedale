@@ -1,5 +1,6 @@
 /**
-* Displaying informer image when the user add a new description
+* Displaying informer image and warning message about the resolution time
+* when the user add a new description
 */
 define(['jQuery','basic_data_and_functions'], function($,basic_data_and_functions) {
 	function reset_new_description_form(){
@@ -9,6 +10,8 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
 		$('#add_new_description_div img.verif').each(function(index, img_element){
 			$(img_element).attr('src', basic_data_and_functions.web_dir + 'img/verif_rien.png');
 		});
+
+		$("#add_new_description_form_informer__categories_medium_warning").hide();
 	}
 
 	function update_new_description_form(field_name) {
@@ -19,6 +22,17 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
 		*/
 		var value = $('#add_new_description_form__' + field_name).attr('value');
 		var is_valid = 'oui';
+
+		if(field_name == 'categories') {
+			var term = $("#add_new_description_form__categories [value="+ value + "]").attr("data-term");
+
+			if(term == 'medium') {
+				$("#add_new_description_form_informer__categories_medium_warning").show();
+			}
+			else {
+				$("#add_new_description_form_informer__categories_medium_warning").hide();
+			}
+		}
 
 		if(! value || (field_name == 'email' && (! basic_data_and_functions.is_mail_valid(value))))
 			is_valid = 'non';

@@ -118,6 +118,11 @@ class PlaceController extends Controller {
                 break;
             case 'html':
                 return new Response('Pas encore implémenté');
+            case 'csv' :
+                return $this->render('ProbracqteurWikipedaleBundle:Place:list.csv.twig', 
+                        array(
+                            'places' => $r
+                        ));
                 
         }
         
@@ -126,8 +131,6 @@ class PlaceController extends Controller {
     
     public function listByCityAction($_format, Request $request)
     {
-        
-        
         $em = $this->getDoctrine()->getManager();
         
         $citySlug = $request->get('city', null);
@@ -150,7 +153,7 @@ class PlaceController extends Controller {
         $p = $em->createQuery('SELECT p 
             from ProgracqteurWikipedaleBundle:Model\\Place p 
                 
-            where covers(:polygon, p.geom) = true and p.accepted = true')
+            where covers(:polygon, p.geom) = true and p.accepted = true ORDER BY p.id')
                 ->setParameter('polygon', $city->getPolygon());
         
         $r = $p->getResult();
@@ -166,6 +169,21 @@ class PlaceController extends Controller {
                 break;
             case 'html':
                 return new Response('Pas encore implémenté');
+            case 'csv' :
+                $response = $this->render('ProgracqteurWikipedaleBundle:Place:list.csv.twig', 
+                        array(
+                            'places' => $r
+                        ));
+                
+                $response->setStatusCode(200);
+                $response->headers->set('Content-Type', 'text/csv');
+                $response->headers->set('Content-Description', 'List of places');
+                $response->headers->set('Content-Disposition', 'attachment; filename=list.csv');
+                $response->headers->set('Content-Transfer-Encoding', 'binary');
+                $response->headers->set('Pragma', 'no-cache');
+                $response->headers->set('Expires', '0');
+
+                return $response; 
                 
         }
         
@@ -174,7 +192,13 @@ class PlaceController extends Controller {
     
     public function changeAction($_format, Request $request)
     {
-        
+        /**
+         *  Change the data of a place.
+         * @param string $_format The format of the request () 
+         * @param string $request The request containing the changes
+         */
+        $logger = $this->get('logger');
+
         if ($request->getMethod() != 'POST')
         {
             throw new \Exception("Only post method accepted");
@@ -196,14 +220,14 @@ class PlaceController extends Controller {
                 /*TODO: when the token will be enabled into javascript, if there
                  * is no token, the script must reject request without tokens
                  */
-                $this->get('logger')->warn('Wikipedale:PlaceController:ChangeAction change place without token');
+                $logger->warn('Wikipedale:PlaceController:ChangeAction change place without token');
                 
                 //TODO: remove debug code below :
                 if ($this->get('security.context')->getToken() instanceof WsseUserToken)
                 {
                     if (!$this->get('security.context')->getToken()->isFullyAuthenticated())
                     {
-                        $this->get('logger')->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
+                        $logger->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
                     }
                 }
                 
@@ -212,7 +236,7 @@ class PlaceController extends Controller {
         } else {
             if (false === $this->get('progracqteur.wikipedale.token_provider')->isCsrfTokenValid($token))
             {
-                $this->get('logger')->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
+                $logger->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
                 $response = new Response('invalid token provided');
                 $response->setStatusCode(400);
                 return $response;
@@ -227,8 +251,13 @@ class PlaceController extends Controller {
         }
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
-        
         $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
+        
+        $categories = $place->getCategory();
+        if(! $categories->isEmpty()) {
+            $logger->warn('Ajout automatique du term selon la categorie ');
+            $place->setTerm($categories->first()->getTerm());
+        }
         
         //SECURITE: refuse la modification d'une place par un utilisateur anonyme
         if (
@@ -310,7 +339,7 @@ class PlaceController extends Controller {
         
         try {
         //TODO implémenter une réponse avec code d'erreur en JSON
-        $return = $securityController->checkChangesAreAllowed($place);
+            $return = $securityController->checkChangesAreAllowed($place);
         } catch (ChangeException $exc) {
             $r = new Response($exc->getMessage());
             $r->setStatusCode(403);
@@ -319,7 +348,7 @@ class PlaceController extends Controller {
         
         if ($return == false)
         {
-            $r = new Response("Vous n'avez pas de droits suffisant pour effectuer cette modification");
+            $r = new Response("Vous n'avez pas de droits suffisants pour effectuer cette modification");
             $r->setStatusCode(403);
             return $r;
         }

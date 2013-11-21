@@ -20,8 +20,11 @@ services:
       em: '@doctrine.orm.entity_manager'
       geoService: '@progracqteur.wikipedale.geoservice'
       reachableRoles: '@progracqteur.wikipedale.services.reachables_roles'
+      defaultTypeTerm: %place_type_default%
+      
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
+    
   progracqteurWikipedale.form.type.photo:
       class: Progracqteur\WikipedaleBundle\Form\Model\PhotoType
       arguments: ["@service_container"]
@@ -154,6 +157,20 @@ services:
     class: Progracqteur\WikipedaleBundle\Resources\Services\ReachableRoleService
     arguments:
       roleHierarchy: "@security.role_hierarchy"
+      
+  progracqteur.wikipedale.form.type.term:
+      class: Progracqteur\WikipedaleBundle\Form\Type\TermType
+      arguments:
+          place_type: %place_types%
+      tags:
+        - { name: form.type, alias: term }
+      
+  progracqteur.wikipedale.validators.term:
+    class: Progracqteur\WikipedaleBundle\Validator\Constraints\TermValidator
+    arguments:
+      place_type: %place_types%
+    tags:
+        - { name: validator.constraint_validator, alias: term }
       
   
 

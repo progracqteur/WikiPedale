@@ -23,8 +23,8 @@ require.config({
     }
 });
 
-require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_creating_form','map_display','login','description_text_display','description_edit_form'],
-    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_creating_form,map_display,login,description_text_display,description_edit_form){
+require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit'],
+    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit){
 
     $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
@@ -92,21 +92,23 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $("#add_new_description_form__user_phonenumber").blur(function() { informer.update_new_description_form('user_phonenumber'); });
             $("#add_new_description_form__lieu").blur(function() { informer.update_new_description_form('lieu'); });
             $("#add_new_description_form__description").blur(function() { informer.update_new_description_form('description'); });
-            $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_creating_form.process(); });
+            $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_create.catch_creating_form(this); });
+            $("#new_place_form_reset_button").click(function(e) { console.log('blopblop'); e.preventDefault(); description_create.clear_creating_form(); });
+            $("#add_new_description_form_informer__categories_medium_warning").hide();
 
 
             //Place Description Edit
-            $("#span_place_description_loc_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('loc'); });
-            $("#span_place_description_desc_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('desc'); });
-            $("#span_place_description_commentaireCeM_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('commentaireCeM'); });
-            $("#span_place_description_cat_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('cat'); });
-            $("#span_place_description_status_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('status'); });
-            $("#span_place_description_type_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('type'); });
-            $("#span_place_description_gestionnaire_button").click(function(e) { e.preventDefault();  description_edit_form.description_edit_or_save('gestionnaire'); });
+            $("#span_place_description_loc_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('loc'); });
+            $("#span_place_description_desc_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('desc'); });
+            $("#span_place_description_commentaireCeM_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('commentaireCeM'); });
+            $("#span_place_description_cat_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('cat'); });
+            $("#span_place_description_status_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('status'); });
+            $("#span_place_description_type_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('type'); });
+            $("#span_place_description_gestionnaire_button").click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('gestionnaire'); });
             $("#span_place_description_delete_button").click(function(e) {e.preventDefault(); data_map_glue.last_description_selected_delete(); });
             $("span_plus_de_commenaitres_link a").click(function(e) { e.preventDefault(); description_text_display.activate_comments_mode(); });
-            $("#button_edit_lon_lat").click(function(e) { e.preventDefault(); description_edit_form.lon_lat_edit_or_save(); });
-            $("#button_save_lon_lat").click(function(e) { e.preventDefault(); description_edit_form.lon_lat_edit_or_save(); });
+            $("#button_edit_lon_lat").click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
+            $("#button_save_lon_lat").click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
         }
     });
 });

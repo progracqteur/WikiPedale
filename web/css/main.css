@@ -1,4 +1,4 @@
-html {
+pihtml {
     height:100%;
     width: 100%;
 }
@@ -112,7 +112,7 @@ div.PointDescription p.creator {
 /* dernieres modifs */
 
 
-#div_title_dernieres_modifs {
+#div_title_dernieres_modifs, #div_export_data {
     margin: 1em 0.5em 0 0.5em;
     padding : 0.2em 0.5em 0.2em 35px;
     border: 1px solid transparent;
@@ -244,18 +244,14 @@ img#VilleActuelleRSSIcon {
 }
 
 #PiedDePage {
-    display:block;
-    position: fixed;
-    width: 100%;
-
-    left: 0px;
-    bottom: 0px;
-    text-align: center;
-    font-weight: normal;
+    background-color: #FFFFFF;
+    clear: both;
+    display: block;
     font-size: 0.8em;
-    clear:both;
-    margin:0 1em 0.5em 1em;
-    background-color:#FFFFFF;
+    font-weight: normal;
+    margin: 5em;
+    padding: 0.5em;
+    text-align: center;
 }
 
 #logos {
@@ -275,6 +271,10 @@ img#VilleActuelleRSSIcon {
 
 .successMessage{
     color:green;
+}
+
+.warningMessage{
+    color:#FF5500;
 }
 
 

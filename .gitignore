@@ -18,3 +18,4 @@ composer.phar
 /nbproject/private/
 parameters.yml
 app/config/parameters.yml
+.DS_Store
