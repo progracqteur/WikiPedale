@@ -126,8 +126,6 @@ class PlaceController extends Controller {
     
     public function listByCityAction($_format, Request $request)
     {
-        
-        
         $em = $this->getDoctrine()->getManager();
         
         $citySlug = $request->get('city', null);
@@ -174,7 +172,13 @@ class PlaceController extends Controller {
     
     public function changeAction($_format, Request $request)
     {
-        
+        /**
+         *  Change the data of a place.
+         * @param string $_format The format of the request () 
+         * @param string $request The request containing the changes
+         */
+        $logger = $this->get('logger');
+
         if ($request->getMethod() != 'POST')
         {
             throw new \Exception("Only post method accepted");
@@ -196,14 +200,14 @@ class PlaceController extends Controller {
                 /*TODO: when the token will be enabled into javascript, if there
                  * is no token, the script must reject request without tokens
                  */
-                $this->get('logger')->warn('Wikipedale:PlaceController:ChangeAction change place without token');
+                $logger->warn('Wikipedale:PlaceController:ChangeAction change place without token');
                 
                 //TODO: remove debug code below :
                 if ($this->get('security.context')->getToken() instanceof WsseUserToken)
                 {
                     if (!$this->get('security.context')->getToken()->isFullyAuthenticated())
                     {
-                        $this->get('logger')->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
+                        $logger->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
                     }
                 }
                 
@@ -212,7 +216,7 @@ class PlaceController extends Controller {
         } else {
             if (false === $this->get('progracqteur.wikipedale.token_provider')->isCsrfTokenValid($token))
             {
-                $this->get('logger')->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
+                $logger->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
                 $response = new Response('invalid token provided');
                 $response->setStatusCode(400);
                 return $response;
@@ -227,8 +231,13 @@ class PlaceController extends Controller {
         }
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
-        
         $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
+        
+        $categories = $place->getCategory();
+        if(! $categories->isEmpty()) {
+            $logger->warn('Ajout automatique du term selon la categorie ');
+            $place->setTerm($categories->first()->getTerm());
+        }
         
         //SECURITE: refuse la modification d'une place par un utilisateur anonyme
         if (
