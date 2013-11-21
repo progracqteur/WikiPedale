@@ -1,4 +1,4 @@
-html {
+pihtml {
     height:100%;
     width: 100%;
 }
@@ -244,18 +244,13 @@ img#VilleActuelleRSSIcon {
 }
 
 #PiedDePage {
-    display:block;
-    position: fixed;
-    width: 100%;
-
-    left: 0px;
-    bottom: 0px;
-    text-align: center;
-    font-weight: normal;
+    background-color: #FFFFFF;
+    clear: both;
+    display: block;
     font-size: 0.8em;
-    clear:both;
-    margin:0 1em 0.5em 1em;
-    background-color:#FFFFFF;
+    font-weight: normal;
+    margin: 5em;
+    padding: 0.5em;
 }
 
 #logos {
