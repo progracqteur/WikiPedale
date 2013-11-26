@@ -1,26 +1,32 @@
+"use strict";
 /**
 * To filter the markers displayed in function of places caterogries, places CeM status or place type.
+* This module is used to display the markers regarding to the filtering options.
 */
 
-define(['jQuery','map_display','descriptions'], function($,map_display,descriptions) {
-    var selection_mode_activate = false; // true iff  displaying the div "div_options_affichage"
+define(['jQuery','map_display','descriptions','description'], function($,map_display,descriptions,description) {
+    var filtering_form_activated = false,  // true iff  displaying the div "div_options_affichage" and
+    // the choice of the user (done in the filtering form) has to be considered.
+        mode_activated = new Array(); // to remember each option of the filtering form has been
+    // choosed by the user
 
-    var filter_activated = new Array();
-    filter_activated['Categories'] = false; // true iff  filtering categories
-    filter_activated['PlaceTypes'] = false;  // true iff filtering types
-    filter_activated['StatusCeM']=false; // true iff filtering CeM Status
+    mode_activated['FilterCategories'] = false; // true iff  filtering categories
+    mode_activated['AddLongTermCategories'] = false; // true iff  adding (with filtering) signalement with PN Categories (ie Categories with long term)
+    mode_activated['FilterStatusCeM']=false; // true iff filtering CeM Status
+    mode_activated['AddStatusCeMRejete'] = false; // true iff  adding signalements with CeM Status Rejected
 
-    function activate_unactivate() {
+    function activate_unactivate_filtering_form() {
         /**
-        * When the user wants to activate the filtering mode and then display the filtering form.
+        * Function used to signal that the user wants to activate/unactivate the filtering mode.
+        * This function will display/undisplay the filtering form.
         */
-        if(selection_mode_activate) {
+        if(filtering_form_activated) {
             $('#buttonOptionsAffichage')
                 .removeClass("buttonAnnuler")
                 .addClass("buttonPlus");
             document.getElementById("div_options_affichage").style.display = "none";
             document.getElementById("buttonOptionsAffichage").innerHTML = "Options d'affichage"; 
-            map_display.display_all_markers();
+            
         }
         else {
             $('#buttonOptionsAffichage')
@@ -28,75 +34,83 @@ define(['jQuery','map_display','descriptions'], function($,map_display,descripti
                 .addClass("buttonAnnuler");
             document.getElementById("div_options_affichage").style.display = "block";
             document.getElementById("buttonOptionsAffichage").innerHTML = 'Annuler';
-            display_only_markers_with_selected_categories();
         }
-        selection_mode_activate = ! selection_mode_activate;
-    };
+        filtering_form_activated = ! filtering_form_activated;
+        display_markers_regarding_to_filtering();
+    }
 
-    function display_only_markers_with_selected_categories(){
+    function display_markers_regarding_to_filtering(){
         /**
-        * display the markers regarding to the selection made by the user
+        * Display on the map the markers regarding to the selection made by the user
+        * via the filtering form (or not if not activated).
         */
-        var markers_id_to_display_cat = new Array();
-        if(filter_activated['Categories']) { 
-            $.each($('#optionsAffichageCategories').select2("val"), function(index, id_cat) {
-                if (descriptions.get_id_for('Categories',parseInt(id_cat)) != undefined) {
-                    markers_id_to_display_cat = markers_id_to_display_cat.concat(descriptions.get_id_for('Categories',parseInt(id_cat)));
-                }
-            });
-        };
+        var id_cat_to_display = [], //the id of the categories that will be displayed on the map
+            statusCeM_to_display = []; //the statusCeM that will be displayed on the map
 
-        var markers_id_to_display_types = new Array();
-        if(filter_activated['PlaceTypes']) { 
-            $.each($('#optionsAffichagePlaceTypes').select2("val"), function(index, id_type) {
-                if (descriptions.get_id_for('PlaceTypes',parseInt(id_type)) != undefined) {
-                    markers_id_to_display_types = markers_id_to_display_types.concat(descriptions.get_id_for('PlaceTypes',parseInt(id_type)));
-                }
+        // Short term and medium categories
+        if(mode_activated['FilterCategories'] && filtering_form_activated) {
+            $.each($('#optionsAffichageFilterCategories').select2("val"), function(index, id_cat) {
+                id_cat_to_display.push(parseInt(id_cat));
             });
-        };
+        } else {
+            $('#optionsAffichageFilterCategories option').each(
+                function(i,v) { id_cat_to_display.push(parseInt(v.value)); });
+        }
 
-        var markers_id_to_display_statusCeM = new Array();
-        if(filter_activated['StatusCeM']) {
-            $.each($('#optionsAffichageStatusCeM').select2("val"), function(index, id_type) {
-                if (descriptions.get_id_for('StatusCeM',parseInt(id_type)) != undefined) {
-                    markers_id_to_display_statusCeM = markers_id_to_display_statusCeM.concat(descriptions.get_id_for('StatusCeM',parseInt(id_type)));
-                }
+        // Long term categories
+        if(mode_activated['AddLongTermCategories']) {
+            $.each($('#optionsAffichageAddLongTermCategories').select2("val"), function(index, id_cat) {
+                id_cat_to_display.push(parseInt(id_cat));
             });
-        };
+        }
 
-        // -> ici continuer
+        // White, Red, Yellow, Green statuses
+        if(mode_activated['FilterStatusCeM'] && filtering_form_activated) {
+            $.each($('#optionsAffichageFilterStatusCeM').select2("val"), function(index, id_type) {
+                statusCeM_to_display.push(parseInt(id_type));
+            });
+        }
+        else {
+            $('#optionsAffichageFilterStatusCeM option').each( function(i,v) {
+                statusCeM_to_display.push(parseInt(v.value)); });
+        }
+
+        // Gray (rejected) status
+        if(mode_activated['AddStatusCeMRejete']) {
+            statusCeM_to_display.push(-1);  
+        }
+
         $.each(descriptions.get_all(), function(desc_id, desc_data) {
-            desc_id = parseInt(desc_id);
-            if (desc_data != undefined) {
-                if((filter_activated['Categories'] && $.inArray(desc_id, markers_id_to_display_cat) == -1) || 
-                    (filter_activated['PlaceTypes'] && $.inArray(desc_id, markers_id_to_display_types) == -1) ||
-                    (filter_activated['StatusCeM'] && $.inArray(desc_id,markers_id_to_display_statusCeM) == -1)) {
-                    map_display.undisplay_marker(desc_id);
+            if (typeof(desc_data) !== undefined) {
+                // desc_data does not have a status of type cem it has to be considered as 0 (not considered)
+                if(statusCeM_to_display.indexOf(parseInt(description.get_status('cem', desc_data, 0))) !== -1 &&
+                    id_cat_to_display.indexOf(parseInt(description.get_category_id(desc_data,-1))) !== -1) {
+                    map_display.display_marker(desc_id);
                 }
                 else {
-                    map_display.display_marker(desc_id);
+                    map_display.undisplay_marker(desc_id);
                 }
             }
         });
-    };
+    }
 
-    function change_mode_for(typesOrCategoriesOrStatusCeM){
+    function change_mode_for(filtering_option){
         /**
-        * to be used when the user activate of the the filtering for categories and for types
-        * @param {string }typesOrCategories either 'Placetypes' either 'Categories'
+        * To be used when the user activate/unactivate a filtering option in the filtering mode.
+        * @param {string } typesOrCategories either 'Placetypes' either 'Categories'
         */
-        if(filter_activated[typesOrCategoriesOrStatusCeM]){
-            $('#optionsAffichage' + typesOrCategoriesOrStatusCeM).select2("disable");
+        if(mode_activated[filtering_option]){
+            $('#optionsAffichage' + filtering_option).select2("disable");
         } else {
-            $('#optionsAffichage' + typesOrCategoriesOrStatusCeM).select2("enable");
+            $('#optionsAffichage' + filtering_option).select2("enable");
         }
-        filter_activated[typesOrCategoriesOrStatusCeM] = ! filter_activated[typesOrCategoriesOrStatusCeM];
-        display_only_markers_with_selected_categories();
-    };
+        mode_activated[filtering_option] = ! mode_activated[filtering_option];
+        display_markers_regarding_to_filtering();
+    }
 
     return {
-        activate_unactivate: activate_unactivate,
-        display_only_markers_with_selected_categories:display_only_markers_with_selected_categories,
-        change_mode_for: change_mode_for,
-    }
+        activate_unactivate_filtering_form: activate_unactivate_filtering_form,
+        display_markers_regarding_to_filtering:display_markers_regarding_to_filtering,
+        change_mode_for: change_mode_for
+    };
 });

@@ -5,56 +5,76 @@
  	<div id="ToolsPanel">
 
     <div id="div_returnNormalMode" title="Button is to be clicked">
-      <img src="{{ asset('img/retour.png') }}" style="padding-left:10px"> Retour à la carte globale</div>
+      <img src="{{ asset('img/retour.png') }}" style="padding-left:10px"> Retour à la carte globale
+    </div>
 
  		<div id="param_carte">
- 			<div id="buttonOptionsAffichage" class="buttonPlus" title="Button is to be clicked">Filtrer
-      les signalements</div>
+ 			<div id="buttonOptionsAffichage" class="buttonPlus" title="Cliquez pour accéder
+      aux options d'affichager et à l'export">Filtrer
+      les signalements et export</div>
 
  			<div id="div_options_affichage">
-        <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM">
-        Filtrer par état :
-        <select style="width:100%" data-placeholder="" id="optionsAffichageStatusCeM" multiple>
-          <option class="option_grey" value="-1">rejeté (gris)</option>
-          <option class="option_white" value="0">pas encore pris en compte (blanc)</option>
-          <option class="option_red" value="1">pris en compte (rouge)</option>
-          <option class="option_orange" value="2">en cours de résolution (orange)</option>
-          <option class="option_green" value="3">résolu (vert)</option>
-        </select>
+        <div class="padding_bottom_small">
+          <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM">
+          Filtrer par état :
+          <select style="width:100%" data-placeholder="" id="optionsAffichageFilterStatusCeM" multiple>
+            <option class="option_white" value="0">pas encore pris en compte (blanc)</option>
+            <option class="option_red" value="1">pris en compte (rouge)</option>
+            <option class="option_orange" value="2">en cours de résolution (orange)</option>
+            <option class="option_green" value="3">résolu (vert)</option>
+          </select>
 
-        <!---
-        <input type="checkbox" name="affichage_tous_ou_filtre_type">
-        Filtrer par type :
-        <select style="width:100%" data-placeholder="" id="optionsAffichagePlaceTypes" multiple>
-        {% for placetype in placeTypes %}
-          <option value="{{placetype.id}}">{{placetype.label}}</option>
-        {% endfor %}
-        </select>
-        -->
+          <input type="checkbox" name="affichage_statusCeM_rejete"> Afficher les
+          signalements rejetés.
+        </div>
+
+        <div class="padding_bottom_small">
+          <input type="checkbox" name="affichage_tous_ou_filtre_categorie">
+          Filtrer par categorie :
+
+          <div>
+ 		  	    <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategories" multiple>
+              {% for category in categories %}
+                  {% if category.hasChildren and  category.term != 'long' %}
+                    <optgroup label="{{ category.label }}" >
+                    {% for childCategory in category.children %}
+                      <option value="{{ childCategory.id }}">{{ childCategory.label  }}</option>
+                    {% endfor %}
+                    </optgroup>
+
+                  {% elseif category.term != 'long' %}
+                    <option value="{{ category.id }}">{{ category.label }}</option>
+                  {% endif %}
+              {% endfor %}
+      		  </select>
+          </div>
 
 
-        <input type="checkbox" name="affichage_tous_ou_filtre_categorie">
-        Filtrer par categorie :
+          <input type="checkbox" name="affichage_tous_ou_filtre_pn_categorie">
+          Afficher les catégories 'points noirs' :
+
+          <div>
+            <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategories" multiple>
+              {% for category in categories %}
+                {% if category.hasChildren  and  category.term == 'long' %}
+                  <optgroup label="{{ category.label }}" >
+                  {% for childCategory in category.children %}
+                    <option value="{{ childCategory.id }}" selected="selected">{{ childCategory.label }}</option>
+                  {% endfor %}
+                  </optgroup>
+                {% elseif category.term == 'long' %}
+                  <option value="{{ category.id }}" selected="selected">{{ category.label }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
 
         <div>
- 		  	  <select style="width:100%" data-placeholder="" id="optionsAffichageCategories" multiple>
-                            {% for category in categories %}
-                               {% if category.hasChildren %}
-                                     <optgroup label="{{ category.label }}" >
-                                        {% for childCategory in category.children %}
-                                             <option value="{{ childCategory.id }}">{{ childCategory.label }}</option>
-                                        {% endfor %}
-
-
-                                     </optgroup>
-
-                               {% else %}
-
-                                     <option value="{{ category.id }}">{{ category.label }}</option>
-                               {% endif %}
-
-                           {% endfor %}
-      		</select>
+          Export des données :
+          <a href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}">
+           CSV
+          </a>
         </div>
  		  </div>
     </div>
@@ -68,13 +88,6 @@
     <div id="olPanelUL"></div>
     {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
     {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
-
-    <div id="div_export_data">
-        Export des données :
-        <a href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}">
-           CSV
-        </a>
-    </div>
 
     <div id="div_dernieres_modifs">
       <div id="div_title_dernieres_modifs">
