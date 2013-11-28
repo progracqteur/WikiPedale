@@ -97,18 +97,15 @@ class PlaceController extends Controller {
                 throw new \Exception("Le Bbox n'est pas valide : $BboxStr");
             }
         }
-        
-        
-        
-        
+
         $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
         
         $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
                   where covers(:bbox, p.geom) = true and p.accepted = true')
                 ->setParameter('bbox', $bbox->toWKT());
-        
+
         $r = $p->getResult();
-        
+
         switch($_format) {
             case 'json':
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
@@ -149,14 +146,44 @@ class PlaceController extends Controller {
             throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
         }
 
+        $CategoriesArray = array();
+
+        $CategoriesString = $request->get('categories', null);
+        if ($CategoriesString !== null) {
+            $CategoriesArray = explode (',',$CategoriesString,4);
+        }
+
+        $NotationArray = array();
+
+        $NotationString = $request->get('notations', null);
+        if ($NotationString !== null) {
+            $NotationArray = explode (',',$NotationString,4);
+        }
         
         $p = $em->createQuery('SELECT p 
             from ProgracqteurWikipedaleBundle:Model\\Place p 
-                
             where covers(:polygon, p.geom) = true and p.accepted = true ORDER BY p.id')
                 ->setParameter('polygon', $city->getPolygon());
+
+
+        $p = $em->createQueryBuilder()
+            ->from('ProgracqteurWikipedaleBundle:Model\\Place','p')
+            ->select('p')
+            ->join('p.category', 'c')
+            ->where('covers(:polygon, p.geom) = true AND p.accepted = true');
+
+        if($CategoriesArray) {
+            $p = $p->andWhere('c.id IN (:cat)');
+        }
         
-        $r = $p->getResult();
+        $p = $p->orderBy('p.id')
+            ->setParameter('polygon', $city->getPolygon());
+
+        if($CategoriesArray) {
+            $p = $p->setParameter('cat', $CategoriesArray);
+        }          
+
+        $r = $p->getQuery()->getResult();
         
         switch($_format) {
             case 'json':
