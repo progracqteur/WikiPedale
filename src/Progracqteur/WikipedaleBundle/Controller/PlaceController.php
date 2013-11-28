@@ -184,7 +184,24 @@ class PlaceController extends Controller {
         }          
 
         $r = $p->getQuery()->getResult();
+        $new_r = array();
+
+        print(count($r));
+
+        for($i = 0; $i < count($r); $i = $i + 1) {
+            print(($r[$i]));
+            print(gettype(($r[$i])));
+            print_r($r[$i]->getStatuses());
+            foreach ($r[$i]->getStatuses() as $key)
+            { 
+                print $key->getType();
+                print $key->getValue();
+            }
+        }
+
         
+        print_r(array_keys($r));
+
         switch($_format) {
             case 'json':
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
