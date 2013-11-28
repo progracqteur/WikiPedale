@@ -77,21 +77,6 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
             }
         }
 
-	    if(user.isGdV() || user.isCeM() || user.isAdmin()) {
-    	    comments.update_last(id_desc);
-        	comments.update_all(id_desc);
-        	$("#span_plus_de_commenaitres_link a").click(function(e) {
-                e.preventDefault();
-                activate_comments_mode();
-            });
-
-            $("#form_add_new_comment").unbind("submit");
-            $("#form_add_new_comment").submit(function(e) {
-                e.preventDefault();
-                comments.submit_creation_form(desc_data.id);  
-            });
-    	}
-
     	description_edit.stop_edition(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
     	display_regarding_to_user_role();
 
@@ -161,6 +146,22 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
 		* The user can have the right to modify some information or to see personnal data
 		of the creator.
 		*/
+        if(user.isGdV() || user.isCeM() || user.isAdmin()) {
+            comments.update_last(current_description_id);
+            comments.update_all(current_description_id);
+            $("#form_add_new_comment").unbind("click");
+            $("#span_plus_de_commenaitres_link a").click(function(e) {
+                e.preventDefault();
+                activate_comments_mode();
+            });
+
+            $("#form_add_new_comment").unbind("submit");
+            $("#form_add_new_comment").submit(function(e) {
+                e.preventDefault();
+                comments.submit_creation_form(current_description_id);  
+            });
+        }
+
 		if (user.canVieuwUsersDetails() || user.isAdmin()) {
 	    	var desc_data = descriptions.get_by_id(current_description_id);
             $('#span_place_description_signaleur_contact').html(' (email : <a href="mailto:'+ desc_data.creator.email +'">'+ 
