@@ -3,8 +3,8 @@
 * for the application.
 */
 
-define(['jQuery','map_display','descriptions','description_text_display','user','informer','json_string'],
-        function($,map_display,descriptions,description_text_display,user,informer,json_string) {
+define(['jQuery','map_display','descriptions','description_text_display','user','informer','json_string','markers_filtering'],
+        function($,map_display,descriptions,description_text_display,user,informer,json_string,markers_filtering) {
     var townId = null;
     var last_description_selected = null;
     var add_new_place_mode = false; // true when the user is in a mode for adding new place
@@ -29,19 +29,19 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                 .each(function(index, value){ value.innerHTML = 'Ajouter un signalement'; });
         });
 
+        $.when(
         $.getJSON(jsonUrlData, function(data) {
             user.update(data.user);
             descriptions.update(data.results, function () {
-                $.when(
-                    $.each(data.results, function(index, aPlaceData) {
-                        map_display.add_marker(aPlaceData.id, focus_on_place_of);
-                    })
-                ).done( function(){
-                    if(marker_id_to_display) {
-                        focus_on_place_of(marker_id_to_display);
-                    }
+                $.each(data.results, function(index, aPlaceData) {
+                    map_display.add_marker(aPlaceData.id, focus_on_place_of);
                 });
             });
+        })).done( function() {
+            if(marker_id_to_display) {
+                focus_on_place_of(marker_id_to_display);
+            }
+            markers_filtering.display_markers_regarding_to_filtering();
         });
     }
 
