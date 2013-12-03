@@ -119,11 +119,8 @@ class PlaceController extends Controller {
                 return $this->render('ProbracqteurWikipedaleBundle:Place:list.csv.twig', 
                         array(
                             'places' => $r
-                        ));
-                
+                        ));       
         }
-        
-        
     }
     
     public function listByCityAction($_format, Request $request)
@@ -149,15 +146,15 @@ class PlaceController extends Controller {
         $CategoriesArray = array();
 
         $CategoriesString = $request->get('categories', null);
-        if ($CategoriesString !== null) {
-            $CategoriesArray = explode (',',$CategoriesString,4);
+        if ($CategoriesString !== null && $CategoriesString !== "") {
+            $CategoriesArray = explode (',',$CategoriesString);
         }
 
         $NotationArray = array();
 
         $NotationString = $request->get('notations', null);
-        if ($NotationString !== null) {
-            $NotationArray = explode (',',$NotationString,4);
+        if ($NotationString !== null && $NotationString !== "") {
+            $NotationArray = explode (',',$NotationString);
         }
         
         $p = $em->createQuery('SELECT p 
@@ -184,23 +181,24 @@ class PlaceController extends Controller {
         }          
 
         $r = $p->getQuery()->getResult();
-        $new_r = array();
 
-        print(count($r));
+        if($NotationArray) {
+            $new_r = array();
 
-        for($i = 0; $i < count($r); $i = $i + 1) {
-            print(($r[$i]));
-            print(gettype(($r[$i])));
-            print_r($r[$i]->getStatuses());
-            foreach ($r[$i]->getStatuses() as $key)
-            { 
-                print $key->getType();
-                print $key->getValue();
+            for($i = 0; $i < count($r); $i = $i + 1) {
+                $cem_notation_row = 0;
+                foreach ($r[$i]->getStatuses() as $key)
+                { 
+                    if($key->getType() == 'cem') {
+                        $cem_notation_row = $key->getValue();
+                    }
+                }
+                if(in_array($cem_notation_row, $NotationArray)) {
+                    array_push($new_r, $r[$i]);
+                }
             }
+            $r = $new_r;
         }
-
-        
-        print_r(array_keys($r));
 
         switch($_format) {
             case 'json':

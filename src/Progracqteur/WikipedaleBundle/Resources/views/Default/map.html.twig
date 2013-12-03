@@ -72,7 +72,10 @@
 
         <div>
           Export des données :
-          <a href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}">
+          <a id="csv_export_link" href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}">
+           CSV
+          </a>
+          <a id="csv_basic_export_link" href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}" style="display:none">
            CSV
           </a>
         </div>
