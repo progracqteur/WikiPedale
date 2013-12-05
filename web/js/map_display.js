@@ -112,7 +112,10 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             },{
                 projection: new OpenLayers.Projection("EPSG:3857"),
             });
+
         map.addLayer(voies_lentes_layer);
+        //voies_lentes_layer.setVisibility(false);
+
 
         map.addControl(new OpenLayers.Control.LayerSwitcher());
 

@@ -1,3 +1,8 @@
+.olImageLoadError { 
+    /* when OL can display an image */
+    display: none !important;
+}
+
 pihtml {
     height:100%;
     width: 100%;
