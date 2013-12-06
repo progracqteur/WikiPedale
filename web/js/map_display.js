@@ -102,7 +102,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
     	* Init the map on the good town
     	*/
 		map = new OpenLayers.Map('map', {maxResolution: 1000});
-		osm = new OpenLayers.Layer.OSM("OSM MAP");
+		osm = new OpenLayers.Layer.OSM("Open Street Map - Mapnik");
 		map.addLayer(osm);
 
         var voies_lentes_layer = new OpenLayers.Layer.WMS("Voies Lentes","http://geoservices.wallonie.be/arcgis/services/MOBILITE/VOIES_LENTES/MapServer/WMSServer?",
@@ -123,7 +123,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             	), zoom_map
             );
 
-		placesLayer = new OpenLayers.Layer.Markers("Uello Markers");
+		placesLayer = new OpenLayers.Layer.Markers("Signalements Uello");
 		map.addLayer(placesLayer);
 
         size = new OpenLayers.Size(23.1,37.4);
