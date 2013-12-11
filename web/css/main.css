@@ -425,6 +425,9 @@ div#user_menu ul li.active a:active {
     color: inherit;
     }
     
+div.padding_bottom_small {
+    padding-bottom: 2em;
+}
     
 
     

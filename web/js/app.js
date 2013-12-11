@@ -54,14 +54,14 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             recent_activities.filling(city_name,5);
             data_map_glue.init_app(city_name, city_lon, city_lat,description_selected_id);
 
-            $("#optionsAffichageCategories").select2();
-            $('#optionsAffichageCategories').select2("disable");
+            $("#optionsAffichageFilterCategories").select2();
+            $('#optionsAffichageFilterCategories').select2("disable");
 
-            $("#optionsAffichagePlaceTypes").select2();
-            $('#optionsAffichagePlaceTypes').select2("disable");
+            $("#optionsAffichageAddLongTermCategories").select2();
+            $("#optionsAffichageAddLongTermCategories").select2("disable");
 
-            $("#optionsAffichageStatusCeM").select2();
-            $("#optionsAffichageStatusCeM").select2("disable");
+            $("#optionsAffichageFilterStatusCeM").select2();
+            $("#optionsAffichageFilterStatusCeM").select2("disable");
 
             $('#span_place_description_cat_edit').select2();
             $('#span_place_description_status_edit').select2();
@@ -70,9 +70,9 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             $('#add_new_description_form__categories').select2().on("change", function() { informer.update_new_description_form('categories'); });
 
-            $('#optionsAffichageCategories').on("change", function() { markers_filtering.display_only_markers_with_selected_categories(); });
-            $('#optionsAffichagePlaceTypes').on("change", function() { markers_filtering.display_only_markers_with_selected_categories(); });
-            $('#optionsAffichageStatusCeM').on("change", function() { markers_filtering.display_only_markers_with_selected_categories(); });
+            $('#optionsAffichageFilterCategories').on("change", function() { markers_filtering.display_markers_regarding_to_filtering(); });
+            $('#optionsAffichageAddLongTermCategories').on("change", function() { markers_filtering.display_markers_regarding_to_filtering(); });
+            $('#optionsAffichageFilterStatusCeM').on("change", function() { markers_filtering.display_markers_regarding_to_filtering(); });
 
             $("#div_returnNormalMode").hide();
 
@@ -80,11 +80,14 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             // Menu
             $("#div_add_new_description_button").click(function() { data_map_glue.mode_change(); });
             $("#div_returnNormalMode").click(function() { map_display.normal_mode(); });
-            $("#buttonOptionsAffichage").click(function() { markers_filtering.activate_unactivate(); } );
+            $("#buttonOptionsAffichage").click(function() { markers_filtering.activate_unactivate_filtering_form(); } );
 
             // Filtring
-            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function() { markers_filtering.change_mode_for('StatusCeM'); } );
-            $('input[name=affichage_tous_ou_filtre_categorie]').click(function() { markers_filtering.change_mode_for('Categories'); } );
+            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function() { markers_filtering.change_mode_for('FilterStatusCeM'); } );
+            $('input[name=affichage_statusCeM_rejete]').click(function() { markers_filtering.change_mode_for('AddStatusCeMRejete'); } );
+            $('input[name=affichage_tous_ou_filtre_categorie]').click(function() { markers_filtering.change_mode_for('FilterCategories'); } );
+            $('input[name=affichage_tous_ou_filtre_pn_categorie]').click(function() { markers_filtering.change_mode_for('AddLongTermCategories'); } );
+
 
             // Add New Description
             $("#add_new_description_form__user_label").blur(function() { informer.update_new_description_form('user_label'); });

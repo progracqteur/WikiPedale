@@ -1,6 +1,6 @@
 base_dest = [['pointer_spiral4.svg', '../m_short_'],
              ['pointer_spiral4.svg', '../m_medium_'],
-             ['pointer_croix.svg', '../m_hard_'],
+             ['pointer_u2699-3.svg', '../m_long_'],
              ['pointer_spiral4.svg', '../m_']]
 
 colors = [['g','66cd00'],

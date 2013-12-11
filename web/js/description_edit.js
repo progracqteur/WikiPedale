@@ -25,7 +25,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
         map_display.get_map().events.remove("click");
 
         map_display.redisplay_description_markers();
-        markers_filtering.display_only_markers_with_selected_categories();
+        markers_filtering.display_markers_regarding_to_filtering();
     }
 
     function stop_edition(){
@@ -183,7 +183,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
                     	} else {
                         	$(element_id).text($(element_id + '_edit').val());
                     	}
-                        markers_filtering.display_only_markers_with_selected_categories();
+                        markers_filtering.display_markers_regarding_to_filtering();
                     	$(element_id +  '_error').hide();
                     	$("#div_place_description_" + element_type + '_edit').hide();
                     	$(element_id).show();

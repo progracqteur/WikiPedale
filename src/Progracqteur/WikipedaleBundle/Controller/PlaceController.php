@@ -97,18 +97,15 @@ class PlaceController extends Controller {
                 throw new \Exception("Le Bbox n'est pas valide : $BboxStr");
             }
         }
-        
-        
-        
-        
+
         $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
         
         $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
                   where covers(:bbox, p.geom) = true and p.accepted = true')
                 ->setParameter('bbox', $bbox->toWKT());
-        
+
         $r = $p->getResult();
-        
+
         switch($_format) {
             case 'json':
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
@@ -122,11 +119,8 @@ class PlaceController extends Controller {
                 return $this->render('ProbracqteurWikipedaleBundle:Place:list.csv.twig', 
                         array(
                             'places' => $r
-                        ));
-                
+                        ));       
         }
-        
-        
     }
     
     public function listByCityAction($_format, Request $request)
@@ -149,15 +143,63 @@ class PlaceController extends Controller {
             throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
         }
 
+        $CategoriesArray = array();
+
+        $CategoriesString = $request->get('categories', null);
+        if ($CategoriesString !== null && $CategoriesString !== "") {
+            $CategoriesArray = explode (',',$CategoriesString);
+        }
+
+        $NotationArray = array();
+
+        $NotationString = $request->get('notations', null);
+        if ($NotationString !== null && $NotationString !== "") {
+            $NotationArray = explode (',',$NotationString);
+        }
         
         $p = $em->createQuery('SELECT p 
             from ProgracqteurWikipedaleBundle:Model\\Place p 
-                
             where covers(:polygon, p.geom) = true and p.accepted = true ORDER BY p.id')
                 ->setParameter('polygon', $city->getPolygon());
+
+
+        $p = $em->createQueryBuilder()
+            ->from('ProgracqteurWikipedaleBundle:Model\\Place','p')
+            ->select('p')
+            ->join('p.category', 'c')
+            ->where('covers(:polygon, p.geom) = true AND p.accepted = true');
+
+        if($CategoriesArray) {
+            $p = $p->andWhere('c.id IN (:cat)');
+        }
         
-        $r = $p->getResult();
-        
+        $p = $p->orderBy('p.id')
+            ->setParameter('polygon', $city->getPolygon());
+
+        if($CategoriesArray) {
+            $p = $p->setParameter('cat', $CategoriesArray);
+        }          
+
+        $r = $p->getQuery()->getResult();
+
+        if($NotationArray) {
+            $new_r = array();
+
+            for($i = 0; $i < count($r); $i = $i + 1) {
+                $cem_notation_row = 0;
+                foreach ($r[$i]->getStatuses() as $key)
+                { 
+                    if($key->getType() == 'cem') {
+                        $cem_notation_row = $key->getValue();
+                    }
+                }
+                if(in_array($cem_notation_row, $NotationArray)) {
+                    array_push($new_r, $r[$i]);
+                }
+            }
+            $r = $new_r;
+        }
+
         switch($_format) {
             case 'json':
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
