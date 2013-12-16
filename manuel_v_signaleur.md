@@ -6,3 +6,4 @@
 - Seuls les utilisateurs enregistrés peuvent modifier les caractéristiques d'un emplacement, à l'exception : 
      - de son/ses statuts (voir plus loin)
      - de son statut de publication (seuls les administrateurs peuvent le faire)
+     - blop
