@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Droits des utilisateurs
 
 ## Emplacements : 
